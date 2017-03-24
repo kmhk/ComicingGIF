@@ -13,6 +13,12 @@
 
 
 @interface CameraViewController ()
+{
+	NSTimer *timerProgress;
+	
+	CGPoint ptOrigin;
+	BOOL isSliding;
+}
 
 @property (weak, nonatomic) IBOutlet UIView *cameraPreview;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
@@ -40,6 +46,9 @@
 	
 	tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleImageTapped:)];
 	[self.imgviewToggle addGestureRecognizer:tapGesture];
+	
+	UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(toggleImagePanGesutureHandler:)];
+	[self.imgviewToggle addGestureRecognizer:panGesture];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,24 +71,86 @@
 */
 
 
-// MARK: - gesture implementations
+// MARK: - private methods
 
-- (void)recordImageTapped:(UITapGestureRecognizer *)gesture {
-	if ([self.viewModel isRecording]) {
-		[self.viewModel stopRecord];
-		
+- (void)setRecordingProgress:(BOOL)isStarting {
+	if (isStarting) {
+		timerProgress = [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+			self.progressBar.progress = self.progressBar.progress + 1.0 / MAXDURATION / 10;
+		}];
+		[timerProgress fire];
+	} else {
+		if (timerProgress) {
+			[timerProgress invalidate];
+		}
+	}
+}
+
+- (void)setToggleImage:(BOOL)isRecording {
+	if (isRecording) {
 		self.imgviewToggle.image = [UIImage imageNamed:@"cameraRecButton"];
 		self.imgviewRecording.image = nil;
 		
 	} else {
-		[self.viewModel startRecord];
-		
 		self.imgviewToggle.image = nil;
 		self.imgviewRecording.image = [UIImage imageNamed:@"cameraRecButton"];
 	}
 }
 
+- (void)setRecordingImage:(BOOL)isRecording completed:(void(^)())completedHandler {
+	if (isRecording) {
+		[UIView animateWithDuration:0.2 animations:^{
+			self.imgviewToggle.frame = CGRectMake(self.imgviewToggle.frame.origin.x, self.imgviewToggle.frame.origin.y - self.imgviewToggle.frame.size.height,
+												  self.imgviewToggle.frame.size.width, self.imgviewToggle.frame.size.height);
+		} completion:^(BOOL finished) {
+			completedHandler();
+		}];
+		
+	} else {
+		[UIView animateWithDuration:0.2 animations:^{
+			self.imgviewToggle.frame = CGRectMake(self.imgviewToggle.frame.origin.x, self.imgviewToggle.frame.origin.y + self.imgviewToggle.frame.size.height,
+												  self.imgviewToggle.frame.size.width, self.imgviewToggle.frame.size.height);
+		} completion:^(BOOL finished) {
+			completedHandler();
+		}];
+	}
+}
+
+// MARK: recorder control
+- (void)startRecord {
+	[self setRecordingProgress:YES];
+	
+	[self.viewModel startRecord];
+}
+
+- (void)stopRecord {
+	[self setRecordingProgress:NO];
+	
+	[self.viewModel stopRecord];
+}
+
+
+// MARK: - gesture implementations
+
+- (void)recordImageTapped:(UITapGestureRecognizer *)gesture {
+	BOOL isRecording = [self.viewModel isRecording];
+	
+	if (isRecording) {
+		[self stopRecord];
+		
+	} else {
+		[self startRecord];
+	}
+	
+	[self setToggleImage:isRecording];
+}
+
 - (void)toggleImageTapped:(UITapGestureRecognizer *)gesture {
+	if ([self.viewModel isRecording]) { // already recording
+		[self recordImageTapped:nil];
+		return;
+	}
+	
 	[self.viewModel capturePhoto:^(NSError *error) {
 		if (error) {
 			UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
@@ -87,6 +158,39 @@
 			[self presentViewController:alert animated:YES completion:nil];
 		}
 	}];
+}
+
+- (void)toggleImagePanGesutureHandler:(UIPanGestureRecognizer *)gesture {
+	if ([self.viewModel isRecording]) { // already recording
+		return;
+	}
+	
+	NSLog(@"pan gesture status with %ld", (long)gesture.state);
+	if (gesture.state == UIGestureRecognizerStateBegan) {
+		ptOrigin = [gesture translationInView:self.view];
+		isSliding = NO;
+		
+	} else if (gesture.state == UIGestureRecognizerStateChanged) {
+		CGPoint pt = [gesture translationInView:self.view];
+		if (ptOrigin.y > pt.y && !isSliding) { // start recording video
+			isSliding = YES;
+			
+			__weak id weakself = self;
+			[self setRecordingImage:YES completed:^{
+				[weakself startRecord];
+			}];
+		}
+		
+	} else if (gesture.state == UIGestureRecognizerStateEnded) { // end recording video
+		if (isSliding == YES) {
+			__weak id weakself = self;
+			[self setRecordingImage:NO completed:^{
+				[weakself stopRecord];
+			}];
+		}
+		
+		isSliding = NO;
+	}
 }
 
 
@@ -119,5 +223,6 @@
 		
 	}];
 }
+
 
 @end

@@ -34,7 +34,7 @@
 
 // MARK: - public recorder initialize & control method
 - (void)setupRecorderWith:(UIView *)view {
-	__weak CameraViewModel *weakSelf = self;
+	__weak id weakSelf = self;
 	self.recorder.delegate = weakSelf;
 	self.recorder.videoConfiguration.size = view.frame.size;
 	self.recorder.previewView = view;
@@ -116,7 +116,7 @@
 	
 	self.recorder.captureSessionPreset = [SCRecorderTools bestCaptureSessionPresetCompatibleWithAllDevices];
 	self.recorder.device = AVCaptureDevicePositionFront;
-	self.recorder.maxRecordDuration = CMTimeMake(7000, 1000); // maxim duration 7 seconds
+	self.recorder.maxRecordDuration = CMTimeMake(MAXDURATION * 1000, 1000);
 	
 	self.recorder.videoConfiguration.enabled = YES;
 	self.recorder.videoConfiguration.size = [[UIScreen mainScreen] bounds].size;
@@ -194,6 +194,10 @@
 // MARK: - SCAssetExportSessionDelegate delegate implementations
 - (void)assetExportSessionDidProgress:(SCAssetExportSession *__nonnull)assetExportSession {
 	NSLog(@"exporting video with %.2f %%", assetExportSession.progress);
+	
+	if ([self.delegate respondsToSelector:@selector(videoProcessingWith:)]) {
+		[self.delegate videoProcessingWith:assetExportSession.progress];
+	}
 }
 
 @end

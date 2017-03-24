@@ -368,7 +368,7 @@
 			baseConfigurationReference = AE19661F1E1C934A23192074 /* Pods-ComicingGif.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bai Jin Zhin (FU9SD2G4V7)";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ComicingGif/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -385,7 +385,7 @@
 			baseConfigurationReference = 5C6CB3F124F1DC1C548C2BE5 /* Pods-ComicingGif.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bai Jin Zhin (FU9SD2G4V7)";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ComicingGif/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
