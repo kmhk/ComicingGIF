@@ -7,9 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Messages/Messages.h>
+#import <MessageUI/MFMailComposeViewController.h>
 #import "CameraViewModel.h"
 
 @interface CameraViewController : UIViewController
+<
+CameraViewModelDelegate,
+MFMailComposeViewControllerDelegate
+>
 {
 	
 }

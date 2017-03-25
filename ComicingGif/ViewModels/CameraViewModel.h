@@ -23,8 +23,8 @@ typedef enum : NSUInteger {
 @protocol CameraViewModelDelegate <NSObject>
 
 @optional
-- (void)videoProcessingWith:(CGFloat)progress;
-- (void)finishedVideoProcessingWith:(NSError *)error;
+- (void)videoProgressingWith:(CGFloat)progress;
+- (void)finishedGifProcessingWith:(NSError *)error gifURL:(NSURL *)url;
 
 @end
 

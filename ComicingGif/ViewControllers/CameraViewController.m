@@ -8,6 +8,7 @@
 
 #import "CameraViewController.h"
 
+
 #define TOPBADDING		20.0
 #define BOTTOMPADDING	40.0
 
@@ -28,6 +29,10 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *btnChangeScene;
 
+@property (weak, nonatomic) IBOutlet UIView *viewProgressContainer;
+@property (weak, nonatomic) IBOutlet UIProgressView *processingView;
+
+
 @end
 
 
@@ -38,6 +43,7 @@
     // Do any additional setup after loading the view.
 	
 	self.viewModel = [[CameraViewModel alloc] init];
+	self.viewModel.delegate = self;
 	[self.viewModel setupRecorderWith:self.cameraPreview];
 	
 	UITapGestureRecognizer *tapGesture;
@@ -49,6 +55,10 @@
 	
 	UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(toggleImagePanGesutureHandler:)];
 	[self.imgviewToggle addGestureRecognizer:panGesture];
+	
+	UIView *view = [self.viewProgressContainer viewWithTag:100];
+	view.layer.cornerRadius = 5.0;
+	view.clipsToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,7 +82,6 @@
 
 
 // MARK: - private methods
-
 - (void)setRecordingProgress:(BOOL)isStarting {
 	if (isStarting) {
 		timerProgress = [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
@@ -116,7 +125,28 @@
 	}
 }
 
+- (void)showProgress:(BOOL)bHide progress:(double)progress {
+	[self.viewProgressContainer setHidden:bHide];
+	self.processingView.progress = progress;
+}
+
+
 // MARK: recorder control
+- (void)resetRecord {
+	[self.viewModel resetRecord];
+	
+	if (timerProgress) {
+		[timerProgress invalidate];
+	}
+	
+	[UIView animateWithDuration:0.1 animations:^{
+		self.progressBar.progress = 0.0;
+	}];
+	
+	self.imgviewToggle.image = [UIImage imageNamed:@"cameraRecButton"];
+	self.imgviewRecording.image = nil;
+}
+
 - (void)startRecord {
 	[self setRecordingProgress:YES];
 	
@@ -131,7 +161,6 @@
 
 
 // MARK: - gesture implementations
-
 - (void)recordImageTapped:(UITapGestureRecognizer *)gesture {
 	BOOL isRecording = [self.viewModel isRecording];
 	
@@ -195,16 +224,15 @@
 
 
 // MARK: - button actions
-
 - (IBAction)closeBtnTapped:(id)sender {
-	[self.viewModel resetRecord];
+	[self resetRecord];
 }
 
 - (IBAction)changeCameraTapped:(id)sender {
 	[self.viewModel changeCamera];
 }
 
-- (IBAction)changeSceneTappep:(id)sender {
+- (IBAction)changeSceneTapped:(id)sender {
 	CGFloat height, y;
 	
 	if (self.cameraPreview.frame.size.height > self.view.frame.size.height / 2) {
@@ -224,5 +252,56 @@
 	}];
 }
 
+- (IBAction)nextBtnTapped:(id)sender {
+	[self.viewModel stopRecord];
+}
+
+
+// MARK: - CameraViewModelDelegate implementaions
+- (void)videoProgressingWith:(CGFloat)progress
+{
+	NSLog(@"generating GIF with %.2f %%", progress);
+	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self showProgress:NO progress:progress];
+	});
+//	[self.viewProgressContainer setHidden:NO];
+
+}
+
+- (void)finishedGifProcessingWith:(NSError *)error gifURL:(NSURL *)url
+{
+	[self showProgress:YES progress:0];
+	
+	if (error) {
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:@"Generation GIF failed!" preferredStyle:UIAlertControllerStyleAlert];
+		[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+		[self presentViewController:alert animated:YES completion:nil];
+
+		return;
+	}
+	
+	// send email GIF for the testing
+	if([MFMailComposeViewController canSendMail]) {
+		MFMailComposeViewController *mailCont = [[MFMailComposeViewController alloc] init];
+		mailCont.mailComposeDelegate = self;
+		
+		[mailCont setSubject:@"created GIF"];
+		[mailCont setMessageBody:@"Please take a look attached GIF file." isHTML:NO];
+		
+		NSData *data = [NSData dataWithContentsOfURL:url];
+		[mailCont addAttachmentData:data mimeType:@"GIF" fileName:@"sample.GIF"];
+		
+		[self presentViewController:mailCont animated:YES completion:nil];
+		
+		[self resetRecord];
+	}
+}
+
+
+// MARK: - MFMailComposeViewController delegate implementation
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+	[self dismissViewControllerAnimated:YES completion:nil];
+}
 
 @end

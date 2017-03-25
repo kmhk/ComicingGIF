@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		754ACEE3EE6C48C736BE7629 /* libPods-ComicingGif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEAB9E6CD9B129793D59342 /* libPods-ComicingGif.a */; };
+		F31794211E868AF40083BD19 /* GIFGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F31794201E868AF40083BD19 /* GIFGenerator.m */; };
 		F36BE3A91E830E22007F6CE7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F36BE3A81E830E22007F6CE7 /* main.m */; };
 		F36BE3AC1E830E22007F6CE7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F36BE3AB1E830E22007F6CE7 /* AppDelegate.m */; };
 		F36BE3B21E830E22007F6CE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F36BE3B01E830E22007F6CE7 /* Main.storyboard */; };
@@ -20,6 +21,8 @@
 /* Begin PBXFileReference section */
 		5C6CB3F124F1DC1C548C2BE5 /* Pods-ComicingGif.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ComicingGif.release.xcconfig"; path = "Pods/Target Support Files/Pods-ComicingGif/Pods-ComicingGif.release.xcconfig"; sourceTree = "<group>"; };
 		AE19661F1E1C934A23192074 /* Pods-ComicingGif.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ComicingGif.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ComicingGif/Pods-ComicingGif.debug.xcconfig"; sourceTree = "<group>"; };
+		F317941F1E868AF40083BD19 /* GIFGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GIFGenerator.h; path = Utils/GIFGenerator.h; sourceTree = "<group>"; };
+		F31794201E868AF40083BD19 /* GIFGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GIFGenerator.m; path = Utils/GIFGenerator.m; sourceTree = "<group>"; };
 		F36BE3A41E830E22007F6CE7 /* ComicingGif.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComicingGif.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F36BE3A81E830E22007F6CE7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F36BE3AA1E830E22007F6CE7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -64,6 +67,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		F317941E1E8689110083BD19 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F317941F1E868AF40083BD19 /* GIFGenerator.h */,
+				F31794201E868AF40083BD19 /* GIFGenerator.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		F36BE39B1E830E22007F6CE7 = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +97,7 @@
 		F36BE3A61E830E22007F6CE7 /* ComicingGif */ = {
 			isa = PBXGroup;
 			children = (
+				F317941E1E8689110083BD19 /* Utils */,
 				F36BE3BF1E831322007F6CE7 /* ViewModels */,
 				F36BE3C01E83132C007F6CE7 /* ViewControllers */,
 				F36BE3AA1E830E22007F6CE7 /* AppDelegate.h */,
@@ -250,6 +263,7 @@
 				F36BE3C61E83367B007F6CE7 /* CameraViewModel.m in Sources */,
 				F36BE3AC1E830E22007F6CE7 /* AppDelegate.m in Sources */,
 				F36BE3A91E830E22007F6CE7 /* main.m in Sources */,
+				F31794211E868AF40083BD19 /* GIFGenerator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,7 +382,7 @@
 			baseConfigurationReference = AE19661F1E1C934A23192074 /* Pods-ComicingGif.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Bai Jin Zhin (FU9SD2G4V7)";
+				CODE_SIGN_IDENTITY = "";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ComicingGif/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -385,7 +399,7 @@
 			baseConfigurationReference = 5C6CB3F124F1DC1C548C2BE5 /* Pods-ComicingGif.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Bai Jin Zhin (FU9SD2G4V7)";
+				CODE_SIGN_IDENTITY = "";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ComicingGif/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

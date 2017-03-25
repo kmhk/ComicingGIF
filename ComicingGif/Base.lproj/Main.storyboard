@@ -64,7 +64,7 @@
                                 </constraints>
                                 <state key="normal" image="cameraWideSide"/>
                                 <connections>
-                                    <action selector="changeSceneTappep:" destination="BYZ-38-t0r" eventType="touchUpInside" id="y1o-xq-5DD"/>
+                                    <action selector="changeSceneTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7Ve-Kn-d2E"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tHT-WI-mxq">
@@ -97,18 +97,64 @@
                                     <constraint firstAttribute="width" constant="130" id="tYE-ve-l8D"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hm9-fX-egm">
+                                <rect key="frame" x="354" y="704" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <state key="normal" title="Next">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="nextBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="B40-xV-9xx"/>
+                                </connections>
+                            </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="phv-vJ-uod">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <subviews>
+                                    <view tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uc9-bt-Z5q">
+                                        <rect key="frame" x="72" y="338" width="270" height="60"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Processing ..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AwR-p4-qXX">
+                                                <rect key="frame" x="8" y="8" width="254" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bB2-H3-nvn">
+                                                <rect key="frame" x="17" y="43" width="236" height="3"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="tintColor" red="0.0" green="0.6705882353" blue="0.92156862750000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </progressView>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="qwg-46-Tnl"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Uc9-bt-Z5q" firstAttribute="centerY" secondItem="phv-vJ-uod" secondAttribute="centerY" id="0wv-Az-DTV"/>
+                                    <constraint firstAttribute="trailing" secondItem="Uc9-bt-Z5q" secondAttribute="trailing" constant="72" id="N5Q-DA-Ycl"/>
+                                    <constraint firstItem="Uc9-bt-Z5q" firstAttribute="leading" secondItem="phv-vJ-uod" secondAttribute="leading" constant="72" id="zmJ-a7-oAN"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.15294117647058825" green="0.14117647058823529" blue="0.14509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="2Ue-BX-OyK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-6" id="6MD-i7-kGk"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="phv-vJ-uod" secondAttribute="bottom" id="8jh-hE-0J8"/>
                             <constraint firstItem="2bK-YS-xZg" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="ALw-id-N24"/>
                             <constraint firstItem="Rt2-6m-Nn3" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-6" id="LB5-lY-MaJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Rt2-6m-Nn3" secondAttribute="trailing" constant="-6" id="OE3-Q9-vTJ"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="tHT-WI-mxq" secondAttribute="bottom" constant="48" id="OQP-4G-tBD"/>
+                            <constraint firstItem="phv-vJ-uod" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="Zpe-mU-HeS"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dSh-RU-cbX" secondAttribute="trailing" constant="-6" id="Zxl-kW-3YE"/>
+                            <constraint firstItem="phv-vJ-uod" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="aKa-f2-gKl"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Rt2-6m-Nn3" secondAttribute="bottom" constant="40" id="aNE-wk-6KZ"/>
                             <constraint firstItem="tHT-WI-mxq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="aWv-D5-rsA"/>
                             <constraint firstItem="2Ue-BX-OyK" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="5" id="hUz-3U-ZJK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="phv-vJ-uod" secondAttribute="trailing" constant="-20" id="nu1-By-Yc9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="2bK-YS-xZg" secondAttribute="trailing" constant="-6" id="os3-xQ-qGN"/>
                             <constraint firstItem="Rt2-6m-Nn3" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="u7C-y3-qxL"/>
                             <constraint firstItem="dSh-RU-cbX" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="5" id="wpo-gQ-Hl1"/>
@@ -120,12 +166,14 @@
                         <outlet property="cameraPreview" destination="Rt2-6m-Nn3" id="ffO-GW-SGp"/>
                         <outlet property="imgviewRecording" destination="8R9-Tr-ira" id="uNK-Y8-xGc"/>
                         <outlet property="imgviewToggle" destination="HtZ-29-kpS" id="Tzo-Iq-LBg"/>
+                        <outlet property="processingView" destination="bB2-H3-nvn" id="oM2-aV-kM5"/>
                         <outlet property="progressBar" destination="KkG-RD-x1T" id="2h1-EF-E77"/>
+                        <outlet property="viewProgressContainer" destination="phv-vJ-uod" id="QBG-So-ANV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="984.79999999999995" y="776.76161919040487"/>
+            <point key="canvasLocation" x="984.05797101449286" y="776.08695652173924"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7zz-UZ-BRB">

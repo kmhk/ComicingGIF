@@ -7,6 +7,7 @@
 //
 
 #import "CameraViewModel.h"
+#import "GIFGenerator.h"
 #import <Photos/Photos.h>
 
 @interface CameraViewModel()
@@ -39,7 +40,7 @@
 	self.recorder.videoConfiguration.size = view.frame.size;
 	self.recorder.previewView = view;
 	
-	exportSize = view.frame.size;
+	exportSize = view.frame.size;//CGSizeMake(view.frame.size.width * [UIScreen mainScreen].scale, view.frame.size.height * [UIScreen mainScreen].scale);
 }
 
 - (void)releaseCamera {
@@ -74,9 +75,14 @@
 }
 
 - (void)stopRecord {
-	[self.recorder pause:^{
+	if (self.recorder.isRecording) {
+		[self.recorder pause:^{
+			[self recordingFinished];
+		}];
+		
+	} else {
 		[self recordingFinished];
-	}];
+	}
 }
 
 - (void)resetRecord {
@@ -102,7 +108,10 @@
 		
 		if (!error && image) {
 			NSLog(@"captured photo finished successfully");
-			[self.arrayPhotos addObject:image];
+//			[self saveImageToPhotoLibrary:image];
+			
+			UIImage *imageToDisplay = [self fixOrientation:image];
+			[self.arrayPhotos addObject:imageToDisplay];
 		}
 	}];
 }
@@ -140,7 +149,15 @@
 }
 
 - (void)exportGIFwithPhotos {
-	
+	[GIFGenerator generateGIF:self.arrayPhotos delayTime:0.5 progress:^(double progress) {		
+		if ([self.delegate respondsToSelector:@selector(videoProgressingWith:)]) {
+			[self.delegate videoProgressingWith:(progress)];
+		}
+	} completed:^(NSError *error, NSURL *url) {
+		if ([self.delegate respondsToSelector:@selector(finishedGifProcessingWith:gifURL:)]) {
+			[self.delegate finishedGifProcessingWith:error gifURL:url];
+		}
+	}];
 }
 
 - (void)exportGIFwithVideo {
@@ -165,12 +182,24 @@
 			return;
 		}
 		
-		NSLog(@"exporting video finished successfully");
-		[self saveToPhotoLibraryWith:exportSession.outputUrl];
+		NSLog(@"exporting video finished and generating gif now");
+//		[self saveToPhotoLibraryWith:exportSession.outputUrl];
+		
+		// generate GIF from exported video
+		[GIFGenerator generateGIF:exportSession.outputUrl frameCount:0 delayTime:0 progress:^(double progress) {
+			if ([self.delegate respondsToSelector:@selector(videoProgressingWith:)]) {
+				[self.delegate videoProgressingWith:(progress / 2 + 0.5)];
+			}
+		} completed:^(NSError *error, NSURL *url) {
+			if ([self.delegate respondsToSelector:@selector(finishedGifProcessingWith:gifURL:)]) {
+				[self.delegate finishedGifProcessingWith:error gifURL:url];
+			}
+		}];
+		
 	}];
 }
 
-- (void)saveToPhotoLibraryWith:(NSURL *)url {
+- (void)saveVideoToPhotoLibraryWith:(NSURL *)url {
 	[[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
 		[PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:url];
 	} completionHandler:^(BOOL success, NSError * _Nullable error) {
@@ -182,21 +211,49 @@
 	}];
 }
 
+- (void)saveImageToPhotoLibrary:(UIImage *)image {
+	[[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+		[PHAssetChangeRequest creationRequestForAssetFromImage:image];
+	} completionHandler:^(BOOL success, NSError * _Nullable error) {
+		if (success) {
+			NSLog(@"saved succesfully");
+		} else {
+			NSLog(@"saved failed with %@", error.localizedDescription);
+		}
+	}];
+}
+
+- (UIImage *)fixOrientation:(UIImage *)src {
+	UIImageOrientation orientation = src.imageOrientation;
+	UIGraphicsBeginImageContext(src.size);
+	
+	[src drawAtPoint:CGPointMake(0, 0)];
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	
+	if (orientation == UIImageOrientationRight) {
+		CGContextRotateCTM (context, M_PI_2);
+	} else if (orientation == UIImageOrientationLeft) {
+		CGContextRotateCTM (context, M_PI_2);
+	} else if (orientation == UIImageOrientationDown) {
+		// NOTHING
+	} else if (orientation == UIImageOrientationUp) {
+		CGContextRotateCTM (context, 0);
+	}
+	
+	return UIGraphicsGetImageFromCurrentImageContext();
+}
+
 
 // MARK: - SCRecorder delegate implementations
 - (void)recorder:(SCRecorder *__nonnull)recorder didCompleteSession:(SCRecordSession *__nonnull)session {
-	NSLog(@"finished recording video with maxim duration");
-	
 	[self recordingFinished];
 }
 
 
 // MARK: - SCAssetExportSessionDelegate delegate implementations
 - (void)assetExportSessionDidProgress:(SCAssetExportSession *__nonnull)assetExportSession {
-	NSLog(@"exporting video with %.2f %%", assetExportSession.progress);
-	
-	if ([self.delegate respondsToSelector:@selector(videoProcessingWith:)]) {
-		[self.delegate videoProcessingWith:assetExportSession.progress];
+	if ([self.delegate respondsToSelector:@selector(videoProgressingWith:)]) {
+		[self.delegate videoProgressingWith:(assetExportSession.progress / 2)];
 	}
 }
 
