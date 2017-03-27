@@ -242,6 +242,7 @@
 	} else {
 		height = self.view.frame.size.height - TOPBADDING - BOTTOMPADDING;
 		y = 20;
+		
 	}
 	
 	[UIView animateWithDuration:0.2 animations:^{
@@ -249,6 +250,11 @@
 		[self.viewModel setupRecorderWith:self.cameraPreview];
 	} completion:^(BOOL finished) {
 		
+//		if (self.cameraPreview.frame.size.height > self.view.frame.size.height / 2) {
+//			[self.btnChangeScene setImage:[UIImage imageNamed:@"cameraTallSide"] forState:UIControlStateNormal];
+//		} else {
+//			[self.btnChangeScene setImage:[UIImage imageNamed:@"cameraWideSide"] forState:UIControlStateNormal];
+//		}
 	}];
 }
 

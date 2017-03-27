@@ -195,7 +195,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cameraChangeButton" width="39" height="28"/>
+        <image name="cameraChangeButton" width="53" height="55"/>
         <image name="cameraController" width="212" height="401"/>
         <image name="cameraPhotoMode" width="78" height="77"/>
         <image name="cameraRecButton" width="173" height="174"/>
