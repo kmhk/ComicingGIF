@@ -7,10 +7,11 @@
 //
 
 #import "CameraViewController.h"
+#import "RoundCapProgressView.h"
 
 
-#define TOPBADDING		20.0
-#define BOTTOMPADDING	40.0
+#define TOPBADDING		0.0
+#define BOTTOMPADDING	0.0
 
 
 @interface CameraViewController ()
@@ -22,7 +23,7 @@
 }
 
 @property (weak, nonatomic) IBOutlet UIView *cameraPreview;
-@property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
+@property (weak, nonatomic) IBOutlet RoundCapProgressView *progressBar;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgviewToggle;
 @property (weak, nonatomic) IBOutlet UIImageView *imgviewRecording;
@@ -30,7 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnChangeScene;
 
 @property (weak, nonatomic) IBOutlet UIView *viewProgressContainer;
-@property (weak, nonatomic) IBOutlet UIProgressView *processingView;
+@property (weak, nonatomic) IBOutlet RoundCapProgressView *processingView;
 
 
 @end
@@ -59,6 +60,10 @@
 	UIView *view = [self.viewProgressContainer viewWithTag:100];
 	view.layer.cornerRadius = 5.0;
 	view.clipsToBounds = YES;
+	
+	self.processingView.borderWidth = 1.0;
+	self.processingView.cornerRect = 0;
+	self.processingView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -186,6 +191,8 @@
 			[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
 			[self presentViewController:alert animated:YES completion:nil];
 		}
+		
+		[self nextBtnTapped:nil];
 	}];
 }
 

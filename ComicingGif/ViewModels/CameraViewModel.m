@@ -104,15 +104,15 @@
 	[self switchCameraCaptureMode:CameraCaptureModePhoto];
 	
 	[self.recorder capturePhoto:^(NSError * _Nullable error, UIImage * _Nullable image) {
-		completionHandler(error);
-		
 		if (!error && image) {
-			NSLog(@"captured photo finished successfully");
+//			NSLog(@"captured photo finished successfully");
 //			[self saveImageToPhotoLibrary:image];
 			
 			UIImage *imageToDisplay = [self fixOrientation:image];
 			[self.arrayPhotos addObject:imageToDisplay];
 		}
+		
+		completionHandler(error);
 	}];
 }
 
