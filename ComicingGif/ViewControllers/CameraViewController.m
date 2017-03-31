@@ -58,7 +58,7 @@
 	[self.imgviewToggle addGestureRecognizer:panGesture];
 	
 	UIView *view = [self.viewProgressContainer viewWithTag:100];
-	view.layer.cornerRadius = 5.0;
+	view.layer.cornerRadius = 8.0;
 	view.clipsToBounds = YES;
 	
 	self.processingView.borderWidth = 1.0;

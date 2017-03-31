@@ -23,7 +23,7 @@
 	if (self) {
 		self.progress = 0.0;
 		self.borderWidth = 0.0;
-		self.filledColor = [UIColor colorWithRed:0.0 green:171.0/255.0 blue:255.0/255.0 alpha:0.7];
+		self.filledColor = [UIColor colorWithRed:0.0 green:174.0/255.0 blue:239.0/255.0 alpha:1.0];
 		self.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.3];
 		
 		self.cornerRect = UIRectCornerTopRight | UIRectCornerBottomRight;
@@ -41,7 +41,7 @@
 	if (self) {
 		self.progress = 0.0;
 		self.borderWidth = 0.0;
-		self.filledColor = [UIColor colorWithRed:0.0 green:171.0/255.0 blue:255.0/255.0 alpha:0.7];
+		self.filledColor = [UIColor colorWithRed:0.0 green:174.0/255.0 blue:239.0/255.0 alpha:1.0];
 		self.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.3];
 		
 		self.cornerRect = UIRectCornerTopRight | UIRectCornerBottomRight;
@@ -62,7 +62,7 @@
 	
 	[self.filledColor setFill];
 	
-	[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.2] setStroke];
+	[[UIColor colorWithRed:0 green:0 blue:0 alpha:0.4] setStroke];
 	
 	UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect: rtProgress
 											   byRoundingCorners: _cornerRect

@@ -88,6 +88,14 @@
 			name = CustomizedUI;
 			sourceTree = "<group>";
 		};
+		F323D4541E8D85DC00B41659 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				F36BE3B01E830E22007F6CE7 /* Main.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
 		F36BE39B1E830E22007F6CE7 = {
 			isa = PBXGroup;
 			children = (
@@ -113,11 +121,11 @@
 				F317941E1E8689110083BD19 /* Utils */,
 				F36BE3BF1E831322007F6CE7 /* ViewModels */,
 				F36BE3C01E83132C007F6CE7 /* ViewControllers */,
+				F323D4541E8D85DC00B41659 /* Storyboards */,
 				F36BE3AA1E830E22007F6CE7 /* AppDelegate.h */,
 				F36BE3AB1E830E22007F6CE7 /* AppDelegate.m */,
-				F36BE3B01E830E22007F6CE7 /* Main.storyboard */,
-				F36BE3B31E830E22007F6CE7 /* Assets.xcassets */,
 				F36BE3B51E830E22007F6CE7 /* LaunchScreen.storyboard */,
+				F36BE3B31E830E22007F6CE7 /* Assets.xcassets */,
 				F36BE3B81E830E22007F6CE7 /* Info.plist */,
 				F36BE3A71E830E22007F6CE7 /* Supporting Files */,
 			);
@@ -396,7 +404,7 @@
 			baseConfigurationReference = AE19661F1E1C934A23192074 /* Pods-ComicingGif.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Bai Jin Zhin (FU9SD2G4V7)";
+				CODE_SIGN_IDENTITY = "";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ComicingGif/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -413,7 +421,7 @@
 			baseConfigurationReference = 5C6CB3F124F1DC1C548C2BE5 /* Pods-ComicingGif.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Bai Jin Zhin (FU9SD2G4V7)";
+				CODE_SIGN_IDENTITY = "";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ComicingGif/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
