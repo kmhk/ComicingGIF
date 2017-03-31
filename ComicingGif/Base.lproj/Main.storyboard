@@ -175,11 +175,20 @@
                         <outlet property="processingView" destination="j0E-cw-d26" id="G6w-N3-GDJ"/>
                         <outlet property="progressBar" destination="hnG-Df-0CZ" id="q9l-Bt-gsT"/>
                         <outlet property="viewProgressContainer" destination="phv-vJ-uod" id="QBG-So-ANV"/>
+                        <segue destination="GvU-Yd-n5A" kind="show" identifier="segueMaking" id="wvj-xT-Erm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="984.05797101449286" y="776.08695652173924"/>
+        </scene>
+        <!--ComicMaking-->
+        <scene sceneID="dr6-HE-7gP">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ComicMaking" id="GvU-Yd-n5A" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vkw-FR-KFw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1890" y="776"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7zz-UZ-BRB">

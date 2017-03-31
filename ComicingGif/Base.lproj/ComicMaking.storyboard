@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Comic Making View Controller-->
+        <scene sceneID="y2J-r9-UB4">
+            <objects>
+                <viewController id="xBQ-ZW-Gb5" customClass="ComicMakingViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cYZ-Xz-DMf"/>
+                        <viewControllerLayoutGuide type="bottom" id="Qwe-oe-hkc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="E1K-aC-wim">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Th-wJ-IMZ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="12d-9t-bnM">
+                                        <rect key="frame" x="331" y="623" width="44" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <state key="normal" image="comic_next"/>
+                                        <connections>
+                                            <action selector="btnNextTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="Cbw-gP-fVe"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eEi-dp-dcP">
+                                        <rect key="frame" x="21" y="565" width="43" height="36"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <state key="normal" image="comic_smile"/>
+                                        <connections>
+                                            <action selector="btnToolAnimateGifTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="XJA-IL-oif"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5AA-2Y-0cg">
+                                        <rect key="frame" x="263" y="565" width="43" height="36"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <state key="normal" image="comic_hi"/>
+                                        <connections>
+                                            <action selector="btnToolBubbleTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="0qY-0q-XiC"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbs-oq-zfv">
+                                        <rect key="frame" x="331" y="571" width="44" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <state key="normal" image="comic_pen"/>
+                                        <connections>
+                                            <action selector="btnToolPenTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="74j-3G-aiG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bqa-Si-aqz">
+                                        <rect key="frame" x="331" y="525" width="44" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <state key="normal" image="comic_text"/>
+                                        <connections>
+                                            <action selector="btnToolTextTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="ysS-4J-u1m"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VRQ-K6-6Xq">
+                                        <rect key="frame" x="331" y="473" width="44" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <state key="normal" image="comic_sticker"/>
+                                        <connections>
+                                            <action selector="btnToolStickerTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="gzH-hW-XdP"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X9N-SR-QP9">
+                                        <rect key="frame" x="331" y="10" width="44" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="cameraXButton"/>
+                                        <connections>
+                                            <action selector="btnToolCloseTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="mw1-Xq-kc2"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="btnClose" destination="X9N-SR-QP9" id="L8e-7I-PBN"/>
+                        <outlet property="btnNext" destination="12d-9t-bnM" id="qfp-Ej-xTW"/>
+                        <outlet property="btnToolAnimateGIF" destination="eEi-dp-dcP" id="wDy-SH-vnR"/>
+                        <outlet property="btnToolBubble" destination="5AA-2Y-0cg" id="ugI-9s-Lln"/>
+                        <outlet property="btnToolPen" destination="bbs-oq-zfv" id="gl5-Q1-itd"/>
+                        <outlet property="btnToolSticker" destination="VRQ-K6-6Xq" id="ZAe-Ha-sD9"/>
+                        <outlet property="btnToolText" destination="Bqa-Si-aqz" id="4pA-Eg-zob"/>
+                        <outlet property="viewTools" destination="9Th-wJ-IMZ" id="hDq-Sg-5Ii"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LWR-Mv-txI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-519.20000000000005" y="-136.28185907046478"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="cameraXButton" width="721" height="731"/>
+        <image name="comic_hi" width="70" height="53"/>
+        <image name="comic_next" width="17" height="29"/>
+        <image name="comic_pen" width="16" height="16"/>
+        <image name="comic_smile" width="64" height="54"/>
+        <image name="comic_sticker" width="26" height="23"/>
+        <image name="comic_text" width="19" height="40"/>
+    </resources>
+</document>

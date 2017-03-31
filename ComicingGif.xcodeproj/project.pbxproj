@@ -10,6 +10,27 @@
 		754ACEE3EE6C48C736BE7629 /* libPods-ComicingGif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEAB9E6CD9B129793D59342 /* libPods-ComicingGif.a */; };
 		F31794211E868AF40083BD19 /* GIFGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F31794201E868AF40083BD19 /* GIFGenerator.m */; };
 		F323D4531E8BCF7E00B41659 /* RoundCapProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F323D4521E8BCF7E00B41659 /* RoundCapProgressView.m */; };
+		F323D4591E8E448800B41659 /* ComicMaking.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F323D4571E8E448800B41659 /* ComicMaking.storyboard */; };
+		F323D4671E8E679000B41659 /* theme_GIF1.gif in Resources */ = {isa = PBXBuildFile; fileRef = F323D45C1E8E679000B41659 /* theme_GIF1.gif */; };
+		F323D4681E8E679000B41659 /* theme_GIF2.gif in Resources */ = {isa = PBXBuildFile; fileRef = F323D45D1E8E679000B41659 /* theme_GIF2.gif */; };
+		F323D4691E8E679000B41659 /* theme_GIF3.gif in Resources */ = {isa = PBXBuildFile; fileRef = F323D45E1E8E679000B41659 /* theme_GIF3.gif */; };
+		F323D46A1E8E679000B41659 /* theme_GIF4.gif in Resources */ = {isa = PBXBuildFile; fileRef = F323D45F1E8E679000B41659 /* theme_GIF4.gif */; };
+		F323D46B1E8E679000B41659 /* theme_GIF5.gif in Resources */ = {isa = PBXBuildFile; fileRef = F323D4601E8E679000B41659 /* theme_GIF5.gif */; };
+		F323D46C1E8E679000B41659 /* theme_GIF6.gif in Resources */ = {isa = PBXBuildFile; fileRef = F323D4611E8E679000B41659 /* theme_GIF6.gif */; };
+		F323D46D1E8E679000B41659 /* theme_GIF7.gif in Resources */ = {isa = PBXBuildFile; fileRef = F323D4621E8E679000B41659 /* theme_GIF7.gif */; };
+		F323D46E1E8E679000B41659 /* theme_GIF8.gif in Resources */ = {isa = PBXBuildFile; fileRef = F323D4631E8E679000B41659 /* theme_GIF8.gif */; };
+		F323D46F1E8E679000B41659 /* theme_GIF9.gif in Resources */ = {isa = PBXBuildFile; fileRef = F323D4641E8E679000B41659 /* theme_GIF9.gif */; };
+		F323D4701E8E679000B41659 /* theme_GIF10.gif in Resources */ = {isa = PBXBuildFile; fileRef = F323D4651E8E679000B41659 /* theme_GIF10.gif */; };
+		F323D4711E8E679000B41659 /* theme_GIF11.gif in Resources */ = {isa = PBXBuildFile; fileRef = F323D4661E8E679000B41659 /* theme_GIF11.gif */; };
+		F323D4751E8E6CBD00B41659 /* ComicMakingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F323D4741E8E6CBD00B41659 /* ComicMakingViewController.m */; };
+		F323D47F1E8E752200B41659 /* BaseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F323D47E1E8E752200B41659 /* BaseObject.m */; };
+		F323D4851E8E767500B41659 /* StickerObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F323D4841E8E767500B41659 /* StickerObject.m */; };
+		F323D4881E8E769E00B41659 /* BubbleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F323D4871E8E769E00B41659 /* BubbleObject.m */; };
+		F323D48B1E8E76C100B41659 /* CaptionObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F323D48A1E8E76C100B41659 /* CaptionObject.m */; };
+		F323D48E1E8E770400B41659 /* PenObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F323D48D1E8E770400B41659 /* PenObject.m */; };
+		F323D4911E8E77A100B41659 /* ComicMakingViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F323D4901E8E77A100B41659 /* ComicMakingViewModel.m */; };
+		F323D4991E8F035200B41659 /* BkImageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F323D4981E8F035200B41659 /* BkImageObject.m */; };
+		F323D49D1E8F1BBE00B41659 /* ComicObjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = F323D49C1E8F1BBE00B41659 /* ComicObjectView.m */; };
 		F36BE3A91E830E22007F6CE7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F36BE3A81E830E22007F6CE7 /* main.m */; };
 		F36BE3AC1E830E22007F6CE7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F36BE3AB1E830E22007F6CE7 /* AppDelegate.m */; };
 		F36BE3B21E830E22007F6CE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F36BE3B01E830E22007F6CE7 /* Main.storyboard */; };
@@ -26,6 +47,37 @@
 		F31794201E868AF40083BD19 /* GIFGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GIFGenerator.m; path = Utils/GIFGenerator.m; sourceTree = "<group>"; };
 		F323D4511E8BCF7E00B41659 /* RoundCapProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoundCapProgressView.h; path = CustomizedUI/RoundCapProgressView.h; sourceTree = "<group>"; };
 		F323D4521E8BCF7E00B41659 /* RoundCapProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoundCapProgressView.m; path = CustomizedUI/RoundCapProgressView.m; sourceTree = "<group>"; };
+		F323D4581E8E448800B41659 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ComicMaking.storyboard; sourceTree = "<group>"; };
+		F323D45C1E8E679000B41659 /* theme_GIF1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF1.gif; path = animationGIF/theme_GIF1.gif; sourceTree = "<group>"; };
+		F323D45D1E8E679000B41659 /* theme_GIF2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF2.gif; path = animationGIF/theme_GIF2.gif; sourceTree = "<group>"; };
+		F323D45E1E8E679000B41659 /* theme_GIF3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF3.gif; path = animationGIF/theme_GIF3.gif; sourceTree = "<group>"; };
+		F323D45F1E8E679000B41659 /* theme_GIF4.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF4.gif; path = animationGIF/theme_GIF4.gif; sourceTree = "<group>"; };
+		F323D4601E8E679000B41659 /* theme_GIF5.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF5.gif; path = animationGIF/theme_GIF5.gif; sourceTree = "<group>"; };
+		F323D4611E8E679000B41659 /* theme_GIF6.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF6.gif; path = animationGIF/theme_GIF6.gif; sourceTree = "<group>"; };
+		F323D4621E8E679000B41659 /* theme_GIF7.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF7.gif; path = animationGIF/theme_GIF7.gif; sourceTree = "<group>"; };
+		F323D4631E8E679000B41659 /* theme_GIF8.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF8.gif; path = animationGIF/theme_GIF8.gif; sourceTree = "<group>"; };
+		F323D4641E8E679000B41659 /* theme_GIF9.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF9.gif; path = animationGIF/theme_GIF9.gif; sourceTree = "<group>"; };
+		F323D4651E8E679000B41659 /* theme_GIF10.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF10.gif; path = animationGIF/theme_GIF10.gif; sourceTree = "<group>"; };
+		F323D4661E8E679000B41659 /* theme_GIF11.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF11.gif; path = animationGIF/theme_GIF11.gif; sourceTree = "<group>"; };
+		F323D4731E8E6CBD00B41659 /* ComicMakingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComicMakingViewController.h; path = ViewControllers/ComicMakingViewController.h; sourceTree = "<group>"; };
+		F323D4741E8E6CBD00B41659 /* ComicMakingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComicMakingViewController.m; path = ViewControllers/ComicMakingViewController.m; sourceTree = "<group>"; };
+		F323D47D1E8E752200B41659 /* BaseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseObject.h; path = Objects/BaseObject.h; sourceTree = "<group>"; };
+		F323D47E1E8E752200B41659 /* BaseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseObject.m; path = Objects/BaseObject.m; sourceTree = "<group>"; };
+		F323D4831E8E767500B41659 /* StickerObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StickerObject.h; path = Objects/StickerObject.h; sourceTree = "<group>"; };
+		F323D4841E8E767500B41659 /* StickerObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StickerObject.m; path = Objects/StickerObject.m; sourceTree = "<group>"; };
+		F323D4861E8E769E00B41659 /* BubbleObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BubbleObject.h; path = Objects/BubbleObject.h; sourceTree = "<group>"; };
+		F323D4871E8E769E00B41659 /* BubbleObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BubbleObject.m; path = Objects/BubbleObject.m; sourceTree = "<group>"; };
+		F323D4891E8E76C100B41659 /* CaptionObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CaptionObject.h; path = Objects/CaptionObject.h; sourceTree = "<group>"; };
+		F323D48A1E8E76C100B41659 /* CaptionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CaptionObject.m; path = Objects/CaptionObject.m; sourceTree = "<group>"; };
+		F323D48C1E8E770400B41659 /* PenObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PenObject.h; path = Objects/PenObject.h; sourceTree = "<group>"; };
+		F323D48D1E8E770400B41659 /* PenObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PenObject.m; path = Objects/PenObject.m; sourceTree = "<group>"; };
+		F323D48F1E8E77A100B41659 /* ComicMakingViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComicMakingViewModel.h; path = ViewModels/ComicMakingViewModel.h; sourceTree = "<group>"; };
+		F323D4901E8E77A100B41659 /* ComicMakingViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComicMakingViewModel.m; path = ViewModels/ComicMakingViewModel.m; sourceTree = "<group>"; };
+		F323D4971E8F035200B41659 /* BkImageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BkImageObject.h; path = Objects/BkImageObject.h; sourceTree = "<group>"; };
+		F323D4981E8F035200B41659 /* BkImageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BkImageObject.m; path = Objects/BkImageObject.m; sourceTree = "<group>"; };
+		F323D49A1E8F18BF00B41659 /* ObjectHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ObjectHeader.h; path = Objects/ObjectHeader.h; sourceTree = "<group>"; };
+		F323D49B1E8F1BBE00B41659 /* ComicObjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComicObjectView.h; path = CustomizedUI/ComicObjectView.h; sourceTree = "<group>"; };
+		F323D49C1E8F1BBE00B41659 /* ComicObjectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComicObjectView.m; path = CustomizedUI/ComicObjectView.m; sourceTree = "<group>"; };
 		F36BE3A41E830E22007F6CE7 /* ComicingGif.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComicingGif.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F36BE3A81E830E22007F6CE7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F36BE3AA1E830E22007F6CE7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -92,8 +144,101 @@
 			isa = PBXGroup;
 			children = (
 				F36BE3B01E830E22007F6CE7 /* Main.storyboard */,
+				F323D4571E8E448800B41659 /* ComicMaking.storyboard */,
 			);
 			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		F323D4551E8E42CF00B41659 /* CameraViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F36BE3C11E831369007F6CE7 /* CameraViewController.h */,
+				F36BE3C21E831369007F6CE7 /* CameraViewController.m */,
+			);
+			name = CameraViewController;
+			sourceTree = "<group>";
+		};
+		F323D4561E8E42E200B41659 /* CameraViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				F36BE3C41E83367B007F6CE7 /* CameraViewModel.h */,
+				F36BE3C51E83367B007F6CE7 /* CameraViewModel.m */,
+			);
+			name = CameraViewModel;
+			sourceTree = "<group>";
+		};
+		F323D45A1E8E459100B41659 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F323D4781E8E714E00B41659 /* ComicComicView */,
+				F323D4501E8BCF4E00B41659 /* CustomizedUI */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		F323D45B1E8E677B00B41659 /* AnimationGIF */ = {
+			isa = PBXGroup;
+			children = (
+				F323D45C1E8E679000B41659 /* theme_GIF1.gif */,
+				F323D45D1E8E679000B41659 /* theme_GIF2.gif */,
+				F323D45E1E8E679000B41659 /* theme_GIF3.gif */,
+				F323D45F1E8E679000B41659 /* theme_GIF4.gif */,
+				F323D4601E8E679000B41659 /* theme_GIF5.gif */,
+				F323D4611E8E679000B41659 /* theme_GIF6.gif */,
+				F323D4621E8E679000B41659 /* theme_GIF7.gif */,
+				F323D4631E8E679000B41659 /* theme_GIF8.gif */,
+				F323D4641E8E679000B41659 /* theme_GIF9.gif */,
+				F323D4651E8E679000B41659 /* theme_GIF10.gif */,
+				F323D4661E8E679000B41659 /* theme_GIF11.gif */,
+			);
+			name = AnimationGIF;
+			sourceTree = "<group>";
+		};
+		F323D4721E8E6C9B00B41659 /* ComicMakingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F323D4731E8E6CBD00B41659 /* ComicMakingViewController.h */,
+				F323D4741E8E6CBD00B41659 /* ComicMakingViewController.m */,
+			);
+			name = ComicMakingViewController;
+			sourceTree = "<group>";
+		};
+		F323D4771E8E710E00B41659 /* ComicMakingViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				F323D48F1E8E77A100B41659 /* ComicMakingViewModel.h */,
+				F323D4901E8E77A100B41659 /* ComicMakingViewModel.m */,
+			);
+			name = ComicMakingViewModel;
+			sourceTree = "<group>";
+		};
+		F323D4781E8E714E00B41659 /* ComicComicView */ = {
+			isa = PBXGroup;
+			children = (
+				F323D49B1E8F1BBE00B41659 /* ComicObjectView.h */,
+				F323D49C1E8F1BBE00B41659 /* ComicObjectView.m */,
+			);
+			name = ComicComicView;
+			sourceTree = "<group>";
+		};
+		F323D47C1E8E74EF00B41659 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				F323D49A1E8F18BF00B41659 /* ObjectHeader.h */,
+				F323D47D1E8E752200B41659 /* BaseObject.h */,
+				F323D47E1E8E752200B41659 /* BaseObject.m */,
+				F323D4971E8F035200B41659 /* BkImageObject.h */,
+				F323D4981E8F035200B41659 /* BkImageObject.m */,
+				F323D4831E8E767500B41659 /* StickerObject.h */,
+				F323D4841E8E767500B41659 /* StickerObject.m */,
+				F323D4861E8E769E00B41659 /* BubbleObject.h */,
+				F323D4871E8E769E00B41659 /* BubbleObject.m */,
+				F323D4891E8E76C100B41659 /* CaptionObject.h */,
+				F323D48A1E8E76C100B41659 /* CaptionObject.m */,
+				F323D48C1E8E770400B41659 /* PenObject.h */,
+				F323D48D1E8E770400B41659 /* PenObject.m */,
+			);
+			name = Objects;
 			sourceTree = "<group>";
 		};
 		F36BE39B1E830E22007F6CE7 = {
@@ -117,8 +262,10 @@
 		F36BE3A61E830E22007F6CE7 /* ComicingGif */ = {
 			isa = PBXGroup;
 			children = (
-				F323D4501E8BCF4E00B41659 /* CustomizedUI */,
+				F323D45B1E8E677B00B41659 /* AnimationGIF */,
 				F317941E1E8689110083BD19 /* Utils */,
+				F323D47C1E8E74EF00B41659 /* Objects */,
+				F323D45A1E8E459100B41659 /* Views */,
 				F36BE3BF1E831322007F6CE7 /* ViewModels */,
 				F36BE3C01E83132C007F6CE7 /* ViewControllers */,
 				F323D4541E8D85DC00B41659 /* Storyboards */,
@@ -143,8 +290,8 @@
 		F36BE3BF1E831322007F6CE7 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				F36BE3C41E83367B007F6CE7 /* CameraViewModel.h */,
-				F36BE3C51E83367B007F6CE7 /* CameraViewModel.m */,
+				F323D4771E8E710E00B41659 /* ComicMakingViewModel */,
+				F323D4561E8E42E200B41659 /* CameraViewModel */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -152,8 +299,8 @@
 		F36BE3C01E83132C007F6CE7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				F36BE3C11E831369007F6CE7 /* CameraViewController.h */,
-				F36BE3C21E831369007F6CE7 /* CameraViewController.m */,
+				F323D4721E8E6C9B00B41659 /* ComicMakingViewController */,
+				F323D4551E8E42CF00B41659 /* CameraViewController */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -219,9 +366,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F323D46F1E8E679000B41659 /* theme_GIF9.gif in Resources */,
+				F323D46C1E8E679000B41659 /* theme_GIF6.gif in Resources */,
+				F323D4671E8E679000B41659 /* theme_GIF1.gif in Resources */,
+				F323D46E1E8E679000B41659 /* theme_GIF8.gif in Resources */,
 				F36BE3B71E830E22007F6CE7 /* LaunchScreen.storyboard in Resources */,
+				F323D46B1E8E679000B41659 /* theme_GIF5.gif in Resources */,
+				F323D4681E8E679000B41659 /* theme_GIF2.gif in Resources */,
 				F36BE3B41E830E22007F6CE7 /* Assets.xcassets in Resources */,
+				F323D46D1E8E679000B41659 /* theme_GIF7.gif in Resources */,
 				F36BE3B21E830E22007F6CE7 /* Main.storyboard in Resources */,
+				F323D4591E8E448800B41659 /* ComicMaking.storyboard in Resources */,
+				F323D46A1E8E679000B41659 /* theme_GIF4.gif in Resources */,
+				F323D4701E8E679000B41659 /* theme_GIF10.gif in Resources */,
+				F323D4691E8E679000B41659 /* theme_GIF3.gif in Resources */,
+				F323D4711E8E679000B41659 /* theme_GIF11.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,18 +439,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F323D4881E8E769E00B41659 /* BubbleObject.m in Sources */,
 				F36BE3C31E831369007F6CE7 /* CameraViewController.m in Sources */,
+				F323D4751E8E6CBD00B41659 /* ComicMakingViewController.m in Sources */,
 				F323D4531E8BCF7E00B41659 /* RoundCapProgressView.m in Sources */,
 				F36BE3C61E83367B007F6CE7 /* CameraViewModel.m in Sources */,
+				F323D4851E8E767500B41659 /* StickerObject.m in Sources */,
+				F323D48B1E8E76C100B41659 /* CaptionObject.m in Sources */,
+				F323D49D1E8F1BBE00B41659 /* ComicObjectView.m in Sources */,
+				F323D48E1E8E770400B41659 /* PenObject.m in Sources */,
 				F36BE3AC1E830E22007F6CE7 /* AppDelegate.m in Sources */,
 				F36BE3A91E830E22007F6CE7 /* main.m in Sources */,
+				F323D47F1E8E752200B41659 /* BaseObject.m in Sources */,
+				F323D4911E8E77A100B41659 /* ComicMakingViewModel.m in Sources */,
 				F31794211E868AF40083BD19 /* GIFGenerator.m in Sources */,
+				F323D4991E8F035200B41659 /* BkImageObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		F323D4571E8E448800B41659 /* ComicMaking.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F323D4581E8E448800B41659 /* Base */,
+			);
+			name = ComicMaking.storyboard;
+			sourceTree = "<group>";
+		};
 		F36BE3B01E830E22007F6CE7 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
