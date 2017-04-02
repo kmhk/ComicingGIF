@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class BaseObject;
+
+
 @interface ComicObjectView : UIView
+
+@property (nonatomic) BaseObject *comicObject;
+
+
+// create comic object view from obj
+- (id)initWithComicObject:(BaseObject *)obj;
 
 @end

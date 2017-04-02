@@ -9,6 +9,7 @@
 #import "ComicMakingViewController.h"
 #import "ComicMakingViewModel.h"
 #import "./../Objects/ObjectHeader.h"
+#import "./../CustomizedUI/ComicObjectView.h"
 
 
 @interface ComicMakingViewController ()
@@ -38,9 +39,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 	
-	if (!viewModel) {
-		viewModel = [[ComicMakingViewModel alloc] init];
-	}
+	[self createComicViews];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,9 +59,16 @@
 		return;
 	}
 	
-	for (BaseObject *obj in viewModel.arrayObjects) {
-		
+	// create background GIF from first object of comic object array
+	ComicObjectView *backgroundView = [[ComicObjectView alloc] initWithComicObject:viewModel.arrayObjects.firstObject];
+	
+	for (NSInteger i = 1; i < viewModel.arrayObjects.count; i ++) {
+		BaseObject *obj = viewModel.arrayObjects[i];
+		ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
+		[backgroundView addSubview:comicView];
 	}
+	
+	[self.view addSubview:backgroundView];
 }
 
 
