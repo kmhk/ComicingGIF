@@ -114,7 +114,7 @@
 	
 	UIImage *image = [UIImage imageNamed:obj.resourceName];
 	NSData *data = UIImagePNGRepresentation(image);
-	[self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width, obj.frame.size.height) bAnimate:YES];
+	[self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width, obj.frame.size.height) bAnimate:NO];
 }
 
 - (void)createBubbleView {
@@ -142,6 +142,15 @@
 	[self addGestureRecognizer:rotateGesture];
 }
 
+- (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size {
+	UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
+	[image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
+	return newImage;
+}
+
 - (void)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag {
 	CGImageSourceRef srcImage = CGImageSourceCreateWithData(toCF data, nil);
 	if (!srcImage) {
@@ -160,7 +169,7 @@
 			continue;
 		}
 		
-		UIImage *img = [UIImage imageWithCGImage:cgImg];
+		UIImage *img = [self scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
 		[arrayImages addObject:img];
 		
 		NSDictionary *property = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(srcImage, i, nil));
@@ -172,7 +181,11 @@
 		}
 		
 		totalDuration += frameDuration.floatValue;
+		
+		CGImageRelease(cgImg);
 	}
+	
+	CFRelease(srcImage);
 	
 	UIImageView *imgView = [[UIImageView alloc] initWithFrame:rect];
 	imgView.image = arrayImages.firstObject;
