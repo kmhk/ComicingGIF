@@ -10,10 +10,6 @@
 
 
 @interface BubbleObject()
-{
-	NSString *bubbleName; // bubble image resource name
-	NSString *text; // bubble text
-}
 @end
 
 
@@ -24,8 +20,8 @@
 	self = [super init];
 	if (self) {
 		self.objType = ObjectBubble;
-		text = txt;
-		bubbleName = name;
+		self.text = txt;
+		self.bubbleName = name;
 	}
 	
 	return self;

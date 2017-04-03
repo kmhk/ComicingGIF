@@ -170,7 +170,7 @@
 		F323D45A1E8E459100B41659 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F323D4781E8E714E00B41659 /* ComicComicView */,
+				F323D4781E8E714E00B41659 /* ComicObjectView */,
 				F323D4501E8BCF4E00B41659 /* CustomizedUI */,
 			);
 			name = Views;
@@ -212,13 +212,13 @@
 			name = ComicMakingViewModel;
 			sourceTree = "<group>";
 		};
-		F323D4781E8E714E00B41659 /* ComicComicView */ = {
+		F323D4781E8E714E00B41659 /* ComicObjectView */ = {
 			isa = PBXGroup;
 			children = (
 				F323D49B1E8F1BBE00B41659 /* ComicObjectView.h */,
 				F323D49C1E8F1BBE00B41659 /* ComicObjectView.m */,
 			);
-			name = ComicComicView;
+			name = ComicObjectView;
 			sourceTree = "<group>";
 		};
 		F323D47C1E8E74EF00B41659 /* Objects */ = {

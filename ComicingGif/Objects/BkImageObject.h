@@ -10,6 +10,8 @@
 
 @interface BkImageObject : BaseObject
 
+@property (nonatomic) NSURL *fileURL;
+
 // create background gif/image object by url
 - (id)initWithURL:(NSURL *)url;
 

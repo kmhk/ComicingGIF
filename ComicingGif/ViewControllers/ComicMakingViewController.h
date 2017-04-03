@@ -9,5 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @interface ComicMakingViewController : UIViewController
+<
+UICollectionViewDelegate,
+UICollectionViewDataSource,
+UICollectionViewDelegateFlowLayout,
+UIGestureRecognizerDelegate
+>
+
+// initialize comic making view controller with background GIF/Image from url
+- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect;
 
 @end

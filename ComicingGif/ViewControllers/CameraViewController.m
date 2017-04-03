@@ -8,6 +8,7 @@
 
 #import "CameraViewController.h"
 #import "RoundCapProgressView.h"
+#import "ComicMakingViewController.h"
 
 
 #define TOPBADDING		0.0
@@ -75,15 +76,18 @@
 	return UIStatusBarStyleLightContent;
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+	if ([segue.identifier isEqualToString:@"segueMaking"]) {
+		NSURL *url = (NSURL *)sender;
+		ComicMakingViewController *vc = (ComicMakingViewController *)segue.destinationViewController;
+		[vc initWithBaseImage:url frame:self.cameraPreview.frame];
+	}
 }
-*/
+
 
 
 // MARK: - private methods
@@ -278,8 +282,6 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self showProgress:NO progress:progress];
 	});
-//	[self.viewProgressContainer setHidden:NO];
-
 }
 
 - (void)finishedGifProcessingWith:(NSError *)error gifURL:(NSURL *)url
@@ -295,7 +297,7 @@
 	}
 	
 	// send email GIF for the testing
-	if([MFMailComposeViewController canSendMail]) {
+	/*if([MFMailComposeViewController canSendMail]) {
 		MFMailComposeViewController *mailCont = [[MFMailComposeViewController alloc] init];
 		mailCont.mailComposeDelegate = self;
 		
@@ -308,7 +310,11 @@
 		[self presentViewController:mailCont animated:YES completion:nil];
 		
 		[self resetRecord];
-	}
+	}*/
+	
+	// show comic making controller
+	[self performSegueWithIdentifier:@"segueMaking" sender:url];
+	[self resetRecord];
 }
 
 

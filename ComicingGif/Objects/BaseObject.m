@@ -7,6 +7,11 @@
 //
 
 #import "BaseObject.h"
+#import "BkImageObject.h"
+#import "StickerObject.h"
+#import "BubbleObject.h"
+#import "CaptionObject.h"
+#import "PenObject.h"
 
 
 @interface BaseObject()
@@ -23,6 +28,35 @@
 	}
 	
 	return self;
+}
+
++ (BaseObject *)comicObjectWith:(ComicObjectType)type userInfo:(id)sender {
+	if (type == ObjectBaseImage) {
+		BkImageObject *obj = [[BkImageObject alloc] initWithURL:sender];
+		return obj;
+		
+	} else if (type == ObjectAnimateGIF) {
+		StickerObject *obj = [[StickerObject alloc] initWithResourceID:sender isGif:YES];
+		return obj;
+		
+	} else if (type == ObjectSticker) {
+		StickerObject *obj = [[StickerObject alloc] initWithResourceID:sender isGif:NO];
+		return obj;
+		
+	} else if (type == ObjectBubble) {
+		BubbleObject *obj = [[BubbleObject alloc] initWithText:sender[@"text"] bubble:sender[@"bubble"]];
+		return obj;
+		
+	} else if (type == ObjectPen) {
+		PenObject *obj = [[PenObject alloc] init];
+		return obj;
+		
+	} else if (type == ObjectCaption) {
+		CaptionObject *obj = [[CaptionObject alloc] initWithText:sender];
+		return obj;
+	}
+	
+	return nil;
 }
 
 @end

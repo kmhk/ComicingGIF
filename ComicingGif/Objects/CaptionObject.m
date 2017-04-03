@@ -9,9 +9,6 @@
 #import "CaptionObject.h"
 
 @interface CaptionObject()
-{
-	NSString *text; // caption string
-}
 @end
 
 
@@ -22,7 +19,7 @@
 	self = [super init];
 	if (self) {
 		self.objType = ObjectCaption;
-		text = txt;
+		self.text = txt;
 	}
 	
 	return self;

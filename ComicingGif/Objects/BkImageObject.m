@@ -10,9 +10,6 @@
 
 
 @interface BkImageObject()
-{
-	NSURL *fileURL;		// file url of background GIF or Image
-}
 
 @end
 
@@ -24,10 +21,33 @@
 	self = [super init];
 	if (self) {
 		self.objType = ObjectBaseImage;
-		fileURL = url;
+		self.fileURL = url;
+		self.frame = [self retreiveBound];
 	}
 	
 	return self;
+}
+
+- (CGRect)retreiveBound {
+	CGRect rt;
+	
+	NSData *data = [NSData dataWithContentsOfURL:self.fileURL];
+	UIImage *img = [UIImage imageWithData:data];
+	
+	CGSize szScreen = [[UIScreen mainScreen] bounds].size;
+	if (img.size.width / img.size.height > szScreen.width / szScreen.height) {
+		rt.size.width = (img.size.width < szScreen.width ? img.size.width : szScreen.width * 0.6);
+		rt.size.height = rt.size.width * img.size.height / img.size.width;
+		
+	} else {
+		rt.size.height = (img.size.height < szScreen.height ? img.size.height : szScreen.height * 0.6);
+		rt.size.width = rt.size.height * img.size.width / img.size.height;
+	}
+	
+	rt.origin.x = arc4random_uniform((szScreen.width - img.size.width) / 20) * 20;
+	rt.origin.y = arc4random_uniform((szScreen.height - img.size.height) / 10) * 10;
+	
+	return rt;
 }
 
 @end

@@ -10,7 +10,10 @@
 
 @interface StickerObject : BaseObject
 
-// create sticker/animationGIF with source name
-- (id)initWithResourceID:(NSString *)name;
+// sticker or gif resource name
+@property (nonatomic) NSString *resourceName;
+
+// create sticker/animationGIF with source name. if flag is YES, anmation GIF. otherwise sticker.
+- (id)initWithResourceID:(NSString *)name isGif:(BOOL)flag;
 
 @end

@@ -19,4 +19,7 @@
 // create comic object view from obj
 - (id)initWithComicObject:(BaseObject *)obj;
 
+// create comic slide view with comic objects indicated in array
++ (ComicObjectView *)createComicViewWith:(NSArray *)array;
+
 @end

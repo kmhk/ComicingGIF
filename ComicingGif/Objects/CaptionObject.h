@@ -10,6 +10,9 @@
 
 @interface CaptionObject : BaseObject
 
+// caption string
+@property (nonatomic) NSString *text;
+
 // create caption object with text
 - (id)initWithText:(NSString *)txt;
 
