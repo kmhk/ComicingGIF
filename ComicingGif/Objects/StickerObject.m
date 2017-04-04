@@ -34,11 +34,11 @@
 	
 	CGSize szScreen = [[UIScreen mainScreen] bounds].size;
 	if (img.size.width / img.size.height > szScreen.width / szScreen.height) {
-		rt.size.width = (img.size.width < szScreen.width ? img.size.width : szScreen.width * 0.6);
+		rt.size.width = (img.size.width < szScreen.width ? img.size.width : szScreen.width * 0.3);
 		rt.size.height = rt.size.width * img.size.height / img.size.width;
 		
 	} else {
-		rt.size.height = (img.size.height < szScreen.height ? img.size.height : szScreen.height * 0.6);
+		rt.size.height = (img.size.height < szScreen.height ? img.size.height : szScreen.height * 0.3);
 		rt.size.width = rt.size.height * img.size.width / img.size.height;
 	}
 	

@@ -38,6 +38,7 @@
 		F36BE3B71E830E22007F6CE7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F36BE3B51E830E22007F6CE7 /* LaunchScreen.storyboard */; };
 		F36BE3C31E831369007F6CE7 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F36BE3C21E831369007F6CE7 /* CameraViewController.m */; };
 		F36BE3C61E83367B007F6CE7 /* CameraViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F36BE3C51E83367B007F6CE7 /* CameraViewModel.m */; };
+		F3FB2CA91E931CEA0087BD9C /* ComicObjectSerialize.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FB2CA81E931CEA0087BD9C /* ComicObjectSerialize.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,8 @@
 		F36BE3C21E831369007F6CE7 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CameraViewController.m; path = ViewControllers/CameraViewController.m; sourceTree = "<group>"; };
 		F36BE3C41E83367B007F6CE7 /* CameraViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraViewModel.h; path = ViewModels/CameraViewModel.h; sourceTree = "<group>"; };
 		F36BE3C51E83367B007F6CE7 /* CameraViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CameraViewModel.m; path = ViewModels/CameraViewModel.m; sourceTree = "<group>"; };
+		F3FB2CA71E931CEA0087BD9C /* ComicObjectSerialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComicObjectSerialize.h; path = Utils/ComicObjectSerialize.h; sourceTree = "<group>"; };
+		F3FB2CA81E931CEA0087BD9C /* ComicObjectSerialize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComicObjectSerialize.m; path = Utils/ComicObjectSerialize.m; sourceTree = "<group>"; };
 		FCEAB9E6CD9B129793D59342 /* libPods-ComicingGif.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ComicingGif.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -125,8 +128,8 @@
 		F317941E1E8689110083BD19 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				F317941F1E868AF40083BD19 /* GIFGenerator.h */,
-				F31794201E868AF40083BD19 /* GIFGenerator.m */,
+				F3FB2CA51E931CAE0087BD9C /* ComicObjectSerialize */,
+				F3FB2CA61E931CC60087BD9C /* GIFGenerator */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -305,6 +308,24 @@
 			name = ViewControllers;
 			sourceTree = "<group>";
 		};
+		F3FB2CA51E931CAE0087BD9C /* ComicObjectSerialize */ = {
+			isa = PBXGroup;
+			children = (
+				F3FB2CA71E931CEA0087BD9C /* ComicObjectSerialize.h */,
+				F3FB2CA81E931CEA0087BD9C /* ComicObjectSerialize.m */,
+			);
+			name = ComicObjectSerialize;
+			sourceTree = "<group>";
+		};
+		F3FB2CA61E931CC60087BD9C /* GIFGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				F317941F1E868AF40083BD19 /* GIFGenerator.h */,
+				F31794201E868AF40083BD19 /* GIFGenerator.m */,
+			);
+			name = GIFGenerator;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -450,6 +471,7 @@
 				F323D48E1E8E770400B41659 /* PenObject.m in Sources */,
 				F36BE3AC1E830E22007F6CE7 /* AppDelegate.m in Sources */,
 				F36BE3A91E830E22007F6CE7 /* main.m in Sources */,
+				F3FB2CA91E931CEA0087BD9C /* ComicObjectSerialize.m in Sources */,
 				F323D47F1E8E752200B41659 /* BaseObject.m in Sources */,
 				F323D4911E8E77A100B41659 /* ComicMakingViewModel.m in Sources */,
 				F31794211E868AF40083BD19 /* GIFGenerator.m in Sources */,

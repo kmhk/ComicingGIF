@@ -36,11 +36,11 @@
 	
 	CGSize szScreen = [[UIScreen mainScreen] bounds].size;
 	if (img.size.width / img.size.height > szScreen.width / szScreen.height) {
-		rt.size.width = (img.size.width < szScreen.width ? img.size.width : szScreen.width * 0.6);
+		rt.size.width = (img.size.width < szScreen.width ? img.size.width : szScreen.width * 0.3);
 		rt.size.height = rt.size.width * img.size.height / img.size.width;
 		
 	} else {
-		rt.size.height = (img.size.height < szScreen.height ? img.size.height : szScreen.height * 0.6);
+		rt.size.height = (img.size.height < szScreen.height ? img.size.height : szScreen.height * 0.3);
 		rt.size.width = rt.size.height * img.size.width / img.size.height;
 	}
 	
@@ -48,6 +48,28 @@
 	rt.origin.y = arc4random_uniform((szScreen.height - img.size.height) / 10) * 10;
 	
 	return rt;
+}
+
+// override functions inherrited from the BaseObject
+- (NSDictionary *)dictForObject {
+	NSDictionary *dict = [super dictForObject];
+	
+	return @{@"baseInfo": dict,
+			 @"url"		: self.fileURL.absoluteString
+			 };
+}
+
+- (BaseObject *)initFromDict:(NSDictionary *)dict {
+	self = [super init];
+	if (self) {
+		NSDictionary *baseDict = (NSDictionary *)dict[@"baseInfo"];
+		
+		self.objType = (ComicObjectType)[baseDict[@"type"] integerValue];
+		self.fileURL = [NSURL URLWithString:dict[@"url"]];
+		self.frame = CGRectFromString(baseDict[@"frame"]);
+	}
+	
+	return self;
 }
 
 @end

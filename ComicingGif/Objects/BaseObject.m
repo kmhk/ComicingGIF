@@ -59,4 +59,15 @@
 	return nil;
 }
 
+- (NSDictionary *)dictForObject {
+	return @{@"type"	: @(self.objType),
+			 @"frame"	: NSStringFromCGRect(self.frame),
+			 @"angle"	: @(self.angle)
+			 };
+}
+
+- (BaseObject *)initFromDict:(NSDictionary *)dict {
+	return nil;
+}
+
 @end

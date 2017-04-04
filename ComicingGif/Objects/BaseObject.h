@@ -33,4 +33,7 @@ typedef enum {
 // create base object by type and parameter sender
 + (BaseObject *)comicObjectWith:(ComicObjectType)type userInfo:(id)sender;
 
+- (NSDictionary *)dictForObject;
+- (BaseObject *)initFromDict:(NSDictionary *)dict;
+
 @end
