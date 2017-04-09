@@ -10,4 +10,6 @@
 
 @interface ComicObjectSerialize : NSObject
 
++ (void)saveObjectWithArray:(NSArray *)array;
+
 @end

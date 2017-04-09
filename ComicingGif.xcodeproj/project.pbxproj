@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		754ACEE3EE6C48C736BE7629 /* libPods-ComicingGif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEAB9E6CD9B129793D59342 /* libPods-ComicingGif.a */; };
+		A20E5866DD2FB391E862A3C7 /* libPods-ComicingGif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEAB9E6CD9B129793D59342 /* libPods-ComicingGif.a */; };
 		F31794211E868AF40083BD19 /* GIFGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F31794201E868AF40083BD19 /* GIFGenerator.m */; };
 		F323D4531E8BCF7E00B41659 /* RoundCapProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F323D4521E8BCF7E00B41659 /* RoundCapProgressView.m */; };
 		F323D4591E8E448800B41659 /* ComicMaking.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F323D4571E8E448800B41659 /* ComicMaking.storyboard */; };
@@ -97,11 +97,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		F36BE3A11E830E22007F6CE7 /* Frameworks */ = {
+		655A542DC8462A3C75B796CE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				754ACEE3EE6C48C736BE7629 /* libPods-ComicingGif.a in Frameworks */,
+				A20E5866DD2FB391E862A3C7 /* libPods-ComicingGif.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,10 +335,10 @@
 			buildPhases = (
 				E12871E4EB998F06BAE1D298 /* [CP] Check Pods Manifest.lock */,
 				F36BE3A01E830E22007F6CE7 /* Sources */,
-				F36BE3A11E830E22007F6CE7 /* Frameworks */,
 				F36BE3A21E830E22007F6CE7 /* Resources */,
-				C71E2360DFEC7A14E027EB63 /* [CP] Embed Pods Frameworks */,
-				E02F063D756FE3856E8799B1 /* [CP] Copy Pods Resources */,
+				655A542DC8462A3C75B796CE /* Frameworks */,
+				7A64150B075627CB6FC4AD7F /* [CP] Embed Pods Frameworks */,
+				083C332F275F2BA535187138 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -408,22 +408,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C71E2360DFEC7A14E027EB63 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ComicingGif/Pods-ComicingGif-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E02F063D756FE3856E8799B1 /* [CP] Copy Pods Resources */ = {
+		083C332F275F2BA535187138 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -436,6 +421,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ComicingGif/Pods-ComicingGif-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7A64150B075627CB6FC4AD7F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ComicingGif/Pods-ComicingGif-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E12871E4EB998F06BAE1D298 /* [CP] Check Pods Manifest.lock */ = {
@@ -602,7 +602,7 @@
 			baseConfigurationReference = AE19661F1E1C934A23192074 /* Pods-ComicingGif.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bai Jin Zhin (FU9SD2G4V7)";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ComicingGif/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -619,7 +619,7 @@
 			baseConfigurationReference = 5C6CB3F124F1DC1C548C2BE5 /* Pods-ComicingGif.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bai Jin Zhin (FU9SD2G4V7)";
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ComicingGif/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

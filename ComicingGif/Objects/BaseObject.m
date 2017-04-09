@@ -44,7 +44,7 @@
 		return obj;
 		
 	} else if (type == ObjectBubble) {
-		BubbleObject *obj = [[BubbleObject alloc] initWithText:sender[@"text"] bubble:sender[@"bubble"]];
+		BubbleObject *obj = [[BubbleObject alloc] initWithText:sender[@"text"] bubbleID:sender[@"bubble"]];//[[BubbleObject alloc] initWithText:sender[@"text"] bubble:sender[@"bubble"]];
 		return obj;
 		
 	} else if (type == ObjectPen) {
@@ -52,8 +52,8 @@
 		return obj;
 		
 	} else if (type == ObjectCaption) {
-		CaptionObject *obj = [[CaptionObject alloc] initWithText:sender];
-		return obj;
+//		CaptionObject *obj = [[CaptionObject alloc] initWithText:sender];
+//		return obj;
 	}
 	
 	return nil;

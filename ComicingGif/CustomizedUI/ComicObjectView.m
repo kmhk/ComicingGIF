@@ -103,8 +103,7 @@
 	StickerObject *obj = (StickerObject *)self.comicObject;
 	self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width + 44, obj.frame.size.height + 44);
 	
-	NSURL *url = [[NSBundle mainBundle] URLForResource:obj.resourceName withExtension:@""];
-	NSData *data = [NSData dataWithContentsOfURL:url];
+	NSData *data = [NSData dataWithContentsOfURL:obj.stickerURL];
 	[self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width, obj.frame.size.height) bAnimate:YES];
 }
 
@@ -112,7 +111,7 @@
 	StickerObject *obj = (StickerObject *)self.comicObject;
 	self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width + 44, obj.frame.size.height + 44);
 	
-	UIImage *image = [UIImage imageNamed:obj.resourceName];
+	UIImage *image = [UIImage imageWithContentsOfFile:[obj.stickerURL absoluteString]];
 	NSData *data = UIImagePNGRepresentation(image);
 	[self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width, obj.frame.size.height) bAnimate:NO];
 }

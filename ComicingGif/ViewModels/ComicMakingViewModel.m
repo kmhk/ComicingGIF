@@ -8,6 +8,7 @@
 
 #import "ComicMakingViewModel.h"
 #import "./../Objects/ObjectHeader.h"
+#import "./../Utils/ComicObjectSerialize.h"
 
 
 @implementation ComicMakingViewModel
@@ -25,6 +26,12 @@
 // MARK: - create objects
 - (void)addObject:(BaseObject *)obj {
 	[self.arrayObjects addObject:obj];
+}
+
+
+// MARK: - save / load objects
+- (void)saveObject {
+	[ComicObjectSerialize saveObjectWithArray:self.arrayObjects];
 }
 
 @end

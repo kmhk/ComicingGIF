@@ -16,12 +16,23 @@
 // MARK: -
 @implementation BubbleObject
 
-- (id)initWithText:(NSString *)txt bubble:(NSString *)name {
+- (id)initWithText:(NSString *)txt bubbleID:(NSString *)ID {
 	self = [super init];
 	if (self) {
 		self.objType = ObjectBubble;
 		self.text = txt;
-		self.bubbleName = name;
+		self.bubbleURL = [[NSBundle mainBundle] URLForResource:ID withExtension:@""];
+	}
+	
+	return self;
+}
+
+- (id)initWithText:(NSString *)txt bubbleURL:(NSString *)urlString {
+	self = [super init];
+	if (self) {
+		self.objType = ObjectBubble;
+		self.text = txt;
+		self.bubbleURL = [NSURL fileURLWithPath:urlString];
 	}
 	
 	return self;

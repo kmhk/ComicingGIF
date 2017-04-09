@@ -12,7 +12,10 @@
 @implementation ComicObjectSerialize
 
 + (void)saveObjectWithArray:(NSArray *)array {
-	NSMutableArray *arrayAllSides = [[NSMutableArray alloc] initWithArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"all slides"]];
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"slides.plist"];
+	
+	NSMutableArray *arrayAllSides = [[NSMutableArray alloc] initWithContentsOfFile:filePath];
 	if (!arrayAllSides) {
 		arrayAllSides = [[NSMutableArray alloc] init];
 	}
@@ -23,9 +26,7 @@
 	}
 	[arrayAllSides addObject:arrayDict];
 	
-	// write array
-	[[NSUserDefaults standardUserDefaults] setObject:arrayAllSides forKey:@"all slides"];
-	[[NSUserDefaults standardUserDefaults] synchronize];
+	[arrayAllSides writeToFile:filePath atomically:NO];
 }
 
 

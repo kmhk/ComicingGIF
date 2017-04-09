@@ -13,7 +13,11 @@
 // caption string
 @property (nonatomic) NSString *text;
 
+// caption color
+@property (nonatomic) UIColor *color;
+
+
 // create caption object with text
-- (id)initWithText:(NSString *)txt;
+- (id)initWithText:(NSString *)txt color:(UIColor *)color;
 
 @end

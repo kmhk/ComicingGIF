@@ -11,6 +11,9 @@
 #import "./../Objects/ObjectHeader.h"
 #import "./../CustomizedUI/ComicObjectView.h"
 
+#import <Messages/Messages.h>
+#import <MessageUI/MFMailComposeViewController.h>
+
 
 #define CELLID	@"ToolCollectionViewCell"
 
@@ -124,6 +127,24 @@
 
 
 - (IBAction)btnNextTapped:(id)sender {
+	[viewModel saveObject];
+	
+	// for testing
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"slides.plist"];
+	
+	if([MFMailComposeViewController canSendMail]) {
+		MFMailComposeViewController *mailCont = [[MFMailComposeViewController alloc] init];
+		mailCont.mailComposeDelegate = self;
+		
+		[mailCont setSubject:@"created GIF"];
+		[mailCont setMessageBody:@"Please take a look attached GIF file." isHTML:NO];
+		
+		NSData *data = [NSData dataWithContentsOfFile:filePath];
+		[mailCont addAttachmentData:data mimeType:@"plist" fileName:@"slides.plist"];
+		
+		[self presentViewController:mailCont animated:YES completion:nil];
+	}
 }
 
 

@@ -16,21 +16,34 @@
 // MARK: -
 @implementation StickerObject
 
-- (id)initWithResourceID:(NSString *)name isGif:(BOOL)flag {
+- (id)initWithResourceID:(NSString *)ID isGif:(BOOL)flag {
 	self = [super self];
 	if (self) {
 		self.objType = (flag == YES? ObjectAnimateGIF : ObjectSticker);
-		self.resourceName = name;
+		self.stickerURL = [[NSBundle mainBundle] URLForResource:ID withExtension:@""];
 		self.frame = [self retreiveBound];
 	}
 	
 	return self;
 }
 
+
+- (id)initWithURL:(NSString *)urlString isGif:(BOOL)flag {
+	self = [super self];
+	if (self) {
+		self.objType = (flag == YES? ObjectAnimateGIF : ObjectSticker);
+		self.stickerURL = [NSURL fileURLWithPath:urlString];
+		self.frame = [self retreiveBound];
+	}
+	
+	return self;
+}
+
+
 - (CGRect)retreiveBound {
 	CGRect rt;
 	
-	UIImage *img = [UIImage imageNamed:self.resourceName];
+	UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.stickerURL]];
 	
 	CGSize szScreen = [[UIScreen mainScreen] bounds].size;
 	if (img.size.width / img.size.height > szScreen.width / szScreen.height) {
@@ -47,5 +60,16 @@
 	
 	return rt;
 }
+
+
+// override functions inherrited from the BaseObject
+- (NSDictionary *)dictForObject {
+	NSDictionary *dict = [super dictForObject];
+	
+	return @{@"baseInfo": dict,
+			 @"url"		: self.stickerURL.absoluteString
+			 };
+}
+
 
 @end

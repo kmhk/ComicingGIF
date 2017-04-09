@@ -21,4 +21,7 @@
 // add comic object to the array
 - (void)addObject:(BaseObject *)obj;
 
+// save slide objects to file
+- (void)saveObject;
+
 @end

@@ -10,4 +10,8 @@
 
 @interface PenObject : BaseObject
 
+// contains every drawings and colors
+@property (nonatomic) NSMutableArray *draws;
+
+
 @end

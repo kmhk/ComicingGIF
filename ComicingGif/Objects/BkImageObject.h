@@ -12,6 +12,8 @@
 
 @property (nonatomic) NSURL *fileURL;
 
+@property (nonatomic) BOOL isTall;
+
 // create background gif/image object by url
 - (id)initWithURL:(NSURL *)url;
 
