@@ -31,7 +31,10 @@
 
 
 + (NSArray *)loadComicSlide:(NSInteger)index {
-	NSArray *arrayAllSides = [[NSUserDefaults standardUserDefaults] objectForKey:@"all slides"];
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"slides.plist"];
+	
+	NSArray *arrayAllSides = [NSArray arrayWithContentsOfFile:filePath];
 	return arrayAllSides[index];
 }
 
