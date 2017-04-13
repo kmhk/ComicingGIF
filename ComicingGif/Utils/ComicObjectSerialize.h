@@ -11,5 +11,6 @@
 @interface ComicObjectSerialize : NSObject
 
 + (void)saveObjectWithArray:(NSArray *)array;
++ (NSArray *)loadComicSlide;
 
 @end

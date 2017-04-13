@@ -65,6 +65,8 @@
 	self.processingView.borderWidth = 1.0;
 	self.processingView.cornerRect = 0;
 	self.processingView.backgroundColor = [UIColor clearColor];
+    
+    self.navigationController.navigationBar.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning {

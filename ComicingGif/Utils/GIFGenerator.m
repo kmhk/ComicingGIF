@@ -138,7 +138,12 @@
 										  };
 		
 		// create gif file
-		NSString *fileName = [NSString stringWithFormat:@"%@.gif", [[NSDate date] description]];
+        NSDate *today = [NSDate date];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"dd_MM_yyyy_HH_mm_ss"];
+        NSString *dateString = [dateFormat stringFromDate:today];
+        
+		NSString *fileName = [NSString stringWithFormat:@"%@.gif", dateString];
 		NSURL *fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fileName]];
 		
 		CGImageDestinationRef dest = CGImageDestinationCreateWithURL((__bridge CFURLRef)fileURL, kUTTypeGIF, frameCount, nil);
@@ -189,7 +194,12 @@
 		}
 		
 		// create gif file
-		NSString *fileName = [NSString stringWithFormat:@"%@.gif", [[NSDate date] description]];
+        NSDate *today = [NSDate date];
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"dd_MM_yyyy_HH_mm_ss"];
+        NSString *dateString = [dateFormat stringFromDate:today];
+        
+        NSString *fileName = [NSString stringWithFormat:@"%@.gif", dateString];
 		NSURL *fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fileName]];
 		
 		CGImageDestinationRef dest = CGImageDestinationCreateWithURL((__bridge CFURLRef)fileURL, kUTTypeGIF, frameCount, nil);

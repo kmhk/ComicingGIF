@@ -30,12 +30,11 @@
 }
 
 
-+ (NSArray *)loadComicSlide:(NSInteger)index {
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"slides.plist"];
-	
-	NSArray *arrayAllSides = [NSArray arrayWithContentsOfFile:filePath];
-	return arrayAllSides[index];
++ (NSArray *)loadComicSlide {
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"slides.plist"];
+	return [NSArray arrayWithContentsOfFile:filePath];
 }
 
 @end

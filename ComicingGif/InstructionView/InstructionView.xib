@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InstructionView">
+            <connections>
+                <outlet property="boxView" destination="UIC-Ld-tTg" id="9zk-jY-ovX"/>
+                <outlet property="btnBoxOk" destination="1Z3-fu-Tai" id="5Z6-4m-ZgS"/>
+                <outlet property="imgvSlide10" destination="o07-9a-lhD" id="zHQ-zW-A0O"/>
+                <outlet property="imgvSlide11" destination="Or5-QW-OgP" id="fxS-N6-tPF"/>
+                <outlet property="imgvSlide13" destination="c3L-G5-sp9" id="eSv-2H-0El"/>
+                <outlet property="imgvSlide14" destination="lX2-VE-Hwm" id="fAm-wM-Toa"/>
+                <outlet property="imgvSlide15" destination="yIV-IS-ilS" id="gjk-mG-kKb"/>
+                <outlet property="imgvSlide16" destination="Rwu-tM-egL" id="VMv-oh-Pwc"/>
+                <outlet property="imgvSlide2" destination="uLu-k5-t8I" id="4qy-T9-gah"/>
+                <outlet property="imgvSlide2B" destination="v6J-SI-vtt" id="sfX-5d-AAb"/>
+                <outlet property="imgvSlide3" destination="jXI-Tm-GiI" id="AX2-Gu-v60"/>
+                <outlet property="imgvSlide4" destination="Cxq-ic-HhX" id="alh-74-pwq"/>
+                <outlet property="imgvSlide5" destination="eaP-9G-SOU" id="rVy-lV-hC3"/>
+                <outlet property="imgvSlide6" destination="7TH-en-2Ak" id="FEU-EV-pbn"/>
+                <outlet property="imgvSlide7" destination="ckz-FH-1qp" id="V8a-T4-kLx"/>
+                <outlet property="imgvSlide8" destination="TC4-LK-ewP" id="Dfe-aG-4KC"/>
+                <outlet property="imgvSlide9" destination="ffC-aB-Xa4" id="G8Z-1a-ZQj"/>
+                <outlet property="imgvSlideB" destination="qU1-MS-Mjy" id="ciY-Ka-mvK"/>
+                <outlet property="imgvSlideC" destination="nrj-Fg-TI9" id="hQv-kn-oAC"/>
+                <outlet property="imgvSlideD" destination="ehM-hI-eAW" id="0T1-KW-3ZH"/>
+                <outlet property="imvgSlide1" destination="IOa-Lf-aoM" id="gVy-qs-9FH"/>
+                <outlet property="view" destination="iN0-l3-epB" id="voa-A7-xWF"/>
+                <outlet property="viewBackground" destination="27S-4y-lcY" id="ax6-sd-572"/>
+                <outlet property="viewBubble" destination="BOo-N0-qw2" id="0x5-GU-moi"/>
+                <outlet property="viewGIF" destination="6u7-Fx-COB" id="oU7-kM-usG"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" id="27S-4y-lcY">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="6u7-Fx-COB">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="o07-9a-lhD" customClass="YLImageView">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="c3L-G5-sp9" customClass="YLImageView">
+                            <rect key="frame" x="27" y="47" width="266" height="474"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ckz-FH-1qp" customClass="YLImageView">
+                            <rect key="frame" x="35" y="47" width="250" height="444"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="AfC-EB-ng1">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="22"/>
+                            <state key="normal">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="btnBoxOkTap:" destination="-1" eventType="touchUpInside" id="2Uv-4z-f2d"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="UIC-Ld-tTg">
+                    <rect key="frame" x="30" y="74" width="260" height="420"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-1" id="IOa-Lf-aoM">
+                            <rect key="frame" x="0.0" y="0.0" width="260" height="420"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1Z3-fu-Tai">
+                            <rect key="frame" x="0.0" y="0.0" width="260" height="420"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="22"/>
+                            <state key="normal">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="btnBoxOkTap:" destination="-1" eventType="touchUpInside" id="xXU-dx-qpm"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" id="BOo-N0-qw2" userLabel="bubbleView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-2" id="uLu-k5-t8I">
+                            <rect key="frame" x="50" y="383" width="220" height="83"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-3" id="jXI-Tm-GiI">
+                            <rect key="frame" x="85" y="349" width="218" height="128"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-4" id="Cxq-ic-HhX">
+                            <rect key="frame" x="21" y="348" width="225" height="128"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-5" id="eaP-9G-SOU">
+                            <rect key="frame" x="62" y="349" width="240" height="128"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-6" id="7TH-en-2Ak">
+                            <rect key="frame" x="14" y="349" width="240" height="128"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-8" id="TC4-LK-ewP">
+                            <rect key="frame" x="100" y="347" width="212" height="128"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-9" id="ffC-aB-Xa4">
+                            <rect key="frame" x="7" y="350" width="240" height="128"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-11" id="Or5-QW-OgP">
+                            <rect key="frame" x="0.0" y="414" width="270" height="115"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-15" id="yIV-IS-ilS">
+                            <rect key="frame" x="40" y="348" width="240" height="128"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-C" id="nrj-Fg-TI9">
+                            <rect key="frame" x="0.0" y="24" width="318" height="148"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-2B" id="v6J-SI-vtt">
+                            <rect key="frame" x="0.0" y="37" width="320" height="459"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-16" id="Rwu-tM-egL">
+                            <rect key="frame" x="78" y="419" width="240" height="128"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-14" id="lX2-VE-Hwm">
+                            <rect key="frame" x="136" y="104" width="182" height="128"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-B" id="qU1-MS-Mjy">
+                            <rect key="frame" x="0.0" y="407" width="320" height="128"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slide-D" id="ehM-hI-eAW">
+                            <rect key="frame" x="29" y="17" width="262" height="89"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XSW-U5-nJH">
+                            <rect key="frame" x="0.0" y="-8" width="320" height="568"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="btnBoxOkTap:" destination="-1" eventType="touchUpInside" id="fqb-1q-sk0"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <point key="canvasLocation" x="134" y="246"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="slide-1" width="671" height="1082"/>
+        <image name="slide-11" width="1242" height="565"/>
+        <image name="slide-14" width="549" height="269"/>
+        <image name="slide-15" width="1242" height="496"/>
+        <image name="slide-16" width="640" height="294"/>
+        <image name="slide-2" width="1242" height="581"/>
+        <image name="slide-2B" width="988" height="1741"/>
+        <image name="slide-3" width="1242" height="543"/>
+        <image name="slide-4" width="1242" height="535"/>
+        <image name="slide-5" width="1242" height="503"/>
+        <image name="slide-6" width="1242" height="505"/>
+        <image name="slide-8" width="1242" height="539"/>
+        <image name="slide-9" width="1242" height="514"/>
+        <image name="slide-B" width="1242" height="633"/>
+        <image name="slide-C" width="1242" height="631"/>
+        <image name="slide-D" width="627" height="181"/>
+    </resources>
+</document>

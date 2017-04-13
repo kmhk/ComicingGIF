@@ -7,6 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import "ComicObjectSerialize.h"
+#import "CameraViewController.h"
+#import "CBComicPreviewVC.h"
+#import "Constants.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +21,26 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
+
+        // Override point for customization after application launch.
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+
+    NSArray *arr = [ComicObjectSerialize loadComicSlide];
+    if (arr) {
+
+        CBComicPreviewVC *vcCBComicPreviewVC = [storyboard instantiateViewControllerWithIdentifier:CBComicPreviewVCIdentifier];
+        vcCBComicPreviewVC.comicSlides = [arr mutableCopy];
+        self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:vcCBComicPreviewVC];
+
+    } else {
+        CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
+        
+        self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:vcCameraViewController];
+
+    }
+        [self.window makeKeyAndVisible];
+        return YES;
+
 	return YES;
 }
 
@@ -47,5 +71,8 @@
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
++ (AppDelegate *)application {
+    return [[UIApplication sharedApplication] delegate];
+}
 
 @end

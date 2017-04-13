@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="ComicSansMSRegular.ttf">
+            <string>ComicSansMS</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CategoryCollectionViewCell" id="gTV-IL-0wX" customClass="CategoryCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="73" height="61"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="73" height="61"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H9O-8a-7sn">
+                        <rect key="frame" x="0.0" y="38" width="73" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="o5c-aa-vOB"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="ComicSansMS" family="Comic Sans MS" pointSize="11"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mPJ-H9-jFE">
+                        <rect key="frame" x="21.5" y="7" width="31" height="31"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="mPJ-H9-jFE" secondAttribute="height" id="ZPZ-v8-h3a"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="H9O-8a-7sn" secondAttribute="bottom" constant="3" id="2Am-Bb-RfE"/>
+                <constraint firstItem="H9O-8a-7sn" firstAttribute="top" secondItem="mPJ-H9-jFE" secondAttribute="bottom" id="4CN-3w-AnL"/>
+                <constraint firstItem="mPJ-H9-jFE" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="7" id="IZp-eg-Htn"/>
+                <constraint firstAttribute="trailing" secondItem="H9O-8a-7sn" secondAttribute="trailing" id="h6b-fg-PYa"/>
+                <constraint firstItem="H9O-8a-7sn" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="uS3-DW-rtc"/>
+                <constraint firstItem="mPJ-H9-jFE" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="ydb-UR-piX"/>
+            </constraints>
+            <size key="customSize" width="73" height="61"/>
+            <connections>
+                <outlet property="categoryImageView" destination="mPJ-H9-jFE" id="sXF-5P-W8T"/>
+                <outlet property="categoryName" destination="H9O-8a-7sn" id="uxM-BE-6dF"/>
+                <outlet property="categoryNameLabelHeightConstraint" destination="o5c-aa-vOB" id="OIH-Es-1PX"/>
+            </connections>
+            <point key="canvasLocation" x="36.5" y="57.5"/>
+        </collectionViewCell>
+    </objects>
+</document>

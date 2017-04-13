@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ComicCellViewController">
+            <connections>
+                <outlet property="view" destination="iN0-l3-epB" id="7GE-EV-zAf"/>
+                <outlet property="viewComic" destination="B5G-Qp-ORi" id="bN0-Hf-u86"/>
+                <outlet property="viewComicBook" destination="Qye-vg-f1D" id="yqv-cB-z4S"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B5G-Qp-ORi">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qye-vg-f1D">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Qye-vg-f1D" secondAttribute="trailing" id="6y8-XW-IJa"/>
+                        <constraint firstItem="Qye-vg-f1D" firstAttribute="top" secondItem="B5G-Qp-ORi" secondAttribute="top" id="HQG-ro-Q7n"/>
+                        <constraint firstItem="Qye-vg-f1D" firstAttribute="width" secondItem="B5G-Qp-ORi" secondAttribute="width" id="UkL-qe-Vut"/>
+                        <constraint firstItem="Qye-vg-f1D" firstAttribute="height" secondItem="B5G-Qp-ORi" secondAttribute="height" id="ZSz-3Z-7ty"/>
+                        <constraint firstAttribute="bottom" secondItem="Qye-vg-f1D" secondAttribute="bottom" id="xkl-hl-gOt"/>
+                        <constraint firstItem="Qye-vg-f1D" firstAttribute="leading" secondItem="B5G-Qp-ORi" secondAttribute="leading" id="xmc-Rn-MQG"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="B5G-Qp-ORi" secondAttribute="bottom" id="7hg-YL-Tc2"/>
+                <constraint firstItem="B5G-Qp-ORi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Mdc-Af-fbg"/>
+                <constraint firstItem="B5G-Qp-ORi" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="P0t-fs-9Ty"/>
+                <constraint firstAttribute="trailing" secondItem="B5G-Qp-ORi" secondAttribute="trailing" id="Td7-uJ-ocT"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

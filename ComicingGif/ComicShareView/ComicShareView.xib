@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ComicShareView">
+            <connections>
+                <outlet property="img1ComicSlide1" destination="N9h-bI-gay" id="6DO-P2-aVA"/>
+                <outlet property="img1ComicSlide2" destination="OGJ-bI-Pdd" id="TJG-D8-P7P"/>
+                <outlet property="img1ComicSlide3" destination="sqN-XZ-g88" id="Cmi-dF-Dag"/>
+                <outlet property="img1ComicSlide4" destination="ifX-73-ILG" id="5le-RT-ksw"/>
+                <outlet property="img2ComicSlide2" destination="sFS-hd-fwk" id="pkR-Ad-VmI"/>
+                <outlet property="img2ComicSlide3" destination="1Ao-60-G3Q" id="QsR-PW-0cV"/>
+                <outlet property="img2ComicSlide4" destination="Mz4-1Y-ZR3" id="mub-Mo-9dT"/>
+                <outlet property="img3ComicSlide3" destination="ibX-SN-48v" id="gfM-cd-SrX"/>
+                <outlet property="img3ComicSlide4" destination="pwZ-S8-E53" id="kiG-xn-j0Y"/>
+                <outlet property="img4ComicSlide4" destination="PcA-C9-pci" id="Hfj-os-XSS"/>
+                <outlet property="imgComicLogo4" destination="cgW-df-AXN" id="Ylr-Xx-aRB"/>
+                <outlet property="viewHolderSlide1" destination="Rct-vt-Vuw" id="924-b2-K1W"/>
+                <outlet property="viewHolderSlide2" destination="c2S-Au-U4p" id="g91-gX-KdI"/>
+                <outlet property="viewHolderSlide3" destination="PV2-On-0ZR" id="f9g-5z-bQf"/>
+                <outlet property="viewHolderSlide4" destination="9gA-9g-KQh" id="3LA-x3-w4f"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Rct-vt-Vuw">
+            <rect key="frame" x="0.0" y="0.0" width="450" height="600"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1slidebook.png" id="C4A-zR-5H3">
+                    <rect key="frame" x="0.0" y="0.0" width="450" height="600"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image_Slide1" id="N9h-bI-gay">
+                    <rect key="frame" x="73" y="17" width="278" height="505"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Comicshare_Logo_Text" id="uwN-Rj-tpq">
+                    <rect key="frame" x="80" y="539" width="240" height="47"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ComicShareLogo" id="FkI-s3-cbh">
+                    <rect key="frame" x="20" y="543" width="67" height="36"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="79" y="-330"/>
+        </view>
+        <view contentMode="scaleToFill" id="c2S-Au-U4p">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="2slidebook.png" id="HEd-tN-1Jw">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="01" id="OGJ-bI-Pdd">
+                    <rect key="frame" x="14" y="42" width="260" height="458"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Comicshare_Logo_Text" id="RG4-Rg-ZUN">
+                    <rect key="frame" x="151" y="369" width="282" height="79"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ComicShareLogo" id="SRl-G9-r0l">
+                    <rect key="frame" x="67" y="377" width="103" height="55"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="02" id="sFS-hd-fwk">
+                    <rect key="frame" x="288" y="42" width="260" height="458"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="673" y="-330"/>
+        </view>
+        <view contentMode="scaleToFill" id="PV2-On-0ZR">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="3slidebook.png" id="Fjx-YH-df4">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Glide-2" id="1Ao-60-G3Q">
+                    <rect key="frame" x="195" y="100" width="171" height="302"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ComicShareLogo" id="rSz-pq-Nup">
+                    <rect key="frame" x="132" y="299" width="73" height="39"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Comicshare_Logo_Text" id="rhB-ZV-CmJ">
+                    <rect key="frame" x="195" y="275" width="240" height="90"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="04" id="ibX-SN-48v">
+                    <rect key="frame" x="380" y="100" width="171" height="302"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Glide-1" id="sqN-XZ-g88">
+                    <rect key="frame" x="10" y="100" width="171" height="302"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+        </view>
+        <view contentMode="scaleToFill" id="9gA-9g-KQh">
+            <rect key="frame" x="0.0" y="0.0" width="337" height="600"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="4slidebook.png" id="E66-Gc-rdl">
+                    <rect key="frame" x="0.0" y="0.0" width="337" height="600"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Glide-1" id="ifX-73-ILG">
+                    <rect key="frame" x="15" y="22" width="137" height="240"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Glide-4" id="PcA-C9-pci">
+                    <rect key="frame" x="164" y="274" width="137" height="240"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Comicshare_Logo_Text" id="cgW-df-AXN">
+                    <rect key="frame" x="103" y="271" width="286" height="40"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ComicShareLogo" id="Y7c-iz-o2R">
+                    <rect key="frame" x="66" y="259" width="30" height="39"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Glide-2" id="Mz4-1Y-ZR3">
+                    <rect key="frame" x="164" y="22" width="137" height="240"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Glide-3" id="pwZ-S8-E53">
+                    <rect key="frame" x="15" y="274" width="137" height="240"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-73.5" y="360"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="01" width="155" height="256"/>
+        <image name="02" width="155" height="256"/>
+        <image name="04" width="155" height="256"/>
+        <image name="1slidebook.png" width="452" height="603"/>
+        <image name="2slidebook.png" width="600" height="600"/>
+        <image name="3slidebook.png" width="600" height="600"/>
+        <image name="4slidebook.png" width="337" height="600"/>
+        <image name="ComicShareLogo" width="367" height="404"/>
+        <image name="Comicshare_Logo_Text" width="348" height="40"/>
+        <image name="Glide-1" width="207" height="368"/>
+        <image name="Glide-2" width="207" height="368"/>
+        <image name="Glide-3" width="207" height="368"/>
+        <image name="Glide-4" width="207" height="368"/>
+        <image name="Image_Slide1" width="2637" height="4476"/>
+    </resources>
+</document>

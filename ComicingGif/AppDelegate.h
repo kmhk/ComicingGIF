@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DataManager.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
++ (AppDelegate *)application;
+@property (strong, nonatomic) DataManager *dataManager;
+@property (nonatomic) BOOL isShownFriendImage;
 
 @end
 

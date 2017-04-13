@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ComicImageCell" id="JBG-fZ-Nbe" customClass="CBComicImageCell">
+            <rect key="frame" x="0.0" y="0.0" width="84" height="88"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="84" height="88"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ASh-KG-C8B">
+                        <rect key="frame" x="4" y="4" width="76" height="80"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hrk-6m-CBf" userLabel="Base Layer Image View">
+                                <rect key="frame" x="0.0" y="0.0" width="76" height="80"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tLt-DO-1yi">
+                                <rect key="frame" x="0.0" y="0.0" width="76" height="80"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZxH-ET-BRB">
+                                <rect key="frame" x="0.0" y="0.0" width="76" height="80"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Hrk-6m-CBf" firstAttribute="top" secondItem="ASh-KG-C8B" secondAttribute="top" id="3js-fc-iMC"/>
+                            <constraint firstItem="tLt-DO-1yi" firstAttribute="leading" secondItem="ASh-KG-C8B" secondAttribute="leading" id="4zy-ME-eR6"/>
+                            <constraint firstAttribute="bottom" secondItem="Hrk-6m-CBf" secondAttribute="bottom" id="B7i-Mn-KSr"/>
+                            <constraint firstItem="ZxH-ET-BRB" firstAttribute="top" secondItem="ASh-KG-C8B" secondAttribute="top" id="LyM-lq-8xP"/>
+                            <constraint firstItem="tLt-DO-1yi" firstAttribute="top" secondItem="ASh-KG-C8B" secondAttribute="top" id="NeD-Kb-Tch"/>
+                            <constraint firstAttribute="bottom" secondItem="ZxH-ET-BRB" secondAttribute="bottom" id="Ngn-wD-vns"/>
+                            <constraint firstAttribute="trailing" secondItem="Hrk-6m-CBf" secondAttribute="trailing" id="biT-7J-hCV"/>
+                            <constraint firstItem="ZxH-ET-BRB" firstAttribute="leading" secondItem="ASh-KG-C8B" secondAttribute="leading" id="jg6-rR-L4U"/>
+                            <constraint firstAttribute="bottom" secondItem="tLt-DO-1yi" secondAttribute="bottom" id="rzd-5p-PdU"/>
+                            <constraint firstItem="Hrk-6m-CBf" firstAttribute="leading" secondItem="ASh-KG-C8B" secondAttribute="leading" id="w8W-if-7PG"/>
+                            <constraint firstAttribute="trailing" secondItem="tLt-DO-1yi" secondAttribute="trailing" id="yHv-tp-tia"/>
+                            <constraint firstAttribute="trailing" secondItem="ZxH-ET-BRB" secondAttribute="trailing" id="z03-et-ksS"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="ASh-KG-C8B" firstAttribute="leading" secondItem="JBG-fZ-Nbe" secondAttribute="leading" constant="4" id="UUZ-xf-v9t"/>
+                <constraint firstItem="ASh-KG-C8B" firstAttribute="top" secondItem="JBG-fZ-Nbe" secondAttribute="top" constant="4" id="for-lU-e9y"/>
+                <constraint firstAttribute="bottom" secondItem="ASh-KG-C8B" secondAttribute="bottom" constant="4" id="qTt-ZH-Dof"/>
+                <constraint firstAttribute="trailing" secondItem="ASh-KG-C8B" secondAttribute="trailing" constant="4" id="rhv-gT-M7a"/>
+            </constraints>
+            <size key="customSize" width="84" height="88"/>
+            <connections>
+                <outlet property="baseLayerImageView" destination="Hrk-6m-CBf" id="cFV-Od-9hn"/>
+                <outlet property="containerView" destination="ASh-KG-C8B" id="zud-IH-FT3"/>
+                <outlet property="staticImageView" destination="tLt-DO-1yi" id="OO7-WA-w2u"/>
+                <outlet property="topLayerView" destination="ZxH-ET-BRB" id="QeT-qe-XrF"/>
+            </connections>
+            <point key="canvasLocation" x="-51" y="45"/>
+        </collectionViewCell>
+    </objects>
+</document>
