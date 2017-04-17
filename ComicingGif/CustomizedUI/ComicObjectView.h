@@ -22,4 +22,5 @@
 // create comic slide view with comic objects indicated in array
 + (ComicObjectView *)createComicViewWith:(NSArray *)array;
 
+@property (strong, nonatomic) UIView *parentView;
 @end

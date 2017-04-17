@@ -31,7 +31,10 @@
 - (CGRect)retreiveBound {
 	CGRect rt;
 	
-	NSData *data = [NSData dataWithContentsOfURL:self.fileURL];
+    NSString *fileName1 = [NSString stringWithFormat:@"%@",[self.fileURL lastPathComponent]];
+    NSURL *fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fileName1]];
+        
+	NSData *data = [NSData dataWithContentsOfURL:fileURL];
 	UIImage *img = [UIImage imageWithData:data];
 	
 	CGSize szScreen = [[UIScreen mainScreen] bounds].size;

@@ -23,7 +23,7 @@
 	// Override point for customization after application launch.
 
         // Override point for customization after application launch.
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kMainStoryboard bundle:nil];
 
     NSArray *arr = [ComicObjectSerialize loadComicSlide];
     if (arr) {
@@ -34,7 +34,7 @@
 
     } else {
         CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
-        
+        vcCameraViewController.isVerticalCamera = NO;
         self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:vcCameraViewController];
 
     }

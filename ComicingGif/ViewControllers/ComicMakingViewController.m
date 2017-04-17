@@ -13,7 +13,7 @@
 
 #import <Messages/Messages.h>
 #import <MessageUI/MFMailComposeViewController.h>
-
+#import "ComicItem.h"
 
 #define CELLID	@"ToolCollectionViewCell"
 
@@ -65,7 +65,7 @@
 
 
 // MARK: - public initialize methods
-- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect {
+- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect andSubviewArray:(NSMutableArray *)arrSubviews{
 	BkImageObject *obj = [[BkImageObject alloc] initWithURL:url];
 	obj.frame = rect;
 	
@@ -75,6 +75,10 @@
 	[viewModel.arrayObjects removeAllObjects];
 	
 	[viewModel addObject:obj];
+    
+    if (arrSubviews) {
+        [self addSubviewsOnImageWithSubviews:arrSubviews];
+    }
 }
 
 
@@ -193,6 +197,7 @@
 	[viewModel addObject:obj];
 	
 	ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
+    comicView.parentView = backgroundView;
 	[backgroundView addSubview:comicView];
 }
 
@@ -307,5 +312,29 @@
 	return CGSizeMake((collectionView.frame.size.width - 40) / 3, collectionView.frame.size.height - 20);
 }
 
-
+- (void) addSubviewsOnImageWithSubviews:(NSMutableArray *)arrSubviews {
+    //Handle top layer that is sticker gif
+    int i=0;
+    for (NSDictionary* subview in arrSubviews) {
+        if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue]==17) {
+            ComicItemAnimatedSticker *sticker = [ComicItemAnimatedSticker new];
+            sticker.objFrame = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
+            sticker.combineAnimationFileName = [subview objectForKey:@"url"];
+            
+            NSBundle *bundle = [NSBundle mainBundle] ;
+            NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
+            NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".gif" withString:@""] ofType:@"gif"];
+            NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
+            
+            sticker.image =  [UIImage sd_animatedGIFWithData:gifData];
+            
+            
+            sticker.frame = CGRectMake(sticker.objFrame.origin.x, sticker.objFrame.origin.y, sticker.objFrame.size.width, sticker.objFrame.size.height);
+            i ++;
+            
+            [self.view addSubview:sticker];
+        }
+    }
+    
+}
 @end

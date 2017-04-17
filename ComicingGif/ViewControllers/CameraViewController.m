@@ -46,7 +46,6 @@
 	
 	self.viewModel = [[CameraViewModel alloc] init];
 	self.viewModel.delegate = self;
-	[self.viewModel setupRecorderWith:self.cameraPreview];
 	
 	UITapGestureRecognizer *tapGesture;
 	tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recordImageTapped:)];
@@ -67,8 +66,22 @@
 	self.processingView.backgroundColor = [UIColor clearColor];
     
     self.navigationController.navigationBar.hidden = YES;
-}
 
+}
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    CGFloat height, y;
+    if (self.isVerticalCamera) {
+        height = self.cameraPreview.frame.size.width / 2;
+        y = (self.view.frame.size.height - height) / 2;
+    } else {
+        height = self.view.frame.size.height - TOPBADDING - BOTTOMPADDING;
+        y = 20;
+    }
+    self.cameraPreview.frame = CGRectMake(self.cameraPreview.frame.origin.x, y, self.cameraPreview.frame.size.width, height);
+    [self.viewModel setupRecorderWith:self.cameraPreview];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -86,7 +99,7 @@
 	if ([segue.identifier isEqualToString:@"segueMaking"]) {
 		NSURL *url = (NSURL *)sender;
 		ComicMakingViewController *vc = (ComicMakingViewController *)segue.destinationViewController;
-		[vc initWithBaseImage:url frame:self.cameraPreview.frame];
+		[vc initWithBaseImage:url frame:self.cameraPreview.frame andSubviewArray:nil];
 	}
 }
 
@@ -191,7 +204,7 @@
 		return;
 	}
 	
-	[self.viewModel capturePhoto:^(NSError *error) {
+	[self.viewModel capturePhotoWithCGRect:self.cameraPreview.bounds completionHandler:^(NSError *error) {
 		if (error) {
 			UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
 			[alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
@@ -239,6 +252,7 @@
 // MARK: - button actions
 - (IBAction)closeBtnTapped:(id)sender {
 	[self resetRecord];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)changeCameraTapped:(id)sender {

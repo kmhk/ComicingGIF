@@ -52,9 +52,11 @@ NSString* const slideTypeTall = @"tall";
 
 - (void)initWithgif:(NSString *)strPath andSubViewArray : (NSMutableArray *) arrSubviews{
     gifLayerPath = strPath;
-    [arrSubviews removeObjectAtIndex:0];
+    NSMutableArray *arrTemp = [NSMutableArray new];
+    arrTemp = [arrSubviews mutableCopy];
+    [arrTemp removeObjectAtIndex:0];
    
-    subviews = arrSubviews;
+    subviews = arrTemp;
     slideType = @"tall";
 }
 

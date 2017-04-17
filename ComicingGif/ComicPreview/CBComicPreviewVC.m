@@ -23,6 +23,8 @@
 #import "AppHelper.h"
 #import "ComicTagViewController.h"
 #import "ComicMakingAPIManager.h"
+#import "CameraViewController.h"
+#import "ComicMakingViewController.h"
 
 #define kPreviewViewTag 12001
 
@@ -210,6 +212,7 @@
     return cell;
 }
 - (void)ta_tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+
     
 }
 - (CGFloat)ta_tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -234,14 +237,20 @@
 #pragma mark- 
 
 - (void)didTapHorizontalButton{
-    if (self.dataArray.count == 8) {
-        return;
-    }
-    ComicPage *comicPage = [ComicPage new];
-    comicPage.slideType = slideTypeWide;
-    [self addComicPage:comicPage withIndex:-1];
     
-    [self pushAddSlideTap:YES  ofIndex:-1];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
+    vcCameraViewController.isVerticalCamera = YES;
+    [self.navigationController pushViewController:vcCameraViewController animated:YES];
+    
+//    if (self.dataArray.count == 8) {
+//        return;
+//    }
+//    ComicPage *comicPage = [ComicPage new];
+//    comicPage.slideType = slideTypeWide;
+//    [self addComicPage:comicPage withIndex:-1];
+//    
+//    [self pushAddSlideTap:YES  ofIndex:-1];
     // Show Comic Making for Horizontal image
 //    NSString *animationPath = [[NSBundle mainBundle] pathForResource:@"OOPPS" ofType:@"gif"];
 //    CBComicItemModel* model= [[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] baseLayer:Gif staticImage:[UIImage imageNamed:@"WOW"] animatedImage:[YYImage imageWithContentsOfFile:animationPath] orientation:COMIC_ITEM_ORIENTATION_LANDSCAPE];
@@ -255,14 +264,18 @@
 }
 
 - (void)didTapVerticalButton{
-    if (self.dataArray.count == 8) {
-        return;
-    }
-    ComicPage *comicPage = [ComicPage new];
-    comicPage.slideType = slideTypeTall;
-    [self addComicPage:comicPage withIndex:-1];
-    
-    [self pushAddSlideTap:NO ofIndex:-1];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
+    vcCameraViewController.isVerticalCamera = NO;
+    [self.navigationController pushViewController:vcCameraViewController animated:YES];
+//    if (self.dataArray.count == 8) {
+//        return;
+//    }
+//    ComicPage *comicPage = [ComicPage new];
+//    comicPage.slideType = slideTypeTall;
+//    [self addComicPage:comicPage withIndex:-1];
+//    
+//    [self pushAddSlideTap:NO ofIndex:-1];
     // Show Comic Making for Vertical image
 //    NSString *animationPath = [[NSBundle mainBundle] pathForResource:@"OMG" ofType:@"gif"];
 //    CBComicItemModel* model= [[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] baseLayer:StaticImage staticImage:[UIImage imageNamed:@"StickerSelectionBg"] animatedImage:[YYImage imageWithContentsOfFile:animationPath] orientation:COMIC_ITEM_ORIENTATION_PORTRAIT];
@@ -325,7 +338,17 @@
 
 - (void)didTapOnComicItemWithIndex:(NSInteger)index {
     CBComicItemModel *itemModel = ((CBComicItemModel *)[self.dataArray objectAtIndex:index]);
-    [self pushAddSlideTap:!(itemModel.itemOrientation==COMIC_ITEM_ORIENTATION_PORTRAIT) ofIndex:index];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kComicMakingStoryboard bundle:nil];
+    
+    ComicMakingViewController *vc = [storyboard instantiateViewControllerWithIdentifier:ComicMakingViewControllerIdentifier];
+    
+    NSMutableArray *arrTemp = [NSMutableArray new];
+    arrTemp = [[self.comicSlides objectAtIndex:index] mutableCopy];
+    [arrTemp removeObjectAtIndex:0];
+    
+    [vc initWithBaseImage:[[[self.comicSlides objectAtIndex:index] objectAtIndex:0]objectForKey:@"url"] frame:self.view.frame andSubviewArray:arrTemp];
+    [self.navigationController pushViewController:vc animated:YES];
+//    [self pushAddSlideTap:!(itemModel.itemOrientation==COMIC_ITEM_ORIENTATION_PORTRAIT) ofIndex:index];
 }
 
 #pragma mark - ComicBookColorCBViewControllerDelegate method

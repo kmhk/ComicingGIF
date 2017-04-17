@@ -1,76 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="xBQ-ZW-Gb5">
-    <device id="retina4_7" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="xBQ-ZW-Gb5">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Comic Making View Controller-->
         <scene sceneID="y2J-r9-UB4">
             <objects>
-                <viewController id="xBQ-ZW-Gb5" customClass="ComicMakingViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ComicMakingViewController" id="xBQ-ZW-Gb5" customClass="ComicMakingViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cYZ-Xz-DMf"/>
                         <viewControllerLayoutGuide type="bottom" id="Qwe-oe-hkc"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="E1K-aC-wim">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="12d-9t-bnM">
-                                <rect key="frame" x="331" y="623" width="44" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="12d-9t-bnM">
+                                <rect key="frame" x="357" y="679" width="57" height="57"/>
                                 <state key="normal" image="comic_next"/>
                                 <connections>
                                     <action selector="btnNextTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="Cbw-gP-fVe"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eEi-dp-dcP">
-                                <rect key="frame" x="21" y="565" width="43" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eEi-dp-dcP">
+                                <rect key="frame" x="25" y="623" width="56" height="47"/>
                                 <state key="normal" image="comic_smile"/>
                                 <connections>
                                     <action selector="btnToolAnimateGifTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="XJA-IL-oif"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5AA-2Y-0cg">
-                                <rect key="frame" x="263" y="565" width="43" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5AA-2Y-0cg">
+                                <rect key="frame" x="276" y="623" width="56" height="47"/>
                                 <state key="normal" image="comic_hi"/>
                                 <connections>
                                     <action selector="btnToolBubbleTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="0qY-0q-XiC"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbs-oq-zfv">
-                                <rect key="frame" x="331" y="571" width="44" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbs-oq-zfv">
+                                <rect key="frame" x="357" y="614" width="57" height="57"/>
                                 <state key="normal" image="comic_pen"/>
                                 <connections>
                                     <action selector="btnToolPenTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="74j-3G-aiG"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bqa-Si-aqz">
-                                <rect key="frame" x="331" y="525" width="44" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bqa-Si-aqz">
+                                <rect key="frame" x="357" y="555" width="57" height="57"/>
                                 <state key="normal" image="comic_text"/>
                                 <connections>
                                     <action selector="btnToolTextTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="ysS-4J-u1m"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VRQ-K6-6Xq">
-                                <rect key="frame" x="331" y="473" width="44" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VRQ-K6-6Xq">
+                                <rect key="frame" x="357" y="490" width="57" height="57"/>
                                 <state key="normal" image="comic_sticker"/>
                                 <connections>
                                     <action selector="btnToolStickerTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="gzH-hW-XdP"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3V1-ON-Efo">
-                                <rect key="frame" x="331" y="15" width="44" height="44"/>
+                                <rect key="frame" x="370" y="15" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="cameraXButton"/>
                                 <connections>
@@ -79,6 +75,32 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="12d-9t-bnM" firstAttribute="height" secondItem="E1K-aC-wim" secondAttribute="height" multiplier="0.0774" id="0ZZ-6E-ueH"/>
+                            <constraint firstAttribute="trailing" secondItem="bbs-oq-zfv" secondAttribute="trailing" id="3VN-ak-ePE"/>
+                            <constraint firstItem="Qwe-oe-hkc" firstAttribute="top" secondItem="5AA-2Y-0cg" secondAttribute="bottom" constant="66" id="4es-GN-7Xh"/>
+                            <constraint firstItem="eEi-dp-dcP" firstAttribute="width" secondItem="E1K-aC-wim" secondAttribute="width" multiplier="0.134375" id="6vm-Vx-mXj"/>
+                            <constraint firstItem="eEi-dp-dcP" firstAttribute="leading" secondItem="E1K-aC-wim" secondAttribute="leadingMargin" constant="5" id="7tF-AU-huL"/>
+                            <constraint firstItem="VRQ-K6-6Xq" firstAttribute="height" secondItem="E1K-aC-wim" secondAttribute="height" multiplier="0.0774" id="8p8-Kv-9FE"/>
+                            <constraint firstItem="bbs-oq-zfv" firstAttribute="width" secondItem="E1K-aC-wim" secondAttribute="width" multiplier="0.1375" id="BSo-y8-3NA"/>
+                            <constraint firstItem="bbs-oq-zfv" firstAttribute="top" secondItem="Bqa-Si-aqz" secondAttribute="bottom" constant="2" id="D3U-dV-EEj"/>
+                            <constraint firstItem="Bqa-Si-aqz" firstAttribute="height" secondItem="E1K-aC-wim" secondAttribute="height" multiplier="0.0774" id="DuB-h9-Fe5"/>
+                            <constraint firstItem="5AA-2Y-0cg" firstAttribute="height" secondItem="E1K-aC-wim" secondAttribute="height" multiplier="0.0633" id="EuV-JW-6sw"/>
+                            <constraint firstAttribute="trailing" secondItem="12d-9t-bnM" secondAttribute="trailing" id="F9J-Xj-ZuH"/>
+                            <constraint firstItem="VRQ-K6-6Xq" firstAttribute="width" secondItem="E1K-aC-wim" secondAttribute="width" multiplier="0.1375" id="NKL-cF-8SS"/>
+                            <constraint firstItem="Bqa-Si-aqz" firstAttribute="top" secondItem="VRQ-K6-6Xq" secondAttribute="bottom" constant="8" id="PNF-Ne-fft"/>
+                            <constraint firstAttribute="trailing" secondItem="VRQ-K6-6Xq" secondAttribute="trailing" id="Pzq-KT-ZwE"/>
+                            <constraint firstItem="Bqa-Si-aqz" firstAttribute="leading" secondItem="5AA-2Y-0cg" secondAttribute="trailing" constant="25" id="RGH-K7-Trp"/>
+                            <constraint firstItem="bbs-oq-zfv" firstAttribute="height" secondItem="E1K-aC-wim" secondAttribute="height" multiplier="0.0774" id="VHq-vg-5Ti"/>
+                            <constraint firstItem="Qwe-oe-hkc" firstAttribute="top" secondItem="12d-9t-bnM" secondAttribute="bottom" id="XE5-Xa-U0h"/>
+                            <constraint firstItem="12d-9t-bnM" firstAttribute="width" secondItem="E1K-aC-wim" secondAttribute="width" multiplier="0.1375" id="aG5-8E-P8z"/>
+                            <constraint firstItem="5AA-2Y-0cg" firstAttribute="width" secondItem="E1K-aC-wim" secondAttribute="width" multiplier="0.134375" id="eU7-Uc-Nbz"/>
+                            <constraint firstItem="12d-9t-bnM" firstAttribute="top" secondItem="bbs-oq-zfv" secondAttribute="bottom" constant="8" id="hez-KN-rXR"/>
+                            <constraint firstItem="Qwe-oe-hkc" firstAttribute="top" secondItem="eEi-dp-dcP" secondAttribute="bottom" constant="66" id="iLk-kG-8Gw"/>
+                            <constraint firstItem="eEi-dp-dcP" firstAttribute="height" secondItem="E1K-aC-wim" secondAttribute="height" multiplier="0.0633" id="lI3-Dd-xqj"/>
+                            <constraint firstAttribute="trailing" secondItem="Bqa-Si-aqz" secondAttribute="trailing" id="pq7-HO-RXN"/>
+                            <constraint firstItem="Bqa-Si-aqz" firstAttribute="width" secondItem="E1K-aC-wim" secondAttribute="width" multiplier="0.1375" id="qWV-VB-OxC"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="btnClose" destination="3V1-ON-Efo" id="SLe-TP-Hj9"/>
@@ -98,10 +120,10 @@
     <resources>
         <image name="cameraXButton" width="721" height="731"/>
         <image name="comic_hi" width="70" height="53"/>
-        <image name="comic_next" width="17" height="29"/>
-        <image name="comic_pen" width="16" height="16"/>
+        <image name="comic_next" width="22" height="38"/>
+        <image name="comic_pen" width="21" height="21"/>
         <image name="comic_smile" width="64" height="54"/>
-        <image name="comic_sticker" width="26" height="23"/>
+        <image name="comic_sticker" width="34" height="30"/>
         <image name="comic_text" width="19" height="40"/>
     </resources>
 </document>

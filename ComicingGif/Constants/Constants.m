@@ -55,6 +55,8 @@ NSString * const TOP_SEARCH_VIEW = @"TopSearchView";
 NSString * const MAIN_PAGE_VIEW = @"MainPage";
 NSString * const FRIEND_PAGE_VIEW = @"FriendPage";
 NSString * const CBComicPreviewVCIdentifier = @"CBComicPreviewVC";
+NSString * const ComicMakingViewControllerIdentifier = @"ComicMakingViewController";
+
 
 
 #pragma mark - Others
@@ -76,5 +78,10 @@ NSString *const UKeyName = @"v_user_name";
 //NSString *const UKeyDetail = @"user";
 
 NSString *const FRIENDSFROMSERVER = @"serverFriends";
+
+//Storyboard's Constants
+
+NSString * const kMainStoryboard = @"Main";
+NSString * const kComicMakingStoryboard = @"ComicMaking";
 
 @end

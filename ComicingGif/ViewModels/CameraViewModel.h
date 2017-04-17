@@ -58,6 +58,5 @@ SCAssetExportSessionDelegate
 - (void)stopRecord;
 - (void)resetRecord;
 
-- (void)capturePhoto:(void(^)(NSError *))completionHandler;
-
+- (void)capturePhotoWithCGRect:(CGRect)rect completionHandler:(void(^)(NSError *))completionHandler;
 @end

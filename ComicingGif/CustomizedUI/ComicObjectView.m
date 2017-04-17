@@ -95,8 +95,11 @@
 	BkImageObject *obj = (BkImageObject *)self.comicObject;
 	self.frame = obj.frame;
 	
-	NSData *data = [NSData dataWithContentsOfURL:obj.fileURL];
-	[self createImageViewWith:data frame:self.bounds bAnimate:YES];
+    NSString *fileName1 = [NSString stringWithFormat:@"%@",[obj.fileURL lastPathComponent]];
+    NSURL *fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fileName1]];
+    
+    NSData *data = [NSData dataWithContentsOfURL:fileURL];
+    [self createImageViewWith:data frame:self.bounds bAnimate:YES];
 }
 
 - (void)createAnimationGIFView {
@@ -202,12 +205,18 @@
 // MARK: - gesture handler implementations
 - (void)panGestureHandler:(UIPanGestureRecognizer *)gesture {
 	UIGestureRecognizerState state = [gesture state];
-	
+    CGPoint point = [gesture locationInView:self.parentView];
+
+    if (point.y > 0 && point.y<self.parentView.frame.size.height) {
+        CGPoint translation = [gesture translationInView:gesture.view];
+        gesture.view.center = CGPointMake(gesture.view.center.x + translation.x, gesture.view.center.y + translation.y);
+        [gesture setTranslation:CGPointZero inView:gesture.view];
+    }
+    
+
 //	if (state == UIGestureRecognizerStateBegan || state == UIGestureRecognizerStateChanged)
 	{
-		CGPoint translation = [gesture translationInView:gesture.view];
-		gesture.view.center = CGPointMake(gesture.view.center.x + translation.x, gesture.view.center.y + translation.y);
-		[gesture setTranslation:CGPointZero inView:gesture.view];
+
 	}
 }
 

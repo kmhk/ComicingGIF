@@ -3537,7 +3537,7 @@
 			baseConfigurationReference = AE19661F1E1C934A23192074 /* Pods-ComicingGif.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Bai Jin Zhin (FU9SD2G4V7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Namrata S (WW3QCH7XKV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2CT2X2U7QT;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3546,13 +3546,13 @@
 					"$(PROJECT_DIR)/ComicingGif/Classes/ShareModule/Framework",
 				);
 				INFOPLIST_FILE = ComicingGif/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ComicingGif/Vendors/GoogleAnalytics/GoogleAnalyticsLib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ComicingGifTest1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.16G.16GTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3564,7 +3564,7 @@
 			baseConfigurationReference = 5C6CB3F124F1DC1C548C2BE5 /* Pods-ComicingGif.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Bai Jin Zhin (FU9SD2G4V7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Namrata S (WW3QCH7XKV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2CT2X2U7QT;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3573,13 +3573,13 @@
 					"$(PROJECT_DIR)/ComicingGif/Classes/ShareModule/Framework",
 				);
 				INFOPLIST_FILE = ComicingGif/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ComicingGif/Vendors/GoogleAnalytics/GoogleAnalyticsLib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ComicingGifTest1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.16G.16GTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

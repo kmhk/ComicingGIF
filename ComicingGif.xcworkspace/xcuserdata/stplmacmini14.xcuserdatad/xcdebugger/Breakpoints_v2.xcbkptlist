@@ -4,18 +4,28 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ComicingGif/Utils/GIFGenerator.m"
-            timestampString = "513786517.097162"
+            filePath = "ComicingGif/CustomizedUI/ComicObjectView.m"
+            timestampString = "514123429.491155"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "-createGifWithImages"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
+            landmarkName = "-panGestureHandler:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

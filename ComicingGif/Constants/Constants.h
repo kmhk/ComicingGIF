@@ -55,6 +55,8 @@ extern NSString * const TOP_SEARCH_VIEW;
 extern NSString * const MAIN_PAGE_VIEW;
 extern NSString * const FRIEND_PAGE_VIEW;
 extern NSString * const CBComicPreviewVCIdentifier;
+extern NSString * const ComicMakingViewControllerIdentifier;
+
 
 #pragma mark - Others
 
@@ -74,7 +76,11 @@ extern NSString *const UKeyName;
 //extern NSString *const UKeyImage;
 //extern NSString *const UKeyDetail;
 
-
 extern NSString *const FRIENDSFROMSERVER;
+
+//Storyboard's Constants
+
+extern NSString *const kMainStoryboard;
+extern NSString *const kComicMakingStoryboard;
 
 @end

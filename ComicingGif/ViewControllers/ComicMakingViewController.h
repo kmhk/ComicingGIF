@@ -17,6 +17,5 @@ UIGestureRecognizerDelegate
 >
 
 // initialize comic making view controller with background GIF/Image from url
-- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect;
-
+- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect andSubviewArray:(NSMutableArray *)arrSubviews;
 @end
