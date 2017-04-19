@@ -84,7 +84,7 @@
     
     CGFloat height, y;
     if (self.isVerticalCamera) {
-        height = self.cameraPreview.frame.size.width / 2;
+        height = self.cameraPreview.frame.size.width / 1.78;
         y = (self.view.frame.size.height - height) / 2;
     } else {
         height = self.view.frame.size.height - TOPBADDING - BOTTOMPADDING;
@@ -155,8 +155,8 @@
 	} else {
         NSLog(@"..........isNotRecording");
 		[UIView animateWithDuration:0.2 animations:^{
-			self.imgviewToggle.frame = CGRectMake(self.imgviewToggle.frame.origin.x, self.imgviewToggle.frame.origin.y + self.imgviewToggle.frame.size.height,
-												  self.imgviewToggle.frame.size.width, self.imgviewToggle.frame.size.height);
+            self.imgviewToggle.frame = CGRectMake(self.imgviewToggle.frame.origin.x, self.blueBackgroundImageView.frame.size.height - (self.imgviewToggle.frame.size.height + 5),
+                                                  self.imgviewToggle.frame.size.width, self.imgviewToggle.frame.size.height);
 		} completion:^(BOOL finished) {
 			completedHandler();
 		}];
