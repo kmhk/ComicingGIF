@@ -28,6 +28,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgviewToggle;
 @property (weak, nonatomic) IBOutlet UIImageView *imgviewRecording;
+@property (weak, nonatomic) IBOutlet UIImageView *blueBackgroundImageView;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnChangeScene;
 
@@ -65,9 +66,19 @@
 	self.processingView.cornerRect = 0;
 	self.processingView.backgroundColor = [UIColor clearColor];
     
+    self.progressBar.hidden = YES;
+    
     self.navigationController.navigationBar.hidden = YES;
 
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.imgviewToggle.frame = CGRectMake(self.imgviewToggle.frame.origin.x, self.blueBackgroundImageView.frame.size.height - (self.imgviewToggle.frame.size.height + 5),
+                                          self.imgviewToggle.frame.size.width, self.imgviewToggle.frame.size.height);
+}
+
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
@@ -108,6 +119,7 @@
 // MARK: - private methods
 - (void)setRecordingProgress:(BOOL)isStarting {
 	if (isStarting) {
+        self.progressBar.hidden = NO;
 		timerProgress = [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
 			self.progressBar.progress = self.progressBar.progress + 1.0 / MAXDURATION / 10;
 		}];
@@ -132,14 +144,16 @@
 
 - (void)setRecordingImage:(BOOL)isRecording completed:(void(^)())completedHandler {
 	if (isRecording) {
+        NSLog(@"..........isRecording");
 		[UIView animateWithDuration:0.2 animations:^{
-			self.imgviewToggle.frame = CGRectMake(self.imgviewToggle.frame.origin.x, self.imgviewToggle.frame.origin.y - self.imgviewToggle.frame.size.height,
+			self.imgviewToggle.frame = CGRectMake(self.imgviewToggle.frame.origin.x, self.blueBackgroundImageView.frame.origin.y + 5,
 												  self.imgviewToggle.frame.size.width, self.imgviewToggle.frame.size.height);
 		} completion:^(BOOL finished) {
 			completedHandler();
 		}];
 		
 	} else {
+        NSLog(@"..........isNotRecording");
 		[UIView animateWithDuration:0.2 animations:^{
 			self.imgviewToggle.frame = CGRectMake(self.imgviewToggle.frame.origin.x, self.imgviewToggle.frame.origin.y + self.imgviewToggle.frame.size.height,
 												  self.imgviewToggle.frame.size.width, self.imgviewToggle.frame.size.height);
@@ -162,7 +176,7 @@
 	if (timerProgress) {
 		[timerProgress invalidate];
 	}
-	
+	self.progressBar.hidden = YES;
 	[UIView animateWithDuration:0.1 animations:^{
 		self.progressBar.progress = 0.0;
 	}];
