@@ -15,6 +15,6 @@
 
 @property (strong, nonatomic) CBComicItemModel *comicItemModel;
 
-- (void)createUIForCell:(CBComicImageCell *)cell withIndex:(NSInteger)index;
+- (void)createUIForCell:(CBComicImageCell *)cell withIndex:(NSInteger)index andFrame : (CGRect ) rect;
 
 @end

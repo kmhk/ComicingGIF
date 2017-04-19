@@ -52,7 +52,7 @@
     return cell;
 }
 
-- (void)createUIForCell:(CBComicImageCell *)cell withIndex:(NSInteger)index {
+- (void)createUIForCell:(CBComicImageCell *)cell withIndex:(NSInteger)index andFrame : (CGRect ) rect {
     NSLog(@"\n\n\nCELLLLLLLLLLLLLLLLL B: %lu %@", index, _comicItemModel.comicPage.subviews);
     for (UIView *view in [cell.topLayerView subviews]) {
         [view removeFromSuperview];
@@ -71,8 +71,9 @@
             if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue]==17) {
                 //Handle top layer that is sticker gif
                                 ComicItemAnimatedSticker *sticker = [ComicItemAnimatedSticker new];
-                                sticker.objFrame = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
-                                sticker.combineAnimationFileName = [subview objectForKey:@"url"];
+                CGRect frameOfObject = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
+                
+                sticker.combineAnimationFileName = [subview objectForKey:@"url"];
                 
                 NSBundle *bundle = [NSBundle mainBundle] ;
                 NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
@@ -84,7 +85,7 @@
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
                     sticker.frame = CGRectMake(sticker.objFrame.origin.x/2, sticker.objFrame.origin.y/2, sticker.objFrame.size.width/2, sticker.objFrame.size.height/2);
                 } else {
-                    sticker.frame = CGRectMake(sticker.objFrame.origin.x, sticker.objFrame.origin.y, sticker.objFrame.size.width, sticker.objFrame.size.height);
+                    sticker.frame = CGRectMake(frameOfObject.origin.x - (SCREEN_WIDTH - rect.size.width), frameOfObject.origin.y , frameOfObject.size.width *  (rect.size.width/SCREEN_WIDTH), frameOfObject.size.height *  (rect.size.height/SCREEN_HEIGHT));
                 }
                 i ++;
 

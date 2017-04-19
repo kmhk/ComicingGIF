@@ -23,4 +23,6 @@
 + (ComicObjectView *)createComicViewWith:(NSArray *)array;
 
 @property (strong, nonatomic) UIView *parentView;
+
+-(CGRect) getFrame;
 @end

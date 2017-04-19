@@ -211,6 +211,7 @@
         CGPoint translation = [gesture translationInView:gesture.view];
         gesture.view.center = CGPointMake(gesture.view.center.x + translation.x, gesture.view.center.y + translation.y);
         [gesture setTranslation:CGPointZero inView:gesture.view];
+        self.comicObject.frame = self.frame;
     }
     
 
@@ -248,7 +249,5 @@
     // Drawing code
 }
 */
-
-
 
 @end
