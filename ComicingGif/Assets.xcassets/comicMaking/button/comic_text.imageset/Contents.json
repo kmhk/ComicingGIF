@@ -6,12 +6,11 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "T copy.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "T.png",
+      "filename" : "comic_text.png",
       "scale" : "3x"
     }
   ],

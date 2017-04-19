@@ -2,17 +2,15 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "PenButtons.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "PenButtons@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "PenButtons@3x.png",
+      "filename" : "comic_pen.png",
       "scale" : "3x"
     }
   ],
