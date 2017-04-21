@@ -10,6 +10,7 @@
 #import "CBComicImageCell.h"
 #import "CBComicItemModel.h"
 #import "AppHelper.h"
+#import <ImageIO/ImageIO.h>
 
 #define kHorizontalMargin 0.0f
 #define kVerticalMargin 5.0f
@@ -24,6 +25,14 @@
 #define kVerticalCellMultiplier 1.68f
 
 #define kCellIdentifier @"ComicImageCell"
+
+#if __has_feature(objc_arc)
+#define toCF (__bridge CFTypeRef)
+#define fromCF (__bridge id)
+#else
+#define toCF (CFTypeRef)
+#define fromCF (id)
+#endif
 
 @implementation CBComicImageSection
 - (CBBaseCollectionViewCell*)cellForCollectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath{
@@ -70,27 +79,33 @@
             NSLog(@"Subviews - %@",subview);
             if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue]==17) {
                 //Handle top layer that is sticker gif
-                                ComicItemAnimatedSticker *sticker = [ComicItemAnimatedSticker new];
+//                                ComicItemAnimatedSticker *sticker = [ComicItemAnimatedSticker new];
                 CGRect frameOfObject = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
                 
-                sticker.combineAnimationFileName = [subview objectForKey:@"url"];
+//                sticker.combineAnimationFileName = [subview objectForKey:@"url"];
                 
                 NSBundle *bundle = [NSBundle mainBundle] ;
                 NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
                 NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".gif" withString:@""] ofType:@"gif"];
                 NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
+                CGRect rectOfGif;
+//                sticker.image =  [UIImage sd_animatedGIFWithData:gifData];
                 
-                sticker.image =  [UIImage sd_animatedGIFWithData:gifData];
-                
+                CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
+//                CGFloat ratioHeight = rect.size.height / SCREEN_HEIGHT;
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-                    sticker.frame = CGRectMake(sticker.objFrame.origin.x/2, sticker.objFrame.origin.y/2, sticker.objFrame.size.width/2, sticker.objFrame.size.height/2);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth)/2, (frameOfObject.size.height * ratioWidth)/2);
                 } else {
-                    sticker.frame = CGRectMake(frameOfObject.origin.x - (SCREEN_WIDTH - rect.size.width), frameOfObject.origin.y , frameOfObject.size.width *  (rect.size.width/SCREEN_WIDTH), frameOfObject.size.height *  (rect.size.height/SCREEN_HEIGHT));
+                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth, frameOfObject.size.height * ratioWidth);
                 }
                 i ++;
 
-                [cell.topLayerView addSubview:sticker];
-                NSLog(@".............IF ADDED STICKER: %@",sticker);
+                UIImageView *stickerImageView = [self createImageViewWith:gifData frame:rectOfGif bAnimate:YES];
+                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
+                stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
+                [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+                [cell.topLayerView addSubview:stickerImageView];
+//                NSLog(@".............IF ADDED STICKER: %@",sticker);
                 //                    sticker.backgroundColor = [UIColor brownColor];
                 //                    [cell.topLayerView setBackgroundColor:[UIColor greenColor]];
                 //                    cell.topLayerView.alpha = 0.4;
@@ -130,6 +145,65 @@
     }
     NSLog(@"\n\n\nCELLLLLLLLLLLLLLLLL A: %lu %@",index, _comicItemModel.comicPage.subviews);
     cell.userInteractionEnabled = NO;
+}
+
+- (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size {
+    UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
+- (UIImageView *)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag {
+    CGImageSourceRef srcImage = CGImageSourceCreateWithData(toCF data, nil);
+    if (!srcImage) {
+        NSLog(@"loading image failed");
+    }
+    
+    size_t imgCount = CGImageSourceGetCount(srcImage);
+    NSTimeInterval totalDuration = 0;
+    NSNumber *frameDuration;
+    NSMutableArray *arrayImages;
+    
+    arrayImages = [[NSMutableArray alloc] init];
+    for (NSInteger i = 0; i < imgCount; i ++) {
+        CGImageRef cgImg = CGImageSourceCreateImageAtIndex(srcImage, i, nil);
+        if (!cgImg) {
+            NSLog(@"loading %ldth image failed from the source", (long)i);
+            continue;
+        }
+        
+        UIImage *img = [self scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
+        [arrayImages addObject:img];
+        
+        NSDictionary *property = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(srcImage, i, nil));
+        NSDictionary *gifDict = property[fromCF kCGImagePropertyGIFDictionary];
+        
+        frameDuration = gifDict[fromCF kCGImagePropertyGIFUnclampedDelayTime];
+        if (!frameDuration) {
+            frameDuration = gifDict[fromCF kCGImagePropertyGIFDelayTime];
+        }
+        
+        totalDuration += frameDuration.floatValue;
+        
+        CGImageRelease(cgImg);
+    }
+    
+    CFRelease(srcImage);
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:rect];
+    imgView.image = arrayImages.firstObject;
+    imgView.autoresizingMask = 0B11111;
+    imgView.userInteractionEnabled = YES;
+    
+    imgView.animationImages = arrayImages;
+    imgView.animationDuration = totalDuration;
+    imgView.animationRepeatCount = (flag == YES? 0 : 1);
+    [imgView startAnimating];
+    
+    return imgView;
 }
 
 -(void)registerNibForCollectionView:(UICollectionView *)collectionView
