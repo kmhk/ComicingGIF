@@ -58,6 +58,9 @@ NSString* const slideTypeTall = @"tall";
    
     subviews = arrTemp;
     slideType = @"tall";
+    if (arrSubviews.count>0) {
+        slideType = [[[arrSubviews objectAtIndex:0] valueForKey:@"isTall"] boolValue]?@"tall":@"wide";
+    }
 }
 
 

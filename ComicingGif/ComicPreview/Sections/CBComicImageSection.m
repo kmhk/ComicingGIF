@@ -22,7 +22,7 @@
 #define kLandscapeCellHeight 106.0f
 #define kPortraitCellHeight 228.0f
 
-#define kVerticalCellMultiplier 1.68f
+#define kVerticalCellMultiplier 1.78f
 
 #define kCellIdentifier @"ComicImageCell"
 

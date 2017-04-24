@@ -58,7 +58,8 @@
 	NSDictionary *dict = [super dictForObject];
 	
 	return @{@"baseInfo": dict,
-			 @"url"		: self.fileURL.absoluteString
+			 @"url"		: self.fileURL.absoluteString,
+             @"isTall"  : [NSNumber numberWithBool:self.isTall]
 			 };
 }
 
@@ -69,6 +70,7 @@
 		
 		self.objType = (ComicObjectType)[baseDict[@"type"] integerValue];
 		self.fileURL = [NSURL URLWithString:dict[@"url"]];
+        self.isTall = [dict[@"isTall"] boolValue];
 		self.frame = CGRectFromString(baseDict[@"frame"]);
 		self.angle = [baseDict[@"angle"] floatValue];
 		self.scale = [baseDict[@"scale"] floatValue];

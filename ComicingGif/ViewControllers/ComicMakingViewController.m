@@ -77,6 +77,7 @@
 - (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect index:(NSInteger)index objs:(NSArray *)array {
 	BkImageObject *obj = [[BkImageObject alloc] initWithURL:url];
 	obj.frame = rect;
+    obj.isTall = isTall;
 	
 	if (!viewModel) {
 		viewModel = [[ComicMakingViewModel alloc] init];
