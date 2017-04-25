@@ -348,12 +348,10 @@
     NSMutableArray *arrTemp = [NSMutableArray new];
     arrTemp = [[self.comicSlides objectAtIndex:index] mutableCopy];
     [arrTemp removeObjectAtIndex:0];
-	
-	vc.indexSaved = index;
-	[vc initWithBaseImage:[NSURL URLWithString:[[[self.comicSlides objectAtIndex:index] objectAtIndex:0] objectForKey:@"url"]]
-					frame:self.view.frame
-					index:index
-					 objs:arrTemp];
+    
+    vc.indexSaved = index;
+    [vc initWithBaseImage:[[[self.comicSlides objectAtIndex:index] objectAtIndex:0]objectForKey:@"url"] frame:self.view.frame andSubviewArray:arrTemp isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:@"isTall"] boolValue] index:index];
+
     [self.navigationController pushViewController:vc animated:YES];
 //    [self pushAddSlideTap:!(itemModel.itemOrientation==COMIC_ITEM_ORIENTATION_PORTRAIT) ofIndex:index];
 }

@@ -20,8 +20,9 @@ ComicObjectViewDelegate
 >
 
 // initialize comic making view controller with background GIF/Image from url
-- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect index:(NSInteger)index objs:(NSArray *)array;
 
 @property (nonatomic) NSInteger indexSaved;
+
+- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect andSubviewArray:(NSMutableArray *)arrSubviews isTall:(BOOL)isTall index:(NSInteger)index;
 
 @end

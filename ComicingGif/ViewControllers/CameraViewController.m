@@ -111,7 +111,8 @@
 	if ([segue.identifier isEqualToString:@"segueMaking"]) {
 		NSURL *url = (NSURL *)sender;
 		ComicMakingViewController *vc = (ComicMakingViewController *)segue.destinationViewController;
-		[vc initWithBaseImage:url frame:self.cameraPreview.frame index:-1 objs:nil];
+
+		[vc initWithBaseImage:url frame:self.cameraPreview.frame andSubviewArray:nil isTall:!self.isVerticalCamera index:-1];
 	}
 }
 

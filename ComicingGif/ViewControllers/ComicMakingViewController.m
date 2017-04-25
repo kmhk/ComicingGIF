@@ -81,9 +81,11 @@
 
 
 // MARK: - public initialize methods
-- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect index:(NSInteger)index objs:(NSArray *)array {
+
+- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect andSubviewArray:(NSMutableArray *)arrSubviews isTall:(BOOL)isTall index:(NSInteger)index {
 	BkImageObject *obj = [[BkImageObject alloc] initWithURL:url];
 	obj.frame = rect;
+    obj.isTall = isTall;
 	
 	if (!viewModel) {
 		viewModel = [[ComicMakingViewModel alloc] init];
@@ -92,8 +94,8 @@
 	
 	[viewModel addObject:obj];
 	
-	if (array != nil) {
-		for (NSDictionary *subObj in array) {
+	if (arrSubviews != nil) {
+		for (NSDictionary *subObj in arrSubviews) {
 			BaseObject *obj = [[BaseObject alloc] initFromDict:subObj];
 			[viewModel.arrayObjects addObject:obj];
 		}
