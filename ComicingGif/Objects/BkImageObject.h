@@ -16,5 +16,6 @@
 
 // create background gif/image object by url
 - (id)initWithURL:(NSURL *)url;
+- (id)initWithURL:(NSURL *)url isTall:(BOOL)isTall;
 
 @end

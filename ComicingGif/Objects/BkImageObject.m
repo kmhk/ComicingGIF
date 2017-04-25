@@ -18,14 +18,26 @@
 @implementation BkImageObject
 
 - (id)initWithURL:(NSURL *)url {
-	self = [super init];
-	if (self) {
-		self.objType = ObjectBaseImage;
-		self.fileURL = url;
-		self.frame = [self retreiveBound];
-	}
-	
-	return self;
+    self = [super init];
+    if (self) {
+        self.objType = ObjectBaseImage;
+        self.fileURL = url;
+        self.frame = [self retreiveBound];
+    }
+    
+    return self;
+}
+
+- (id)initWithURL:(NSURL *)url isTall:(BOOL)isTall{
+    self = [super init];
+    if (self) {
+        self.objType = ObjectBaseImage;
+        self.fileURL = url;
+        self.isTall = isTall;
+        self.frame = [self retreiveBound];
+    }
+    
+    return self;
 }
 
 - (CGRect)retreiveBound {
