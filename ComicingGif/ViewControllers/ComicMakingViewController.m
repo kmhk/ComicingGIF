@@ -199,6 +199,8 @@
 	ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
     comicView.parentView = backgroundView;
 	[backgroundView addSubview:comicView];
+	
+	[viewModel saveObject];
 }
 
 
@@ -271,7 +273,7 @@
 	
 	NSString *rcID;
 	if (collectionView.tag == ObjectSticker) {
-		rcID = [NSString stringWithFormat:@"theme_sticker%ld", (long)indexPath.row + 1];
+		rcID = [NSString stringWithFormat:@"theme_sticker%ld.png", (long)indexPath.row + 1];
 		
 	} else if (collectionView.tag == ObjectAnimateGIF) {
 		rcID = [NSString stringWithFormat:@"theme_GIF%ld.gif", (long)indexPath.row + 1];
@@ -295,7 +297,7 @@
 	NSString *rcID;
 	BaseObject *obj;
 	if (collectionView.tag == ObjectSticker) {
-		rcID = [NSString stringWithFormat:@"theme_sticker%ld", (long)indexPath.row + 1];
+		rcID = [NSString stringWithFormat:@"theme_sticker%ld.png", (long)indexPath.row + 1];
 		obj = [BaseObject comicObjectWith:ObjectSticker userInfo:rcID];
 		
 	} else if (collectionView.tag == ObjectAnimateGIF) {
