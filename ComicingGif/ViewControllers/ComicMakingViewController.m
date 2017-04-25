@@ -83,7 +83,7 @@
 // MARK: - public initialize methods
 
 - (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect andSubviewArray:(NSMutableArray *)arrSubviews isTall:(BOOL)isTall index:(NSInteger)index {
-	BkImageObject *obj = [[BkImageObject alloc] initWithURL:url];
+	BkImageObject *obj = [[BkImageObject alloc] initWithURL:url isTall:isTall];
 	obj.frame = rect;
     obj.isTall = isTall;
 	
