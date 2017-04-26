@@ -10,7 +10,7 @@
 #define ObjectHeader_h
 
 #import "BkImageObject.h"
-#import "StickerObject.h"
+#import "BaseObject.h"
 #import "StickerObject.h"
 #import "BubbleObject.h"
 #import "CaptionObject.h"

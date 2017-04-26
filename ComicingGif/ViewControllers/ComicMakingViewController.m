@@ -14,6 +14,7 @@
 #import <Messages/Messages.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import "ComicItem.h"
+#import "ComicObjectSerialize.h"
 
 #define CELLID	@"ToolCollectionViewCell"
 
@@ -65,7 +66,7 @@
 
 
 // MARK: - public initialize methods
-- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect andSubviewArray:(NSMutableArray *)arrSubviews{
+- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect index:(NSInteger)index objs:(NSArray *)array {
 	BkImageObject *obj = [[BkImageObject alloc] initWithURL:url];
 	obj.frame = rect;
 	
@@ -76,12 +77,14 @@
 	
 	[viewModel addObject:obj];
 	
-	if (arrSubviews != nil) {
-		for (NSDictionary *subObj in arrSubviews) {
+	if (array != nil) {
+		for (NSDictionary *subObj in array) {
 			BaseObject *obj = [[BaseObject alloc] initFromDict:subObj];
 			[viewModel.arrayObjects addObject:obj];
 		}
 	}
+	
+	[ComicObjectSerialize setSavedIndex:index];
 }
 
 
@@ -192,7 +195,7 @@
 		return;
 	}
 	
-	backgroundView = [ComicObjectView createComicViewWith:viewModel.arrayObjects];
+	backgroundView = [ComicObjectView createComicViewWith:viewModel.arrayObjects delegate:self];
 	[self.view insertSubview:backgroundView atIndex:0];
 }
 
@@ -201,6 +204,7 @@
 	
 	ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
     comicView.parentView = backgroundView;
+	comicView.delegate = self;
 	[backgroundView addSubview:comicView];
 }
 
@@ -322,6 +326,12 @@
 		BaseObject *obj = [[BaseObject alloc] initFromDict:subview];
 		[self createComicViewWith:obj];
     }
+}
+
+
+// MARK: - ComicObjectView delegate implementations
+- (void)saveObject {
+	[viewModel saveObject];
 }
 
 @end

@@ -68,8 +68,6 @@
 	self.processingView.backgroundColor = [UIColor clearColor];
     
     self.progressBar.hidden = YES;
-	
-	[ComicObjectSerialize setSavedIndex:self.indexSaved];
     
     self.navigationController.navigationBar.hidden = YES;
 
@@ -113,7 +111,7 @@
 	if ([segue.identifier isEqualToString:@"segueMaking"]) {
 		NSURL *url = (NSURL *)sender;
 		ComicMakingViewController *vc = (ComicMakingViewController *)segue.destinationViewController;
-		[vc initWithBaseImage:url frame:self.cameraPreview.frame andSubviewArray:nil];
+		[vc initWithBaseImage:url frame:self.cameraPreview.frame index:-1 objs:nil];
 	}
 }
 

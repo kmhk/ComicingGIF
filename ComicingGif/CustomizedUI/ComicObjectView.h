@@ -8,19 +8,32 @@
 
 #import <UIKit/UIKit.h>
 
+
 @class BaseObject;
 
 
+// MARK: -
+@protocol ComicObjectViewDelegate <NSObject>
+
+- (void)saveObject;
+
+@end
+
+
+
+// MARK: -
 @interface ComicObjectView : UIView
 
 @property (nonatomic) BaseObject *comicObject;
+
+@property (nonatomic) id<ComicObjectViewDelegate> delegate;
 
 
 // create comic object view from obj
 - (id)initWithComicObject:(BaseObject *)obj;
 
 // create comic slide view with comic objects indicated in array
-+ (ComicObjectView *)createComicViewWith:(NSArray *)array;
++ (ComicObjectView *)createComicViewWith:(NSArray *)array delegate:(id)userInfo;
 
 @property (strong, nonatomic) UIView *parentView;
 

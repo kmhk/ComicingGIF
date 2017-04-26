@@ -7,15 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ComicObjectView.h"
+
 
 @interface ComicMakingViewController : UIViewController
 <
 UICollectionViewDelegate,
 UICollectionViewDataSource,
 UICollectionViewDelegateFlowLayout,
-UIGestureRecognizerDelegate
+UIGestureRecognizerDelegate,
+ComicObjectViewDelegate
 >
 
 // initialize comic making view controller with background GIF/Image from url
-- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect andSubviewArray:(NSMutableArray *)arrSubviews;
+- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect index:(NSInteger)index objs:(NSArray *)array;
+
+@property (nonatomic) NSInteger indexSaved;
+
 @end

@@ -21,6 +21,11 @@ typedef enum {
 } ComicObjectType;
 
 
+#define W_PADDING			40
+#define H_PADDING			40
+
+
+
 // MARK: -
 @interface BaseObject : NSObject
 

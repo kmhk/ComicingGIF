@@ -24,6 +24,4 @@ MFMailComposeViewControllerDelegate
 
 @property BOOL isVerticalCamera;
 
-@property (nonatomic) NSInteger indexSaved;
-
 @end

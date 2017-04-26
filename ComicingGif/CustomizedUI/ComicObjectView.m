@@ -71,7 +71,7 @@
 	return self;
 }
 
-+ (ComicObjectView *)createComicViewWith:(NSArray *)array {
++ (ComicObjectView *)createComicViewWith:(NSArray *)array delegate:(id)userInfo {
 	if (!array || !array.count) {
 		NSLog(@"There is nothing comic objects");
 		return nil;
@@ -84,6 +84,7 @@
 		BaseObject *obj = array[i];
 		ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
 		comicView.parentView = backgroundView;
+		comicView.delegate = userInfo;
 		[backgroundView addSubview:comicView];
 	}
 	
@@ -111,7 +112,7 @@
 	/*
 	 real inside content view's size is less (40, 40) than object view. because it needs to show tool bar of all comic objects
 	 */
-	[self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width - 40, obj.frame.size.height - 40) bAnimate:YES];
+	[self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width - W_PADDING, obj.frame.size.height - H_PADDING) bAnimate:YES];
 }
 
 - (void)createStickerView {
@@ -122,7 +123,7 @@
 	/*
 	 real inside content view's size is less (40, 40) than object view. because it needs to show tool bar of all comic objects
 	 */
-	[self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width - 40, obj.frame.size.height - 40) bAnimate:NO];
+	[self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width - W_PADDING, obj.frame.size.height - H_PADDING) bAnimate:NO];
 }
 
 - (void)createBubbleView {
@@ -218,6 +219,8 @@
         gesture.view.center = CGPointMake(gesture.view.center.x + translation.x, gesture.view.center.y + translation.y);
         [gesture setTranslation:CGPointZero inView:gesture.view];
         self.comicObject.frame = self.frame;
+		
+		[self.delegate saveObject];
     }
     
 
@@ -234,6 +237,8 @@
 	{
 		gesture.view.transform = CGAffineTransformScale(gesture.view.transform, gesture.scale, gesture.scale);
 		[gesture setScale:1.0];
+		
+		[self.delegate saveObject];
 	}
 }
 
@@ -245,6 +250,8 @@
 		CGFloat rotation = [gesture rotation];
 		[gesture.view setTransform:CGAffineTransformRotate(gesture.view.transform, rotation)];
 		[gesture setRotation:0];
+		
+		[self.delegate saveObject];
 	}
 }
 

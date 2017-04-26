@@ -345,8 +345,12 @@
     NSMutableArray *arrTemp = [NSMutableArray new];
     arrTemp = [[self.comicSlides objectAtIndex:index] mutableCopy];
     [arrTemp removeObjectAtIndex:0];
-    
-    [vc initWithBaseImage:[NSURL URLWithString:[[[self.comicSlides objectAtIndex:index] objectAtIndex:0]objectForKey:@"url"]] frame:self.view.frame andSubviewArray:arrTemp];
+	
+	vc.indexSaved = index;
+	[vc initWithBaseImage:[NSURL URLWithString:[[[self.comicSlides objectAtIndex:index] objectAtIndex:0] objectForKey:@"url"]]
+					frame:self.view.frame
+					index:index
+					 objs:arrTemp];
     [self.navigationController pushViewController:vc animated:YES];
 //    [self pushAddSlideTap:!(itemModel.itemOrientation==COMIC_ITEM_ORIENTATION_PORTRAIT) ofIndex:index];
 }
