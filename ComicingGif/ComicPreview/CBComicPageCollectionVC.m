@@ -165,7 +165,9 @@
 //    [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.dataArray indexOfObject:comicItem] inSection:0]]];
     
     
-    [self.collectionView reloadData];
+    if (self.collectionView != nil) {
+        [self.collectionView reloadData];
+    }
     
     
 //    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:[self.dataArray indexOfObject:comicItem] inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:YES];

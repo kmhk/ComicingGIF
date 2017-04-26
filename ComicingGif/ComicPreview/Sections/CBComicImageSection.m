@@ -44,8 +44,7 @@
         cell= [nibs firstObject];
     }
     
-    
-    
+//    self.collectionView.backgroundColor = [UIColor redColor];
 //    _comicItemModel = [self.dataArray objectAtIndex:indexPath.row];
     for (CBComicItemModel *item in self.dataArray) {
         NSLog(@"............DATA ARRAY IN CELL: %@",item.comicPage);
@@ -62,6 +61,10 @@
 }
 
 - (void)createUIForCell:(CBComicImageCell *)cell withIndex:(NSInteger)index andFrame : (CGRect ) rect {
+    if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
+        
+    }
+    
     NSLog(@"\n\n\nCELLLLLLLLLLLLLLLLL B: %lu %@", index, _comicItemModel.comicPage.subviews);
     for (UIView *view in [cell.topLayerView subviews]) {
         [view removeFromSuperview];

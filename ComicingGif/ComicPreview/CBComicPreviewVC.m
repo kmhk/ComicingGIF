@@ -25,6 +25,7 @@
 #import "ComicMakingAPIManager.h"
 #import "CameraViewController.h"
 #import "ComicMakingViewController.h"
+#import "ComicObjectSerialize.h"
 
 #define kPreviewViewTag 12001
 
@@ -78,7 +79,7 @@
     }
     //End
     
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
     
     self.navigationController.navigationBar.hidden = YES;
 
@@ -93,8 +94,10 @@
 - (void)prepareView 
 {
 //    self.comicSlides = [self getDataFromFile];
-    
 
+     _comicSlides = [[ComicObjectSerialize loadComicSlide] mutableCopy];
+    
+    [self.dataArray removeAllObjects];
     for (int i=0; i<self.comicSlides.count; i++) {
         ComicPage *comicPage = [[ComicPage alloc]init];
         
@@ -107,8 +110,8 @@
             if(finished){
                 if ([model isEqual:[self.dataArray lastObject]]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        //                        [self.previewVC.collectionView reloadData];
-                        //                        [self.tableView reloadData];
+                        [self.previewVC.collectionView reloadData];
+//                        [self.tableView reloadData];
                     });
                 }
             }

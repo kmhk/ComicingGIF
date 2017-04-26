@@ -280,11 +280,11 @@
 	if (self.cameraPreview.frame.size.height > self.view.frame.size.height / 2) {
 		height = self.cameraPreview.frame.size.width / 2;
 		y = (self.view.frame.size.height - height) / 2;
-		
+        _isVerticalCamera = YES;
 	} else {
 		height = self.view.frame.size.height - TOPBADDING - BOTTOMPADDING;
 		y = 20;
-		
+        _isVerticalCamera = NO;
 	}
 	
 	[UIView animateWithDuration:0.2 animations:^{

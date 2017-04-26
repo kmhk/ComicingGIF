@@ -15,6 +15,7 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "ComicItem.h"
 #import "ComicObjectSerialize.h"
+#import "CBComicPreviewVC.h"
 
 #define CELLID	@"ToolCollectionViewCell"
 
@@ -77,7 +78,6 @@
 - (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect index:(NSInteger)index objs:(NSArray *)array {
 	BkImageObject *obj = [[BkImageObject alloc] initWithURL:url];
 	obj.frame = rect;
-    obj.isTall = isTall;
 	
 	if (!viewModel) {
 		viewModel = [[ComicMakingViewModel alloc] init];
@@ -196,21 +196,30 @@
 	[viewModel saveObject];
 	
 	// for testing
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"slides.plist"];
-	
-	if([MFMailComposeViewController canSendMail]) {
-		MFMailComposeViewController *mailCont = [[MFMailComposeViewController alloc] init];
-		mailCont.mailComposeDelegate = self;
-		
-		[mailCont setSubject:@"created GIF"];
-		[mailCont setMessageBody:@"Please take a look attached GIF file." isHTML:NO];
-		
-		NSData *data = [NSData dataWithContentsOfFile:filePath];
-		[mailCont addAttachmentData:data mimeType:@"plist" fileName:@"slides.plist"];
-		
-		[self presentViewController:mailCont animated:YES completion:nil];
-	}
+//	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//	NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"slides.plist"];
+//	
+//	if([MFMailComposeViewController canSendMail]) {
+//		MFMailComposeViewController *mailCont = [[MFMailComposeViewController alloc] init];
+//		mailCont.mailComposeDelegate = self;
+//		
+//		[mailCont setSubject:@"created GIF"];
+//		[mailCont setMessageBody:@"Please take a look attached GIF file." isHTML:NO];
+//		
+//		NSData *data = [NSData dataWithContentsOfFile:filePath];
+//		[mailCont addAttachmentData:data mimeType:@"plist" fileName:@"slides.plist"];
+//		
+//		[self presentViewController:mailCont animated:YES completion:nil];
+//	}
+    
+    if (![[self.navigationController.viewControllers firstObject] isKindOfClass:[CBComicPreviewVC class]]) {
+        CBComicPreviewVC *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CBComicPreviewVC"];
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
+        [vc prepareView];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 

@@ -26,4 +26,6 @@
 @property (nonatomic,strong) ComicPage *comicPageComicItems;
 @property (nonatomic) NSInteger editSlideIndex;
 
+- (void)prepareView;
+
 @end
