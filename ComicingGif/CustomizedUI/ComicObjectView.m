@@ -83,6 +83,7 @@
 	for (NSInteger i = 1; i < array.count; i ++) {
 		BaseObject *obj = array[i];
 		ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
+		comicView.parentView = backgroundView;
 		[backgroundView addSubview:comicView];
 	}
 	
@@ -104,18 +105,24 @@
 
 - (void)createAnimationGIFView {
 	StickerObject *obj = (StickerObject *)self.comicObject;
-	self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width + 44, obj.frame.size.height + 44);
+	self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
 	
 	NSData *data = [NSData dataWithContentsOfURL:obj.stickerURL];
-	[self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width, obj.frame.size.height) bAnimate:YES];
+	/*
+	 real inside content view's size is less (40, 40) than object view. because it needs to show tool bar of all comic objects
+	 */
+	[self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width - 40, obj.frame.size.height - 40) bAnimate:YES];
 }
 
 - (void)createStickerView {
 	StickerObject *obj = (StickerObject *)self.comicObject;
-	self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width + 44, obj.frame.size.height + 44);
+	self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
 	
 	NSData *data = [NSData dataWithContentsOfURL:obj.stickerURL];
-	[self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width, obj.frame.size.height) bAnimate:NO];
+	/*
+	 real inside content view's size is less (40, 40) than object view. because it needs to show tool bar of all comic objects
+	 */
+	[self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width - 40, obj.frame.size.height - 40) bAnimate:NO];
 }
 
 - (void)createBubbleView {

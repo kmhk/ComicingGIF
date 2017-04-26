@@ -21,5 +21,9 @@ MFMailComposeViewControllerDelegate
 }
 
 @property (nonatomic) CameraViewModel *viewModel;
+
 @property BOOL isVerticalCamera;
+
+@property (nonatomic) NSInteger indexSaved;
+
 @end

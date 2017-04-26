@@ -47,11 +47,11 @@
 	
 	CGSize szScreen = [[UIScreen mainScreen] bounds].size;
 	if (img.size.width / img.size.height > szScreen.width / szScreen.height) {
-		rt.size.width = (img.size.width < szScreen.width ? img.size.width : szScreen.width * 0.3);
+		rt.size.width = (img.size.width < szScreen.width ? img.size.width : szScreen.width * 0.4);
 		rt.size.height = rt.size.width * img.size.height / img.size.width;
 		
 	} else {
-		rt.size.height = (img.size.height < szScreen.height ? img.size.height : szScreen.height * 0.3);
+		rt.size.height = (img.size.height < szScreen.height ? img.size.height : szScreen.height * 0.4);
 		rt.size.width = rt.size.height * img.size.width / img.size.height;
 	}
 	
@@ -69,6 +69,22 @@
 	return @{@"baseInfo": dict,
 			 @"url"		: self.stickerURL.absoluteString
 			 };
+}
+
+- (BaseObject *)initFromDict:(NSDictionary *)dict {
+	self = [super init];
+	if (self) {
+		NSDictionary *baseDict = (NSDictionary *)dict[@"baseInfo"];
+		
+		self.objType = (ComicObjectType)[baseDict[@"type"] integerValue];
+		self.frame = CGRectFromString(baseDict[@"frame"]);
+		
+		NSBundle *bundle = [NSBundle mainBundle] ;
+		NSString *strFileName = [[dict objectForKey:@"url"] lastPathComponent];
+		self.stickerURL = [bundle URLForResource:strFileName withExtension:@""];
+	}
+	
+	return self;
 }
 
 

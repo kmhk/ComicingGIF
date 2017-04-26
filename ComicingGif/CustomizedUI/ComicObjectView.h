@@ -24,5 +24,4 @@
 
 @property (strong, nonatomic) UIView *parentView;
 
--(CGRect) getFrame;
 @end

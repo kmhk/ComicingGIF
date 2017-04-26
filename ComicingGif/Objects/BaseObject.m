@@ -67,6 +67,24 @@
 }
 
 - (BaseObject *)initFromDict:(NSDictionary *)dict {
+	ComicObjectType type = (ComicObjectType)[[dict[@"baseInfo"] objectForKey:@"type"] integerValue];
+	
+	if (type == ObjectBaseImage) {
+		BkImageObject *obj = [[BkImageObject alloc] initFromDict:dict];
+		return obj;
+		
+	} else if (type == ObjectAnimateGIF) {
+		StickerObject *obj = [[StickerObject alloc] initFromDict:dict];
+		return obj;
+		
+	} else if (type == ObjectSticker) {
+		StickerObject *obj = [[StickerObject alloc] initFromDict:dict];
+		return obj;
+		
+	} else {
+		
+	}
+	
 	return nil;
 }
 

@@ -9,7 +9,25 @@
 #import "ComicObjectSerialize.h"
 #import "BaseObject.h"
 
+static ComicObjectSerialize *gComicObjectSerializeObj;
+
 @implementation ComicObjectSerialize
+
++ (void)setSavedIndex:(NSInteger)index {
+	if (gComicObjectSerializeObj == nil) {
+		gComicObjectSerializeObj = [[ComicObjectSerialize alloc] init];
+	}
+	
+	gComicObjectSerializeObj.indexSaved = index;
+}
+
++ (NSInteger)getSavedIndex {
+	if (gComicObjectSerializeObj) {
+		return gComicObjectSerializeObj.indexSaved;
+	}
+	
+	return -1;
+}
 
 + (void)saveObjectWithArray:(NSArray *)array {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -24,7 +42,14 @@
 	for (BaseObject *obj in array) {
 		[arrayDict addObject:[obj dictForObject]];
 	}
-	[arrayAllSides addObject:arrayDict];
+	
+	if (!gComicObjectSerializeObj || gComicObjectSerializeObj.indexSaved < 0 || gComicObjectSerializeObj.indexSaved >= arrayAllSides.count) {
+		[arrayAllSides addObject:arrayDict];
+		[ComicObjectSerialize setSavedIndex:arrayAllSides.count - 1];
+		
+	} else {
+		[arrayAllSides replaceObjectAtIndex:gComicObjectSerializeObj.indexSaved withObject:arrayDict];
+	}
 	
 	[arrayAllSides writeToFile:filePath atomically:NO];
 }

@@ -9,6 +9,7 @@
 #import "CameraViewController.h"
 #import "RoundCapProgressView.h"
 #import "ComicMakingViewController.h"
+#import "ComicObjectSerialize.h"
 
 
 #define TOPBADDING		0.0
@@ -67,6 +68,8 @@
 	self.processingView.backgroundColor = [UIColor clearColor];
     
     self.progressBar.hidden = YES;
+	
+	[ComicObjectSerialize setSavedIndex:self.indexSaved];
     
     self.navigationController.navigationBar.hidden = YES;
 

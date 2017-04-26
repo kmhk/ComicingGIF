@@ -10,6 +10,11 @@
 
 @interface ComicObjectSerialize : NSObject
 
+@property (nonatomic) NSInteger indexSaved;
+
++ (void)setSavedIndex:(NSInteger)index;
++ (NSInteger)getSavedIndex;
+
 + (void)saveObjectWithArray:(NSArray *)array;
 + (NSArray *)loadComicSlide;
 
