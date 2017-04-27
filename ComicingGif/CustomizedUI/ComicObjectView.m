@@ -68,6 +68,9 @@
 		[self addGestures];
 	}
 	
+	self.transform = CGAffineTransformScale(CGAffineTransformIdentity, self.comicObject.scale, self.comicObject.scale);
+	self.transform = CGAffineTransformRotate(self.transform, self.comicObject.angle);
+	
 	return self;
 }
 
@@ -238,6 +241,9 @@
 		gesture.view.transform = CGAffineTransformScale(gesture.view.transform, gesture.scale, gesture.scale);
 		[gesture setScale:1.0];
 		
+//		NSLog(@"pinched: %f, %f", gesture.view.transform.a, gesture.view.transform.d);
+		self.comicObject.scale = gesture.view.transform.a;
+		
 		[self.delegate saveObject];
 	}
 }
@@ -250,6 +256,8 @@
 		CGFloat rotation = [gesture rotation];
 		[gesture.view setTransform:CGAffineTransformRotate(gesture.view.transform, rotation)];
 		[gesture setRotation:0];
+		
+		self.comicObject.angle = atan2f(gesture.view.transform.b, gesture.view.transform.a);
 		
 		[self.delegate saveObject];
 	}

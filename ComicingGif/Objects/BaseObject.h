@@ -33,6 +33,7 @@ typedef enum {
 
 @property (nonatomic) CGRect frame;		// frame of object to show on the view
 @property (nonatomic) CGFloat angle;	// rotated radian angle of object. default is 0
+@property (nonatomic) CGFloat scale;	// scaled rate.
 
 
 // create base object by type and parameter sender

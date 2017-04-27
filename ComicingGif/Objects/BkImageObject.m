@@ -70,6 +70,8 @@
 		self.objType = (ComicObjectType)[baseDict[@"type"] integerValue];
 		self.fileURL = [NSURL URLWithString:dict[@"url"]];
 		self.frame = CGRectFromString(baseDict[@"frame"]);
+		self.angle = [baseDict[@"angle"] floatValue];
+		self.scale = [baseDict[@"scale"] floatValue];
 	}
 	
 	return self;

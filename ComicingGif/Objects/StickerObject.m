@@ -17,7 +17,7 @@
 @implementation StickerObject
 
 - (id)initWithResourceID:(NSString *)ID isGif:(BOOL)flag {
-	self = [super self];
+	self = [super init];
 	if (self) {
 		self.objType = (flag == YES? ObjectAnimateGIF : ObjectSticker);
 		self.stickerURL = [[NSBundle mainBundle] URLForResource:ID withExtension:@""];
@@ -29,7 +29,7 @@
 
 
 - (id)initWithURL:(NSString *)urlString isGif:(BOOL)flag {
-	self = [super self];
+	self = [super init];
 	if (self) {
 		self.objType = (flag == YES? ObjectAnimateGIF : ObjectSticker);
 		self.stickerURL = [NSURL fileURLWithPath:urlString];
@@ -84,6 +84,9 @@
 		NSBundle *bundle = [NSBundle mainBundle] ;
 		NSString *strFileName = [[dict objectForKey:@"url"] lastPathComponent];
 		self.stickerURL = [bundle URLForResource:strFileName withExtension:@""];
+		
+		self.angle = [baseDict[@"angle"] floatValue];
+		self.scale = [baseDict[@"scale"] floatValue];
 	}
 	
 	return self;

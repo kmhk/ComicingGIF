@@ -25,6 +25,8 @@
 - (id)init {
 	self = [super init];
 	if (self) {
+		self.angle = 0.0;
+		self.scale = 1.0;
 	}
 	
 	return self;
@@ -62,7 +64,8 @@
 - (NSDictionary *)dictForObject {
 	return @{@"type"	: @(self.objType),
 			 @"frame"	: NSStringFromCGRect(self.frame),
-			 @"angle"	: @(self.angle)
+			 @"angle"	: @(self.angle),
+			 @"scale"	: @(self.scale)
 			 };
 }
 
