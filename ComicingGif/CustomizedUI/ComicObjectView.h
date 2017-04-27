@@ -28,6 +28,7 @@
 
 @property (nonatomic) id<ComicObjectViewDelegate> delegate;
 
+- (void)playAnimate;
 
 // create comic object view from obj
 - (id)initWithComicObject:(BaseObject *)obj;

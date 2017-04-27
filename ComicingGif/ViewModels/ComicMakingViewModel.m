@@ -23,6 +23,19 @@
 }
 
 
+// MARK: public methods
+- (BOOL)isContainedAnimatedSticker {
+	for (BaseObject *obj in self.arrayObjects) {
+		if ((obj.objType == ObjectBaseImage && [((BkImageObject *)obj).fileURL.pathExtension.lowercaseString isEqualToString:@"gif"]) ||
+			obj.objType == ObjectAnimateGIF) {
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+
 // MARK: - create objects
 - (void)addObject:(BaseObject *)obj {
 	[self.arrayObjects addObject:obj];

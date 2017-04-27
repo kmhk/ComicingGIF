@@ -26,7 +26,8 @@
 	ComicObjectView *backgroundView;
 }
 
-@property (weak, nonatomic) IBOutlet UIView *viewTools;
+@property (weak, nonatomic) IBOutlet UIButton *btnPlay;
+
 @property (weak, nonatomic) IBOutlet UIButton *btnToolAnimateGIF;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolBubble;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolSticker;
@@ -58,6 +59,12 @@
 	[super viewWillAppear:animated];
 	
 	[self createComicViews];
+	
+	if ([viewModel isContainedAnimatedSticker] == true) {
+		self.btnPlay.hidden = false;
+	} else {
+		self.btnPlay.hidden = true;
+	}
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -100,14 +107,31 @@
 
 
 // MARK: - button action implementations
+- (IBAction)btnPlayTapped:(id)sender {
+	[backgroundView playAnimate];
+	
+	for (UIView *view in backgroundView.subviews) {
+		if (view.class == ComicObjectView.class) {
+			[((ComicObjectView *)view) playAnimate];
+		}
+	}
+}
+
+
 - (IBAction)btnToolAnimateGifTapped:(id)sender {
 	UIView *toolView = [self createToolView:ObjectAnimateGIF];
 	toolView.frame = CGRectOffset(toolView.frame, self.view.frame.size.width, 0);
+	toolView.alpha = 0.0;
 	[self.view addSubview:toolView];
 	
-	[UIView animateWithDuration:0.2 animations:^{
-		self.btnToolAnimateGIF.frame = CGRectOffset(self.btnToolAnimateGIF.frame, -self.view.frame.size.width, 0);
+	[UIView animateWithDuration:0.5 animations:^{
+		self.btnToolAnimateGIF.frame = CGRectMake(self.btnToolAnimateGIF.frame.origin.x - self.view.frame.size.width, self.btnToolAnimateGIF.frame.origin.y,
+												  self.btnToolAnimateGIF.frame.size.width, self.btnToolAnimateGIF.frame.size.height);//CGRectOffset(self.btnToolAnimateGIF.frame, -self.view.frame.size.width, 0);
 		toolView.frame = CGRectOffset(toolView.frame, -self.view.frame.size.width, 0);
+		toolView.alpha = 1.0;
+		
+	} completion:^(BOOL finished) {
+//		self.btnToolAnimateGIF.frame = CGRectOffset(self.btnToolAnimateGIF.frame, -self.view.frame.size.width, 0);
 	}];
 }
 
@@ -119,11 +143,17 @@
 - (IBAction)btnToolStickerTapped:(id)sender {
 	UIView *toolView = [self createToolView:ObjectSticker];
 	toolView.frame = CGRectOffset(toolView.frame, self.view.frame.size.width, 0);
+	toolView.alpha = 0.0;
 	[self.view addSubview:toolView];
 	
-	[UIView animateWithDuration:0.2 animations:^{
-		self.btnToolSticker.frame = CGRectOffset(self.btnToolSticker.frame, -self.view.frame.size.width, 0);
+	[UIView animateWithDuration:0.5 animations:^{
+		self.btnToolSticker.frame = CGRectMake(self.btnToolSticker.frame.origin.x - self.view.frame.size.width, self.btnToolSticker.frame.origin.y,
+											   self.btnToolSticker.frame.size.width, self.btnToolSticker.frame.size.height);//CGRectOffset(self.btnToolSticker.frame, -self.view.frame.size.width, 0);
 		toolView.frame = CGRectOffset(toolView.frame, -self.view.frame.size.width, 0);
+		toolView.alpha = 1.0;
+		
+	} completion:^(BOOL finished) {
+//		self.btnToolSticker.frame = CGRectOffset(self.btnToolSticker.frame, -self.view.frame.size.width, 0);
 	}];
 }
 
@@ -165,14 +195,16 @@
 
 // MARK: - gesture handler
 - (void)tapGestureHandlerForToolContainerView:(UITapGestureRecognizer *)gesture {
-	[UIView animateWithDuration:0.2 animations:^{
+	[UIView animateWithDuration:0.5 animations:^{
 		if (gesture.view.tag == ObjectAnimateGIF) {
 			self.btnToolAnimateGIF.frame = CGRectOffset(self.btnToolAnimateGIF.frame, self.view.frame.size.width, 0);
 			gesture.view.frame = CGRectOffset(gesture.view.frame, self.view.frame.size.width, 0);
+			gesture.view.alpha = 0.0;
 			
 		} else if (gesture.view.tag == ObjectSticker) {
 			self.btnToolSticker.frame = CGRectOffset(self.btnToolSticker.frame, self.view.frame.size.width, 0);
 			gesture.view.frame = CGRectOffset(gesture.view.frame, self.view.frame.size.width, 0);
+			gesture.view.alpha = 0.0;
 			
 		} else if (gesture.view.tag == ObjectBubble) {
 			
@@ -308,6 +340,8 @@
 	} else if (collectionView.tag == ObjectAnimateGIF) {
 		rcID = [NSString stringWithFormat:@"theme_GIF%ld.gif", (long)indexPath.row + 1];
 		obj = [BaseObject comicObjectWith:ObjectAnimateGIF userInfo:rcID];
+		
+		self.btnPlay.hidden = false;
 	}
 	
 	if (obj) {

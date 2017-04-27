@@ -94,6 +94,14 @@
 	return backgroundView;
 }
 
+- (void)playAnimate {
+	UIView *view = [self viewWithTag:0x1000];
+	if (view) {
+		UIImageView *imgView = (UIImageView *)view;
+		[imgView startAnimating];
+	}
+}
+
 
 // MARK: - priviate create methods
 - (void)createBaseImageView {
@@ -203,11 +211,12 @@
 	imgView.image = arrayImages.firstObject;
 	imgView.autoresizingMask = 0B11111;
 	imgView.userInteractionEnabled = YES;
+	imgView.tag = 0x1000;
 	[self addSubview:imgView];
 	
 	imgView.animationImages = arrayImages;
 	imgView.animationDuration = totalDuration;
-	imgView.animationRepeatCount = (flag == YES? 0 : 1);
+	imgView.animationRepeatCount = 1;//(flag == YES? 0 : 1);
 	[imgView startAnimating];
 }
 

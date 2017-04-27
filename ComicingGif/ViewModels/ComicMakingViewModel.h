@@ -18,6 +18,8 @@
 @property (nonatomic) NSMutableArray *arrayObjects;
 
 
+- (BOOL)isContainedAnimatedSticker;
+
 // add comic object to the array
 - (void)addObject:(BaseObject *)obj;
 
