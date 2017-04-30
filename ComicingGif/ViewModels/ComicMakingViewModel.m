@@ -17,6 +17,7 @@
 	self = [super init];
 	if (self) {
 		self.arrayObjects = [[NSMutableArray alloc] init];
+		self.arrayRecents = [[NSMutableArray alloc] init];
 	}
 	
 	return self;
@@ -39,6 +40,18 @@
 // MARK: - create objects
 - (void)addObject:(BaseObject *)obj {
 	[self.arrayObjects addObject:obj];
+}
+
+- (void)addRecentObject:(NSDictionary *)dict {
+	for (NSDictionary *item in self.arrayRecents) {
+		if ([dict[@"type"] integerValue] == [item[@"type"] integerValue] && [dict[@"id"] integerValue] == [item[@"id"] integerValue]) {
+			[self.arrayRecents removeObject:item];
+			[self.arrayRecents insertObject:dict atIndex:0];
+			return;
+		}
+	}
+	
+	[self.arrayRecents insertObject:dict atIndex:0];
 }
 
 

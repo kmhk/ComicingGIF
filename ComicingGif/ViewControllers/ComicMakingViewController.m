@@ -33,6 +33,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnToolSticker;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolText;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolPen;
+@property (weak, nonatomic) IBOutlet UIButton *btnToolRecent;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnNext;
 @property (weak, nonatomic) IBOutlet UIButton *btnClose;
@@ -125,13 +126,12 @@
 	[self.view addSubview:toolView];
 	
 	[UIView animateWithDuration:0.5 animations:^{
-		self.btnToolAnimateGIF.frame = CGRectMake(self.btnToolAnimateGIF.frame.origin.x - self.view.frame.size.width, self.btnToolAnimateGIF.frame.origin.y,
-												  self.btnToolAnimateGIF.frame.size.width, self.btnToolAnimateGIF.frame.size.height);//CGRectOffset(self.btnToolAnimateGIF.frame, -self.view.frame.size.width, 0);
+		[self setToolButtonAlpah:0.0];
+		
 		toolView.frame = CGRectOffset(toolView.frame, -self.view.frame.size.width, 0);
 		toolView.alpha = 1.0;
 		
 	} completion:^(BOOL finished) {
-//		self.btnToolAnimateGIF.frame = CGRectOffset(self.btnToolAnimateGIF.frame, -self.view.frame.size.width, 0);
 	}];
 }
 
@@ -147,13 +147,38 @@
 	[self.view addSubview:toolView];
 	
 	[UIView animateWithDuration:0.5 animations:^{
-		self.btnToolSticker.frame = CGRectMake(self.btnToolSticker.frame.origin.x - self.view.frame.size.width, self.btnToolSticker.frame.origin.y,
-											   self.btnToolSticker.frame.size.width, self.btnToolSticker.frame.size.height);//CGRectOffset(self.btnToolSticker.frame, -self.view.frame.size.width, 0);
+		[self setToolButtonAlpah:0.0];
+		
 		toolView.frame = CGRectOffset(toolView.frame, -self.view.frame.size.width, 0);
 		toolView.alpha = 1.0;
 		
 	} completion:^(BOOL finished) {
-//		self.btnToolSticker.frame = CGRectOffset(self.btnToolSticker.frame, -self.view.frame.size.width, 0);
+	}];
+}
+
+
+- (IBAction)btnRecentTapped:(id)sender {
+	UIView *toolView = [self createToolView:ObjectRecent];
+	toolView.frame = CGRectOffset(toolView.frame, self.view.frame.size.width, 0);
+	toolView.alpha = 0.0;
+	[self.view addSubview:toolView];
+	
+	if (!viewModel.arrayRecents.count) {
+		UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(0, toolView.frame.size.height - 150, toolView.frame.size.width, 150)];
+		lbl.text = @"No Recent Object";
+		lbl.textColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.8];
+		lbl.font = [UIFont boldSystemFontOfSize:25.0];
+		lbl.textAlignment = NSTextAlignmentCenter;
+		[toolView addSubview:lbl];
+	}
+	
+	[UIView animateWithDuration:0.5 animations:^{
+		[self setToolButtonAlpah:0.0];
+		
+		toolView.frame = CGRectOffset(toolView.frame, -self.view.frame.size.width, 0);
+		toolView.alpha = 1.0;
+		
+	} completion:^(BOOL finished) {
 	}];
 }
 
@@ -197,12 +222,10 @@
 - (void)tapGestureHandlerForToolContainerView:(UITapGestureRecognizer *)gesture {
 	[UIView animateWithDuration:0.5 animations:^{
 		if (gesture.view.tag == ObjectAnimateGIF) {
-			self.btnToolAnimateGIF.frame = CGRectOffset(self.btnToolAnimateGIF.frame, self.view.frame.size.width, 0);
 			gesture.view.frame = CGRectOffset(gesture.view.frame, self.view.frame.size.width, 0);
 			gesture.view.alpha = 0.0;
 			
 		} else if (gesture.view.tag == ObjectSticker) {
-			self.btnToolSticker.frame = CGRectOffset(self.btnToolSticker.frame, self.view.frame.size.width, 0);
 			gesture.view.frame = CGRectOffset(gesture.view.frame, self.view.frame.size.width, 0);
 			gesture.view.alpha = 0.0;
 			
@@ -212,15 +235,42 @@
 			
 		} else if (gesture.view.tag == ObjectPen) {
 			
+		} else if (gesture.view.tag == ObjectRecent) {
+			gesture.view.frame = CGRectOffset(gesture.view.frame, self.view.frame.size.width, 0);
+			gesture.view.alpha = 0.0;
 		}
+		
+		[self setToolButtonAlpah:1.0];
 		
 	} completion:^(BOOL finished) {
 		[gesture.view removeFromSuperview];
+		
 	}];
 }
 
 
 // MARK: - private methods
+- (BaseObject *)createComicObject:(ComicObjectType)type info:(NSInteger)info {
+	BaseObject *obj;
+	NSString *rcID;
+	
+	if (type == ObjectSticker) {
+		rcID = [NSString stringWithFormat:@"theme_sticker%ld.png", (long)info];
+		obj = [BaseObject comicObjectWith:ObjectSticker userInfo:rcID];
+		
+	} else if (type == ObjectAnimateGIF) {
+		rcID = [NSString stringWithFormat:@"theme_GIF%ld.gif", (long)info];
+		obj = [BaseObject comicObjectWith:ObjectAnimateGIF userInfo:rcID];
+		
+		self.btnPlay.hidden = false;
+	}
+	
+	[viewModel addRecentObject:@{@"type": @(type),
+								 @"id": @(info)}];
+	
+	return obj;
+}
+
 - (void)createComicViews {
 	if (!viewModel || !viewModel.arrayObjects || !viewModel.arrayObjects.count) {
 		NSLog(@"There is nothing comic objects");
@@ -261,7 +311,7 @@
 	collectionView.tag = type;
 	collectionView.delegate = self;
 	collectionView.dataSource = self;
-	collectionView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+	collectionView.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:0 green:0 blue:0 alpha:0.1];
 	collectionView.pagingEnabled = YES;
 	[collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CELLID];
 	
@@ -269,6 +319,16 @@
 	[collectionView reloadData];
 	
 	return toolContainerView;
+}
+
+- (void)setToolButtonAlpah:(CGFloat)alpha {
+	self.btnToolAnimateGIF.alpha = alpha;
+	self.btnToolPen.alpha = alpha;
+	self.btnToolText.alpha = alpha;
+	self.btnToolBubble.alpha = alpha;
+	self.btnToolSticker.alpha = alpha;
+	self.btnToolRecent.alpha = alpha;
+	self.btnNext.alpha = alpha;
 }
 
 
@@ -290,7 +350,10 @@
 
 // MARK: - UICollectionView delegate & data source implementation
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	if (collectionView.tag == ObjectSticker) {
+	if (collectionView.tag == ObjectRecent) {
+		return viewModel.arrayRecents.count;
+		
+	} else if (collectionView.tag == ObjectSticker) {
 		return COUNT_STICKERS;
 		
 	} else if (collectionView.tag == ObjectAnimateGIF) {
@@ -306,14 +369,27 @@
 	if (!cell) {
 		cell = [[UICollectionViewCell alloc] init];
 	}
-	cell.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5];
+//	cell.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5];
 	
 	NSString *rcID;
-	if (collectionView.tag == ObjectSticker) {
-		rcID = [NSString stringWithFormat:@"theme_sticker%ld.png", (long)indexPath.row + 1];
+	NSInteger type;
+	NSInteger index;
+	
+	if (collectionView.tag == ObjectRecent) {
+		NSDictionary *dict = viewModel.arrayRecents[indexPath.row];
+		type = [dict[@"type"] integerValue];
+		index = [dict[@"id"] integerValue];
 		
-	} else if (collectionView.tag == ObjectAnimateGIF) {
-		rcID = [NSString stringWithFormat:@"theme_GIF%ld.gif", (long)indexPath.row + 1];
+	} else {
+		type = collectionView.tag;
+		index = indexPath.row + 1;
+	}
+	
+	if (type == ObjectSticker) {
+		rcID = [NSString stringWithFormat:@"theme_sticker%ld.png", (long)index];
+		
+	} else if (type == ObjectAnimateGIF) {
+		rcID = [NSString stringWithFormat:@"theme_GIF%ld.gif", (long)index];
 	}
 	
 	UIImageView *imgView = [cell viewWithTag:0x100];
@@ -331,18 +407,20 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *rcID;
-	BaseObject *obj;
-	if (collectionView.tag == ObjectSticker) {
-		rcID = [NSString stringWithFormat:@"theme_sticker%ld.png", (long)indexPath.row + 1];
-		obj = [BaseObject comicObjectWith:ObjectSticker userInfo:rcID];
+	NSInteger type;
+	NSInteger index;
+	
+	if (collectionView.tag == ObjectRecent) {
+		NSDictionary *dict = viewModel.arrayRecents[indexPath.row];
+		type = [dict[@"type"] integerValue];
+		index = [dict[@"id"] integerValue];
 		
-	} else if (collectionView.tag == ObjectAnimateGIF) {
-		rcID = [NSString stringWithFormat:@"theme_GIF%ld.gif", (long)indexPath.row + 1];
-		obj = [BaseObject comicObjectWith:ObjectAnimateGIF userInfo:rcID];
-		
-		self.btnPlay.hidden = false;
+	} else {
+		type = collectionView.tag;
+		index = indexPath.row + 1;
 	}
+	
+	BaseObject *obj = [self createComicObject:(ComicObjectType)type info:index];
 	
 	if (obj) {
 		[self createComicViewWith:obj];

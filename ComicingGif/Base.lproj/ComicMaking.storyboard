@@ -118,11 +118,23 @@
                                     <action selector="btnNextTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="QCh-iv-PEs"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FGI-uS-SA5">
+                                <rect key="frame" x="29" y="672" width="64" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="02R-T7-ZWL"/>
+                                    <constraint firstAttribute="width" constant="64" id="scI-Sx-lY3"/>
+                                </constraints>
+                                <state key="normal" image="comic_history"/>
+                                <connections>
+                                    <action selector="btnRecentTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="5CP-Dq-QTn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="Fje-Zj-iic" secondAttribute="trailing" constant="-11" id="2to-5m-eo5"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Qi4-MI-adn" secondAttribute="trailing" constant="-15" id="8TG-Fc-cAA"/>
+                            <constraint firstItem="FGI-uS-SA5" firstAttribute="leading" secondItem="E1K-aC-wim" secondAttribute="leadingMargin" constant="9" id="9qb-UK-NSd"/>
                             <constraint firstAttribute="trailingMargin" secondItem="PWx-tu-a0Z" secondAttribute="trailing" constant="-7" id="AWT-bq-OVL"/>
                             <constraint firstItem="NlB-iW-d1g" firstAttribute="centerX" secondItem="E1K-aC-wim" secondAttribute="centerX" id="Ahy-CG-kob"/>
                             <constraint firstItem="dp9-4P-cEs" firstAttribute="top" secondItem="cYZ-Xz-DMf" secondAttribute="bottom" constant="11" id="J0M-nX-wv5"/>
@@ -133,6 +145,7 @@
                             <constraint firstItem="NlB-iW-d1g" firstAttribute="top" secondItem="cYZ-Xz-DMf" secondAttribute="bottom" constant="20" id="gux-pm-wh9"/>
                             <constraint firstItem="eEi-dp-dcP" firstAttribute="leading" secondItem="E1K-aC-wim" secondAttribute="leadingMargin" constant="9" id="icR-Aw-CNT"/>
                             <constraint firstItem="Qwe-oe-hkc" firstAttribute="top" secondItem="Fje-Zj-iic" secondAttribute="bottom" constant="128" id="jgl-hj-Sic"/>
+                            <constraint firstItem="Qwe-oe-hkc" firstAttribute="top" secondItem="FGI-uS-SA5" secondAttribute="bottom" id="lPr-ze-n6Q"/>
                             <constraint firstAttribute="trailingMargin" secondItem="13P-bE-RLv" secondAttribute="trailing" constant="-8" id="lSg-wN-Fv6"/>
                             <constraint firstItem="Qwe-oe-hkc" firstAttribute="top" secondItem="eEi-dp-dcP" secondAttribute="bottom" constant="80" id="lnZ-sr-RK8"/>
                             <constraint firstItem="Qwe-oe-hkc" firstAttribute="top" secondItem="5AA-2Y-0cg" secondAttribute="bottom" constant="80" id="nGM-9x-ktK"/>
@@ -148,6 +161,7 @@
                         <outlet property="btnToolAnimateGIF" destination="eEi-dp-dcP" id="wDy-SH-vnR"/>
                         <outlet property="btnToolBubble" destination="5AA-2Y-0cg" id="ugI-9s-Lln"/>
                         <outlet property="btnToolPen" destination="13P-bE-RLv" id="Z0q-wE-9Vh"/>
+                        <outlet property="btnToolRecent" destination="FGI-uS-SA5" id="Y2j-Ha-bdY"/>
                         <outlet property="btnToolSticker" destination="Qi4-MI-adn" id="lYx-xj-vzr"/>
                         <outlet property="btnToolText" destination="Fje-Zj-iic" id="y4F-FI-JtM"/>
                     </connections>
@@ -161,6 +175,7 @@
         <image name="cameraXButton" width="240" height="243"/>
         <image name="comic_book" width="451" height="660"/>
         <image name="comic_hi" width="70" height="53"/>
+        <image name="comic_history" width="2500" height="2500"/>
         <image name="comic_next" width="114" height="195"/>
         <image name="comic_pen" width="193" height="195"/>
         <image name="comic_play" width="20" height="24"/>

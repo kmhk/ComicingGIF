@@ -18,10 +18,15 @@
 @property (nonatomic) NSMutableArray *arrayObjects;
 
 
+// array of recent objects. All elements are NSDictionary type
+@property (nonatomic) NSMutableArray *arrayRecents;
+
+
 - (BOOL)isContainedAnimatedSticker;
 
 // add comic object to the array
 - (void)addObject:(BaseObject *)obj;
+- (void)addRecentObject:(NSDictionary *)dict;
 
 // save slide objects to file
 - (void)saveObject;
