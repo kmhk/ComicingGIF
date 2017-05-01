@@ -225,25 +225,25 @@
 - (void)panGestureHandler:(UIPanGestureRecognizer *)gesture {
 	UIGestureRecognizerState state = [gesture state];
     CGPoint point = [gesture locationInView:self.parentView];
-
-    if (point.y > 0 && point.y<self.parentView.frame.size.height) {
+	
+	if (CGRectContainsRect(self.parentView.frame, CGRectMake(point.x - 10, point.y - 10, 20, 20)) == true) {
         CGPoint translation = [gesture translationInView:gesture.view];
         gesture.view.center = CGPointMake(gesture.view.center.x + translation.x, gesture.view.center.y + translation.y);
         [gesture setTranslation:CGPointZero inView:gesture.view];
         self.comicObject.frame = self.frame;
 		
 		[self.delegate saveObject];
-    }
-    
-
-//	if (state == UIGestureRecognizerStateBegan || state == UIGestureRecognizerStateChanged)
-	{
-
+		
+	} else {
+		if (state == UIGestureRecognizerStateEnded) {
+			NSLog(@"removing object");
+			[self.delegate removeObject:self];
+		}
 	}
 }
 
 - (void)pinchGestureHandler:(UIPinchGestureRecognizer *)gesture {
-	UIGestureRecognizerState state = [gesture state];
+//	UIGestureRecognizerState state = [gesture state];
 	
 //	if (state == UIGestureRecognizerStateBegan || state == UIGestureRecognizerStateChanged)
 	{
@@ -258,7 +258,7 @@
 }
 
 - (void)rotateGestureHandler:(UIRotationGestureRecognizer *)gesture {
-	UIGestureRecognizerState state = [gesture state];
+//	UIGestureRecognizerState state = [gesture state];
 	
 //	if (state == UIGestureRecognizerStateBegan || state == UIGestureRecognizerStateChanged)
 	{

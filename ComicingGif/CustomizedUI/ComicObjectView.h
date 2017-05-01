@@ -10,12 +10,14 @@
 
 
 @class BaseObject;
+@class ComicObjectView;
 
 
 // MARK: -
 @protocol ComicObjectViewDelegate <NSObject>
 
 - (void)saveObject;
+- (void)removeObject:(ComicObjectView *)view;
 
 @end
 

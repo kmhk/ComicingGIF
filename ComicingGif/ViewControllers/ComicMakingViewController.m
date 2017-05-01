@@ -456,4 +456,16 @@
 	[viewModel saveObject];
 }
 
+- (void)removeObject:(ComicObjectView *)view {
+	[viewModel.arrayObjects removeObject:view.comicObject];
+	
+	[UIView animateWithDuration:0.3 animations:^{
+		view.alpha = 0.0;
+	} completion:^(BOOL finished) {
+		[view removeFromSuperview];
+		
+		[self saveObject];
+	}];
+}
+
 @end
