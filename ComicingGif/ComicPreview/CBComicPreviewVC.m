@@ -33,7 +33,7 @@
     UILabel *headerTitleTextView;
     NSString *comicTitle;
     NSString *titleFontName;
-    UIColor *comicBackgroundColor;
+    UIColor *comicBackgroundColor;    
 }
 @property (nonatomic, strong) CBComicPageViewController* previewVC;
 @property (nonatomic, strong) ZoomInteractiveTransition * transition;
@@ -85,10 +85,14 @@
 
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-   
+    if (_shouldFetchAndReload) {
+        [self prepareView];
+    }
+    _shouldFetchAndReload = YES;
 }
 
 - (void)prepareView 
@@ -98,6 +102,9 @@
      _comicSlides = [[ComicObjectSerialize loadComicSlide] mutableCopy];
     
     [self.dataArray removeAllObjects];
+    [self.previewVC.dataArray removeAllObjects];
+    [((CBComicPageCollectionVC *)[self.previewVC.viewControllers lastObject]).dataArray removeAllObjects];
+    
     for (int i=0; i<self.comicSlides.count; i++) {
         ComicPage *comicPage = [[ComicPage alloc]init];
         
@@ -110,8 +117,8 @@
             if(finished){
                 if ([model isEqual:[self.dataArray lastObject]]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.previewVC.collectionView reloadData];
 //                        [self.tableView reloadData];
+                        [self.previewVC.collectionView reloadData];
                     });
                 }
             }
@@ -159,12 +166,6 @@
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-//    [self prepareView];
-}
-
 #pragma mark - ZoomTransitionProtocol
 
 - (UIView *)viewForZoomTransition:(BOOL)isSource
@@ -183,9 +184,10 @@
 - (CGFloat)maxPageHeight{
     CGFloat maxHeight= 0.0f;
     for(CBBaseViewController* vc in self.previewVC.viewControllers){
-        if(vc.collectionView.collectionViewLayout.collectionViewContentSize.height > maxHeight){
+//        if(vc.collectionView.collectionViewLayout.collectionViewContentSize.height > maxHeight){
+        
             maxHeight= vc.collectionView.collectionViewLayout.collectionViewContentSize.height;
-        }
+//        }
     }
     return ceilf(maxHeight);
 }
@@ -353,8 +355,11 @@
     NSString *baseURLString = [[[self.comicSlides objectAtIndex:index] objectAtIndex:0]objectForKey:@"url"];
     CGRect slideRect = CGRectFromString([[[[self.comicSlides objectAtIndex:index] objectAtIndex:0] valueForKey:@"baseInfo"] valueForKey:@"frame"]);
     
+
     vc.indexSaved = index;
     [vc initWithBaseImage:[NSURL URLWithString:baseURLString] frame:slideRect andSubviewArray:arrTemp isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:@"isTall"] boolValue] index:index];
+    
+    self.transitionView = [((CBComicPageCollectionVC *)[self.previewVC.viewControllers firstObject]).collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
 
     [self.navigationController pushViewController:vc animated:YES];
 //    [self pushAddSlideTap:!(itemModel.itemOrientation==COMIC_ITEM_ORIENTATION_PORTRAIT) ofIndex:index];

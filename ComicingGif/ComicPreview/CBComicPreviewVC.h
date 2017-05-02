@@ -26,6 +26,8 @@
 @property (nonatomic,strong) ComicPage *comicPageComicItems;
 @property (nonatomic) NSInteger editSlideIndex;
 
+@property (nonatomic, assign) BOOL shouldFetchAndReload;
+
 - (void)prepareView;
 
 @end

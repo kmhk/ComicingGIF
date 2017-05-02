@@ -16,12 +16,13 @@
 #import "ComicItem.h"
 #import "ComicObjectSerialize.h"
 #import "CBComicPreviewVC.h"
+#import "UIView+CBConstraints.h"
 
 #define TOOLCELLID	@"ToolCollectionViewCell"
 #define CATEGORYCELLID	@"CategoryCollectionViewCell"
 
 
-@interface ComicMakingViewController ()
+@interface ComicMakingViewController () <ZoomTransitionProtocol>
 {
 	ComicMakingViewModel *viewModel;
 	
@@ -43,6 +44,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnNext;
 @property (weak, nonatomic) IBOutlet UIButton *btnClose;
 
+@property (weak, nonatomic) IBOutlet UIView *baseLayerView;
+@property (assign, nonatomic) CGFloat ratioDecreasing;
+@property (assign, nonatomic) CGRect baseLayerInitialFrame;
+
 @end
 
 
@@ -56,6 +61,10 @@
     // Do any additional setup after loading the view.
 	
 	nCategory = 1;
+
+    _ratioDecreasing = 1;
+    _baseLayerView.clipsToBounds = YES;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,9 +72,42 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    UIView *touchView = [touches anyObject].view;
+    if ([touchView.superview.superview isEqual:self.baseLayerView]) {
+        _ratioDecreasing = 1;
+        [self.baseLayerView saveFrameOfAllSubviews];
+    }
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    UIView *touchView = [touches anyObject].view;
+    if ([touchView.superview.superview isEqual:self.baseLayerView]) {
+        if (_ratioDecreasing >= 0.6) {
+            _ratioDecreasing -= 0.001;
+        }
+        NSLog(@"............RATIO DECREASING: %f",_ratioDecreasing);
+        CGFloat newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
+        CGFloat newHeight = _baseLayerInitialFrame.size.height * _ratioDecreasing;
+        
+        _baseLayerView.frame = CGRectMake(_baseLayerInitialFrame.origin.x, _baseLayerInitialFrame.origin.y, newWidth, newHeight);
+        _baseLayerView.center = self.view.center;
+        NSLog(@"............RESULTANT FRAME: %@",NSStringFromCGRect(_baseLayerView.frame));
+        [self.baseLayerView setSubViewWithWithDimensionAsPerRatio:_ratioDecreasing];
+    }
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    UIView *touchView = [touches anyObject].view;
+    if ([touchView.superview.superview isEqual:self.baseLayerView]) {
+        [self.baseLayerView restoreSavedRect];
+        [self.baseLayerView restoreFrameOfAllSubviews];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	
+    
 	[self createComicViews];
 	
 	if ([viewModel isContainedAnimatedSticker] == true) {
@@ -73,6 +115,16 @@
 	} else {
 		self.btnPlay.hidden = true;
 	}
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    _baseLayerInitialFrame = _baseLayerView.frame;
+}
+
+- (UIView *)viewForZoomTransition:(BOOL)isSource {
+    return backgroundView;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -130,17 +182,18 @@
 
 - (IBAction)btnToolAnimateGifTapped:(id)sender {
 	UIView *toolView = [self createToolView:ObjectAnimateGIF];
-	toolView.frame = CGRectOffset(toolView.frame, self.view.frame.size.width, 0);
+	toolView.frame = CGRectOffset(toolView.frame, self.baseLayerView.frame.size.width, 0);
 	toolView.alpha = 0.0;
-	[self.view addSubview:toolView];
+	[self.baseLayerView addSubview:toolView];
 	
 	[UIView animateWithDuration:0.5 animations:^{
 		[self setToolButtonAlpah:0.0];
 		
-		toolView.frame = CGRectOffset(toolView.frame, -self.view.frame.size.width, 0);
+		toolView.frame = CGRectOffset(toolView.frame, -self.baseLayerView.frame.size.width, 0);
 		toolView.alpha = 1.0;
 		
 	} completion:^(BOOL finished) {
+
 	}];
 }
 
@@ -151,17 +204,18 @@
 
 - (IBAction)btnToolStickerTapped:(id)sender {
 	UIView *toolView = [self createToolView:ObjectSticker];
-	toolView.frame = CGRectOffset(toolView.frame, self.view.frame.size.width, 0);
+	toolView.frame = CGRectOffset(toolView.frame, self.baseLayerView.frame.size.width, 0);
 	toolView.alpha = 0.0;
-	[self.view addSubview:toolView];
+	[self.baseLayerView addSubview:toolView];
 	
 	[UIView animateWithDuration:0.5 animations:^{
 		[self setToolButtonAlpah:0.0];
 		
-		toolView.frame = CGRectOffset(toolView.frame, -self.view.frame.size.width, 0);
+		toolView.frame = CGRectOffset(toolView.frame, -self.baseLayerView.frame.size.width, 0);
 		toolView.alpha = 1.0;
 		
 	} completion:^(BOOL finished) {
+
 	}];
 }
 
@@ -199,13 +253,17 @@
         [self.navigationController pushViewController:vc animated:YES];
     } else {
         CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
-        [vc prepareView];
+        vc.shouldFetchAndReload = YES;
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
 
 
 - (IBAction)btnToolCloseTapped:(id)sender {
+    if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[CBComicPreviewVC class]]) {
+        CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
+        vc.shouldFetchAndReload = NO;
+    }
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -214,11 +272,11 @@
 - (void)tapGestureHandlerForToolContainerView:(UITapGestureRecognizer *)gesture {
 	[UIView animateWithDuration:0.5 animations:^{
 		if (gesture.view.tag == ObjectAnimateGIF) {
-			gesture.view.frame = CGRectOffset(gesture.view.frame, self.view.frame.size.width, 0);
+			gesture.view.frame = CGRectOffset(gesture.view.frame, self.baseLayerView.frame.size.width, 0);
 			gesture.view.alpha = 0.0;
 			
 		} else if (gesture.view.tag == ObjectSticker) {
-			gesture.view.frame = CGRectOffset(gesture.view.frame, self.view.frame.size.width, 0);
+			gesture.view.frame = CGRectOffset(gesture.view.frame, self.baseLayerView.frame.size.width, 0);
 			gesture.view.alpha = 0.0;
 			
 		} else if (gesture.view.tag == ObjectBubble) {
@@ -268,7 +326,7 @@
 	}
 	
 	backgroundView = [ComicObjectView createComicViewWith:viewModel.arrayObjects delegate:self];
-	[self.view insertSubview:backgroundView atIndex:0];
+	[self.baseLayerView insertSubview:backgroundView atIndex:0];
 }
 
 - (void)createComicViewWith:(BaseObject *)obj {
@@ -284,7 +342,8 @@
 - (UIView *)createToolView:(ComicObjectType)type {
 	nCategory = 1;
 	
-	UIView *toolContainerView = [[UIView alloc] initWithFrame:self.view.bounds];
+	UIView *toolContainerView = [[UIView alloc] initWithFrame:self.baseLayerView.bounds];
+
 	toolContainerView.backgroundColor = [UIColor clearColor];
 	toolContainerView.tag = type;
 	
@@ -540,6 +599,31 @@
 		
 		[self saveObject];
 	}];
+}
+
+- (void) addSubviewsOnImageWithSubviews:(NSMutableArray *)arrSubviews {
+    //Handle top layer that is sticker gif
+    int i=0;
+    for (NSDictionary* subview in arrSubviews) {
+        if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue]==17) {
+            ComicItemAnimatedSticker *sticker = [ComicItemAnimatedSticker new];
+            sticker.objFrame = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
+            sticker.combineAnimationFileName = [subview objectForKey:@"url"];
+            
+            NSBundle *bundle = [NSBundle mainBundle] ;
+            NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
+            NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".gif" withString:@""] ofType:@"gif"];
+            NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
+            
+            sticker.image =  [UIImage sd_animatedGIFWithData:gifData];
+            
+            
+            sticker.frame = CGRectMake(sticker.objFrame.origin.x, sticker.objFrame.origin.y, sticker.objFrame.size.width, sticker.objFrame.size.height);
+            i ++;
+            
+            [self.baseLayerView addSubview:sticker];
+        }
+    }
 }
 
 @end

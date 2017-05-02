@@ -10,6 +10,49 @@
 
 @implementation UIView (CBConstraints)
 
+- (void)saveCurrentRect {
+    self.savedRect = self.frame;
+}
+
+- (void)restoreSavedRect {
+    self.frame = self.savedRect;
+}
+
+- (void)setSavedRect:(CGRect)rect {
+
+}
+
+- (CGRect)savedRect {
+    return self.savedRect;
+}
+
+- (void)saveFrameOfAllSubviews {
+    for (UIView *subView in self.subviews) {
+        if ([subView isKindOfClass:[UIView class]]) {
+            [subView saveCurrentRect];
+            [subView saveFrameOfAllSubviews];
+        }
+    }
+}
+
+- (void)setSubViewWithWithDimensionAsPerRatio:(CGFloat)ratio {
+    for (UIView *subView in self.subviews) {
+        if ([subView isKindOfClass:[UIView class]]) {
+            subView.frame = CGRectMake(subView.frame.origin.x * ratio, subView.frame.origin.y * ratio, subView.frame.size.width * ratio, subView.frame.size.height * ratio);
+            [subView setSubViewWithWithDimensionAsPerRatio:ratio];
+        }
+    }
+}
+
+- (void)restoreFrameOfAllSubviews {
+    for (UIView *subView in self.subviews) {
+        if ([subView isKindOfClass:[UIView class]]) {
+            [subView restoreSavedRect];
+            [subView restoreFrameOfAllSubviews];
+        }
+    }
+}
+
 /*
  Each item in array must be a UIView that is already a subview of superView
  */

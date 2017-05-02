@@ -9,6 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @interface UIView (CBConstraints)
+
+@property (assign, nonatomic) CGRect savedRect;
+
+- (void)saveCurrentRect;
+- (void)restoreSavedRect;
+
+- (void)saveFrameOfAllSubviews;
+- (void)setSubViewWithWithDimensionAsPerRatio:(CGFloat)ratio;
+- (void)restoreFrameOfAllSubviews;
+
 -(void)horizontallyConstrainViewsToCenter:(NSArray*)array;
 -(void)verticallyConstrainViewsToCenter:(NSArray*)array;
 -(void)constrainSubviewArray:(NSArray*)subviews toTopWithMargin:(CGFloat)topMargin andMaxBottomWithMargin:(CGFloat)bottomMargin;
