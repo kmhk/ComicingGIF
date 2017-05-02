@@ -17,7 +17,8 @@
 #import "PenObject.h"
 
 
-#define COUNT_STICKERS		22
-#define COUNT_GIFS			11
+#define COUNT_STICKERS		@[@3, @3, @3, @4, @2, @4, @3]
+#define COUNT_GIFS			@[@3, @2, @2, @1, @1, @1, @1]
+#define COUNT_CATEGORY		7
 
 #endif /* ObjectHeader_h */
