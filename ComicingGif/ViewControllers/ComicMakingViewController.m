@@ -519,7 +519,7 @@
 		return UIEdgeInsetsMake(3, 10, 3, 10);
 	}
 	
-	return UIEdgeInsetsMake(3, 30, 3, 30);
+	return UIEdgeInsetsMake(3, 15, 3, 30);
 }
 
 
