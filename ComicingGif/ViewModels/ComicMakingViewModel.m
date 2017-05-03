@@ -54,6 +54,11 @@
 	[self.arrayRecents insertObject:dict atIndex:0];
 }
 
+- (NSArray *)getRecentObjects:(ComicObjectType)type {
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type == %d", type];
+	return [self.arrayRecents filteredArrayUsingPredicate:predicate];
+}
+
 
 // MARK: - save / load objects
 - (void)saveObject {

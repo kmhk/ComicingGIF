@@ -7,9 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-
-@class BaseObject;
+#import "BaseObject.h"
 
 
 @interface ComicMakingViewModel : NSObject
@@ -27,6 +25,7 @@
 // add comic object to the array
 - (void)addObject:(BaseObject *)obj;
 - (void)addRecentObject:(NSDictionary *)dict;
+- (NSArray *)getRecentObjects:(ComicObjectType)type;
 
 // save slide objects to file
 - (void)saveObject;

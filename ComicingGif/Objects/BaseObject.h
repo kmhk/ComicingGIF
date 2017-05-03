@@ -17,8 +17,7 @@ typedef enum {
 	ObjectSticker,				// object type for sticker
 	ObjectBubble,				// object type for bubble
 	ObjectCaption,				// object type for caption
-	ObjectPen,					// object type for pen
-	ObjectRecent				// recent objects
+	ObjectPen					// object type for pen
 } ComicObjectType;
 
 

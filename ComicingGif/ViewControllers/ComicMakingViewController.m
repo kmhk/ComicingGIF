@@ -39,7 +39,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnToolSticker;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolText;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolPen;
-@property (weak, nonatomic) IBOutlet UIButton *btnToolRecent;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnNext;
 @property (weak, nonatomic) IBOutlet UIButton *btnClose;
@@ -56,7 +55,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 	
-	nCategory = 0;
+	nCategory = 1;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -165,32 +164,6 @@
 }
 
 
-- (IBAction)btnRecentTapped:(id)sender {
-	UIView *toolView = [self createToolView:ObjectRecent];
-	toolView.frame = CGRectOffset(toolView.frame, self.view.frame.size.width, 0);
-	toolView.alpha = 0.0;
-	[self.view addSubview:toolView];
-	
-	if (!viewModel.arrayRecents.count) {
-		UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(0, toolView.frame.size.height - 150, toolView.frame.size.width, 150)];
-		lbl.text = @"No Recent Object";
-		lbl.textColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.8];
-		lbl.font = [UIFont boldSystemFontOfSize:25.0];
-		lbl.textAlignment = NSTextAlignmentCenter;
-		[toolView addSubview:lbl];
-	}
-	
-	[UIView animateWithDuration:0.5 animations:^{
-		[self setToolButtonAlpah:0.0];
-		
-		toolView.frame = CGRectOffset(toolView.frame, -self.view.frame.size.width, 0);
-		toolView.alpha = 1.0;
-		
-	} completion:^(BOOL finished) {
-	}];
-}
-
-
 - (IBAction)btnToolTextTapped:(id)sender {
 }
 
@@ -252,9 +225,6 @@
 			
 		} else if (gesture.view.tag == ObjectPen) {
 			
-		} else if (gesture.view.tag == ObjectRecent) {
-			gesture.view.frame = CGRectOffset(gesture.view.frame, self.view.frame.size.width, 0);
-			gesture.view.alpha = 0.0;
 		}
 		
 		[self setToolButtonAlpah:1.0];
@@ -310,7 +280,7 @@
 
 
 - (UIView *)createToolView:(ComicObjectType)type {
-	nCategory = 0;
+	nCategory = 1;
 	
 	UIView *toolContainerView = [[UIView alloc] initWithFrame:self.view.bounds];
 	toolContainerView.backgroundColor = [UIColor clearColor];
@@ -327,6 +297,8 @@
 	
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 	layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+	layout.minimumInteritemSpacing = 30;
+	layout.minimumLineSpacing = 30;
 	
 	collectionToolView = [[UICollectionView alloc] initWithFrame:rt collectionViewLayout:layout];
 	collectionToolView.tag = type;
@@ -339,23 +311,21 @@
 	[toolContainerView addSubview:collectionToolView];
 	[collectionToolView reloadData];
 	
-	if (type != ObjectRecent) {
-		// category collection view
-		rt = CGRectMake(0, toolContainerView.frame.size.height - 50, toolContainerView.frame.size.width, 50);
-		
-		layout = [[UICollectionViewFlowLayout alloc] init];
-		layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-		
-		collectionCategoryView = [[UICollectionView alloc] initWithFrame:rt collectionViewLayout:layout];
-		collectionCategoryView.delegate = self;
-		collectionCategoryView.dataSource = self;
-		collectionCategoryView.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:0 green:0 blue:0 alpha:0.1];
-		collectionCategoryView.pagingEnabled = YES;
-		[collectionCategoryView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CATEGORYCELLID];
-		
-		[toolContainerView addSubview:collectionCategoryView];
-		[collectionCategoryView reloadData];
-	}
+	// category collection view
+	rt = CGRectMake(0, toolContainerView.frame.size.height - 50, toolContainerView.frame.size.width, 50);
+	
+	layout = [[UICollectionViewFlowLayout alloc] init];
+	layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+	
+	collectionCategoryView = [[UICollectionView alloc] initWithFrame:rt collectionViewLayout:layout];
+	collectionCategoryView.delegate = self;
+	collectionCategoryView.dataSource = self;
+	collectionCategoryView.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:0 green:0 blue:0 alpha:0.1];
+	collectionCategoryView.pagingEnabled = YES;
+	[collectionCategoryView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CATEGORYCELLID];
+	
+	[toolContainerView addSubview:collectionCategoryView];
+	[collectionCategoryView reloadData];
 	
 	return toolContainerView;
 }
@@ -366,7 +336,6 @@
 	self.btnToolText.alpha = alpha;
 	self.btnToolBubble.alpha = alpha;
 	self.btnToolSticker.alpha = alpha;
-	self.btnToolRecent.alpha = alpha;
 	self.btnNext.alpha = alpha;
 }
 
@@ -394,15 +363,17 @@
 		return COUNT_CATEGORY;
 	}
 	
+	// for recent section of each tool view
+	if (nCategory == 0) {
+		return [viewModel getRecentObjects:(ComicObjectType)collectionView.tag].count;
+	}
+	
 	// for sticker tool view
-	if (collectionView.tag == ObjectRecent) {
-		return viewModel.arrayRecents.count;
-		
-	} else if (collectionView.tag == ObjectSticker) {
-		return [COUNT_STICKERS[nCategory] integerValue];
+	if (collectionView.tag == ObjectSticker) {
+		return [COUNT_STICKERS[nCategory - 1] integerValue];
 		
 	} else if (collectionView.tag == ObjectAnimateGIF) {
-		return [COUNT_GIFS[nCategory] integerValue];
+		return [COUNT_GIFS[nCategory - 1] integerValue];
 	}
 	
 	return 0;
@@ -431,7 +402,7 @@
 		UIView *chosenView = [cell viewWithTag:0x101];
 		if (nCategory == indexPath.row) {
 			if (!chosenView) {
-				chosenView = [[UIView alloc] initWithFrame:CGRectMake((cell.bounds.size.width - 5) / 2, cell.bounds.size.height - 10, 5, 5)];
+				chosenView = [[UIView alloc] initWithFrame:CGRectMake((cell.bounds.size.width - 8) / 2, cell.bounds.size.height - 10, 8, 8)];
 				chosenView.layer.cornerRadius = chosenView.frame.size.width / 2;
 				chosenView.backgroundColor = [UIColor whiteColor];
 				chosenView.clipsToBounds = YES;
@@ -458,8 +429,8 @@
 	NSString *rcID;
 	NSInteger type, index, category;
 	
-	if (collectionView.tag == ObjectRecent) {
-		NSDictionary *dict = viewModel.arrayRecents[indexPath.row];
+	if (nCategory == 0) { // for recent section
+		NSDictionary *dict = [viewModel getRecentObjects:(ComicObjectType)collectionView.tag][indexPath.row];
 		type = [dict[@"type"] integerValue];
 		index = [dict[@"id"] integerValue];
 		category = [dict[@"category"] integerValue];
@@ -467,7 +438,7 @@
 	} else {
 		type = collectionView.tag;
 		index = indexPath.row;
-		category = nCategory;
+		category = nCategory - 1;
 	}
 	
 	if (type == ObjectSticker) {
@@ -514,8 +485,8 @@
 	// for tool category view
 	NSInteger type, index, category;
 	
-	if (collectionView.tag == ObjectRecent) {
-		NSDictionary *dict = viewModel.arrayRecents[indexPath.row];
+	if (nCategory == 0) { // for recent object
+		NSDictionary *dict = [viewModel getRecentObjects:(ComicObjectType)collectionView.tag][indexPath.row];
 		type = [dict[@"type"] integerValue];
 		index = [dict[@"id"] integerValue];
 		category = [dict[@"category"] integerValue];
@@ -523,7 +494,7 @@
 	} else {
 		type = collectionView.tag;
 		index = indexPath.row;
-		category = nCategory;
+		category = nCategory - 1;
 	}
 	
 	BaseObject *obj = [self createComicObject:(ComicObjectType)type index:index category:category];
@@ -541,6 +512,14 @@
 	
 	return CGSizeMake(80, 80);
 	//return CGSizeMake((collectionView.frame.size.width - 40) / 3, collectionView.frame.size.height - 20);
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+	if (collectionView == collectionCategoryView) {
+		return UIEdgeInsetsMake(3, 10, 3, 10);
+	}
+	
+	return UIEdgeInsetsMake(3, 30, 3, 30);
 }
 
 
