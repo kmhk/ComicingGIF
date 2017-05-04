@@ -226,7 +226,7 @@
 	UIGestureRecognizerState state = [gesture state];
     CGPoint point = [gesture locationInView:self.parentView];
 	
-	if (CGRectContainsRect(self.parentView.frame, CGRectMake(point.x - 10, point.y - 10, 20, 20)) == true) {
+	if (CGRectContainsRect(self.parentView.bounds, CGRectMake(point.x - 10, point.y - 10, 20, 20)) == true) {
         CGPoint translation = [gesture translationInView:gesture.view];
         gesture.view.center = CGPointMake(gesture.view.center.x + translation.x, gesture.view.center.y + translation.y);
         [gesture setTranslation:CGPointZero inView:gesture.view];

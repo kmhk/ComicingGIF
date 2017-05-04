@@ -46,17 +46,17 @@
 	UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.stickerURL]];
 	
 	CGSize szScreen = [[UIScreen mainScreen] bounds].size;
-	if (img.size.width / img.size.height > szScreen.width / szScreen.height) {
-		rt.size.width = (img.size.width < szScreen.width ? img.size.width : szScreen.width * 0.3);
+	if (img.size.width / img.size.height > szScreen.width / (szScreen.height / 4)) {
+		rt.size.width = (img.size.width < szScreen.width ? img.size.width : szScreen.width * 0.4);
 		rt.size.height = rt.size.width * img.size.height / img.size.width;
 		
 	} else {
-		rt.size.height = (img.size.height < szScreen.height ? img.size.height : szScreen.height * 0.3);
+		rt.size.height = (img.size.height < szScreen.height / 4 ? img.size.height : szScreen.height / 4 * 0.8);
 		rt.size.width = rt.size.height * img.size.width / img.size.height;
 	}
 	
-	rt.origin.x = arc4random_uniform((szScreen.width - img.size.width) / 20) * 20;
-	rt.origin.y = arc4random_uniform((szScreen.height - img.size.height) / 10) * 10;
+	rt.origin.x = arc4random_uniform((szScreen.width - img.size.width) / 20) * 20 + 20;
+	rt.origin.y = arc4random_uniform((szScreen.height / 4 - img.size.height) / 10) * 10 + 20;
 	rt.size.width += W_PADDING; // adding W_PADDING for area of showing comic object tool
 	rt.size.height += H_PADDING; // adding H_PADDING for area of showing comic object tool
 	
