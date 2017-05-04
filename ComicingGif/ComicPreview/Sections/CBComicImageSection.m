@@ -219,9 +219,9 @@
     CGFloat width= floorf(collectionViewSize.width-(kCollectionViewLeftMargin+kCollectionViewRightMargin+ (kHorizontalMargin*2)));
     CBComicItemModel* model= [self.dataArray objectAtIndex:indexPath.row];
     if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_LANDSCAPE){
-        return CGSizeMake(width, kLandscapeCellHeight);
+        return CGSizeMake(width, width/1.7286);
     }else if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF){
-        CGFloat cellWidth= floorf((width-kCollectionViewMiddleMargin)/2 -1);
+        CGFloat cellWidth= floorf((width-kCollectionViewMiddleMargin - kVerticalCellMultiplier)/2 -1);
         return CGSizeMake(cellWidth, floorf(cellWidth*kVerticalCellMultiplier));
     }else {
         return CGSizeMake(width, floorf(width*kVerticalCellMultiplier));

@@ -44,7 +44,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnNext;
 @property (weak, nonatomic) IBOutlet UIButton *btnClose;
 
-@property (weak, nonatomic) IBOutlet UIView *baseLayerView;
+@property (strong, nonatomic) IBOutlet UIView *baseLayerView;
 @property (assign, nonatomic) CGFloat ratioDecreasing;
 @property (assign, nonatomic) CGRect baseLayerInitialFrame;
 
@@ -64,7 +64,6 @@
 
     _ratioDecreasing = 1;
     _baseLayerView.clipsToBounds = YES;
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,24 +83,34 @@
     UIView *touchView = [touches anyObject].view;
     if ([touchView.superview.superview isEqual:self.baseLayerView]) {
         if (_ratioDecreasing >= 0.6) {
-            _ratioDecreasing -= 0.001;
+            _ratioDecreasing -= 0.01;
+            
+            NSLog(@"............RATIO DECREASING: %f",_ratioDecreasing);
+            CGFloat newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
+            CGFloat newHeight = _baseLayerInitialFrame.size.height * _ratioDecreasing;
+            
+            _baseLayerView.frame = CGRectMake(_baseLayerInitialFrame.origin.x, _baseLayerInitialFrame.origin.y, newWidth, newHeight);
+            _baseLayerView.center = self.view.center;
+            NSLog(@"............RESULTANT FRAME: %@",NSStringFromCGRect(_baseLayerView.frame));
+            [self.baseLayerView setSubViewWithWithDimensionAsPerRatio:_ratioDecreasing treeCount:1];
         }
-        NSLog(@"............RATIO DECREASING: %f",_ratioDecreasing);
-        CGFloat newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
-        CGFloat newHeight = _baseLayerInitialFrame.size.height * _ratioDecreasing;
-        
-        _baseLayerView.frame = CGRectMake(_baseLayerInitialFrame.origin.x, _baseLayerInitialFrame.origin.y, newWidth, newHeight);
-        _baseLayerView.center = self.view.center;
-        NSLog(@"............RESULTANT FRAME: %@",NSStringFromCGRect(_baseLayerView.frame));
-        [self.baseLayerView setSubViewWithWithDimensionAsPerRatio:_ratioDecreasing];
     }
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     UIView *touchView = [touches anyObject].view;
     if ([touchView.superview.superview isEqual:self.baseLayerView]) {
-        [self.baseLayerView restoreSavedRect];
-        [self.baseLayerView restoreFrameOfAllSubviews];
+        if (_ratioDecreasing >= 0.7){
+            [self.baseLayerView restoreSavedRect];
+            [self.baseLayerView restoreFrameOfAllSubviews];
+            [UIView animateWithDuration:0.1 + 0.2*(1-_ratioDecreasing) animations:^{
+                [self.view setNeedsLayout];
+                [self.view layoutIfNeeded];
+            }];
+        } else {
+            //Save
+            [self btnNextTapped:nil];
+        }
     }
 }
 
@@ -124,7 +133,7 @@
 }
 
 - (UIView *)viewForZoomTransition:(BOOL)isSource {
-    return backgroundView;
+    return self.baseLayerView;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -250,7 +259,12 @@
     
     if (![[self.navigationController.viewControllers firstObject] isKindOfClass:[CBComicPreviewVC class]]) {
         CBComicPreviewVC *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CBComicPreviewVC"];
-        [self.navigationController pushViewController:vc animated:YES];
+        vc.shouldFetchAndReload = YES;
+        NSMutableArray *controllers = [[NSArray arrayWithObject:vc] mutableCopy];
+        [controllers addObjectsFromArray:self.navigationController.viewControllers];
+        [self.navigationController setViewControllers:controllers];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+//        [self.navigationController pushViewController:vc animated:YES];
     } else {
         CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
         vc.shouldFetchAndReload = YES;

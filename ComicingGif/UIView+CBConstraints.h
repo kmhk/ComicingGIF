@@ -16,7 +16,7 @@
 - (void)restoreSavedRect;
 
 - (void)saveFrameOfAllSubviews;
-- (void)setSubViewWithWithDimensionAsPerRatio:(CGFloat)ratio;
+- (void)setSubViewWithWithDimensionAsPerRatio:(CGFloat)ratio treeCount:(NSInteger)treeCount;
 - (void)restoreFrameOfAllSubviews;
 
 -(void)horizontallyConstrainViewsToCenter:(NSArray*)array;
