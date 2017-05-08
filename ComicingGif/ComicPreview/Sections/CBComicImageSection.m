@@ -215,17 +215,24 @@
 }
 
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize collectionViewSize= self.collectionView.frame.size;
+    CGSize collectionViewSize= self.collectionView.bounds.size;
     CGFloat width= floorf(collectionViewSize.width-(kCollectionViewLeftMargin+kCollectionViewRightMargin+ (kHorizontalMargin*2)));
     CBComicItemModel* model= [self.dataArray objectAtIndex:indexPath.row];
     if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_LANDSCAPE){
+        [self printWidth:width andH:width/1.7286 andCollV:self.collectionView.frame];
         return CGSizeMake(width, width/1.7286);
     }else if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF){
         CGFloat cellWidth= floorf((width-kCollectionViewMiddleMargin - kVerticalCellMultiplier)/2 -1);
+        [self printWidth:cellWidth andH:cellWidth*kVerticalCellMultiplier andCollV:self.collectionView.frame];
         return CGSizeMake(cellWidth, floorf(cellWidth*kVerticalCellMultiplier));
     }else {
+        [self printWidth:width andH:floorf(width*kVerticalCellMultiplier) andCollV:self.collectionView.frame];
         return CGSizeMake(width, floorf(width*kVerticalCellMultiplier));
     }
+}
+
+- (void)printWidth:(CGFloat)width andH:(CGFloat)h andCollV:(CGRect)rect {
+    NSLog(@"xxx             %f ,%f ,%@",width, h, NSStringFromCGRect(rect));
 }
 
 - (UIEdgeInsets)insetForSection{

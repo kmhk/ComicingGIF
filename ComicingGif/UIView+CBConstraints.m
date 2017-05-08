@@ -45,7 +45,7 @@ static void const *key;
     for (UIView *subView in self.subviews) {
         if ([subView isKindOfClass:[UIView class]]) {
             subView.frame = CGRectMake(self.savedRect.origin.x * ratio, self.savedRect.origin.y * ratio, self.savedRect.size.width * ratio, self.savedRect.size.height * ratio);
-            NSLog(@".....................TREE COUNT: %d , RATIO: %f ,and from: %@", treeCount, ratio, NSStringFromCGRect(subView.frame));
+            NSLog(@".....................TREE COUNT: %ld , RATIO: %f ,and from: %@", (long)treeCount, ratio, NSStringFromCGRect(subView.frame));
             [subView setSubViewWithWithDimensionAsPerRatio:ratio treeCount:treeCount+1];
         }
     }

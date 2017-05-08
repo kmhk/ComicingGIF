@@ -39,7 +39,7 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WhiteBottom" translatesAutoresizingMaskIntoConstraints="NO" id="7IN-eD-Kyw" userLabel="BottomImageView">
                     <rect key="frame" x="10" y="430" width="326" height="30"/>
                 </imageView>
-                <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="rBf-Kd-2ev">
+                <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="none" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rBf-Kd-2ev">
                     <rect key="frame" x="16" y="15" width="298" height="415"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="cZx-cX-RJa">

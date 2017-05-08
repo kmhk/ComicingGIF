@@ -33,7 +33,8 @@
     UILabel *headerTitleTextView;
     NSString *comicTitle;
     NSString *titleFontName;
-    UIColor *comicBackgroundColor;    
+    UIColor *comicBackgroundColor;
+    BOOL createComicCollectionOnce;
 }
 @property (nonatomic, strong) CBComicPageViewController* previewVC;
 @property (nonatomic, strong) ZoomInteractiveTransition * transition;
@@ -56,9 +57,7 @@
     self.tableView.backgroundColor= [UIColor blackColor];
     self.tableView.separatorStyle= UITableViewCellSeparatorStyleNone;
     self.dataArray= [NSMutableArray new];
-    self.previewVC= [[CBComicPageViewController alloc] initWithNibName:@"CBComicPageViewController" bundle:nil];
-    self.previewVC.view.tag= kPreviewViewTag;
-    self.previewVC.delegate= self;
+    
     
     //Added By ramesh-> for handle slide type
     if(self.comicType == ReplyComic && self.replyType == FriendReply) {
@@ -69,20 +68,36 @@
         self.fileNameToSave = @"ComicSlide";
     }
     
-    [self setupSections];
-    [self.tableView reloadData];
     
-    [self prepareView];
-    
-    if (self.dataArray == nil || self.dataArray.count == 0) {
-        [self pushAddSlideTap:NO ofIndex:-1];
-    }
-    //End
     
 //    [self.tableView reloadData];
     
     self.navigationController.navigationBar.hidden = YES;
 
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    if (!createComicCollectionOnce) {
+        createComicCollectionOnce = !createComicCollectionOnce;
+        self.previewVC= [[CBComicPageViewController alloc] initWithNibName:@"CBComicPageViewController" bundle:nil];
+        self.previewVC.view.tag= kPreviewViewTag;
+        self.previewVC.delegate= self;
+    }
+    
+    if (!_shouldntRefreshAfterDidLayoutSubviews) {
+        _shouldntRefreshAfterDidLayoutSubviews = YES;
+        [self setupSections];
+        [self.tableView reloadData];
+        
+        [self prepareView];
+        
+        if (self.dataArray == nil || self.dataArray.count == 0) {
+            [self pushAddSlideTap:NO ofIndex:-1];
+        }
+        //End
+    }
 }
 
 
@@ -117,8 +132,9 @@
             if(finished){
                 if ([model isEqual:[self.dataArray lastObject]]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-//                        [self.tableView reloadData];
+                        
                         [self.previewVC.collectionView reloadData];
+                        [self.tableView reloadData];
                     });
                 }
             }
