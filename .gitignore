@@ -1,0 +1,12 @@
+*.pyc
+*.py~
+*.*~
+*.html~
+*.DS_Store
+ComicingGif.xcodeproj/project.xcworkspace/
+ComicingGif.xcodeproj/xcuserdata/
+ComicingGif.xcodeproj/project.xcworkspace/xcuserdata/
+Pods/Pods.xcodeproj/xcuserdata/
+ComicingGif.xcodeproj/project.xcworkspace/
+ComicingGif.xcodeproj/xcuserdata/
+ComicingGif.xcworkspace/xcuserdata/
