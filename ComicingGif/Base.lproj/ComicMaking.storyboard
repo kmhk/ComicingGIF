@@ -31,60 +31,75 @@
                                 <rect key="frame" x="0.0" y="628" width="29" height="2"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="42" id="7yB-a9-h7j"/>
-                                    <constraint firstAttribute="width" constant="29" id="Trm-iU-r1T"/>
+                                    <constraint firstAttribute="height" constant="2" id="7CT-xK-CDo"/>
                                 </constraints>
-                                <state key="normal" image="comic_book"/>
-                            </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NlB-iW-d1g" userLabel="TappableButton">
-                                <rect key="frame" x="197" y="40" width="21" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="f4d-Rn-qNV"/>
-                                    <constraint firstAttribute="width" constant="21" id="mOc-KZ-vOw"/>
-                                </constraints>
-                                <state key="normal" image="comic_play"/>
-                                <connections>
-                                    <action selector="btnPlayTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="9A7-4y-1Br"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OrZ-qY-UPF" userLabel="TappableButton">
-                                <rect key="frame" x="380" y="42" width="19" height="19"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="19" id="IW6-xB-7Qo"/>
-                                    <constraint firstAttribute="width" constant="19" id="uZb-Sl-frg"/>
-                                </constraints>
-                                <state key="normal" image="cameraXButton"/>
-                                <connections>
-                                    <action selector="btnToolCloseTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="rxz-Z5-9Eu"/>
-                                </connections>
-                            </button>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eEi-dp-dcP">
-                                <rect key="frame" x="29" y="602" width="64" height="54"/>
+                                <rect key="frame" x="29" y="602" width="62" height="53"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="64" id="Tqh-rF-Le3"/>
-                                    <constraint firstAttribute="height" constant="54" id="v0K-7a-Ui2"/>
+                                    <constraint firstAttribute="width" secondItem="eEi-dp-dcP" secondAttribute="height" multiplier="193:164" id="37S-Qf-58G"/>
                                 </constraints>
                                 <state key="normal" backgroundImage="comic_smile"/>
                                 <connections>
                                     <action selector="btnToolAnimateGifTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="XJA-IL-oif"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5AA-2Y-0cg">
-                                <rect key="frame" x="285" y="603" width="64" height="53"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nsg-G5-kb3" userLabel="AnimatedGIF BottomView">
+                                <rect key="frame" x="59" y="655" width="2" height="81"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="64" id="eC4-9I-Rfv"/>
-                                    <constraint firstAttribute="height" constant="53" id="v4R-jL-cbL"/>
+                                    <constraint firstAttribute="width" constant="2" id="Xd7-5Z-f8A"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5AA-2Y-0cg">
+                                <rect key="frame" x="285" y="604" width="64" height="49"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="5AA-2Y-0cg" secondAttribute="height" multiplier="210:161" id="27j-rb-bgV"/>
                                 </constraints>
                                 <state key="normal" backgroundImage="comic_hi"/>
                                 <connections>
                                     <action selector="btnToolBubbleTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="0qY-0q-XiC"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qi4-MI-adn" userLabel="TappableButton">
-                                <rect key="frame" x="365" y="512" width="44" height="44"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r9y-Lc-iHt" userLabel="Bubble TrailingView">
+                                <rect key="frame" x="349" y="627" width="65" height="2"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="44" id="U1l-X2-g8a"/>
-                                    <constraint firstAttribute="height" constant="44" id="ute-mv-iZ2"/>
+                                    <constraint firstAttribute="height" constant="2" id="AmE-MH-eNg"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H8D-YP-HQk" userLabel="StickerView">
+                                <rect key="frame" x="366" y="514" width="41" height="41"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="comic_sticker" translatesAutoresizingMaskIntoConstraints="NO" id="1wA-kb-vW1">
+                                        <rect key="frame" x="3" y="2" width="36" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="1wA-kb-vW1" secondAttribute="height" id="PIY-nc-k8C"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qi4-MI-adn" userLabel="TappableButton">
+                                        <rect key="frame" x="0.0" y="0.0" width="41" height="41"/>
+                                        <connections>
+                                            <action selector="btnToolStickerTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="kuO-uF-jhK"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="1wA-kb-vW1" firstAttribute="centerX" secondItem="H8D-YP-HQk" secondAttribute="centerX" id="LfF-VI-DB2"/>
+                                    <constraint firstItem="Qi4-MI-adn" firstAttribute="top" secondItem="H8D-YP-HQk" secondAttribute="top" id="ZD6-II-hJ3"/>
+                                    <constraint firstItem="Qi4-MI-adn" firstAttribute="leading" secondItem="H8D-YP-HQk" secondAttribute="leading" id="awp-O1-URZ"/>
+                                    <constraint firstAttribute="width" secondItem="H8D-YP-HQk" secondAttribute="height" id="c1r-SV-t87"/>
+                                    <constraint firstItem="1wA-kb-vW1" firstAttribute="centerY" secondItem="H8D-YP-HQk" secondAttribute="centerY" id="h1Y-XK-Fbk"/>
+                                    <constraint firstAttribute="trailing" secondItem="Qi4-MI-adn" secondAttribute="trailing" id="tVh-XS-abp"/>
+                                    <constraint firstAttribute="bottom" secondItem="Qi4-MI-adn" secondAttribute="bottom" id="tYJ-cW-kQ2"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LVZ-gX-itn" userLabel="BottomStickerSpacingView">
+                                <rect key="frame" x="412" y="555" width="2" height="10"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="2" id="1gR-a1-IJq"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eeq-KU-otG" userLabel="TextView">
@@ -220,8 +235,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="31" height="2"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="NNd-C4-ziQ"/>
-                                    <constraint firstAttribute="width" constant="44" id="kN7-kV-9gg"/>
+                                    <constraint firstAttribute="height" constant="2" id="uev-2u-0OJ"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V0v-42-Sp0" userLabel="BookView">
@@ -239,8 +253,13 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="gJZ-i5-9hQ"/>
-                                    <constraint firstAttribute="width" constant="36" id="wy2-Kv-uAw"/>
+                                    <constraint firstItem="dp9-4P-cEs" firstAttribute="leading" secondItem="V0v-42-Sp0" secondAttribute="leading" id="09c-4G-Qwk"/>
+                                    <constraint firstItem="dU2-v8-MNL" firstAttribute="centerX" secondItem="V0v-42-Sp0" secondAttribute="centerX" id="4PH-iw-yCQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="dp9-4P-cEs" secondAttribute="bottom" id="4ZJ-H3-L9B"/>
+                                    <constraint firstAttribute="trailing" secondItem="dp9-4P-cEs" secondAttribute="trailing" id="KQS-XA-MxS"/>
+                                    <constraint firstAttribute="width" secondItem="V0v-42-Sp0" secondAttribute="height" id="be2-CW-SfJ"/>
+                                    <constraint firstItem="dp9-4P-cEs" firstAttribute="top" secondItem="V0v-42-Sp0" secondAttribute="top" id="h9z-f9-Bqk"/>
+                                    <constraint firstItem="dU2-v8-MNL" firstAttribute="centerY" secondItem="V0v-42-Sp0" secondAttribute="centerY" id="u8O-5x-mXj"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a5C-hJ-ZzF" userLabel="PlayPauseView">
@@ -258,14 +277,15 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="23" id="Xmi-wb-b3N"/>
-                                    <constraint firstAttribute="height" constant="39" id="f7Q-PK-HLY"/>
+                                    <constraint firstItem="NlB-iW-d1g" firstAttribute="leading" secondItem="a5C-hJ-ZzF" secondAttribute="leading" id="Zm6-SI-YBP"/>
+                                    <constraint firstItem="w1Y-cU-e8X" firstAttribute="centerY" secondItem="a5C-hJ-ZzF" secondAttribute="centerY" id="aG6-mP-geX"/>
+                                    <constraint firstItem="NlB-iW-d1g" firstAttribute="top" secondItem="a5C-hJ-ZzF" secondAttribute="top" id="cEr-tY-D4p"/>
+                                    <constraint firstAttribute="bottom" secondItem="NlB-iW-d1g" secondAttribute="bottom" id="gUt-xg-yYc"/>
+                                    <constraint firstAttribute="width" secondItem="a5C-hJ-ZzF" secondAttribute="height" id="kpn-AZ-HSr"/>
+                                    <constraint firstItem="w1Y-cU-e8X" firstAttribute="centerX" secondItem="a5C-hJ-ZzF" secondAttribute="centerX" id="l3I-ve-yOU"/>
+                                    <constraint firstAttribute="trailing" secondItem="NlB-iW-d1g" secondAttribute="trailing" id="sjc-Fn-zTp"/>
                                 </constraints>
-                                <state key="normal" image="comic_next"/>
-                                <connections>
-                                    <action selector="btnNextTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="QCh-iv-PEs"/>
-                                </connections>
-                            </button>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
@@ -336,7 +356,6 @@
                         <outlet property="baseLayerView" destination="pKL-i6-UqL" id="hMs-Ym-L5X"/>
                         <outlet property="btnClose" destination="OrZ-qY-UPF" id="NfD-hw-rLK"/>
                         <outlet property="btnNext" destination="PWx-tu-a0Z" id="iuH-DI-3Yk"/>
-                        <outlet property="btnPlay" destination="NlB-iW-d1g" id="ywO-wC-NYd"/>
                         <outlet property="btnToolAnimateGIF" destination="eEi-dp-dcP" id="wDy-SH-vnR"/>
                         <outlet property="btnToolBubble" destination="5AA-2Y-0cg" id="ugI-9s-Lln"/>
                         <outlet property="btnToolPen" destination="13P-bE-RLv" id="Z0q-wE-9Vh"/>
