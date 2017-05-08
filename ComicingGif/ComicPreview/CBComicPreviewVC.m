@@ -134,7 +134,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
                         [self.previewVC.collectionView reloadData];
-                        [self.tableView reloadData];
+//                        [self.tableView reloadData];
                     });
                 }
             }

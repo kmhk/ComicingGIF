@@ -66,6 +66,10 @@
     _baseLayerView.clipsToBounds = YES;
 }
 
+- (void)setAlpha:(BOOL)alpha {
+    self.btnToolAnimateGIF.alpha = self.btnToolBubble.alpha = self.btnToolSticker.alpha = self.btnToolText.alpha = self.btnToolPen.alpha = alpha;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -130,6 +134,11 @@
     [super viewDidLayoutSubviews];
     
     _baseLayerInitialFrame = _baseLayerView.frame;
+    
+    [self setAlpha:NO];
+    [UIView animateWithDuration:0.2f animations:^{
+        [self setAlpha:YES];
+    }];
 }
 
 - (UIView *)viewForZoomTransition:(BOOL)isSource {
@@ -270,6 +279,14 @@
         vc.shouldntRefreshAfterDidLayoutSubviews = NO;
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
+    
+    [UIView animateWithDuration:0.2f animations:^{
+        self.btnToolAnimateGIF.alpha = 0;
+        self.btnToolBubble.alpha = 0;
+        self.btnToolSticker.alpha = 0;
+        self.btnToolText.alpha = 0;
+        self.btnToolPen.alpha = 0;
+    }];
 }
 
 
