@@ -49,7 +49,7 @@
     for (CBComicItemModel *item in self.dataArray) {
         NSLog(@"............DATA ARRAY IN CELL: %@",item.comicPage);
     }
-    
+    self.collectionView.backgroundColor = [UIColor yellowColor];
 //    ComicItemAnimatedSticker *st = [ComicItemAnimatedSticker new];
 //    st.objFrame = CGRectMake(50, 80, 100, 100);
 //    [st addItemWithImage:[YYImage imageNamed:@"WTF"]];
@@ -215,8 +215,9 @@
 }
 
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize collectionViewSize= self.collectionView.bounds.size;
-    CGFloat width= floorf(collectionViewSize.width-(kCollectionViewLeftMargin+kCollectionViewRightMargin+ (kHorizontalMargin*2)));
+    NSLog(@"......................SCREENSIZE: %@",NSStringFromCGRect([UIScreen mainScreen].bounds));
+//    CGSize collectionViewSize= self.collectionView.bounds.size;
+    CGFloat width= floorf(([UIScreen mainScreen].bounds.size.width - (32+16))-(kCollectionViewLeftMargin+kCollectionViewRightMargin+ (kHorizontalMargin*2))); // 32 and 16 are the leading and trailing of collectionview
     CBComicItemModel* model= [self.dataArray objectAtIndex:indexPath.row];
     if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_LANDSCAPE){
         [self printWidth:width andH:width/1.7286 andCollV:self.collectionView.frame];

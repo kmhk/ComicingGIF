@@ -47,7 +47,9 @@
         }
         [self changePageToIndex:self.viewControllers.count-1 completed:^(BOOL success) {
             if(success){
-                [vc addComicItem:comicItem];
+                [vc addComicItem:comicItem completion:^(BOOL finished) {
+                    
+                }];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     completion(YES);
                 });
@@ -59,14 +61,18 @@
         if(self.currentIndex != self.viewControllers.count-1){
             [self changePageToIndex:self.viewControllers.count-1 completed:^(BOOL success) {
                 if(success){
-                    [vc addComicItem:comicItem];
+                    [vc addComicItem:comicItem completion:^(BOOL finished) {
+                        
+                    }];
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         completion(YES);
                     });
                 }
             }];
         }else{
-            [vc addComicItem:comicItem];
+            [vc addComicItem:comicItem completion:^(BOOL finished) {
+                
+            }];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 completion(YES);
             });
@@ -98,7 +104,9 @@
         NSInteger itemToAdd= self.index+1*kMaxItemsInComic;
         if(itemToAdd-1 < self.dataArray.count){
             CBComicPageCollectionVC* currentVC= [self.viewControllers objectAtIndex:index];
-            [currentVC addComicItem:[self.dataArray objectAtIndex:itemToAdd-1]];
+            [currentVC addComicItem:[self.dataArray objectAtIndex:itemToAdd-1] completion:^(BOOL finished) {
+                
+            }];
         }
     }
     if(shouldRemoveLastPage && self.viewControllers.count>1){

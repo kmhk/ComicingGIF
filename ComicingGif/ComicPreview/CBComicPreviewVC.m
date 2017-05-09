@@ -11,7 +11,7 @@
 #import "CBPreviewHeaderSection.h"
 #import "CBComicPreviewCell.h"
 #import "CBPreviewHeaderCell.h"
-#import "CBComicPageViewController.h"
+//#import "CBComicPageViewController.h"
 #import "UIView+CBConstraints.h"
 #import "ZoomInteractiveTransition.h"
 #import "ZoomTransitionProtocol.h"
@@ -26,17 +26,21 @@
 #import "CameraViewController.h"
 #import "ComicMakingViewController.h"
 #import "ComicObjectSerialize.h"
+#import "CBComicPageCollectionVC.h"
 
 #define kPreviewViewTag 12001
 
-@interface CBComicPreviewVC () <CBComicPageViewControllerDelegate, ZoomTransitionProtocol, UIGestureRecognizerDelegate, TitleFontDelegate, ComicBookColorCBViewControllerDelegate, CBPreviewHeaderDelegate> {
+@interface CBComicPreviewVC () <ZoomTransitionProtocol, UIGestureRecognizerDelegate, TitleFontDelegate, ComicBookColorCBViewControllerDelegate, CBPreviewHeaderDelegate
+//,CBComicPageViewControllerDelegate
+> {
     UILabel *headerTitleTextView;
     NSString *comicTitle;
     NSString *titleFontName;
     UIColor *comicBackgroundColor;
     BOOL createComicCollectionOnce;
 }
-@property (nonatomic, strong) CBComicPageViewController* previewVC;
+//@property (nonatomic, strong) CBComicPageViewController* previewVC;
+@property (nonatomic, strong) CBComicPageCollectionVC* comicPageCollectionVC;
 @property (nonatomic, strong) ZoomInteractiveTransition * transition;
 @property (strong, nonatomic) UIView *transitionView;
 @property (strong, nonatomic) NSString *fileNameToSave;
@@ -81,9 +85,10 @@
     
     if (!createComicCollectionOnce) {
         createComicCollectionOnce = !createComicCollectionOnce;
-        self.previewVC= [[CBComicPageViewController alloc] initWithNibName:@"CBComicPageViewController" bundle:nil];
-        self.previewVC.view.tag= kPreviewViewTag;
-        self.previewVC.delegate= self;
+        self.comicPageCollectionVC= [[CBComicPageCollectionVC alloc] initWithNibName:@"CBComicPageCollectionVC" bundle:nil];
+        self.comicPageCollectionVC.view.tag= kPreviewViewTag;
+        [self.comicPageCollectionVC.view layoutIfNeeded];
+//        self.comicPageCollectionVC.delegate= self;
     }
     
     if (!_shouldntRefreshAfterDidLayoutSubviews) {
@@ -117,8 +122,8 @@
      _comicSlides = [[ComicObjectSerialize loadComicSlide] mutableCopy];
     
     [self.dataArray removeAllObjects];
-    [self.previewVC.dataArray removeAllObjects];
-    [((CBComicPageCollectionVC *)[self.previewVC.viewControllers lastObject]).dataArray removeAllObjects];
+    [self.comicPageCollectionVC.dataArray removeAllObjects];
+//    [((CBComicPageCollectionVC *)[self.previewVC.viewControllers lastObject]).dataArray removeAllObjects];
     
     for (int i=0; i<self.comicSlides.count; i++) {
         ComicPage *comicPage = [[ComicPage alloc]init];
@@ -128,17 +133,30 @@
         [self.dataArray addObject:model];
         NSLog(@"\n.............ADD FETCHED CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
         NSLog(@"\n............... DATA ARRAY: %@",self.dataArray);
-        [self.previewVC addComicItem:model completion:^(BOOL finished) {
+        
+        [self.comicPageCollectionVC addComicItem:model completion:^(BOOL finished) {
             if(finished){
                 if ([model isEqual:[self.dataArray lastObject]]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
-                        [self.previewVC.collectionView reloadData];
-//                        [self.tableView reloadData];
+                        [self.comicPageCollectionVC.collectionView reloadData];
+                        [self.tableView reloadData];
                     });
                 }
             }
         }];
+        
+//        [self.previewVC addComicItem:model completion:^(BOOL finished) {
+//            if(finished){
+//                if ([model isEqual:[self.dataArray lastObject]]) {
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        
+//                        [self.previewVC.collectionView reloadData];
+////                        [self.tableView reloadData];
+//                    });
+//                }
+//            }
+//        }];
 
     }
     
@@ -166,18 +184,22 @@
         
         NSLog(@"\n.............ADD EMPTY CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
         NSLog(@"\n............... DATA ARRAY: %@",self.dataArray);
-        [self.previewVC addComicItem:model completion:^(BOOL finished) {
-            if(finished){
-                [weekSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
-                //            [weekSelf.tableView reloadData];
-            }
-        }];
+        
+//        [self.previewVC addComicItem:model completion:^(BOOL finished) {
+//            if(finished){
+//                [weekSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+//                //            [weekSelf.tableView reloadData];
+//            }
+//        }];
+        
     } else {
         NSLog(@"\n.............REPLACE CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
         NSLog(@"\n............... DATA ARRAY: %@",self.dataArray);
         [((CBComicItemModel *)self.dataArray[index]) replaceWithNewModel:model];
 //        self.previewVC.dataArray = self.dataArray;
-        [((CBComicPageCollectionVC *)[[self.previewVC viewControllers] firstObject]) refreshDataArray:self.dataArray];
+        
+//        [((CBComicPageCollectionVC *)[[self.previewVC viewControllers] firstObject]) refreshDataArray:self.dataArray];
+        
         [self.tableView reloadData];
     }
 }
@@ -199,12 +221,13 @@
 
 - (CGFloat)maxPageHeight{
     CGFloat maxHeight= 0.0f;
-    for(CBBaseViewController* vc in self.previewVC.viewControllers){
-//        if(vc.collectionView.collectionViewLayout.collectionViewContentSize.height > maxHeight){
-        
-            maxHeight= vc.collectionView.collectionViewLayout.collectionViewContentSize.height;
-//        }
-    }
+//    for(CBBaseViewController* vc in self.previewVC.viewControllers){
+////        if(vc.collectionView.collectionViewLayout.collectionViewContentSize.height > maxHeight){
+//        
+//            maxHeight= vc.collectionView.collectionViewLayout.collectionViewContentSize.height;
+////        }
+//    }
+    maxHeight = self.comicPageCollectionVC.collectionView.collectionViewLayout.collectionViewContentSize.height;
     return ceilf(maxHeight);
 }
 
@@ -223,11 +246,12 @@
     }else if([cell isKindOfClass:[CBComicPreviewCell class]]){
         // Add pageViewController view as a subview
         if(![cell.contentView viewWithTag:kPreviewViewTag]){
-            [cell.contentView addSubview:self.previewVC.view];
-            [self.previewVC.view setTranslatesAutoresizingMaskIntoConstraints:NO];
-            [cell.contentView constrainSubviewToAllEdges:self.previewVC.view withMargin:0.0f];
+            [cell.contentView addSubview:self.comicPageCollectionVC.view];
+            [self.comicPageCollectionVC.view setTranslatesAutoresizingMaskIntoConstraints:NO];
+            [cell.contentView constrainSubviewToAllEdges:self.comicPageCollectionVC.view withMargin:0.0f];
+//            [cell.contentView layoutIfNeeded];
             
-            [((CBComicPageCollectionVC *)[self.previewVC.viewControllers lastObject]).rainbowColorCircleButton addTarget:self action:@selector(rainbowCircleTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [_comicPageCollectionVC.rainbowColorCircleButton addTarget:self action:@selector(rainbowCircleTapped:) forControlEvents:UIControlEventTouchUpInside];
         }
     }
     return cell;
@@ -240,7 +264,7 @@
     CGFloat height= [super ta_tableView:tableView heightForRowAtIndexPath:indexPath];
     UITableViewCell* cell= [super ta_tableView:tableView cellForRowAtIndexPath:indexPath];
     if([cell isKindOfClass:[CBComicPreviewCell class]]){
-        if (self.previewVC.dataArray.count == 0) {
+        if (self.comicPageCollectionVC.dataArray.count == 0) {
             height = 0;
         } else {
             height= [self maxPageHeight] + 45;
@@ -375,7 +399,7 @@
     vc.indexSaved = index;
     [vc initWithBaseImage:[NSURL URLWithString:baseURLString] frame:slideRect andSubviewArray:arrTemp isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:@"isTall"] boolValue] index:index];
     
-    self.transitionView = [((CBComicPageCollectionVC *)[self.previewVC.viewControllers firstObject]).collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
+    self.transitionView = [_comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
 
     [self.navigationController pushViewController:vc animated:YES];
 //    [self pushAddSlideTap:!(itemModel.itemOrientation==COMIC_ITEM_ORIENTATION_PORTRAIT) ofIndex:index];
@@ -386,17 +410,17 @@
 
 - (void)getSelectedColor:(UIColor *)color andComicBackgroundImageName:(NSString *)backgroundImageName {
     comicBackgroundColor = color;
-    if ([self.previewVC viewControllers].count != 0) {
-        [((CBComicPageCollectionVC *)[[self.previewVC viewControllers] lastObject]).collectionView setBackgroundColor:color];
+    if (self.comicPageCollectionVC.dataArray != 0) {
+        [_comicPageCollectionVC.collectionView setBackgroundColor:color];
         
-        CBComicPageCollectionVC *comicPage = ((CBComicPageCollectionVC *)[[self.previewVC viewControllers] lastObject]);
-        comicPage.comicBookBackgroundTop.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@Top",backgroundImageName]];
-        comicPage.comicBookBackgroundLeft.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@Left",backgroundImageName]];
-        comicPage.comicBookBackgroundRight.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@Right",backgroundImageName]];
-        comicPage.comicBookBackgroundBottom.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@Bottom",backgroundImageName]];
+//        CBComicPageCollectionVC *comicPage = ((CBComicPageCollectionVC *)[[self.previewVC viewControllers] lastObject]);
+        _comicPageCollectionVC.comicBookBackgroundTop.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@Top",backgroundImageName]];
+        _comicPageCollectionVC.comicBookBackgroundLeft.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@Left",backgroundImageName]];
+        _comicPageCollectionVC.comicBookBackgroundRight.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@Right",backgroundImageName]];
+        _comicPageCollectionVC.comicBookBackgroundBottom.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@Bottom",backgroundImageName]];
     }
 //    [self.tableView reloadData];
-    [self.previewVC.collectionView reloadData];
+    [self.comicPageCollectionVC.collectionView reloadData];
 }
 
 #pragma mark - CBPreviewHeaderDelegate methods
@@ -551,7 +575,7 @@
 
 - (void)pushAddSlideTap:(BOOL)isWideSlide ofIndex:(NSInteger)index
 {
-    CBComicPageCollectionVC *comicPage = ((CBComicPageCollectionVC *)[[self.previewVC viewControllers] lastObject]);
+//    CBComicPageCollectionVC *comicPage = ((CBComicPageCollectionVC *)[[self.previewVC viewControllers] lastObject]);
     
     NSIndexPath *indexPath;
     BOOL _isNewSlide = YES;
@@ -561,7 +585,7 @@
         indexPath = [NSIndexPath indexPathForItem:index inSection:0];
         _isNewSlide = NO;
     }
-    _transitionView = [comicPage getZoomTransitionViewForIndexPath:indexPath];
+    _transitionView = [_comicPageCollectionVC getZoomTransitionViewForIndexPath:indexPath];
     
 //    ComicMakingViewController *cmv = [self.storyboard instantiateViewControllerWithIdentifier:@"ComicMakingViewController"];
 //    
