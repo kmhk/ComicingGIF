@@ -32,11 +32,12 @@ static void const *key = @"kk";
     return [objc_getAssociatedObject(self, key) CGRectValue];
 }
 
-- (void)saveFrameOfAllSubviews {
+- (void)saveFrameOfAllSubviewsWithTreeCount:(NSInteger)treeCount {
     for (UIView *subView in self.subviews) {
         if ([subView isKindOfClass:[UIView class]]) {
             [subView saveCurrentRect];
-            [subView saveFrameOfAllSubviews];
+            NSLog(@".....................TREE COUNT: %ld ,and savedFrame: %@", (long)treeCount, NSStringFromCGRect(self.savedRect));
+            [subView saveFrameOfAllSubviewsWithTreeCount:treeCount+1];
         }
     }
 }

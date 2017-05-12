@@ -79,7 +79,7 @@
     UIView *touchView = [touches anyObject].view;
     if ([touchView.superview.superview isEqual:self.baseLayerView]) {
         _ratioDecreasing = 1;
-        [self.baseLayerView saveFrameOfAllSubviews];
+        [self.baseLayerView saveFrameOfAllSubviewsWithTreeCount:1];
     }
 }
 
