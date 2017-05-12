@@ -37,6 +37,7 @@
 @implementation CBComicImageSection
 - (CBBaseCollectionViewCell*)cellForCollectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath{
     [super cellForCollectionView:collectionView atIndexPath:indexPath];
+    NSLog(@"CollectionVie... old: %@, new: %@",self.collectionView, collectionView);
     self.collectionView = collectionView;
     CBComicImageCell* cell= [collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
     if(!cell){
@@ -49,7 +50,9 @@
     for (CBComicItemModel *item in self.dataArray) {
         NSLog(@"............DATA ARRAY IN CELL: %@",item.comicPage);
     }
-    self.collectionView.backgroundColor = [UIColor yellowColor];
+    
+//    self.collectionView.backgroundColor = [UIColor yellowColor];
+    
 //    ComicItemAnimatedSticker *st = [ComicItemAnimatedSticker new];
 //    st.objFrame = CGRectMake(50, 80, 100, 100);
 //    [st addItemWithImage:[YYImage imageNamed:@"WTF"]];
@@ -65,7 +68,7 @@
         
     }
     
-    NSLog(@"\n\n\nCELLLLLLLLLLLLLLLLL B: %lu %@", index, _comicItemModel.comicPage.subviews);
+    NSLog(@"\n\n\nCELLLLLLLLLLLLLLLLL B: %lu %@, CollFrame: %@", index, _comicItemModel.comicPage.subviews, NSStringFromCGRect(rect));
     for (UIView *view in [cell.topLayerView subviews]) {
         [view removeFromSuperview];
     }
@@ -215,6 +218,7 @@
 }
 
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"CollectionView size for item : %@",self.collectionView);
     NSLog(@"......................SCREENSIZE: %@",NSStringFromCGRect([UIScreen mainScreen].bounds));
 //    CGSize collectionViewSize= self.collectionView.bounds.size;
     CGFloat width= floorf(([UIScreen mainScreen].bounds.size.width - (32+16))-(kCollectionViewLeftMargin+kCollectionViewRightMargin+ (kHorizontalMargin*2))); // 32 and 16 are the leading and trailing of collectionview

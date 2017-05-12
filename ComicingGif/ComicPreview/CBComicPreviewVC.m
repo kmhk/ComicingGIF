@@ -30,7 +30,8 @@
 
 #define kPreviewViewTag 12001
 
-@interface CBComicPreviewVC () <ZoomTransitionProtocol, UIGestureRecognizerDelegate, TitleFontDelegate, ComicBookColorCBViewControllerDelegate, CBPreviewHeaderDelegate
+@interface CBComicPreviewVC () <ZoomTransitionProtocol, UIGestureRecognizerDelegate, TitleFontDelegate, ComicBookColorCBViewControllerDelegate, CBPreviewHeaderDelegate,
+CBComicPageCollectionDelegate
 //,CBComicPageViewControllerDelegate
 > {
     UILabel *headerTitleTextView;
@@ -88,21 +89,23 @@
         self.comicPageCollectionVC= [[CBComicPageCollectionVC alloc] initWithNibName:@"CBComicPageCollectionVC" bundle:nil];
         self.comicPageCollectionVC.view.tag= kPreviewViewTag;
         [self.comicPageCollectionVC.view layoutIfNeeded];
-//        self.comicPageCollectionVC.delegate= self;
+        self.comicPageCollectionVC.delegate= self;
     }
     
-    if (!_shouldntRefreshAfterDidLayoutSubviews) {
-        _shouldntRefreshAfterDidLayoutSubviews = YES;
-        [self setupSections];
-        [self.tableView reloadData];
-        
-        [self prepareView];
-        
-        if (self.dataArray == nil || self.dataArray.count == 0) {
-            [self pushAddSlideTap:NO ofIndex:-1];
+//    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!_shouldntRefreshAfterDidLayoutSubviews) {
+            _shouldntRefreshAfterDidLayoutSubviews = YES;
+            [self setupSections];
+            [self.tableView reloadData];
+            
+            [self prepareView];
+            
+            if (self.dataArray == nil || self.dataArray.count == 0) {
+                [self pushAddSlideTap:NO ofIndex:-1];
+            }
+            //End
         }
-        //End
-    }
+//    });
 }
 
 
@@ -138,9 +141,12 @@
             if(finished){
                 if ([model isEqual:[self.dataArray lastObject]]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
+                        NSLog(@"*\n*\n*\n*\n*\n*\n*\n*\n*\n*\n*\n*\n*\n*\n*\n*\n");
+//                        [self.comicPageCollectionVC.collectionView reloadData];
+//                        [self.tableView reloadData];
                         
-                        [self.comicPageCollectionVC.collectionView reloadData];
-                        [self.tableView reloadData];
+                        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 1)];
+                        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
                     });
                 }
             }
@@ -227,6 +233,7 @@
 //            maxHeight= vc.collectionView.collectionViewLayout.collectionViewContentSize.height;
 ////        }
 //    }
+    NSLog(@"CollectionView max height: %@",self.collectionView);
     maxHeight = self.comicPageCollectionVC.collectionView.collectionViewLayout.collectionViewContentSize.height;
     return ceilf(maxHeight);
 }
@@ -249,7 +256,7 @@
             [cell.contentView addSubview:self.comicPageCollectionVC.view];
             [self.comicPageCollectionVC.view setTranslatesAutoresizingMaskIntoConstraints:NO];
             [cell.contentView constrainSubviewToAllEdges:self.comicPageCollectionVC.view withMargin:0.0f];
-//            [cell.contentView layoutIfNeeded];
+            [cell.contentView layoutIfNeeded];
             
             [_comicPageCollectionVC.rainbowColorCircleButton addTarget:self action:@selector(rainbowCircleTapped:) forControlEvents:UIControlEventTouchUpInside];
         }

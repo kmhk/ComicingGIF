@@ -9,7 +9,7 @@
 #import "UIView+CBConstraints.h"
 #import <objc/runtime.h>
 
-static void const *key;
+static void const *key = @"kk";
 
 @implementation UIView (CBConstraints)
 
@@ -24,7 +24,7 @@ static void const *key;
 
 - (void)setSavedRect:(CGRect)rect {
     NSValue *rectValue = [NSValue valueWithCGRect:rect];
-    objc_setAssociatedObject(self, key, rectValue, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(self, key, rectValue, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
 }
 
