@@ -152,7 +152,10 @@
     }
 }
 
-- (void)addComicItem:(CBComicItemModel*)comicItem {
+- (void)addComicItem:(CBComicItemModel*)comicItem completion:(void (^)(BOOL))completion {
+    if (self.dataArray.count == kMaxItemsInComic) {
+        return;
+    }
     if(!self.dataArray){
         self.dataArray= [NSMutableArray new];
     }
@@ -171,6 +174,8 @@
     
     
 //    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:[self.dataArray indexOfObject:comicItem] inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:YES];
+    
+    completion(YES);
 }
 
 #pragma mark- UICollectionViewDataSource helper methods

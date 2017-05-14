@@ -66,6 +66,10 @@
     _baseLayerView.clipsToBounds = YES;
 }
 
+- (void)setAlpha:(BOOL)alpha {
+    self.btnToolAnimateGIF.alpha = self.btnToolBubble.alpha = self.btnToolSticker.alpha = self.btnToolText.alpha = self.btnToolPen.alpha = alpha;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -75,7 +79,7 @@
     UIView *touchView = [touches anyObject].view;
     if ([touchView.superview.superview isEqual:self.baseLayerView]) {
         _ratioDecreasing = 1;
-        [self.baseLayerView saveFrameOfAllSubviews];
+        [self.baseLayerView saveFrameOfAllSubviewsWithTreeCount:1];
     }
 }
 
@@ -130,6 +134,11 @@
     [super viewDidLayoutSubviews];
     
     _baseLayerInitialFrame = _baseLayerView.frame;
+    
+    [self setAlpha:NO];
+    [UIView animateWithDuration:0.2f animations:^{
+        [self setAlpha:YES];
+    }];
 }
 
 - (UIView *)viewForZoomTransition:(BOOL)isSource {
@@ -259,7 +268,7 @@
     
     if (![[self.navigationController.viewControllers firstObject] isKindOfClass:[CBComicPreviewVC class]]) {
         CBComicPreviewVC *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CBComicPreviewVC"];
-        vc.shouldFetchAndReload = YES;
+        vc.shouldntRefreshAfterDidLayoutSubviews = NO;
         NSMutableArray *controllers = [[NSArray arrayWithObject:vc] mutableCopy];
         [controllers addObjectsFromArray:self.navigationController.viewControllers];
         [self.navigationController setViewControllers:controllers];
@@ -267,16 +276,24 @@
 //        [self.navigationController pushViewController:vc animated:YES];
     } else {
         CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
-        vc.shouldFetchAndReload = YES;
+        vc.shouldntRefreshAfterDidLayoutSubviews = NO;
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
+    
+    [UIView animateWithDuration:0.2f animations:^{
+        self.btnToolAnimateGIF.alpha = 0;
+        self.btnToolBubble.alpha = 0;
+        self.btnToolSticker.alpha = 0;
+        self.btnToolText.alpha = 0;
+        self.btnToolPen.alpha = 0;
+    }];
 }
 
 
 - (IBAction)btnToolCloseTapped:(id)sender {
     if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[CBComicPreviewVC class]]) {
         CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
-        vc.shouldFetchAndReload = NO;
+        vc.shouldntRefreshAfterDidLayoutSubviews = NO;
     }
 	[self.navigationController popViewControllerAnimated:YES];
 }

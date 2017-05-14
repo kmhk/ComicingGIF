@@ -9,7 +9,7 @@
 #import "UIView+CBConstraints.h"
 #import <objc/runtime.h>
 
-static void const *key;
+static void const *key = @"kk";
 
 @implementation UIView (CBConstraints)
 
@@ -24,7 +24,7 @@ static void const *key;
 
 - (void)setSavedRect:(CGRect)rect {
     NSValue *rectValue = [NSValue valueWithCGRect:rect];
-    objc_setAssociatedObject(self, key, rectValue, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(self, key, rectValue, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
 }
 
@@ -32,11 +32,12 @@ static void const *key;
     return [objc_getAssociatedObject(self, key) CGRectValue];
 }
 
-- (void)saveFrameOfAllSubviews {
+- (void)saveFrameOfAllSubviewsWithTreeCount:(NSInteger)treeCount {
     for (UIView *subView in self.subviews) {
         if ([subView isKindOfClass:[UIView class]]) {
             [subView saveCurrentRect];
-            [subView saveFrameOfAllSubviews];
+            NSLog(@".....................TREE COUNT: %ld ,and savedFrame: %@", (long)treeCount, NSStringFromCGRect(self.savedRect));
+            [subView saveFrameOfAllSubviewsWithTreeCount:treeCount+1];
         }
     }
 }
@@ -45,7 +46,7 @@ static void const *key;
     for (UIView *subView in self.subviews) {
         if ([subView isKindOfClass:[UIView class]]) {
             subView.frame = CGRectMake(self.savedRect.origin.x * ratio, self.savedRect.origin.y * ratio, self.savedRect.size.width * ratio, self.savedRect.size.height * ratio);
-            NSLog(@".....................TREE COUNT: %d , RATIO: %f ,and from: %@", treeCount, ratio, NSStringFromCGRect(subView.frame));
+            NSLog(@".....................TREE COUNT: %ld , RATIO: %f ,and from: %@", (long)treeCount, ratio, NSStringFromCGRect(subView.frame));
             [subView setSubViewWithWithDimensionAsPerRatio:ratio treeCount:treeCount+1];
         }
     }

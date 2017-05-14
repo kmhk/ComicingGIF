@@ -37,6 +37,7 @@
 @implementation CBComicImageSection
 - (CBBaseCollectionViewCell*)cellForCollectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath{
     [super cellForCollectionView:collectionView atIndexPath:indexPath];
+    NSLog(@"CollectionVie... old: %@, new: %@",self.collectionView, collectionView);
     self.collectionView = collectionView;
     CBComicImageCell* cell= [collectionView dequeueReusableCellWithReuseIdentifier:kCellIdentifier forIndexPath:indexPath];
     if(!cell){
@@ -49,6 +50,8 @@
     for (CBComicItemModel *item in self.dataArray) {
         NSLog(@"............DATA ARRAY IN CELL: %@",item.comicPage);
     }
+    
+//    self.collectionView.backgroundColor = [UIColor yellowColor];
     
 //    ComicItemAnimatedSticker *st = [ComicItemAnimatedSticker new];
 //    st.objFrame = CGRectMake(50, 80, 100, 100);
@@ -65,7 +68,7 @@
         
     }
     
-    NSLog(@"\n\n\nCELLLLLLLLLLLLLLLLL B: %lu %@", index, _comicItemModel.comicPage.subviews);
+    NSLog(@"\n\n\nCELLLLLLLLLLLLLLLLL B: %lu %@, CollFrame: %@", index, _comicItemModel.comicPage.subviews, NSStringFromCGRect(rect));
     for (UIView *view in [cell.topLayerView subviews]) {
         [view removeFromSuperview];
     }
@@ -215,17 +218,26 @@
 }
 
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize collectionViewSize= self.collectionView.frame.size;
-    CGFloat width= floorf(collectionViewSize.width-(kCollectionViewLeftMargin+kCollectionViewRightMargin+ (kHorizontalMargin*2)));
+    NSLog(@"CollectionView size for item : %@",self.collectionView);
+    NSLog(@"......................SCREENSIZE: %@",NSStringFromCGRect([UIScreen mainScreen].bounds));
+//    CGSize collectionViewSize= self.collectionView.bounds.size;
+    CGFloat width= floorf(([UIScreen mainScreen].bounds.size.width - (32+16))-(kCollectionViewLeftMargin+kCollectionViewRightMargin+ (kHorizontalMargin*2))); // 32 and 16 are the leading and trailing of collectionview
     CBComicItemModel* model= [self.dataArray objectAtIndex:indexPath.row];
     if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_LANDSCAPE){
+        [self printWidth:width andH:width/1.7286 andCollV:self.collectionView.frame];
         return CGSizeMake(width, width/1.7286);
     }else if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF){
         CGFloat cellWidth= floorf((width-kCollectionViewMiddleMargin - kVerticalCellMultiplier)/2 -1);
+        [self printWidth:cellWidth andH:cellWidth*kVerticalCellMultiplier andCollV:self.collectionView.frame];
         return CGSizeMake(cellWidth, floorf(cellWidth*kVerticalCellMultiplier));
     }else {
+        [self printWidth:width andH:floorf(width*kVerticalCellMultiplier) andCollV:self.collectionView.frame];
         return CGSizeMake(width, floorf(width*kVerticalCellMultiplier));
     }
+}
+
+- (void)printWidth:(CGFloat)width andH:(CGFloat)h andCollV:(CGRect)rect {
+    NSLog(@"xxx             %f ,%f ,%@",width, h, NSStringFromCGRect(rect));
 }
 
 - (UIEdgeInsets)insetForSection{

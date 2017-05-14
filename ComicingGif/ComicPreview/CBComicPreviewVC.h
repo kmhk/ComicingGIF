@@ -27,6 +27,7 @@
 @property (nonatomic) NSInteger editSlideIndex;
 
 @property (nonatomic, assign) BOOL shouldFetchAndReload;
+@property (nonatomic, assign) BOOL shouldntRefreshAfterDidLayoutSubviews;
 
 - (void)prepareView;
 
