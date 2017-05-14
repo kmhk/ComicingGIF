@@ -24,4 +24,10 @@ typedef void (^ProcessHandler)(MFMessageComposeViewController* controller);
  completionHandler:(CompletionHandler)handler
  completionHandler:(ProcessHandler)pHandler;
 
+-(void)sendMessage:(UIViewController*)viewController
+		 ShareText:(NSString*)shareText
+		ShareVideo:(NSURL*)shareVideo
+ completionHandler:(CompletionHandler)handler
+ completionHandler:(ProcessHandler)pHandler;
+
 @end

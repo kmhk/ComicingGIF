@@ -60,7 +60,11 @@ static ShareHelper *_shareHelper = nil;
     switch (shareType) {
         case MESSAGE:{
             RCiMessage* imessage = [[RCiMessage alloc] init];
-            [imessage sendMessage:self.parentviewcontroller ShareText:shareText ShareImage:shareImage completionHandler:completeBlock completionHandler:^(MFMessageComposeViewController *controller) {
+            [imessage sendMessage:self.parentviewcontroller
+						ShareText:shareText
+					   ShareVideo:[NSURL URLWithString:shareUrl]
+				completionHandler:completeBlock
+				completionHandler:^(MFMessageComposeViewController *controller) {
                 controller.messageComposeDelegate = self;
                 [self.parentviewcontroller presentViewController:controller animated:YES completion:nil];
             }];

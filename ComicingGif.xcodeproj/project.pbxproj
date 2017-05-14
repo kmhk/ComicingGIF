@@ -373,6 +373,11 @@
 		CE12CC441EB87C3C00EA0E40 /* theme_GIF4_0.gif in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC391EB87C3C00EA0E40 /* theme_GIF4_0.gif */; };
 		CE12CC451EB87C3C00EA0E40 /* theme_GIF5_0.gif in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC3A1EB87C3C00EA0E40 /* theme_GIF5_0.gif */; };
 		CE12CC461EB87C3C00EA0E40 /* theme_GIF6_0.gif in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC3B1EB87C3C00EA0E40 /* theme_GIF6_0.gif */; };
+		CE1D4E0B1EC2F72F009D8321 /* layoutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE1D4E0A1EC2F72F009D8321 /* layoutView.xib */; };
+		CE1D4E0F1EC3120C009D8321 /* ComicPreviewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CE1D4E0E1EC3120C009D8321 /* ComicPreviewModel.m */; };
+		CE1D4E141EC335DB009D8321 /* blackLayerImage.png in Resources */ = {isa = PBXBuildFile; fileRef = CE1D4E131EC335DB009D8321 /* blackLayerImage.png */; };
+		CE1D4E181EC40FCF009D8321 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = CE1D4E171EC40FCF009D8321 /* video.mp4 */; };
+		CE2F59421EC57D6100D7CB68 /* bkLayerImage.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2F59411EC57D6100D7CB68 /* bkLayerImage.png */; };
 		CE91CE1B1EB9D99E00637AD7 /* category7.png in Resources */ = {isa = PBXBuildFile; fileRef = CE91CE1A1EB9D99E00637AD7 /* category7.png */; };
 		CE91CE231EB9D9B800637AD7 /* category0.png in Resources */ = {isa = PBXBuildFile; fileRef = CE91CE1C1EB9D9B800637AD7 /* category0.png */; };
 		CE91CE241EB9D9B800637AD7 /* category1.png in Resources */ = {isa = PBXBuildFile; fileRef = CE91CE1D1EB9D9B800637AD7 /* category1.png */; };
@@ -1074,6 +1079,12 @@
 		CE12CC391EB87C3C00EA0E40 /* theme_GIF4_0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF4_0.gif; path = Resources/animationGIF/theme_GIF4_0.gif; sourceTree = "<group>"; };
 		CE12CC3A1EB87C3C00EA0E40 /* theme_GIF5_0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF5_0.gif; path = Resources/animationGIF/theme_GIF5_0.gif; sourceTree = "<group>"; };
 		CE12CC3B1EB87C3C00EA0E40 /* theme_GIF6_0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF6_0.gif; path = Resources/animationGIF/theme_GIF6_0.gif; sourceTree = "<group>"; };
+		CE1D4E0A1EC2F72F009D8321 /* layoutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = layoutView.xib; path = LayoutViews/layoutView.xib; sourceTree = "<group>"; };
+		CE1D4E0D1EC3120C009D8321 /* ComicPreviewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComicPreviewModel.h; path = ViewModels/ComicPreviewModel.h; sourceTree = "<group>"; };
+		CE1D4E0E1EC3120C009D8321 /* ComicPreviewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComicPreviewModel.m; path = ViewModels/ComicPreviewModel.m; sourceTree = "<group>"; };
+		CE1D4E131EC335DB009D8321 /* blackLayerImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blackLayerImage.png; path = Resources/LayerImages/blackLayerImage.png; sourceTree = "<group>"; };
+		CE1D4E171EC40FCF009D8321 /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = video.mp4; path = Resources/LayerImages/video.mp4; sourceTree = "<group>"; };
+		CE2F59411EC57D6100D7CB68 /* bkLayerImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bkLayerImage.png; path = Resources/LayerImages/bkLayerImage.png; sourceTree = "<group>"; };
 		CE91CE1A1EB9D99E00637AD7 /* category7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = category7.png; path = Resources/categoryIcon/category7.png; sourceTree = "<group>"; };
 		CE91CE1C1EB9D9B800637AD7 /* category0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = category0.png; path = Resources/categoryIcon/category0.png; sourceTree = "<group>"; };
 		CE91CE1D1EB9D9B800637AD7 /* category1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = category1.png; path = Resources/categoryIcon/category1.png; sourceTree = "<group>"; };
@@ -2704,6 +2715,7 @@
 		CE12CBA31EAFF0BF00EA0E40 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CE1D4E101EC33553009D8321 /* LayerImages */,
 				CE12CC471EB87C4000EA0E40 /* Category */,
 				CE12CBA41EAFF0CD00EA0E40 /* StaticStickers */,
 				F323D45B1E8E677B00B41659 /* AnimationGIF */,
@@ -2753,6 +2765,33 @@
 				CE91CE1A1EB9D99E00637AD7 /* category7.png */,
 			);
 			name = Category;
+			sourceTree = "<group>";
+		};
+		CE1D4E091EC2F50F009D8321 /* LayoutViews */ = {
+			isa = PBXGroup;
+			children = (
+				CE1D4E0A1EC2F72F009D8321 /* layoutView.xib */,
+			);
+			name = LayoutViews;
+			sourceTree = "<group>";
+		};
+		CE1D4E0C1EC311DD009D8321 /* ComicPreviewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CE1D4E0D1EC3120C009D8321 /* ComicPreviewModel.h */,
+				CE1D4E0E1EC3120C009D8321 /* ComicPreviewModel.m */,
+			);
+			name = ComicPreviewModel;
+			sourceTree = "<group>";
+		};
+		CE1D4E101EC33553009D8321 /* LayerImages */ = {
+			isa = PBXGroup;
+			children = (
+				CE2F59411EC57D6100D7CB68 /* bkLayerImage.png */,
+				CE1D4E171EC40FCF009D8321 /* video.mp4 */,
+				CE1D4E131EC335DB009D8321 /* blackLayerImage.png */,
+			);
+			name = LayerImages;
 			sourceTree = "<group>";
 		};
 		F317941E1E8689110083BD19 /* Utils */ = {
@@ -2836,6 +2875,7 @@
 		F323D45A1E8E459100B41659 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CE1D4E091EC2F50F009D8321 /* LayoutViews */,
 				0C43F7421E9F4E7F00AB71F9 /* GroupCell */,
 				0C43F73E1E9F4E6100AB71F9 /* CMCUserCell */,
 				0C43F72B1E9F4D8300AB71F9 /* PrivateConvCell */,
@@ -3008,6 +3048,7 @@
 				0C43F3A21E9F386800AB71F9 /* Slides */,
 				0C43F3691E9F382C00AB71F9 /* Enhancement */,
 				0C43F3091E9F367E00AB71F9 /* Friend */,
+				CE1D4E0C1EC311DD009D8321 /* ComicPreviewModel */,
 				F323D4771E8E710E00B41659 /* ComicMakingViewModel */,
 				F323D4561E8E42E200B41659 /* CameraViewModel */,
 			);
@@ -3157,6 +3198,7 @@
 				CE12CC1E1EB87C2100EA0E40 /* theme_sticker1_0.png in Resources */,
 				CE12CC221EB87C2100EA0E40 /* theme_sticker2_1.png in Resources */,
 				0C43F7101E9F4BF400AB71F9 /* CategoryCollectionViewCell.xib in Resources */,
+				CE1D4E181EC40FCF009D8321 /* video.mp4 in Resources */,
 				CE12CC431EB87C3C00EA0E40 /* theme_GIF3_0.gif in Resources */,
 				0C43F5E11E9F435500AB71F9 /* MeCell.xib in Resources */,
 				0C43F6241E9F447700AB71F9 /* GroupsMembersSection.xib in Resources */,
@@ -3170,9 +3212,11 @@
 				F323D4591E8E448800B41659 /* ComicMaking.storyboard in Resources */,
 				CE91CE271EB9D9B800637AD7 /* category4.png in Resources */,
 				CE12CC291EB87C2100EA0E40 /* theme_sticker4_1.png in Resources */,
+				CE2F59421EC57D6100D7CB68 /* bkLayerImage.png in Resources */,
 				CE12CC231EB87C2100EA0E40 /* theme_sticker2_2.png in Resources */,
 				CE12CC2F1EB87C2100EA0E40 /* theme_sticker6_1.png in Resources */,
 				0C43F3B81E9F392400AB71F9 /* ComicCell.xib in Resources */,
+				CE1D4E141EC335DB009D8321 /* blackLayerImage.png in Resources */,
 				0C43F5D51E9F431B00AB71F9 /* ComicShareView.xib in Resources */,
 				0C43F7331E9F4D8300AB71F9 /* PrivateConversationCell.xib in Resources */,
 				CE12CC2A1EB87C2100EA0E40 /* theme_sticker5_0.png in Resources */,
@@ -3200,6 +3244,7 @@
 				0C43F6E71E9F492300AB71F9 /* FindFriendsView.xib in Resources */,
 				0C43F6B11E9F479F00AB71F9 /* AccountView.xib in Resources */,
 				0C43F6431E9F44E000AB71F9 /* ComicImageListView.xib in Resources */,
+				CE1D4E0B1EC2F72F009D8321 /* layoutView.xib in Resources */,
 				0C43F4371E9F3B4500AB71F9 /* CBComicPageViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3391,6 +3436,7 @@
 				F323D48E1E8E770400B41659 /* PenObject.m in Sources */,
 				0C43F4411E9F3B4500AB71F9 /* ComicTagViewController.m in Sources */,
 				0C43F6D11E9F48B100AB71F9 /* OpenCuteStickersGiftBoxViewController.m in Sources */,
+				CE1D4E0F1EC3120C009D8321 /* ComicPreviewModel.m in Sources */,
 				0C43F3951E9F384B00AB71F9 /* SDWebImageDecoder.m in Sources */,
 				0C43F4971E9F3CAD00AB71F9 /* MBProgressHUD.m in Sources */,
 				F36BE3AC1E830E22007F6CE7 /* AppDelegate.m in Sources */,

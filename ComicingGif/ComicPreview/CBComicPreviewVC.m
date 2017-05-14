@@ -26,6 +26,9 @@
 #import "CameraViewController.h"
 #import "ComicMakingViewController.h"
 #import "ComicObjectSerialize.h"
+#import "ComicPreviewModel.h"
+#import <Photos/Photos.h>
+
 
 #define kPreviewViewTag 12001
 
@@ -33,7 +36,9 @@
     UILabel *headerTitleTextView;
     NSString *comicTitle;
     NSString *titleFontName;
-    UIColor *comicBackgroundColor;    
+    UIColor *comicBackgroundColor;
+	
+	ComicPreviewModel *viewModel;
 }
 @property (nonatomic, strong) CBComicPageViewController* previewVC;
 @property (nonatomic, strong) ZoomInteractiveTransition * transition;
@@ -83,6 +88,8 @@
     
     self.navigationController.navigationBar.hidden = YES;
 
+	viewModel = [[ComicPreviewModel alloc] init];
+	viewModel.parentVC = self;
 }
 
 
@@ -408,26 +415,51 @@
 }
 
 - (IBAction)tagButtonTapped:(id)sender {
-    UIStoryboard *mainPageStoryBoard = [UIStoryboard storyboardWithName:@"Main_MainPage" bundle:nil];
-    ComicTagViewController *comicTagViewController = [mainPageStoryBoard instantiateViewControllerWithIdentifier:@"ComicTagViewController"];
-    comicTagViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    comicTagViewController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    [self presentViewController:comicTagViewController animated:YES completion:nil];
+//    UIStoryboard *mainPageStoryBoard = [UIStoryboard storyboardWithName:@"Main_MainPage" bundle:nil];
+//    ComicTagViewController *comicTagViewController = [mainPageStoryBoard instantiateViewControllerWithIdentifier:@"ComicTagViewController"];
+//    comicTagViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//    comicTagViewController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+//    [self presentViewController:comicTagViewController animated:YES completion:nil];
+	[viewModel generateVideos:^(NSURL *url) {
+		[[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+			PHAssetChangeRequest *changeRequest = [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:url];
+			
+			NSLog(@"%@", changeRequest.description);
+		} completionHandler:^(BOOL success, NSError *error) {
+			if (success) {
+				NSLog(@"saved down");
+			} else {
+				NSLog(@"something wrong %@", error.localizedDescription);
+			}
+			
+			UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"" message:@"Saved to library successfully" preferredStyle:UIAlertControllerStyleAlert];
+			[controller addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+			[self presentViewController:controller animated:YES completion:nil];
+		}];
+	}];
 }
 
 - (IBAction)twitterButtonTapped:(UIButton *)sender {
-    [self doShareTo:TWITTER ShareImage:[UIImage imageNamed:@"comicBookBackground"]];
+	[viewModel generateVideos:^(NSURL *url) {
+		[self doShareTo:TWITTER ShareImage:[UIImage imageNamed:@"comicBookBackground"] url:url];
+	}];
 }
 
 - (IBAction)facebookButtonTapped:(UIButton *)sender {
-    [self doShareTo:FACEBOOK ShareImage:[UIImage imageNamed:@"comicBookBackground"]];
+	[viewModel generateVideos:^(NSURL *url) {
+		[self doShareTo:FACEBOOK ShareImage:[UIImage imageNamed:@"comicBookBackground"] url:url];
+	}];
+//    [self doShareTo:FACEBOOK ShareImage:[UIImage imageNamed:@"comicBookBackground"]];
 }
 
 - (IBAction)instagramButtonTapped:(UIButton *)sender {
-    [self doShareTo:INSTAGRAM ShareImage:[UIImage imageNamed:@"comicBookBackground"]];
+	[viewModel generateVideos:^(NSURL *url) {
+		[self doShareTo:INSTAGRAM ShareImage:[UIImage imageNamed:@"comicBookBackground"] url:url];
+	}];
+//    [self doShareTo:INSTAGRAM ShareImage:[UIImage imageNamed:@"comicBookBackground"]];
 }
 
--(void)doShareTo :(ShapeType)type ShareImage:(UIImage*)imgShareto{
+-(void)doShareTo :(ShapeType)type ShareImage:(UIImage*)imgShareto url:(NSURL *)url {
     
     //    UIImage* imgProcessShareImage = [self createImageWithLogo:imgShareto];
     
@@ -463,11 +495,13 @@
     /* Commented for testing*/
     ShareHelper* sHelper = [ShareHelper shareHelperInit];
     sHelper.parentviewcontroller = self;
-    [sHelper shareAction:type ShareText:@""
-              ShareImage:imgShareto
-              completion:^(BOOL status) {
-              }];
-    
+	[sHelper shareAction:type
+			   ShareText:@""
+			  ShareImage:imgShareto
+				ShareUrl:url.absoluteString
+			  completion:^(BOOL status) {
+				  
+			  }];
 }
 
 -(UIImage*)createImageWithLogo:(UIImage*)imgActualImage{

@@ -37,4 +37,26 @@
     pHandler(messageComposer);
 }
 
+-(void)sendMessage:(UIViewController*)viewController
+		 ShareText:(NSString*)shareText
+		ShareVideo:(NSURL*)shareVideo
+ completionHandler:(CompletionHandler)handler
+ completionHandler:(ProcessHandler)pHandler {
+	MFMessageComposeViewController* messageComposer = [[MFMessageComposeViewController alloc]init];
+	[messageComposer setSubject:@"My Subject"];
+	
+	if ([MFMessageComposeViewController canSendAttachments]) {
+		
+		NSString* uti = (NSString*)kUTTypeMessage;
+		NSData *exportData = [NSData dataWithContentsOfURL:shareVideo];
+		[messageComposer addAttachmentData:exportData typeIdentifier:uti filename:@"comic.mp4"];
+		
+	}
+	if ([MFMessageComposeViewController canSendText]) {
+		[messageComposer setBody:shareText];
+	}
+	
+	pHandler(messageComposer);
+}
+
 @end
