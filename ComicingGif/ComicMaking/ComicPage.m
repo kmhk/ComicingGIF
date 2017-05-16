@@ -54,7 +54,9 @@ NSString* const slideTypeTall = @"tall";
     gifLayerPath = strPath;
     NSMutableArray *arrTemp = [NSMutableArray new];
     arrTemp = [arrSubviews mutableCopy];
-    [arrTemp removeObjectAtIndex:0];
+    if (arrTemp.count >= 1) {
+        [arrTemp removeObjectAtIndex:0];
+    }
    
     subviews = arrTemp;
     slideType = @"tall";

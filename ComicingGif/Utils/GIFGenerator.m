@@ -123,7 +123,7 @@
 
 // MARK: - private methods to process GIF
 - (void)createGifWithImages {
-	[NSThread detachNewThreadWithBlock:^{
+//	[NSThread detachNewThreadWithBlock:^{
 		NSDictionary *fileProperties = @{
 										 (__bridge id)kCGImagePropertyGIFDictionary: @{
 												 (__bridge id)kCGImagePropertyGIFLoopCount: @0 // 0 means loop forever
@@ -169,11 +169,11 @@
 		CFRelease(dest);
 		
 		[self finished:fileURL];
-	}];
+//	}];
 }
 
 - (void)createGifFromVideo {
-	[NSThread detachNewThreadWithBlock:^{
+//	[NSThread detachNewThreadWithBlock:^{
 		NSDictionary *fileProperties = @{
 										 (__bridge id)kCGImagePropertyGIFDictionary: @{
 												 (__bridge id)kCGImagePropertyGIFLoopCount: @0 // 0 means loop forever
@@ -237,7 +237,7 @@
 		CFRelease(dest);
 		
 		[self finished:fileURL];
-	}];
+//	}];
 }
 
 

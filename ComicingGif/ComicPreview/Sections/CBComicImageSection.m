@@ -15,14 +15,15 @@
 #define kHorizontalMargin 0.0f
 #define kVerticalMargin 5.0f
 
-#define kCollectionViewLeftMargin 4.5f
-#define kCollectionViewRightMargin 4.5f
+#define kCollectionViewLeftMargin 5.0f
+#define kCollectionViewRightMargin 5.0f
 #define kCollectionViewMiddleMargin 0.0f
 
 #define kLandscapeCellHeight 106.0f
 #define kPortraitCellHeight 228.0f
 
-#define kVerticalCellMultiplier 1.78f
+#define kVerticalCellMultiplier 1.65f
+#define kWideCellMultiplier 0.406f
 
 #define kCellIdentifier @"ComicImageCell"
 
@@ -64,9 +65,6 @@
 }
 
 - (void)createUIForCell:(CBComicImageCell *)cell withIndex:(NSInteger)index andFrame : (CGRect ) rect {
-    if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-        
-    }
     
     NSLog(@"\n\n\nCELLLLLLLLLLLLLLLLL B: %lu %@, CollFrame: %@", index, _comicItemModel.comicPage.subviews, NSStringFromCGRect(rect));
     for (UIView *view in [cell.topLayerView subviews]) {
@@ -106,11 +104,19 @@
                 }
                 i ++;
 
-                UIImageView *stickerImageView = [self createImageViewWith:gifData frame:rectOfGif bAnimate:YES];
-                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
-                stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
-                [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
-                [cell.topLayerView addSubview:stickerImageView];
+                
+//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                    UIImageView *stickerImageView = [self createImageViewWith:gifData frame:rectOfGif bAnimate:YES];
+                    
+                    
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+                        CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
+                        stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
+                        [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+                        [cell.topLayerView addSubview:stickerImageView];
+//                    });
+//                } );
+                
 //                NSLog(@".............IF ADDED STICKER: %@",sticker);
                 //                    sticker.backgroundColor = [UIColor brownColor];
                 //                    [cell.topLayerView setBackgroundColor:[UIColor greenColor]];
@@ -223,9 +229,10 @@
 //    CGSize collectionViewSize= self.collectionView.bounds.size;
     CGFloat width= floorf(([UIScreen mainScreen].bounds.size.width - (32+16))-(kCollectionViewLeftMargin+kCollectionViewRightMargin+ (kHorizontalMargin*2))); // 32 and 16 are the leading and trailing of collectionview
     CBComicItemModel* model= [self.dataArray objectAtIndex:indexPath.row];
+    
     if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_LANDSCAPE){
-        [self printWidth:width andH:width/1.7286 andCollV:self.collectionView.frame];
-        return CGSizeMake(width, width/1.7286);
+        [self printWidth:width andH:width*kWideCellMultiplier andCollV:self.collectionView.frame];
+        return CGSizeMake(width, width*kWideCellMultiplier);
     }else if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF){
         CGFloat cellWidth= floorf((width-kCollectionViewMiddleMargin - kVerticalCellMultiplier)/2 -1);
         [self printWidth:cellWidth andH:cellWidth*kVerticalCellMultiplier andCollV:self.collectionView.frame];

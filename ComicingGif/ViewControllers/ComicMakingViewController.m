@@ -548,7 +548,8 @@
     
     if (![[self.navigationController.viewControllers firstObject] isKindOfClass:[CBComicPreviewVC class]]) {
         CBComicPreviewVC *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"CBComicPreviewVC"];
-        vc.shouldntRefreshAfterDidLayoutSubviews = NO;
+        vc.shouldntRefreshAfterDidLayoutSubviews = YES;
+        vc.shouldFetchAndReload = NO;
         NSMutableArray *controllers = [[NSArray arrayWithObject:vc] mutableCopy];
         [controllers addObjectsFromArray:self.navigationController.viewControllers];
         [self.navigationController setViewControllers:controllers];
@@ -556,7 +557,9 @@
 //        [self.navigationController pushViewController:vc animated:YES];
     } else {
         CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
-        vc.shouldntRefreshAfterDidLayoutSubviews = NO;
+        vc.shouldntRefreshAfterDidLayoutSubviews = YES;
+        vc.indexForSlideToRefresh = _indexSaved;
+        [vc refreshSlideAtIndex:_indexSaved];
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
     
@@ -571,10 +574,10 @@
 
 
 - (IBAction)btnToolCloseTapped:(id)sender {
-    if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[CBComicPreviewVC class]]) {
-        CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
-        vc.shouldntRefreshAfterDidLayoutSubviews = NO;
-    }
+//    if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[CBComicPreviewVC class]]) {
+//        CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
+//        vc.shouldntRefreshAfterDidLayoutSubviews = NO;
+//    }
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
