@@ -378,6 +378,7 @@
 		CE1D4E141EC335DB009D8321 /* blackLayerImage.png in Resources */ = {isa = PBXBuildFile; fileRef = CE1D4E131EC335DB009D8321 /* blackLayerImage.png */; };
 		CE1D4E181EC40FCF009D8321 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = CE1D4E171EC40FCF009D8321 /* video.mp4 */; };
 		CE2F59421EC57D6100D7CB68 /* bkLayerImage.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2F59411EC57D6100D7CB68 /* bkLayerImage.png */; };
+		CE91B3E81ECCEBE400E767A1 /* ComicSharingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE91B3E71ECCEBE400E767A1 /* ComicSharingViewController.m */; };
 		CE91CE1B1EB9D99E00637AD7 /* category7.png in Resources */ = {isa = PBXBuildFile; fileRef = CE91CE1A1EB9D99E00637AD7 /* category7.png */; };
 		CE91CE231EB9D9B800637AD7 /* category0.png in Resources */ = {isa = PBXBuildFile; fileRef = CE91CE1C1EB9D9B800637AD7 /* category0.png */; };
 		CE91CE241EB9D9B800637AD7 /* category1.png in Resources */ = {isa = PBXBuildFile; fileRef = CE91CE1D1EB9D9B800637AD7 /* category1.png */; };
@@ -1085,6 +1086,8 @@
 		CE1D4E131EC335DB009D8321 /* blackLayerImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blackLayerImage.png; path = Resources/LayerImages/blackLayerImage.png; sourceTree = "<group>"; };
 		CE1D4E171EC40FCF009D8321 /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = video.mp4; path = Resources/LayerImages/video.mp4; sourceTree = "<group>"; };
 		CE2F59411EC57D6100D7CB68 /* bkLayerImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bkLayerImage.png; path = Resources/LayerImages/bkLayerImage.png; sourceTree = "<group>"; };
+		CE91B3E61ECCEBE400E767A1 /* ComicSharingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComicSharingViewController.h; path = ViewControllers/ComicSharingViewController.h; sourceTree = "<group>"; };
+		CE91B3E71ECCEBE400E767A1 /* ComicSharingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComicSharingViewController.m; path = ViewControllers/ComicSharingViewController.m; sourceTree = "<group>"; };
 		CE91CE1A1EB9D99E00637AD7 /* category7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = category7.png; path = Resources/categoryIcon/category7.png; sourceTree = "<group>"; };
 		CE91CE1C1EB9D9B800637AD7 /* category0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = category0.png; path = Resources/categoryIcon/category0.png; sourceTree = "<group>"; };
 		CE91CE1D1EB9D9B800637AD7 /* category1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = category1.png; path = Resources/categoryIcon/category1.png; sourceTree = "<group>"; };
@@ -2794,6 +2797,15 @@
 			name = LayerImages;
 			sourceTree = "<group>";
 		};
+		CE91B3E51ECCEBB600E767A1 /* ComicSharingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CE91B3E61ECCEBE400E767A1 /* ComicSharingViewController.h */,
+				CE91B3E71ECCEBE400E767A1 /* ComicSharingViewController.m */,
+			);
+			name = ComicSharingViewController;
+			sourceTree = "<group>";
+		};
 		F317941E1E8689110083BD19 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -3068,6 +3080,7 @@
 				0C43F4141E9F3B4500AB71F9 /* ComicPreview */,
 				0C43F3591E9F379D00AB71F9 /* ComicBookVC */,
 				0C43F3501E9F376200AB71F9 /* ComicSlidePreview */,
+				CE91B3E51ECCEBB600E767A1 /* ComicSharingViewController */,
 				F323D4721E8E6C9B00B41659 /* ComicMakingViewController */,
 				F323D4551E8E42CF00B41659 /* CameraViewController */,
 			);
@@ -3588,6 +3601,7 @@
 				0C43F55D1E9F3E5400AB71F9 /* AFNetworkReachabilityManager.m in Sources */,
 				0C43F6061E9F43F900AB71F9 /* GroupItem.m in Sources */,
 				0C43F3981E9F384B00AB71F9 /* SDWebImageManager.m in Sources */,
+				CE91B3E81ECCEBE400E767A1 /* ComicSharingViewController.m in Sources */,
 				0C43F5C71E9F42F200AB71F9 /* MainPageGroupViewController.m in Sources */,
 				0C43F5431E9F3E4000AB71F9 /* MeAPIManager.m in Sources */,
 				0C43F44B1E9F3B5E00AB71F9 /* CBPageViewController.m in Sources */,
