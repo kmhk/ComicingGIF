@@ -91,6 +91,8 @@
  */
 @property (nonatomic) NSMutableArray<UIColor *> *drawingColorArray;
 
+@property (assign, nonatomic) BOOL isTall;
+
 @end
 
 
@@ -343,6 +345,7 @@
 	BkImageObject *obj = [[BkImageObject alloc] initWithURL:url isTall:isTall];
 	obj.frame = rect;
     obj.isTall = isTall;
+    self.isTall = isTall;
 	
 	if (!viewModel) {
 		viewModel = [[ComicMakingViewModel alloc] init];
@@ -557,10 +560,14 @@
 //        [self.navigationController pushViewController:vc animated:YES];
     } else {
         CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
-        vc.shouldntRefreshAfterDidLayoutSubviews = YES;
+        vc.shouldntRefreshAfterDidLayoutSubviews = _indexSaved == -1? NO:YES;
         vc.indexForSlideToRefresh = _indexSaved;
-        [vc refreshSlideAtIndex:_indexSaved];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [vc refreshSlideAtIndex:_indexSaved isTall:self.isTall completionBlock:^(BOOL isComplete) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            });
+        }];
+        
     }
     
     [UIView animateWithDuration:0.2f animations:^{

@@ -11,6 +11,7 @@
 #import "CBComicItemModel.h"
 #import "AppHelper.h"
 #import <ImageIO/ImageIO.h>
+#import "Constants.h"
 
 #define kHorizontalMargin 0.0f
 #define kVerticalMargin 5.0f
@@ -223,23 +224,38 @@
     [collectionView registerNib:[UINib nibWithNibName:@"CBComicImageCell" bundle:nil] forCellWithReuseIdentifier:kCellIdentifier];
 }
 
+//- (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+//    NSLog(@"CollectionView size for item : %@",self.collectionView);
+//    NSLog(@"......................SCREENSIZE: %@",NSStringFromCGRect([UIScreen mainScreen].bounds));
+////    CGSize collectionViewSize= self.collectionView.bounds.size;
+//    CGFloat width= floorf(([UIScreen mainScreen].bounds.size.width - (32+16))-(kCollectionViewLeftMargin+kCollectionViewRightMargin+ (kHorizontalMargin*2))); // 32 and 16 are the leading and trailing of collectionview
+//    CBComicItemModel* model= [self.dataArray objectAtIndex:indexPath.row];
+//    
+//    if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_LANDSCAPE){
+//        [self printWidth:width andH:width*kWideCellMultiplier andCollV:self.collectionView.frame];
+//        return CGSizeMake(width, width*kWideCellMultiplier);
+//    }else if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF){
+//        CGFloat cellWidth= floorf((width-kCollectionViewMiddleMargin - kVerticalCellMultiplier)/2 -1);
+//        [self printWidth:cellWidth andH:cellWidth*kVerticalCellMultiplier andCollV:self.collectionView.frame];
+//        return CGSizeMake(cellWidth, floorf(cellWidth*kVerticalCellMultiplier));
+//    }else {
+//        [self printWidth:width andH:floorf(width*kVerticalCellMultiplier) andCollV:self.collectionView.frame];
+//        return CGSizeMake(width, floorf(width*kVerticalCellMultiplier));
+//    }
+//}
+
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"CollectionView size for item : %@",self.collectionView);
-    NSLog(@"......................SCREENSIZE: %@",NSStringFromCGRect([UIScreen mainScreen].bounds));
-//    CGSize collectionViewSize= self.collectionView.bounds.size;
-    CGFloat width= floorf(([UIScreen mainScreen].bounds.size.width - (32+16))-(kCollectionViewLeftMargin+kCollectionViewRightMargin+ (kHorizontalMargin*2))); // 32 and 16 are the leading and trailing of collectionview
     CBComicItemModel* model= [self.dataArray objectAtIndex:indexPath.row];
     
     if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_LANDSCAPE){
-        [self printWidth:width andH:width*kWideCellMultiplier andCollV:self.collectionView.frame];
-        return CGSizeMake(width, width*kWideCellMultiplier);
+        CGSize size = CGSizeMake(WideSlideWidth, (WideSlideWidth) * (WideSlideWidthToHeightRatio));
+        return size;
     }else if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF){
-        CGFloat cellWidth= floorf((width-kCollectionViewMiddleMargin - kVerticalCellMultiplier)/2 -1);
-        [self printWidth:cellWidth andH:cellWidth*kVerticalCellMultiplier andCollV:self.collectionView.frame];
-        return CGSizeMake(cellWidth, floorf(cellWidth*kVerticalCellMultiplier));
+        CGSize size = CGSizeMake(SmallTallSlideWidth, (SmallTallSlideWidth) * (TallSlideWidthToHeightRatio));
+        return size;
     }else {
-        [self printWidth:width andH:floorf(width*kVerticalCellMultiplier) andCollV:self.collectionView.frame];
-        return CGSizeMake(width, floorf(width*kVerticalCellMultiplier));
+        CGSize size = CGSizeMake(LargeTallSlideWidth, (LargeTallSlideWidth) * (TallSlideWidthToHeightRatio));
+        return size;
     }
 }
 

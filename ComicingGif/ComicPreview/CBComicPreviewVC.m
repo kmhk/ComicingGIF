@@ -88,15 +88,19 @@ CBComicPageCollectionDelegate
 	viewModel.parentVC = self;
 }
 
+- (void)initialiseComicPageCollectionVC {
+    self.comicPageCollectionVC= [[CBComicPageCollectionVC alloc] initWithNibName:@"CBComicPageCollectionVC" bundle:nil];
+    self.comicPageCollectionVC.view.tag= kPreviewViewTag;
+    [self.comicPageCollectionVC.view layoutIfNeeded];
+    self.comicPageCollectionVC.delegate= self;
+}
+
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
     if (!createComicCollectionOnce) {
         createComicCollectionOnce = !createComicCollectionOnce;
-        self.comicPageCollectionVC= [[CBComicPageCollectionVC alloc] initWithNibName:@"CBComicPageCollectionVC" bundle:nil];
-        self.comicPageCollectionVC.view.tag= kPreviewViewTag;
-        [self.comicPageCollectionVC.view layoutIfNeeded];
-        self.comicPageCollectionVC.delegate= self;
+        [self initialiseComicPageCollectionVC];
     }
     
 //    dispatch_async(dispatch_get_main_queue(), ^{
@@ -110,13 +114,22 @@ CBComicPageCollectionDelegate
             if (self.dataArray == nil || self.dataArray.count == 0) {
                 [self pushAddSlideTap:NO ofIndex:-1];
             }
+            
+//            [self addEmptySlide:YES];
+//            [self addEmptySlide:YES];
             //End
         }
 //    });
 }
 
-- (void)refreshSlideAtIndex:(NSInteger)indexOfSlide {
-    if (indexOfSlide+1 > self.dataArray.count || self.dataArray.count == 0) {
+- (void)refreshSlideAtIndex:(NSInteger)indexOfSlide isTall:(BOOL)isTall completionBlock:(void (^)(BOOL))completionBlock {
+    if (indexOfSlide+1 > self.dataArray.count) {
+        return;
+    }
+    if (indexOfSlide == -1 && self.dataArray.count == 0) {
+        [self addEmptySlide:isTall completionBlock:^(BOOL isCompleted) {
+            completionBlock(YES);
+        }];
         return;
     }
     if (indexOfSlide == -1) {
@@ -330,6 +343,9 @@ CBComicPageCollectionDelegate
 #pragma mark- 
 
 - (void)didTapHorizontalButton{
+    if (self.dataArray.count == 4) {
+        return;
+    }
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
@@ -337,7 +353,9 @@ CBComicPageCollectionDelegate
     vcCameraViewController.isVerticalCamera = YES;
     [self.navigationController pushViewController:vcCameraViewController animated:YES];
     
-    [self addEmptySlide:NO];
+    [self addEmptySlide:NO completionBlock:^(BOOL isCompleted) {
+        
+    }];
     
 //    if (self.dataArray.count == 8) {
 //        return;
@@ -359,8 +377,10 @@ CBComicPageCollectionDelegate
 //    }];
 }
 
-- (void)addEmptySlide:(BOOL)isTall {
-    
+- (void)addEmptySlide:(BOOL)isTall completionBlock:(void (^)(BOOL))completionBlock{
+    if (!self.comicPageCollectionVC) {
+        [self initialiseComicPageCollectionVC];
+    }
         ComicPage *comicPage = [[ComicPage alloc]init];
     NSMutableArray *subviews = [NSMutableArray array];
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:isTall], @"isTall", nil];
@@ -371,11 +391,11 @@ CBComicPageCollectionDelegate
         [self.dataArray addObject:model];
         NSLog(@"\n.............ADD FETCHED CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
         NSLog(@"\n............... DATA ARRAY: %@",self.dataArray);
-        
+    
         [self.comicPageCollectionVC addComicItem:model completion:^(BOOL finished, CBComicItemModel *itemModel) {
             if(finished){
                 self.transitionView = [_comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataArray.count - 1 inSection:0]];
-                
+                completionBlock(YES);
 //                if ([itemModel isEqual:[self.dataArray lastObject]]) {
 //                    dispatch_async(dispatch_get_main_queue(), ^{
 //                        
@@ -394,17 +414,23 @@ CBComicPageCollectionDelegate
         return;
     }
     [self.dataArray removeObjectAtIndex:self.dataArray.count - 1];
-    [self.comicPageCollectionVC removeComicItemAtIndex:self.dataArray.count - 1];
+    [self.comicPageCollectionVC removeComicItemAtIndex:self.dataArray.count];
 }
 
 - (void)didTapVerticalButton{
+    if (self.dataArray.count == 4) {
+        return;
+    }
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
     vcCameraViewController.indexOfSlide = -1;
     vcCameraViewController.isVerticalCamera = NO;
     [self.navigationController pushViewController:vcCameraViewController animated:YES];
     
-    [self addEmptySlide:YES];
+    [self addEmptySlide:YES completionBlock:^(BOOL isCompleted) {
+        
+    }];
     
 //    if (self.dataArray.count == 8) {
 //        return;

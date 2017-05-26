@@ -31,7 +31,7 @@
 @property (nonatomic, assign) NSInteger indexForSlideToRefresh;
 
 - (void)prepareView;
-- (void)refreshSlideAtIndex:(NSInteger)indexOfSlide;
+- (void)refreshSlideAtIndex:(NSInteger)indexOfSlide isTall:(BOOL)isTall completionBlock:(void (^)(BOOL isComplete))completionBlock;
 - (void)deleteLastCell;
 
 @end
