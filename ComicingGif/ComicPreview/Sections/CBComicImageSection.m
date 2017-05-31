@@ -123,36 +123,110 @@
                 //                    [cell.topLayerView setBackgroundColor:[UIColor greenColor]];
                 //                    cell.topLayerView.alpha = 0.4;
             }
-
+            
+            //18 is for static stickers
+            if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue] == 18) {
+                CGRect frameOfObject = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
+                
+                NSBundle *bundle = [NSBundle mainBundle] ;
+                NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
+                NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".png" withString:@""] ofType:@"png"];
+                NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
+                CGRect rectOfGif;
+                
+                CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
+                if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth)/2, (frameOfObject.size.height * ratioWidth)/2);
+                } else {
+                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth, frameOfObject.size.height * ratioWidth);
+                }
+                i ++;
+                
+                UIImageView *stickerImageView = [[UIImageView alloc]initWithFrame:rectOfGif];
+                stickerImageView.image = [UIImage imageWithData:gifData];
+                
+                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
+                stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
+                [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+                [cell.topLayerView addSubview:stickerImageView];
+            }
         }
-        
-        //Handle static Image… here we have to create an abstract class in ComicItem called class name as ComicItemStaticImage
-//        for (id subview in _comicItemModel.comicPage.subviews) {
-//            if ([subview isKindOfClass:[ComicItemStaticImage class]]) {
-//                //Handle middle layer.
-//            }
-//        }
     } else {
         // This can be 2 layer or single layer
         
         cell.baseLayerImageView.image = [AppHelper getImageFile:_comicItemModel.comicPage.printScreenPath];
         
-        //-> Loop subviews and get animation sticker
-        //animation sticker you can check like …
+        //-> Loop subviews
+        int i = 0;
         for (id subview in _comicItemModel.comicPage.subviews) {
-            if ([subview isKindOfClass:[ComicItemAnimatedSticker class]]) {
+            NSLog(@"Subviews - %@",subview);
+            if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue]==17) {
                 //Handle top layer that is sticker gif
-                ComicItemAnimatedSticker *sticker = (ComicItemAnimatedSticker *)subview;
+                //                                ComicItemAnimatedSticker *sticker = [ComicItemAnimatedSticker new];
+                CGRect frameOfObject = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
+                
+                //                sticker.combineAnimationFileName = [subview objectForKey:@"url"];
+                
+                NSBundle *bundle = [NSBundle mainBundle] ;
+                NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
+                NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".gif" withString:@""] ofType:@"gif"];
+                NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
+                CGRect rectOfGif;
+                //                sticker.image =  [UIImage sd_animatedGIFWithData:gifData];
+                
+                CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
+                //                CGFloat ratioHeight = rect.size.height / SCREEN_HEIGHT;
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-                    sticker.frame = CGRectMake(sticker.objFrame.origin.x/2, sticker.objFrame.origin.y/2, sticker.objFrame.size.width/2, sticker.objFrame.size.height/2);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth)/2, (frameOfObject.size.height * ratioWidth)/2);
                 } else {
-                    sticker.frame = CGRectMake(sticker.objFrame.origin.x, sticker.objFrame.origin.y, sticker.objFrame.size.width, sticker.objFrame.size.height);
+                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth, frameOfObject.size.height * ratioWidth);
                 }
-                [cell.topLayerView addSubview:sticker];
-                NSLog(@".............ELSE ADDED STICKER: %@",sticker);
-//                    sticker.backgroundColor = [UIColor brownColor];
-//                    [cell.topLayerView setBackgroundColor:[UIColor greenColor]];
-//                    cell.topLayerView.alpha = 0.4;
+                i ++;
+                
+                
+                //                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                UIImageView *stickerImageView = [self createImageViewWith:gifData frame:rectOfGif bAnimate:YES];
+                
+                
+                //                    dispatch_async(dispatch_get_main_queue(), ^{
+                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
+                stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
+                [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+                [cell.topLayerView addSubview:stickerImageView];
+                //                    });
+                //                } );
+                
+                //                NSLog(@".............IF ADDED STICKER: %@",sticker);
+                //                    sticker.backgroundColor = [UIColor brownColor];
+                //                    [cell.topLayerView setBackgroundColor:[UIColor greenColor]];
+                //                    cell.topLayerView.alpha = 0.4;
+            }
+            
+            //18 is for static stickers
+            if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue] == 18) {
+                CGRect frameOfObject = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
+                
+                NSBundle *bundle = [NSBundle mainBundle] ;
+                NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
+                NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".png" withString:@""] ofType:@"png"];
+                NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
+                CGRect rectOfGif;
+                
+                CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
+                if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth)/2, (frameOfObject.size.height * ratioWidth)/2);
+                } else {
+                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth, frameOfObject.size.height * ratioWidth);
+                }
+                i ++;
+                
+                UIImageView *stickerImageView = [[UIImageView alloc]initWithFrame:rectOfGif];
+                stickerImageView.image = [UIImage imageWithData:gifData];
+                
+                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
+                stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
+                [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+                [cell.topLayerView addSubview:stickerImageView];
             }
         }
     }

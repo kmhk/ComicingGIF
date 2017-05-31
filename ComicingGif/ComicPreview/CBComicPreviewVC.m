@@ -154,6 +154,7 @@ CBComicPageCollectionDelegate
                 NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 1)];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+                    completionBlock(YES);
                 });
             });
         }
