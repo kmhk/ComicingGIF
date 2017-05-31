@@ -3750,7 +3750,7 @@
 					"$(PROJECT_DIR)/ComicingGif/Classes/ShareModule/Framework",
 				);
 				INFOPLIST_FILE = ComicingGif/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3777,7 +3777,7 @@
 					"$(PROJECT_DIR)/ComicingGif/Classes/ShareModule/Framework",
 				);
 				INFOPLIST_FILE = ComicingGif/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
