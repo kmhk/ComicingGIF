@@ -84,9 +84,10 @@
 		StickerObject *obj = [[StickerObject alloc] initFromDict:dict];
 		return obj;
 		
-	} else {
-		
-	}
+	} else if (type == ObjectPen) {
+        PenObject *penObject = [[PenObject alloc] initFromDict:dict];
+        return penObject;
+    }
 	
 	return nil;
 }
