@@ -21,6 +21,9 @@
 #define TOOLCELLID	@"ToolCollectionViewCell"
 #define CATEGORYCELLID	@"CategoryCollectionViewCell"
 
+#define DRAWING_DEFAULT_BRUSH 5
+#define DRAWING_BIG_BRUSH 10
+#define DRAWING_DEFAULT_COLOR [UIColor whiteColor]
 
 @interface ComicMakingViewController () <ZoomTransitionProtocol>
 {
@@ -31,6 +34,13 @@
 	UICollectionView *collectionCategoryView;
 	UICollectionView *collectionToolView;
 	NSInteger nCategory;
+    
+    // Drawing properties
+    BOOL _isDrawing; // Flag to determine if pen drawing is enable right now
+    UIColor *_drawingColor; // Color which user has chosen for pen drawing.
+    CGPoint _lastPoint; // last point of drawing based on user touch events
+    CGFloat _brush; // Brush size for drawing pen
+    BOOL _mouseSwiped;
 }
 
 @property (weak, nonatomic) IBOutlet UIButton *btnPlay;
@@ -38,8 +48,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnToolAnimateGIF;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolBubble;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolSticker;
+@property (weak, nonatomic) IBOutlet UIImageView *buttonToolStickerImageView;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolText;
+@property (weak, nonatomic) IBOutlet UIImageView *buttonToolTextImageView;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolPen;
+@property (weak, nonatomic) IBOutlet UIImageView *drawingImageView;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnNext;
 @property (weak, nonatomic) IBOutlet UIButton *btnClose;
@@ -47,6 +60,36 @@
 @property (strong, nonatomic) IBOutlet UIView *baseLayerView;
 @property (assign, nonatomic) CGFloat ratioDecreasing;
 @property (assign, nonatomic) CGRect baseLayerInitialFrame;
+@property (weak, nonatomic) IBOutlet UIImageView *buttonBookViewImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *buttonPlayPauseViewImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *buttonCloseImageView;
+@property (weak, nonatomic) IBOutlet UIButton *playPauseButton;
+@property (weak, nonatomic) IBOutlet UIButton *buttonPenUndo;
+@property (weak, nonatomic) IBOutlet UIButton *bookViewButton;
+@property (weak, nonatomic) IBOutlet UIView *penUndoView;
+@property (weak, nonatomic) IBOutlet UIImageView *penUndoImageView;
+@property (weak, nonatomic) IBOutlet UIStackView *penColorStackView;
+@property (weak, nonatomic) IBOutlet UIImageView *penToolImageView;
+
+/**
+ Use this mutable array to store all drawings made during active drawing mode. Each drawing has its own ImageView this will enable undo function for drawing because we can just remove last ImageView from this array
+ */
+@property (nonatomic) NSMutableArray<UIImageView *> *drawingImageViewStackArray;
+
+/**
+ drawingCoordinateArray stores all coordinate made during active drawing mode. We need this to use those coordinates in saving system and save coordinates (with selected color and brush size) into slides.plist file. So based on this data we can restore all drawings later
+ */
+@property (nonatomic) NSMutableArray<NSMutableArray<NSValue *> *> *drawingCoordinateArray;
+
+/**
+ drawingBrushSizeArray stores all brush size values made during active drawing mode. We need to use those values in saving process. (saving into slides.plist)
+ */
+@property (nonatomic) NSMutableArray<NSNumber *> *drawingBrushSizeArray;
+
+/**
+ drawingColorArray stores all selected colors values made during active drawing mode. We need to use those values in saving process. (saving into slides.plist)
+ */
+@property (nonatomic) NSMutableArray<UIColor *> *drawingColorArray;
 
 @end
 
@@ -64,6 +107,17 @@
 
     _ratioDecreasing = 1;
     _baseLayerView.clipsToBounds = YES;
+    
+    // Set default drawing values.
+    _isDrawing = NO;
+    _brush = DRAWING_DEFAULT_BRUSH;
+    _drawingColor = DRAWING_DEFAULT_COLOR;
+    // Initi drawing helpers arrays and color stack view
+    _drawingImageViewStackArray = [NSMutableArray new];
+    _drawingCoordinateArray = [NSMutableArray new];
+    _drawingBrushSizeArray = [NSMutableArray new];
+    _drawingColorArray = [NSMutableArray new];
+    [self setupPenColorsContainerView];
 }
 
 - (void)setAlpha:(BOOL)alpha {
@@ -76,46 +130,164 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    UIView *touchView = [touches anyObject].view;
-    if ([touchView.superview.superview isEqual:self.baseLayerView]) {
-        _ratioDecreasing = 1;
-        [self.baseLayerView saveFrameOfAllSubviewsWithTreeCount:1];
+    if (!_isDrawing) {
+        UIView *touchView = [touches anyObject].view;
+        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
+            _ratioDecreasing = 1;
+            [self.baseLayerView saveFrameOfAllSubviewsWithTreeCount:1];
+        }
+        return;
     }
+
+    _mouseSwiped = NO;
+    UITouch *touch = [touches anyObject];
+    _lastPoint = [touch locationInView:self.view];
+    
+    if (!_drawingImageViewStackArray) {
+        // Return if ImageView stack is invalid
+        return;
+    }
+    // Create new imageView for new drawing object
+    UIImageView *drawingImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+    [_drawingImageViewStackArray addObject:drawingImageView];
+    [self.view addSubview:drawingImageView];
+    
+    if (!_drawingCoordinateArray) {
+        // Return if coordinate array is invalid
+        return;
+    }
+    NSMutableArray<NSValue *> *coordinatesArray = [NSMutableArray new];
+    [coordinatesArray addObject:[NSValue valueWithCGPoint:_lastPoint]];
+    [_drawingCoordinateArray addObject:coordinatesArray];
+    
+    if (!_drawingColorArray || !_drawingBrushSizeArray) {
+        return;
+    }
+    // Add selected color and brush size to appropriate arrays
+    [_drawingColorArray addObject:_drawingColor];
+    [_drawingBrushSizeArray addObject:@(_brush)];
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    UIView *touchView = [touches anyObject].view;
-    if ([touchView.superview.superview isEqual:self.baseLayerView]) {
-        if (_ratioDecreasing >= 0.6) {
-            _ratioDecreasing -= 0.01;
-            
-            NSLog(@"............RATIO DECREASING: %f",_ratioDecreasing);
-            CGFloat newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
-            CGFloat newHeight = _baseLayerInitialFrame.size.height * _ratioDecreasing;
-            
-            _baseLayerView.frame = CGRectMake(_baseLayerInitialFrame.origin.x, _baseLayerInitialFrame.origin.y, newWidth, newHeight);
-            _baseLayerView.center = self.view.center;
-            NSLog(@"............RESULTANT FRAME: %@",NSStringFromCGRect(_baseLayerView.frame));
-            [self.baseLayerView setSubViewWithWithDimensionAsPerRatio:_ratioDecreasing treeCount:1];
+    if (!_isDrawing) {
+        UIView *touchView = [touches anyObject].view;
+        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
+            if (_ratioDecreasing >= 0.6) {
+                _ratioDecreasing -= 0.01;
+                
+                NSLog(@"............RATIO DECREASING: %f",_ratioDecreasing);
+                CGFloat newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
+                CGFloat newHeight = _baseLayerInitialFrame.size.height * _ratioDecreasing;
+                
+                _baseLayerView.frame = CGRectMake(_baseLayerInitialFrame.origin.x, _baseLayerInitialFrame.origin.y, newWidth, newHeight);
+                _baseLayerView.center = self.view.center;
+                NSLog(@"............RESULTANT FRAME: %@",NSStringFromCGRect(_baseLayerView.frame));
+                [self.baseLayerView setSubViewWithWithDimensionAsPerRatio:_ratioDecreasing treeCount:1];
+            }
         }
+        return;
     }
+    // if imageView stack is empty – return from drawing
+    if (_drawingImageViewStackArray.count == 0) {
+        return;
+    }
+    // Get last added imageView to draw on
+    UIImageView *currentDrawingImageView = [_drawingImageViewStackArray lastObject];
+    CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha = 0.0;
+    [_drawingColor getRed:&red green:&green blue:&blue alpha:&alpha];
+    _mouseSwiped = YES;
+    UITouch *touch = [touches anyObject];
+    CGPoint currentPoint = [touch locationInView:currentDrawingImageView];
+    // if coordinates array is empty – return from drawing
+    if (_drawingCoordinateArray.count == 0) {
+        return;
+    }
+    // Get last coordinates array to add new currentPoint
+    NSMutableArray<NSValue *> *currentCoordinatesArray = [_drawingCoordinateArray lastObject];
+    [currentCoordinatesArray addObject:[NSValue valueWithCGPoint:currentPoint]];
+    [_drawingCoordinateArray removeLastObject];
+    [_drawingCoordinateArray addObject:currentCoordinatesArray];
+    
+    UIGraphicsBeginImageContext(currentDrawingImageView.frame.size);
+    [currentDrawingImageView.image drawInRect:CGRectMake(0, 0,
+                                                         currentDrawingImageView.frame.size.width,
+                                                         currentDrawingImageView.frame.size.height)];
+    CGContextMoveToPoint(UIGraphicsGetCurrentContext(), _lastPoint.x, _lastPoint.y);
+    CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), currentPoint.x, currentPoint.y);
+    CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
+    CGContextSetLineWidth(UIGraphicsGetCurrentContext(), _brush);
+    CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), red, green, blue, 1.0);
+    CGContextSetBlendMode(UIGraphicsGetCurrentContext(), kCGBlendModeNormal);
+    CGContextStrokePath(UIGraphicsGetCurrentContext());
+    currentDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
+    [currentDrawingImageView setAlpha:1.0];
+    UIGraphicsEndImageContext();
+    _lastPoint = currentPoint;
+    [_drawingImageViewStackArray removeLastObject];
+    [_drawingImageViewStackArray addObject:currentDrawingImageView];
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    UIView *touchView = [touches anyObject].view;
-    if ([touchView.superview.superview isEqual:self.baseLayerView]) {
-        if (_ratioDecreasing >= 0.7){
-            [self.baseLayerView restoreSavedRect];
-            [self.baseLayerView restoreFrameOfAllSubviews];
-            [UIView animateWithDuration:0.1 + 0.2*(1-_ratioDecreasing) animations:^{
-                [self.view setNeedsLayout];
-                [self.view layoutIfNeeded];
-            }];
-        } else {
-            //Save
-            [self btnNextTapped:nil];
+    if (!_isDrawing) {
+        UIView *touchView = [touches anyObject].view;
+        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
+            if (_ratioDecreasing >= 0.7){
+                [self.baseLayerView restoreSavedRect];
+                [self.baseLayerView restoreFrameOfAllSubviews];
+                [UIView animateWithDuration:0.1 + 0.2*(1-_ratioDecreasing) animations:^{
+                    [self.view setNeedsLayout];
+                    [self.view layoutIfNeeded];
+                }];
+            } else {
+                //Save
+                [self btnNextTapped:nil];
+            }
         }
+        return;
     }
+    
+    // if imageView stack is empty – return from drawing
+    if (_drawingImageViewStackArray.count == 0) {
+        return;
+    }
+    // Get last added imageView to draw on
+    UIImageView *currentDrawingImageView = [_drawingImageViewStackArray lastObject];
+    if(!_mouseSwiped) {
+        // if coordinates array is empty – return from drawing
+        if (_drawingCoordinateArray.count == 0) {
+            return;
+        }
+        // Get last coordinates array to add new currentPoint
+        NSMutableArray<NSValue *> *currentCoordinatesArray = [_drawingCoordinateArray lastObject];
+        [currentCoordinatesArray addObject:[NSValue valueWithCGPoint:_lastPoint]];
+        [_drawingCoordinateArray removeLastObject];
+        [_drawingCoordinateArray addObject:currentCoordinatesArray];
+        CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha = 0.0;
+        [_drawingColor getRed:&red green:&green blue:&blue alpha:&alpha];
+        UIGraphicsBeginImageContext(currentDrawingImageView.frame.size);
+        [currentDrawingImageView.image drawInRect:CGRectMake(0, 0,
+                                                             currentDrawingImageView.frame.size.width,
+                                                             currentDrawingImageView.frame.size.height)];
+        CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
+        CGContextSetLineWidth(UIGraphicsGetCurrentContext(), _brush);
+        CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), red, green, blue, alpha);
+        CGContextMoveToPoint(UIGraphicsGetCurrentContext(), _lastPoint.x, _lastPoint.y);
+        CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), _lastPoint.x, _lastPoint.y);
+        CGContextStrokePath(UIGraphicsGetCurrentContext());
+        CGContextFlush(UIGraphicsGetCurrentContext());
+        currentDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    UIGraphicsBeginImageContext(currentDrawingImageView.frame.size);
+    [currentDrawingImageView.image drawInRect:CGRectMake(0, 0,
+                                                         currentDrawingImageView.frame.size.width,
+                                                         currentDrawingImageView.frame.size.height)
+                                    blendMode:kCGBlendModeNormal
+                                        alpha:1.0];
+    currentDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    [_drawingImageViewStackArray removeLastObject];
+    [_drawingImageViewStackArray addObject:currentDrawingImageView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -149,6 +321,21 @@
 	return UIStatusBarStyleLightContent;
 }
 
+- (void)setupPenColorsContainerView {
+    for (int i = 0; i < _penColorStackView.arrangedSubviews.count; i++) {
+        UITapGestureRecognizer *colorPinTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                                       action:@selector(handleColorPinGestureTap:)];
+        [_penColorStackView.arrangedSubviews[i] addGestureRecognizer:colorPinTapGestureRecognizer];
+    }
+    // Change alpha to 0 to hide color stack view because appearance animation based on alpha value of color stack view.
+    [_penColorStackView setHidden:NO];
+    _penColorStackView.alpha = 0.0;
+}
+
+- (void)changePenToolImageWithColor:(UIColor *)color {
+    _penToolImageView.image = [_penToolImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [_penToolImageView setTintColor:color];
+}
 
 // MARK: - public initialize methods
 
@@ -241,8 +428,112 @@
 - (IBAction)btnToolTextTapped:(id)sender {
 }
 
+- (IBAction)buttonPenUndoTapped:(id)sender {
+    if (!_isDrawing) {
+        return;
+    }
+    if (_drawingImageViewStackArray.count == 0) {
+        return;
+    }
+    UIImageView *lastDrawingImageView = [_drawingImageViewStackArray lastObject];
+    [lastDrawingImageView removeFromSuperview];
+    [_drawingImageViewStackArray removeLastObject];
+    if (_drawingColorArray.count == 0 ||
+        _drawingCoordinateArray.count == 0 ||
+        _drawingBrushSizeArray.count == 0) {
+        return;
+    }
+    [_drawingColorArray removeLastObject];
+    [_drawingCoordinateArray removeLastObject];
+    [_drawingBrushSizeArray removeLastObject];
+}
 
 - (IBAction)btnToolPenTapped:(id)sender {
+    // Swift drawing mode status
+    _isDrawing = !_isDrawing;
+
+    // Hide unneded elements if drawing mode is active
+    for(UIView *viewToHide in @[_btnToolAnimateGIF, _btnToolBubble, _btnToolSticker,
+                                _btnToolText, _buttonPlayPauseViewImageView, _buttonCloseImageView,
+                                _playPauseButton, _buttonToolStickerImageView,
+                                _buttonToolTextImageView, _btnClose]) {
+        [viewToHide setHidden:_isDrawing];
+    }
+    
+    // Show needed elements in drawing mode
+    [_penUndoView setHidden:!_isDrawing];
+    [_penUndoImageView setHidden:!_isDrawing];
+    
+//    if (_isDrawing) {
+//        _penColorStackView.alpha = 0.0;
+//        [UIView animateWithDuration:0.15 animations:^{
+//            _penColorStackView.alpha = 1.0;
+//        }];
+//    } else {
+//        _penColorStackView.alpha = 1.0;
+//        [UIView animateWithDuration:0.15 animations:^{
+//            _penColorStackView.alpha = 0.0;
+//        }];
+//    }
+    [UIView animateWithDuration:0.15 animations:^{
+        _penColorStackView.alpha = _penColorStackView.alpha == 1.0 ? 0.0 : 1.0;
+    }];
+    
+    // Change pen tool icon color back to white
+    [self changePenToolImageWithColor:[UIColor whiteColor]];
+    
+    // If drawing mode is no longer active – save all drawing from all ImageViews from stack onto single image layer
+    if (!_isDrawing) {
+        if (!_drawingImageViewStackArray || _drawingImageViewStackArray.count == 0) {
+            return;
+        }
+        UIGraphicsBeginImageContext(self.view.frame.size);
+        if (_drawingImageView.image) {
+            [_drawingImageView.image drawInRect:CGRectMake(0, 0,
+                                                           _drawingImageView.frame.size.width,
+                                                           _drawingImageView.frame.size.height)
+                                      blendMode:kCGBlendModeNormal
+                                          alpha:1.0];
+        }
+        for (UIImageView *drawingImageView in _drawingImageViewStackArray) {
+            [drawingImageView.image drawInRect:CGRectMake(0, 0,
+                                                          drawingImageView.frame.size.width,
+                                                          drawingImageView.frame.size.height)
+                                     blendMode:kCGBlendModeNormal
+                                         alpha:1.0];
+            [drawingImageView removeFromSuperview];
+        }
+        _drawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        [_drawingImageViewStackArray removeAllObjects];
+        
+        if (_drawingCoordinateArray.count != _drawingColorArray.count ||
+            _drawingCoordinateArray.count != _drawingBrushSizeArray.count) {
+            return;
+        }
+        CGRect drawingFrame = CGRectMake(0, 0,
+                                         self.view.frame.size.width,
+                                         self.view.frame.size.height);
+        for (int i = 0; i < _drawingCoordinateArray.count; i++) {
+            NSMutableArray<NSValue *> *signleDrawingCoordinates = _drawingCoordinateArray[i];
+            UIColor *selectedColor = _drawingColorArray[i];
+            CGFloat selectedBrushSize = [_drawingBrushSizeArray[i] floatValue];
+            // Create new PenObject to save it into slides.plist file in the file system
+            PenObject *penObject = [[PenObject alloc] initWithDrawingCoordintaes:signleDrawingCoordinates
+                                                                  selectedColor:selectedColor
+                                                                       brushSize:selectedBrushSize
+                                                                        andFrame:drawingFrame];
+            // Add new PenObject to viewModel objects array
+            [viewModel addObject:penObject];
+        }
+        // Save all objects into the slides.plist file
+        [viewModel saveObject];
+        
+        // Clear all coordinates, brush sizes and selected colors because drawing is no longer active.
+        [_drawingCoordinateArray removeAllObjects];
+        [_drawingBrushSizeArray removeAllObjects];
+        [_drawingColorArray removeAllObjects];
+    }
 }
 
 
@@ -326,6 +617,47 @@
 	}];
 }
 
+- (void)handleColorPinGestureTap:(UITapGestureRecognizer *)gestureRecognizer {
+    if (!_isDrawing) {
+        return;
+    }
+    
+    UIView *currentView = gestureRecognizer.view;
+    CGFloat defaultViewWidth = 15;
+    CGAffineTransform scaleTransformation = CGAffineTransformMakeScale(1, 1);
+    
+    if (CGColorEqualToColor(_drawingColor.CGColor, currentView.backgroundColor.CGColor)
+                                    && currentView.frame.size.width == defaultViewWidth) {
+        scaleTransformation = CGAffineTransformMakeScale(2, 2);
+        _brush = DRAWING_BIG_BRUSH;
+    } else if (CGColorEqualToColor(_drawingColor.CGColor, currentView.backgroundColor.CGColor)
+                                            && currentView.frame.size.width > defaultViewWidth) {
+        _brush = DRAWING_DEFAULT_BRUSH;
+    }
+    
+    [UIView animateWithDuration:0.1 animations:^{
+        gestureRecognizer.view.transform = scaleTransformation;
+    }];
+    
+    // Reset transformation for all other unselected color pins. Just like radio button should work.
+    if (!CGColorEqualToColor(_drawingColor.CGColor, currentView.backgroundColor.CGColor)) {
+        _brush = DRAWING_DEFAULT_BRUSH;
+        for (int i = 0; i < _penColorStackView.arrangedSubviews.count; i++) {
+            if (_penColorStackView.arrangedSubviews[i].frame.size.width == defaultViewWidth) {
+                // We don't need to scale down already scaled element. So we just continue in that case.
+                continue;
+            }
+            [UIView animateWithDuration:0.1 animations:^{
+                _penColorStackView.arrangedSubviews[i].transform = CGAffineTransformMakeScale(1, 1);
+            }];
+        }
+    }
+    // Change selected drawing color based on background color of the color pin view
+    _drawingColor = gestureRecognizer.view.backgroundColor;
+    
+    // Change color of the pen icon based on selected color
+    [self changePenToolImageWithColor:_drawingColor];
+}
 
 // MARK: - private methods
 - (BaseObject *)createComicObject:(ComicObjectType)type index:(NSInteger)index category:(NSInteger)category {
