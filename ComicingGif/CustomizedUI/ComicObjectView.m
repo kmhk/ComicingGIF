@@ -65,7 +65,6 @@
 		
 	} else if (obj.objType == ObjectPen) {
 		[self createPenView];
-		[self addGestures];
 	}
 	
 	self.transform = CGAffineTransformScale(CGAffineTransformIdentity, self.comicObject.scale, self.comicObject.scale);
@@ -146,7 +145,17 @@
 }
 
 - (void)createPenView {
-	
+	PenObject *penObject = (PenObject *) self.comicObject;
+    self.frame = CGRectMake(penObject.frame.origin.x,
+                            penObject.frame.origin.y,
+                            penObject.frame.size.width,
+                            penObject.frame.size.height);
+    UIColor *color = penObject.color;
+    CGFloat brushSize = penObject.brushSize;
+    NSArray<NSValue *> *coordinates = penObject.coordinates;
+    [self createDrawingWithCoordinates:coordinates
+                                 color:color
+                          andBrushSize:brushSize];
 }
 
 
@@ -169,6 +178,53 @@
 	UIGraphicsEndImageContext();
 	
 	return newImage;
+}
+
+- (void)createDrawingWithCoordinates:(NSArray<NSValue *> *)coordinates
+                               color:(UIColor *)color
+                        andBrushSize:(CGFloat)brushSize {
+    UIImageView *drawingImageView = [[UIImageView alloc] initWithFrame:self.frame];
+    [self addSubview:drawingImageView];
+    
+    if (coordinates.count < 2) {
+        // There Should be at least 2 points in a single drawing object
+        return;
+    }
+    
+    CGFloat red, green, blue, alpha;
+    [color getRed:&red green:&green blue:&blue alpha:&alpha];
+    CGPoint lastPoint = [coordinates.firstObject CGPointValue];
+    
+    for (int i = 1; i < coordinates.count; i++) {
+        CGPoint currentPoint = [coordinates[i] CGPointValue];
+        
+        UIGraphicsBeginImageContext(drawingImageView.frame.size);
+        [drawingImageView.image drawInRect:CGRectMake(0, 0, drawingImageView.frame.size.width, drawingImageView.frame.size.height)];
+        
+        CGContextMoveToPoint(UIGraphicsGetCurrentContext(), lastPoint.x, lastPoint.y);
+        CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), currentPoint.x, currentPoint.y);
+        
+        CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);
+        CGContextSetLineWidth(UIGraphicsGetCurrentContext(), brushSize);
+        CGContextSetRGBStrokeColor(UIGraphicsGetCurrentContext(), red, green, blue, 1.0);
+        CGContextSetBlendMode(UIGraphicsGetCurrentContext(), kCGBlendModeNormal);
+        
+        CGContextStrokePath(UIGraphicsGetCurrentContext());
+        drawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
+        [drawingImageView setAlpha:1.0];
+        UIGraphicsEndImageContext();
+        
+        lastPoint = currentPoint;
+    }
+    
+    UIGraphicsBeginImageContext(drawingImageView.frame.size);
+    
+    [drawingImageView.image drawInRect:CGRectMake(0, 0, drawingImageView.frame.size.width, drawingImageView.frame.size.height)
+                             blendMode:kCGBlendModeNormal
+                                 alpha:1.0];
+    drawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
 }
 
 - (void)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag {
