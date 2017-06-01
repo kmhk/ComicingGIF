@@ -22,6 +22,7 @@ ComicObjectViewDelegate
 // initialize comic making view controller with background GIF/Image from url
 
 @property (nonatomic) NSInteger indexSaved;
+@property (nonatomic, assign) BOOL shouldShowScrollBar;
 
 - (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect andSubviewArray:(NSMutableArray *)arrSubviews isTall:(BOOL)isTall index:(NSInteger)index;
 

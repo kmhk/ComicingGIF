@@ -65,7 +65,8 @@
 	return @{@"type"	: @(self.objType),
 			 @"frame"	: NSStringFromCGRect(self.frame),
 			 @"angle"	: @(self.angle),
-			 @"scale"	: @(self.scale)
+			 @"scale"	: @(self.scale),
+             @"delayTime":@(self.delayTimeInSeconds)
 			 };
 }
 

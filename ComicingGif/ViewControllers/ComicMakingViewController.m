@@ -17,6 +17,8 @@
 #import "ComicObjectSerialize.h"
 #import "CBComicPreviewVC.h"
 #import "UIView+CBConstraints.h"
+#import "ScrollBarSlider.h"
+#import <ImageIO/ImageIO.h>
 
 #define TOOLCELLID	@"ToolCollectionViewCell"
 #define CATEGORYCELLID	@"CategoryCollectionViewCell"
@@ -25,7 +27,14 @@
 #define DRAWING_BIG_BRUSH 10
 #define DRAWING_DEFAULT_COLOR [UIColor whiteColor]
 
-@interface ComicMakingViewController () <ZoomTransitionProtocol>
+#define discreteValueOfSeconds 0.01
+
+#define enhancementsBaseTag 9090
+
+#define toCF (__bridge CFTypeRef)
+#define fromCF (__bridge id)
+
+@interface ComicMakingViewController () <ZoomTransitionProtocol, ScrollBarSliderDelegate>
 {
 	ComicMakingViewModel *viewModel;
 	
@@ -41,6 +50,16 @@
     CGPoint _lastPoint; // last point of drawing based on user touch events
     CGFloat _brush; // Brush size for drawing pen
     BOOL _mouseSwiped;
+    
+    NSTimer *scrollBarTimer;
+    NSInteger discreteCount;
+    CGFloat maxSeconds;
+    NSInteger enhancementsBaseTagCount;
+    
+    NSTimer *autoScrollSliderTimer;
+    CGFloat autoScrollSliderDeltaValue;
+    
+    BOOL haveAddedIconsOnce;
 }
 
 @property (weak, nonatomic) IBOutlet UIButton *btnPlay;
@@ -70,6 +89,14 @@
 @property (weak, nonatomic) IBOutlet UIImageView *penUndoImageView;
 @property (weak, nonatomic) IBOutlet UIStackView *penColorStackView;
 @property (weak, nonatomic) IBOutlet UIImageView *penToolImageView;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderContainerViewBottomConstraint;
+@property (weak, nonatomic) IBOutlet UIView *sliderContainerView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderBlackViewBottomConstraint;
+@property (weak, nonatomic) IBOutlet UIView *sliderBlackView;
+@property (weak, nonatomic) IBOutlet ScrollBarSlider *scrollBarSlider;
+@property (strong, nonatomic) NSMutableArray<TimerImageViewStruct *> *timerImageViews;
+@property (strong, nonatomic) NSMutableArray *scrollBarIconViews;
 
 /**
  Use this mutable array to store all drawings made during active drawing mode. Each drawing has its own ImageView this will enable undo function for drawing because we can just remove last ImageView from this array
@@ -121,6 +148,206 @@
     _drawingColorArray = [NSMutableArray new];
     [self setupPenColorsContainerView];
 }
+#pragma mark - Slider methods
+- (UIImage *)getSliderPlayOrPauseButtonWithImageName:(NSString *)imageName
+{
+    CGSize sliderSize = self.scrollBarSlider.frame.size;
+    CGSize newSize = CGSizeMake(sliderSize.height, sliderSize.height);
+    
+    UIImage *image = [UIImage imageNamed:imageName];
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
+- (void)initialiseScrollBar {
+    self.scrollBarSlider.scrollBarSliderDelegate = self;
+    
+    if (!self.scrollBarIconViews) {
+        self.scrollBarIconViews = [NSMutableArray array];
+    }
+    
+    if (!self.timerImageViews) {
+        self.timerImageViews = [NSMutableArray array];
+    }
+    [self refreshStateOfEnhancementsWithSlideValue:0];
+}
+
+//ScrollBarSlider delegate method
+- (void)refreshSliderStateWithCurrentSelectionState {
+    if (self.scrollBarSlider.selected) {
+        [self play];
+    } else {
+        [self pause];
+    }
+}
+
+- (void)play {
+    scrollBarTimer = [NSTimer scheduledTimerWithTimeInterval:discreteValueOfSeconds target:self selector:@selector(scrollBarTimer:) userInfo:nil repeats:YES];
+}
+
+- (void)pause {
+//    [self.playPauseButton setTitle:@"Play" forState:UIControlStateNormal];
+    [self stopTimer];
+    for (TimerImageViewStruct *timerImageView in self.timerImageViews) {
+        [timerImageView.imageView stopAnimating];
+        [self setImageOnTimerImageView:timerImageView withCurrentSliderValue:self.scrollBarSlider.value];
+    }
+}
+
+- (void)scrollBarTimer:(NSTimer *)timer {
+    self.scrollBarSlider.value = discreteCount*(discreteValueOfSeconds);
+//    self.currentTimeLabel.text = [NSString stringWithFormat:@"%.2f",self.scrollBarSlider.value];
+    [self refreshStateOfEnhancementsWithSlideValue:self.scrollBarSlider.value];
+    
+//    backgroundView.currentTimerValue = self.scrollBarSlider.value;
+    
+    discreteCount++;
+    if (self.scrollBarSlider.value >= maxSeconds) {
+        [self pause];
+//        self.playPauseButton.selected = !self.playPauseButton.selected;
+    }
+}
+
+- (void)refreshStateOfEnhancementsWithSlideValue:(CGFloat)value {
+    for (TimerImageViewStruct *timerImageView in self.timerImageViews) {
+        [timerImageView.imageView stopAnimating]; // stopanimation is added because the gifs shouldnt play at 0 slider value
+        [self refreshStateOfTimerImageView:timerImageView withSliderValue:value];
+    }
+}
+
+- (void)stopTimer {
+    [scrollBarTimer invalidate];
+    scrollBarTimer = nil;
+}
+
+- (IBAction)slideChanged:(UISlider *)slider {
+    NSLog(@"Slider value actual: %f",slider.value);
+    slider.value = ((NSInteger)(slider.value / discreteValueOfSeconds)) * discreteValueOfSeconds;
+    NSLog(@"Slider value: %f",slider.value);
+    discreteCount = slider.value / discreteValueOfSeconds;
+    
+//    backgroundView.currentTimerValue = slider.value;
+    
+    [self setFrameOfGifsToPercentOfFrameToShow:(slider.value/slider.maximumValue)];
+//    self.currentTimeLabel.text = [NSString stringWithFormat:@"%.2f",self.scrollBarSlider.value];
+}
+
+- (void)setFrameOfGifsToPercentOfFrameToShow:(float)percent {
+    
+    NSLog(@"%ld",(long)percent);
+    for (TimerImageViewStruct *timerImageView in self.timerImageViews) {
+        [timerImageView.imageView stopAnimating];
+        NSLog(@"Images count: %lu", timerImageView.imageView.animationImages.count);
+        
+        [self setImageOnTimerImageView:timerImageView withCurrentSliderValue:self.scrollBarSlider.value];
+        
+    }
+}
+
+- (UIImageView *)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag {
+    CGImageSourceRef srcImage = CGImageSourceCreateWithData(toCF data, nil);
+    if (!srcImage) {
+        NSLog(@"loading image failed");
+    }
+    
+    size_t imgCount = CGImageSourceGetCount(srcImage);
+    NSTimeInterval totalDuration = 0;
+    NSNumber *frameDuration;
+    NSMutableArray *arrayImages;
+    
+    arrayImages = [[NSMutableArray alloc] init];
+    for (NSInteger i = 0; i < imgCount; i ++) {
+        CGImageRef cgImg = CGImageSourceCreateImageAtIndex(srcImage, i, nil);
+        if (!cgImg) {
+            NSLog(@"loading %ldth image failed from the source", (long)i);
+            continue;
+        }
+        
+        UIImage *img = [self scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
+        [arrayImages addObject:img];
+        
+        NSDictionary *property = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(srcImage, i, nil));
+        NSDictionary *gifDict = property[fromCF kCGImagePropertyGIFDictionary];
+        
+        frameDuration = gifDict[fromCF kCGImagePropertyGIFUnclampedDelayTime];
+        if (!frameDuration) {
+            frameDuration = gifDict[fromCF kCGImagePropertyGIFDelayTime];
+        }
+        
+        totalDuration += frameDuration.floatValue;
+        
+        CGImageRelease(cgImg);
+    }
+    
+    CFRelease(srcImage);
+    
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:rect];
+    imgView.image = arrayImages.firstObject;
+    imgView.autoresizingMask = 0B11111;
+    imgView.userInteractionEnabled = YES;
+    
+    imgView.animationImages = arrayImages;
+    imgView.animationDuration = totalDuration;
+    imgView.animationRepeatCount = (flag == YES? 0 : 1);
+    //    [imgView startAnimating];
+    
+    return imgView;
+    
+}
+
+- (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size {
+    UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
+- (void)setImageOnTimerImageView:(TimerImageViewStruct *)timerImageView withCurrentSliderValue:(CGFloat)currentSliderValue {
+    timerImageView.imageView.hidden = currentSliderValue < timerImageView.delayTimeOfImageView;
+    
+    if (timerImageView.imageView.animationImages.count > 1) { // This will only execute for GIFs not images
+        if (timerImageView.imageView.hidden && timerImageView.imageView.isAnimating) {
+            [timerImageView.imageView stopAnimating];
+            return;
+        }
+        if (timerImageView.imageView.hidden) {
+            return;
+        }
+        CGFloat modifiedActionValue = currentSliderValue - timerImageView.delayTimeOfImageView;
+        if (modifiedActionValue < 0) {
+            modifiedActionValue = 0;
+        }
+        CGFloat fullLoopsTotalDuration = timerImageView.imageView.animationDuration * ((NSInteger)((modifiedActionValue)/timerImageView.imageView.animationDuration));
+        NSInteger actualPercent = (NSInteger)(((modifiedActionValue - fullLoopsTotalDuration) / timerImageView.imageView.animationDuration) * 100);
+        NSLog(@"...Actual percent: %lu,,,,,hidden: %d", actualPercent, timerImageView.imageView.hidden);
+        timerImageView.imageView.image = [timerImageView.imageView.animationImages objectAtIndex:((NSInteger)[timerImageView.imageView.animationImages count] * actualPercent/100)];
+    }
+}
+
+- (void)refreshStateOfTimerImageView:(TimerImageViewStruct *)timerImageView withSliderValue:(CGFloat)currentSliderValue {
+    timerImageView.imageView.hidden = currentSliderValue < timerImageView.delayTimeOfImageView;
+    
+    if (timerImageView.imageView.animationImages.count > 1) { // This will executed only for GIFs not images
+        if (timerImageView.imageView.hidden && timerImageView.imageView.isAnimating) {
+            [timerImageView.imageView stopAnimating];
+        } else {
+            [self setImageOnTimerImageView:timerImageView withCurrentSliderValue:currentSliderValue];
+        }
+    }
+}
+
+- (UIView *)getScrollBarIconWithTag:(NSInteger)iconTag {
+    UIButton *iconButton = [[self.scrollBarSlider superview]viewWithTag:iconTag];
+    return iconButton;
+}
+
+#pragma mark -
 
 - (void)setAlpha:(BOOL)alpha {
     self.btnToolAnimateGIF.alpha = self.btnToolBubble.alpha = self.btnToolSticker.alpha = self.btnToolText.alpha = self.btnToolPen.alpha = alpha;
@@ -302,6 +529,23 @@
 	} else {
 		self.btnPlay.hidden = true;
 	}
+    
+    if ([self.timerImageViews firstObject].imageView.animationImages.count != 1) {
+        [self initialiseScrollBar];
+        
+        [self.scrollBarSlider setMinimumTrackImage:[self.scrollBarSlider getSliderBackView] forState:UIControlStateNormal];
+        [self.scrollBarSlider setMaximumTrackImage:[self.scrollBarSlider getSliderBackView] forState:UIControlStateNormal];
+        
+        [self.scrollBarSlider setThumbImage:[self getSliderPlayOrPauseButtonWithImageName:@"play"] forState:UIControlStateNormal];
+        [self.scrollBarSlider setThumbImage:[self getSliderPlayOrPauseButtonWithImageName:@"pause"] forState:UIControlStateSelected];
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self.scrollBarSlider action:@selector(sliderTapGesture:)];
+        [self.scrollBarSlider addGestureRecognizer:tapGesture];
+    } else {
+        self.sliderContainerViewBottomConstraint.constant = -self.sliderContainerView.frame.size.height;
+        self.sliderBlackViewBottomConstraint.constant = -self.sliderBlackView.frame.size.height;
+        self.sliderContainerView.hidden = self.sliderBlackView.hidden = YES;
+    }
 }
 
 - (void)viewDidLayoutSubviews {
@@ -313,6 +557,26 @@
     [UIView animateWithDuration:0.2f animations:^{
         [self setAlpha:YES];
     }];
+    
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    // Add icons after slider layout-------
+    if (!haveAddedIconsOnce) {
+        haveAddedIconsOnce = !haveAddedIconsOnce;
+        NSArray *noBaseLayerComicObjectViews = [backgroundView subviews];
+        if (noBaseLayerComicObjectViews.count >= 1) {
+            //By removing first object base layer fix the issue where the icon for base layer appears at start always
+            for (int i = 1; i < noBaseLayerComicObjectViews.count; i++) {
+                ComicObjectView *comicObjectView = noBaseLayerComicObjectViews[i];
+                [self addIconToScrollBarAfterAdditionOfComicObjectViewWithTag:comicObjectView.tag andBaseObjectType:comicObjectView.comicObject.objType andSliderValue:comicObjectView.delayTimeInSeconds];
+            }
+        }
+    }
+    //>> Add icons after slider layout------
 }
 
 - (UIView *)viewForZoomTransition:(BOOL)isSource {
@@ -659,7 +923,7 @@
 }
 
 // MARK: - private methods
-- (BaseObject *)createComicObject:(ComicObjectType)type index:(NSInteger)index category:(NSInteger)category {
+- (BaseObject *)createComicObject:(ComicObjectType)type index:(NSInteger)index category:(NSInteger)category delayTimeInSeconds:(CGFloat)delayTime {
 	BaseObject *obj;
 	NSString *rcID;
 	
@@ -673,10 +937,13 @@
 		
 		self.btnPlay.hidden = false;
 	}
+    
+    obj.delayTimeInSeconds = delayTime;
 	
 	[viewModel addRecentObject:@{@"type":		@(type),
 								 @"id":			@(index),
-								 @"category":	@(category)}];
+								 @"category":	@(category),
+                                 @"delayTime":   @(delayTime)}];
 	
 	return obj;
 }
@@ -686,9 +953,28 @@
 		NSLog(@"There is nothing comic objects");
 		return;
 	}
-	
-	backgroundView = [ComicObjectView createComicViewWith:viewModel.arrayObjects delegate:self];
+    _timerImageViews = [NSMutableArray array];
+	backgroundView = [ComicObjectView createComicViewWith:viewModel.arrayObjects delegate:self timerImageViews:_timerImageViews];
 	[self.baseLayerView insertSubview:backgroundView atIndex:0];
+    
+    //Set tags----------
+    if (_timerImageViews.count != 0) {
+        UIImageView *baseLayer = [_timerImageViews firstObject].imageView;
+        maxSeconds = baseLayer.animationDuration;
+        self.scrollBarSlider.maximumValue = baseLayer.animationDuration;
+    }
+    
+    NSArray *noBaseLayerComicObjectViews = [backgroundView subviews];
+    if (noBaseLayerComicObjectViews.count >= 1) {
+        //By removing first object base layer fix the issue where the icon for base layer appears at start always
+        for (int i = 1; i < noBaseLayerComicObjectViews.count; i++) {
+            ComicObjectView *comicObjectView = noBaseLayerComicObjectViews[i];
+            
+            //Setting the tag here helps in further calculation of frame of icons
+            comicObjectView.tag = (enhancementsBaseTag) + enhancementsBaseTagCount++;
+        }
+    }
+    //>>Set tags---------
 }
 
 - (void)createComicViewWith:(BaseObject *)obj {
@@ -698,8 +984,56 @@
     comicView.parentView = backgroundView;
 	comicView.delegate = self;
 	[backgroundView addSubview:comicView];
+    comicView.tag = (enhancementsBaseTag) + enhancementsBaseTagCount++;
+    
+    [self.timerImageViews addObjectsFromArray:comicView.timerImageViews];
+    
+    [self addIconToScrollBarAfterAdditionOfComicObjectViewWithTag:comicView.tag andBaseObjectType:obj.objType andSliderValue:self.scrollBarSlider.value];
 }
 
+- (void)addIconToScrollBarAfterAdditionOfComicObjectViewWithTag:(NSInteger)tag andBaseObjectType:(ComicObjectType)type andSliderValue:(CGFloat)sliderValue {
+    UIButton *iconButton = [[UIButton alloc] initWithFrame:[self.scrollBarSlider getCurrentRectForScollBarIconWithSliderValue:sliderValue]];
+    iconButton.tag = tag;
+    
+//    if (obj.objType == ObjectAnimateGIF) {
+        [iconButton setImage:[UIImage imageNamed:@"Bubble"] forState:UIControlStateNormal];
+//    }
+    
+    [[self.scrollBarSlider superview] addSubview:iconButton];
+    [iconButton addTarget:self action:@selector(iconTapped:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)iconTapped:(UIButton *)iconButton {
+    [self stopTimer];
+    [self pause];
+    ComicObjectView *comicObjectView = [self.baseLayerView viewWithTag:iconButton.tag];
+    CGFloat scrollToThisDelayTime = comicObjectView.delayTimeInSeconds;
+    
+    autoScrollSliderDeltaValue = (scrollToThisDelayTime-self.scrollBarSlider.value)*0.05;
+    
+    [autoScrollSliderTimer invalidate];
+    autoScrollSliderTimer = nil;
+    autoScrollSliderTimer = [NSTimer scheduledTimerWithTimeInterval:0.05
+                                     target:self
+                                   selector:@selector(scrollSliderWithTimer:)
+                                   userInfo:@{@"SliderValueToSet":[NSNumber numberWithFloat:scrollToThisDelayTime]}
+                                    repeats:YES];
+}
+
+- (void)scrollSliderWithTimer:(NSTimer *)timer {
+    CGFloat scrollToThisDelayTime = [[timer.userInfo valueForKey:@"SliderValueToSet"] floatValue];
+    if (autoScrollSliderDeltaValue < 0 && (self.scrollBarSlider.value + autoScrollSliderDeltaValue < scrollToThisDelayTime)) {
+        [timer invalidate];
+        timer = nil;
+        return;
+    } else if (autoScrollSliderDeltaValue >= 0 && (self.scrollBarSlider.value >= scrollToThisDelayTime)) {
+        [timer invalidate];
+        timer = nil;
+        return;
+    }
+    self.scrollBarSlider.value+=autoScrollSliderDeltaValue;
+    [self refreshStateOfEnhancementsWithSlideValue:self.scrollBarSlider.value];
+}
 
 - (UIView *)createToolView:(ComicObjectType)type {
 	nCategory = 1;
@@ -920,7 +1254,7 @@
 		category = nCategory - 1;
 	}
 	
-	BaseObject *obj = [self createComicObject:(ComicObjectType)type index:index category:category];
+	BaseObject *obj = [self createComicObject:(ComicObjectType)type index:index category:category delayTimeInSeconds:self.scrollBarSlider.value];
 	
 	if (obj) {
 		[self createComicViewWith:obj];
@@ -953,12 +1287,15 @@
 
 - (void)removeObject:(ComicObjectView *)view {
 	[viewModel.arrayObjects removeObject:view.comicObject];
-	
+    UIView *icon = [self getScrollBarIconWithTag:view.tag];
+    
 	[UIView animateWithDuration:0.3 animations:^{
 		view.alpha = 0.0;
+        icon.alpha = 0.0;
 	} completion:^(BOOL finished) {
 		[view removeFromSuperview];
-		
+        [icon removeFromSuperview];
+        
 		[self saveObject];
 	}];
 }

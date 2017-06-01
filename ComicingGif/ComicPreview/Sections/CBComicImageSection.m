@@ -36,6 +36,8 @@
 #define fromCF (id)
 #endif
 
+#define discreteValueOfSeconds 0.01
+
 @implementation CBComicImageSection
 - (CBBaseCollectionViewCell*)cellForCollectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath{
     [super cellForCollectionView:collectionView atIndexPath:indexPath];
@@ -47,20 +49,11 @@
         cell= [nibs firstObject];
     }
     
-//    self.collectionView.backgroundColor = [UIColor redColor];
-//    _comicItemModel = [self.dataArray objectAtIndex:indexPath.row];
     for (CBComicItemModel *item in self.dataArray) {
         NSLog(@"............DATA ARRAY IN CELL: %@",item.comicPage);
     }
     
-//    self.collectionView.backgroundColor = [UIColor yellowColor];
-    
-//    ComicItemAnimatedSticker *st = [ComicItemAnimatedSticker new];
-//    st.objFrame = CGRectMake(50, 80, 100, 100);
-//    [st addItemWithImage:[YYImage imageNamed:@"WTF"]];
-//    _comicItemModel.comicPage.subviews = [NSMutableArray arrayWithObject:st];
-//    cell.staticImageView.image = _comicItemModel.baseLayerImage;
-//    cell.animatedImageView.image = _comicItemModel.baseLayerGif;
+    self.timerImageViews = [NSMutableArray array];
     
     return cell;
 }
@@ -71,14 +64,19 @@
     for (UIView *view in [cell.topLayerView subviews]) {
         [view removeFromSuperview];
     }
-    if (_comicItemModel.isBaseLayerGif)
+    
+    NSData *gifData = [self getGifDataFromFileName:_comicItemModel.comicPage.gifLayerPath];
+    UIImageView *baseImageView = [self createImageViewWith:gifData frame:cell.baseLayerImageView.frame bAnimate:YES withAnimation:NO];
+    [self setGifPropertiesOfImageView:baseImageView toNewImageView:cell.baseLayerImageView];
+    
+    if (baseImageView.animationImages.count > 1)//_comicItemModel.isBaseLayerGif)
     {
         // NEED to handle 3 layer
 //        cell.baseLayerImageView.image = [AppHelper getGifFile:_comicItemModel.comicPage.gifLayerPath];
 
-        NSData *gifData = [self getGifDataFromFileName:_comicItemModel.comicPage.gifLayerPath];
-        UIImageView *imageView = [self createImageViewWith:gifData frame:cell.baseLayerImageView.frame bAnimate:YES];
-        [self setGifPropertiesOfImageView:imageView toNewImageView:cell.baseLayerImageView];
+        [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:cell.baseLayerImageView delayTime:0 andObjectType:ObjectAnimateGIF]];
+        
+        self.maxTimeOfFullAnimation = cell.baseLayerImageView.animationDuration;
         
         cell.staticImageView.image = [AppHelper getImageFile:_comicItemModel.comicPage.printScreenPath];
         //-> Loop subviews and get animation sticker and static image.
@@ -111,22 +109,14 @@
                 i ++;
 
                 
-//                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-                    UIImageView *stickerImageView = [self createImageViewWith:gifData frame:rectOfGif bAnimate:YES];
-                    
-                    
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-                        CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
-                        stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
-                        [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
-                        [cell.topLayerView addSubview:stickerImageView];
-//                    });
-//                } );
+                UIImageView *stickerImageView = [self createImageViewWith:gifData frame:rectOfGif bAnimate:YES withAnimation:NO];
                 
-//                NSLog(@".............IF ADDED STICKER: %@",sticker);
-                //                    sticker.backgroundColor = [UIColor brownColor];
-                //                    [cell.topLayerView setBackgroundColor:[UIColor greenColor]];
-                //                    cell.topLayerView.alpha = 0.4;
+                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
+                stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
+                [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+                [cell.topLayerView addSubview:stickerImageView];
+                
+                [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:stickerImageView delayTime:[[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue] andObjectType:ObjectAnimateGIF]];
             }
             
             //18 is for static stickers
@@ -152,15 +142,26 @@
                 
                 CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
                 stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
+                stickerImageView.hidden = YES;
                 [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
                 [cell.topLayerView addSubview:stickerImageView];
+                
+                [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:stickerImageView delayTime:[[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue] andObjectType:ObjectSticker]];
             }
         }
+        
+        [_mainSlideTimer invalidate];
+        _mainSlideTimer = nil;
+        _mainSlideTimer = [NSTimer scheduledTimerWithTimeInterval:discreteValueOfSeconds
+                                                           target:self
+                                                         selector:@selector(mainTimer:)
+                                                         userInfo:nil
+                                                          repeats:YES];
     } else {
         // This can be 2 layer or single layer
         
-        cell.baseLayerImageView.image = [AppHelper getImageFile:_comicItemModel.comicPage.printScreenPath];
-        
+//        cell.baseLayerImageView.image = [AppHelper getImageFile:_comicItemModel.comicPage.printScreenPath];
+        self.maxTimeOfFullAnimation = 0;
         //-> Loop subviews
         int i = 0;
         for (id subview in _comicItemModel.comicPage.subviews) {
@@ -190,7 +191,7 @@
                 
                 
                 //                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-                UIImageView *stickerImageView = [self createImageViewWith:gifData frame:rectOfGif bAnimate:YES];
+                UIImageView *stickerImageView = [self createImageViewWith:gifData frame:rectOfGif bAnimate:YES withAnimation:YES];
                 
                 
                 //                    dispatch_async(dispatch_get_main_queue(), ^{
@@ -248,7 +249,7 @@
     return newImage;
 }
 
-- (UIImageView *)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag {
+- (UIImageView *)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag withAnimation:(BOOL)shouldAnimate {
     CGImageSourceRef srcImage = CGImageSourceCreateWithData(toCF data, nil);
     if (!srcImage) {
         NSLog(@"loading image failed");
@@ -295,7 +296,9 @@
     imgView.animationImages = arrayImages;
     imgView.animationDuration = totalDuration;
     imgView.animationRepeatCount = (flag == YES? 0 : 1);
-    [imgView startAnimating];
+    if (shouldAnimate) {
+        [imgView startAnimating];
+    }
     
     return imgView;
 }
@@ -306,18 +309,47 @@
     newImageView.animationImages = oldImageView.animationImages;
     newImageView.animationDuration = oldImageView.animationDuration;
     newImageView.animationRepeatCount = oldImageView.animationRepeatCount;
-    [newImageView startAnimating];
 }
 
 - (NSData *)getGifDataFromFileName:(NSString *)fileName {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];    
     
     NSString *fileName1 = [NSString stringWithFormat:@"%@",[fileName lastPathComponent]];
     NSURL *fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fileName1]];
     
     NSData *gifData = [NSData dataWithContentsOfURL:fileURL];
     return gifData;
+}
+
+- (void)mainTimer:(NSTimer *)timer {
+    if (_currentTimeInterval > _maxTimeOfFullAnimation) {
+        _currentTimeInterval = 0;
+    }
+    for (TimerImageViewStruct *timerImageView in self.timerImageViews) {
+
+        if (timerImageView.imageView.animationImages.count > 1) { // FOR GIFs
+            if (timerImageView.imageView.hidden == YES && (_currentTimeInterval > timerImageView.delayTimeOfImageView)) {
+                timerImageView.imageView.hidden = NO;
+                [self makeImageViewStartItsAnimationFromFirstFrame:timerImageView.imageView];
+            }
+            if (timerImageView.imageView.hidden == NO && (_currentTimeInterval <= timerImageView.delayTimeOfImageView)) {
+                timerImageView.imageView.hidden = YES;
+                [timerImageView.imageView stopAnimating];
+            }
+        } else {  // FOR IMAGES
+            if (timerImageView.imageView.hidden == YES && (_currentTimeInterval > timerImageView.delayTimeOfImageView)) {
+                timerImageView.imageView.hidden = NO;
+            }
+            if (timerImageView.imageView.hidden == NO && (_currentTimeInterval <= timerImageView.delayTimeOfImageView)) {
+                timerImageView.imageView.hidden = YES;
+            }
+        }
+    }
+    _currentTimeInterval+=discreteValueOfSeconds;
+}
+
+- (void)makeImageViewStartItsAnimationFromFirstFrame:(UIImageView *)imageView {
+    imageView.image = [imageView.animationImages firstObject];
+    [imageView startAnimating];
 }
 
 -(void)registerNibForCollectionView:(UICollectionView *)collectionView
