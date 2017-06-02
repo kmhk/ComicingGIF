@@ -464,17 +464,6 @@
     [_penUndoView setHidden:!_isDrawing];
     [_penUndoImageView setHidden:!_isDrawing];
     
-//    if (_isDrawing) {
-//        _penColorStackView.alpha = 0.0;
-//        [UIView animateWithDuration:0.15 animations:^{
-//            _penColorStackView.alpha = 1.0;
-//        }];
-//    } else {
-//        _penColorStackView.alpha = 1.0;
-//        [UIView animateWithDuration:0.15 animations:^{
-//            _penColorStackView.alpha = 0.0;
-//        }];
-//    }
     [UIView animateWithDuration:0.15 animations:^{
         _penColorStackView.alpha = _penColorStackView.alpha == 1.0 ? 0.0 : 1.0;
     }];
