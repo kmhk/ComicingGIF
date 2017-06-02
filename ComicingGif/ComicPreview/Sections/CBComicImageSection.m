@@ -74,7 +74,12 @@
     if (_comicItemModel.isBaseLayerGif)
     {
         // NEED to handle 3 layer
-        cell.baseLayerImageView.image = [AppHelper getGifFile:_comicItemModel.comicPage.gifLayerPath];
+//        cell.baseLayerImageView.image = [AppHelper getGifFile:_comicItemModel.comicPage.gifLayerPath];
+
+        NSData *gifData = [self getGifDataFromFileName:_comicItemModel.comicPage.gifLayerPath];
+        UIImageView *imageView = [self createImageViewWith:gifData frame:cell.baseLayerImageView.frame bAnimate:YES];
+        [self setGifPropertiesOfImageView:imageView toNewImageView:cell.baseLayerImageView];
+        
         cell.staticImageView.image = [AppHelper getImageFile:_comicItemModel.comicPage.printScreenPath];
         //-> Loop subviews and get animation sticker and static image.
         //animation sticker you can check like …
@@ -91,7 +96,7 @@
                 
                 NSBundle *bundle = [NSBundle mainBundle] ;
                 NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
-                NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".gif" withString:@""] ofType:@"gif"];
+                NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".gif" withString:@""] ofType:@"gif"];;
                 NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
                 CGRect rectOfGif;
 //                sticker.image =  [UIImage sd_animatedGIFWithData:gifData];
@@ -278,7 +283,9 @@
         CGImageRelease(cgImg);
     }
     
-    CFRelease(srcImage);
+    if (srcImage != nil) {
+        CFRelease(srcImage);
+    }
     
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:rect];
     imgView.image = arrayImages.firstObject;
@@ -291,6 +298,26 @@
     [imgView startAnimating];
     
     return imgView;
+}
+
+- (void)setGifPropertiesOfImageView:(UIImageView *)oldImageView toNewImageView:(UIImageView *)newImageView {
+    newImageView.image = oldImageView.image;
+    newImageView.autoresizingMask = oldImageView.autoresizingMask;
+    newImageView.animationImages = oldImageView.animationImages;
+    newImageView.animationDuration = oldImageView.animationDuration;
+    newImageView.animationRepeatCount = oldImageView.animationRepeatCount;
+    [newImageView startAnimating];
+}
+
+- (NSData *)getGifDataFromFileName:(NSString *)fileName {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];    
+    
+    NSString *fileName1 = [NSString stringWithFormat:@"%@",[fileName lastPathComponent]];
+    NSURL *fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fileName1]];
+    
+    NSData *gifData = [NSData dataWithContentsOfURL:fileURL];
+    return gifData;
 }
 
 -(void)registerNibForCollectionView:(UICollectionView *)collectionView
