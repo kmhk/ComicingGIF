@@ -81,14 +81,37 @@
 	
 	// create background GIF from first object of comic object array
 	ComicObjectView *backgroundView = [[ComicObjectView alloc] initWithComicObject:array.firstObject];
-	
+    
+    NSMutableArray<ComicObjectView *> *penObjectsViewArray = [NSMutableArray new];
+    
 	for (NSInteger i = 1; i < array.count; i ++) {
 		BaseObject *obj = array[i];
 		ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
 		comicView.parentView = backgroundView;
 		comicView.delegate = userInfo;
+        
+        // For performance reasons it will be better to combine all drawings into single image view and add only this image view to the background
+        if (obj.objType == ObjectPen) {
+            [penObjectsViewArray addObject:comicView];
+            // We don't need to add each drawing as a subview right away.
+            continue;
+        }
+        
 		[backgroundView addSubview:comicView];
 	}
+    
+    // Generate single image view with all drawings. Nil – if there is no drawings in current comics item
+    UIImageView *allDrawingsImageView = [self createSingleImageViewFromDrawingsArray:penObjectsViewArray];
+    if (allDrawingsImageView) {
+        // The drawings should be under any other enhensment (like Stickers)
+        // If there is any subview available – insert drawing at first index.
+        // If there are no subviews – just add drawing in a regular way
+        if (backgroundView.subviews.count > 0) {
+            [backgroundView insertSubview:allDrawingsImageView atIndex:0];
+        } else {
+            [backgroundView addSubview:allDrawingsImageView];
+        }
+    }
 	
 	return backgroundView;
 }
@@ -178,6 +201,44 @@
 	UIGraphicsEndImageContext();
 	
 	return newImage;
+}
+
++ (UIImageView *)createSingleImageViewFromDrawingsArray:(inout NSMutableArray<ComicObjectView *> *)penObjectsViewArray {
+    
+    if (!penObjectsViewArray || penObjectsViewArray.count == 0) {
+        return nil;
+    }
+    
+    ComicObjectView *firstComicObjectView = penObjectsViewArray.firstObject;
+    
+    UIImageView *finalDrawingImageView = [[UIImageView alloc] initWithFrame:firstComicObjectView.frame];
+    
+    UIGraphicsBeginImageContext(finalDrawingImageView.frame.size);
+    [finalDrawingImageView.image drawInRect:CGRectMake(0, 0,
+                                                       finalDrawingImageView.frame.size.width,
+                                                       finalDrawingImageView.frame.size.height)
+                                  blendMode:kCGBlendModeNormal
+                                      alpha:1.0];
+    for (ComicObjectView *drawingComicObjectView in penObjectsViewArray) {
+        if (!drawingComicObjectView ||
+            drawingComicObjectView.subviews.count != 1 ||
+            ![drawingComicObjectView.subviews.firstObject isMemberOfClass:[UIImageView class]]) {
+            continue;
+        }
+        UIImageView *drawingImageView = (UIImageView *) drawingComicObjectView.subviews.firstObject;
+        
+        [drawingImageView.image drawInRect:CGRectMake(0, 0,
+                                                      drawingImageView.frame.size.width,
+                                                      drawingImageView.frame.size.height)
+                                 blendMode:kCGBlendModeNormal
+                                     alpha:1.0];
+        [drawingImageView removeFromSuperview];
+    }
+    finalDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    [penObjectsViewArray removeAllObjects];
+    
+    return finalDrawingImageView;
 }
 
 - (void)createDrawingWithCoordinates:(NSArray<NSValue *> *)coordinates
