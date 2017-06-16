@@ -11,6 +11,7 @@
 #import "ComicMakingViewController.h"
 #import "ComicObjectSerialize.h"
 #import "CBComicPreviewVC.h"
+#import "Constants.h"
 
 #define TOPBADDING		0.0
 #define BOTTOMPADDING	0.0
@@ -122,15 +123,24 @@
 - (void)setRecordingProgress:(BOOL)isStarting {
 	if (isStarting) {
         self.progressBar.hidden = NO;
-		timerProgress = [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
-			self.progressBar.progress = self.progressBar.progress + 1.0 / MAXDURATION / 10;
-		}];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"10.0")) {
+            timerProgress = [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+                [self updateProgressBar];
+            }];
+        } else {
+            timerProgress = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateProgressBar) userInfo:nil repeats:YES];
+        }
+        
 		[timerProgress fire];
 	} else {
 		if (timerProgress) {
 			[timerProgress invalidate];
 		}
 	}
+}
+
+- (void)updateProgressBar {
+    self.progressBar.progress = self.progressBar.progress + 1.0 / MAXDURATION / 10;
 }
 
 - (void)setToggleImage:(BOOL)isRecording {

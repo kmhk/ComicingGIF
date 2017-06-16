@@ -17,6 +17,7 @@
 #import "ComicObjectView.h"
 #import "Constants.h"
 #import "CaptionObject.h"
+#import "UIImage+resize.h"
 
 #define kHorizontalMargin 0.0f
 #define kVerticalMargin 5.0f
@@ -329,7 +330,9 @@
             continue;
         }
         
-        UIImage *img = [self scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
+//        UIImage *img = [self scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
+        UIImage *imageTemp = [UIImage imageWithCGImage:cgImg];
+        UIImage *img = [UIImage resizeImage:imageTemp newSize:rect.size];
         [arrayImages addObject:img];
         
         NSDictionary *property = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(srcImage, i, nil));
@@ -386,13 +389,17 @@
         _currentTimeInterval = 0;
     }
     for (TimerImageViewStruct *timerImageView in self.timerImageViews) {
-
+        
+        if (timerImageView.delayTimeOfImageView == 0) {
+            timerImageView.imageView.hidden = YES;
+        }
+        
         if (timerImageView.imageView.animationImages.count > 1) { // FOR GIFs
-            if (timerImageView.imageView.hidden == YES && (_currentTimeInterval > timerImageView.delayTimeOfImageView)) {
+            if (timerImageView.imageView.hidden == YES && (_currentTimeInterval >= timerImageView.delayTimeOfImageView)) {
                 timerImageView.imageView.hidden = NO;
                 [self makeImageViewStartItsAnimationFromFirstFrame:timerImageView.imageView];
             }
-            if (timerImageView.imageView.hidden == NO && (_currentTimeInterval <= timerImageView.delayTimeOfImageView)) {
+            if (timerImageView.imageView.hidden == NO && (_currentTimeInterval < timerImageView.delayTimeOfImageView)) {
                 timerImageView.imageView.hidden = YES;
                 [timerImageView.imageView stopAnimating];
             }
