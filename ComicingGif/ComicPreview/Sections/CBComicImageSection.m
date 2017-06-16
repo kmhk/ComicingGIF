@@ -20,17 +20,17 @@
 #import "UIImage+resize.h"
 
 #define kHorizontalMargin 0.0f
-#define kVerticalMargin 5.0f
+#define kVerticalMargin 9.0f
 
-#define kCollectionViewLeftMargin 5.0f
-#define kCollectionViewRightMargin 5.0f
+#define kCollectionViewLeftMargin 0.0f
+#define kCollectionViewRightMargin 0.0f
 #define kCollectionViewMiddleMargin 0.0f
 
 #define kLandscapeCellHeight 106.0f
 #define kPortraitCellHeight 228.0f
 
-#define kVerticalCellMultiplier 1.65f
-#define kWideCellMultiplier 0.406f
+#define kVerticalCellMultiplier 1.69f
+#define kWideCellMultiplier 0.39f
 
 #define kCellIdentifier @"ComicImageCell"
 
@@ -448,14 +448,15 @@
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CBComicItemModel* model= [self.dataArray objectAtIndex:indexPath.row];
     
+    NSInteger comicImageTopConstraint = 5;
     if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_LANDSCAPE){
-        CGSize size = CGSizeMake(WideSlideWidth, (WideSlideWidth) * (WideSlideWidthToHeightRatio));
+        CGSize size = CGSizeMake(WideSlideWidth, ((WideSlideWidth) * (WideSlideWidthToHeightRatio)) + comicImageTopConstraint);
         return size;
     }else if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF){
-        CGSize size = CGSizeMake(SmallTallSlideWidth, (SmallTallSlideWidth) * (TallSlideWidthToHeightRatio));
+        CGSize size = CGSizeMake(SmallTallSlideWidth, ((SmallTallSlideWidth) * (TallSlideWidthToHeightRatio)) + comicImageTopConstraint);
         return size;
     }else {
-        CGSize size = CGSizeMake(LargeTallSlideWidth, (LargeTallSlideWidth) * (TallSlideWidthToHeightRatio));
+        CGSize size = CGSizeMake(LargeTallSlideWidth, ((LargeTallSlideWidth) * (TallSlideWidthToHeightRatio)) + comicImageTopConstraint);
         return size;
     }
 }

@@ -111,12 +111,23 @@ CBComicPageCollectionDelegate
             
             [self prepareView];
             
-            if (self.dataArray == nil || self.dataArray.count == 0) {
-                [self pushAddSlideTap:NO ofIndex:-1];
-            }
+//            if (self.dataArray == nil || self.dataArray.count == 0) {
+//                [self pushAddSlideTap:NO ofIndex:-1];
+//            }
             
-//            [self addEmptySlide:YES];
-//            [self addEmptySlide:YES];
+            [self addEmptySlide:NO completionBlock:^(BOOL a) {
+                
+            }];
+            [self addEmptySlide:YES completionBlock:^(BOOL a) {
+                
+            }];
+            [self addEmptySlide:YES completionBlock:^(BOOL a) {
+                
+            }];
+            [self addEmptySlide:YES completionBlock:^(BOOL a) {
+                
+            }];
+            self.comicPageCollectionVC.collectionView.backgroundView.backgroundColor = [UIColor redColor];
             //End
         }
 //    });

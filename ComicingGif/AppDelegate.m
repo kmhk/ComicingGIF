@@ -26,27 +26,27 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kMainStoryboard bundle:nil];
 
     NSArray *arr = [ComicObjectSerialize loadComicSlide];
-    if (arr) {
+//    if (arr) {
 
         CBComicPreviewVC *vcCBComicPreviewVC = [storyboard instantiateViewControllerWithIdentifier:CBComicPreviewVCIdentifier];
         vcCBComicPreviewVC.comicSlides = [arr mutableCopy];
         self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:vcCBComicPreviewVC];
 
-    } else {
-        CBComicPreviewVC *vcCBComicPreviewVC = [storyboard instantiateViewControllerWithIdentifier:CBComicPreviewVCIdentifier];
-        vcCBComicPreviewVC.comicSlides = [arr mutableCopy];
-        
-        CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
-        vcCameraViewController.isVerticalCamera = NO;
-        vcCameraViewController.indexOfSlide = -1;
-        
-        NSArray *controllers = [NSArray arrayWithObjects:vcCBComicPreviewVC, vcCameraViewController, nil];
-        UINavigationController *navC = [[UINavigationController alloc] initWithRootViewController:vcCameraViewController];
-        [navC setViewControllers:controllers];
-        self.window.rootViewController = navC;
-        
-
-    }
+//    } else {
+//        CBComicPreviewVC *vcCBComicPreviewVC = [storyboard instantiateViewControllerWithIdentifier:CBComicPreviewVCIdentifier];
+//        vcCBComicPreviewVC.comicSlides = [arr mutableCopy];
+//        
+//        CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
+//        vcCameraViewController.isVerticalCamera = NO;
+//        vcCameraViewController.indexOfSlide = -1;
+//        
+//        NSArray *controllers = [NSArray arrayWithObjects:vcCBComicPreviewVC, vcCameraViewController, nil];
+//        UINavigationController *navC = [[UINavigationController alloc] initWithRootViewController:vcCameraViewController];
+//        [navC setViewControllers:controllers];
+//        self.window.rootViewController = navC;
+//        
+//
+//    }
         [self.window makeKeyAndVisible];
         return YES;
 
