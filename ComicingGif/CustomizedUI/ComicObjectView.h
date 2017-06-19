@@ -41,4 +41,7 @@
 
 @property (strong, nonatomic) UIView *parentView;
 
++ (ComicObjectView *)createListViewComicBubbleObjectViewWithObject:(BubbleObject *)bubbleObject;
++ (UIImageView *)createListViewComicPenObjectViewsWithArray:(inout NSArray<ComicObjectView *> *)penObjectViewsArray;
+
 @end

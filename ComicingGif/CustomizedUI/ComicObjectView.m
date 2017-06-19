@@ -74,6 +74,46 @@
 	return self;
 }
 
++ (UIImageView *)createListViewComicPenObjectViewsWithArray:(inout NSMutableArray<ComicObjectView *> *)penObjectViewsArray {
+    UIImageView *allDrawingsImageView = [self createSingleImageViewFromDrawingsArray:penObjectViewsArray];
+    return allDrawingsImageView;
+}
+
++ (ComicObjectView *)createListViewComicBubbleObjectViewWithObject:(BubbleObject *)bubbleObject {
+    BubbleObject *initialBubbleObject = [[BubbleObject alloc] initWithText:@""
+                                                                  bubbleID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 1]
+                                                             withDirection:BubbleDirectionUpperLeft];
+    [initialBubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 0]
+                          forDirection:BubbleDirectionBottomRight];
+    [initialBubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 2]
+                          forDirection:BubbleDirectionUpperRight];
+    [initialBubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 3]
+                          forDirection:BubbleDirectionBottomLeft];
+    [initialBubbleObject changeBubbleTypeTo:BubbleTypeStar];
+    
+    ComicObjectView *bubbleObjectView = [[ComicObjectView alloc] initWithComicObject:initialBubbleObject];
+    bubbleObjectView.comicObject = bubbleObject;
+    
+    [bubbleObjectView setFrame:CGRectMake(bubbleObject.frame.origin.x,
+                                          bubbleObject.frame.origin.y,
+                                          bubbleObjectView.frame.size.width,
+                                          bubbleObjectView.frame.size.height)];
+    
+    if (bubbleObject.scale != 1) {
+        bubbleObjectView.transform = CGAffineTransformMakeScale(bubbleObject.scale, bubbleObject.scale);
+    }
+    
+    [bubbleObjectView adjustBubbleDirectionWithBubbleViewCenter:bubbleObjectView.center
+                                      withForceBubbleViewReload:YES];
+    
+    CMCBubbleView *bubbleView = (CMCBubbleView *) bubbleObjectView.subviews.firstObject;
+    [bubbleView hidePlusIcon];
+    [bubbleView hideBubbleSubicons];
+    [bubbleView stopShowingBubbleTypesIcons];
+    
+    return bubbleObjectView;
+}
+
 + (ComicObjectView *)createComicViewWith:(NSArray *)array delegate:(id)userInfo {
 	if (!array || !array.count) {
 		NSLog(@"There is nothing comic objects");
@@ -137,8 +177,8 @@
         // The drawings should be under any other enhensment (like Stickers)
         // If there is any subview available – insert drawing at first index.
         // If there are no subviews – just add drawing in a regular way
-        if (backgroundView.subviews.count > 0) {
-            [backgroundView insertSubview:allDrawingsImageView atIndex:0];
+        if (backgroundView.subviews.count > 1) {
+            [backgroundView insertSubview:allDrawingsImageView atIndex:1];
         } else {
             [backgroundView addSubview:allDrawingsImageView];
         }
