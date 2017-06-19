@@ -41,6 +41,9 @@
     CGPoint _lastPoint; // last point of drawing based on user touch events
     CGFloat _brush; // Brush size for drawing pen
     BOOL _mouseSwiped;
+    
+    // Keyboard appearance status property
+    BOOL _isKeyboardVisible;
 }
 
 @property (weak, nonatomic) IBOutlet UIButton *btnPlay;
@@ -118,6 +121,16 @@
     _drawingBrushSizeArray = [NSMutableArray new];
     _drawingColorArray = [NSMutableArray new];
     [self setupPenColorsContainerView];
+    
+    _isKeyboardVisible = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShowWithNotification:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidHideWithNotification:)
+                                                 name:UIKeyboardDidHideNotification
+                                               object:nil];
 }
 
 - (void)setAlpha:(BOOL)alpha {
@@ -130,12 +143,16 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    if (_isKeyboardVisible) {
+        [self.view endEditing:YES];
+        return;
+    }
     if (!_isDrawing) {
-        UIView *touchView = [touches anyObject].view;
-        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
-            _ratioDecreasing = 1;
-            [self.baseLayerView saveFrameOfAllSubviewsWithTreeCount:1];
-        }
+//        UIView *touchView = [touches anyObject].view;
+//        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
+//            _ratioDecreasing = 1;
+//            [self.baseLayerView saveFrameOfAllSubviewsWithTreeCount:1];
+//        }
         return;
     }
 
@@ -170,21 +187,21 @@
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (!_isDrawing) {
-        UIView *touchView = [touches anyObject].view;
-        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
-            if (_ratioDecreasing >= 0.6) {
-                _ratioDecreasing -= 0.01;
-                
-                NSLog(@"............RATIO DECREASING: %f",_ratioDecreasing);
-                CGFloat newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
-                CGFloat newHeight = _baseLayerInitialFrame.size.height * _ratioDecreasing;
-                
-                _baseLayerView.frame = CGRectMake(_baseLayerInitialFrame.origin.x, _baseLayerInitialFrame.origin.y, newWidth, newHeight);
-                _baseLayerView.center = self.view.center;
-                NSLog(@"............RESULTANT FRAME: %@",NSStringFromCGRect(_baseLayerView.frame));
-                [self.baseLayerView setSubViewWithWithDimensionAsPerRatio:_ratioDecreasing treeCount:1];
-            }
-        }
+//        UIView *touchView = [touches anyObject].view;
+//        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
+//            if (_ratioDecreasing >= 0.6) {
+//                _ratioDecreasing -= 0.01;
+//                
+//                NSLog(@"............RATIO DECREASING: %f",_ratioDecreasing);
+//                CGFloat newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
+//                CGFloat newHeight = _baseLayerInitialFrame.size.height * _ratioDecreasing;
+//                
+//                _baseLayerView.frame = CGRectMake(_baseLayerInitialFrame.origin.x, _baseLayerInitialFrame.origin.y, newWidth, newHeight);
+//                _baseLayerView.center = self.view.center;
+//                NSLog(@"............RESULTANT FRAME: %@",NSStringFromCGRect(_baseLayerView.frame));
+//                [self.baseLayerView setSubViewWithWithDimensionAsPerRatio:_ratioDecreasing treeCount:1];
+//            }
+//        }
         return;
     }
     // if imageView stack is empty – return from drawing
@@ -229,20 +246,20 @@
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (!_isDrawing) {
-        UIView *touchView = [touches anyObject].view;
-        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
-            if (_ratioDecreasing >= 0.7){
-                [self.baseLayerView restoreSavedRect];
-                [self.baseLayerView restoreFrameOfAllSubviews];
-                [UIView animateWithDuration:0.1 + 0.2*(1-_ratioDecreasing) animations:^{
-                    [self.view setNeedsLayout];
-                    [self.view layoutIfNeeded];
-                }];
-            } else {
-                //Save
-                [self btnNextTapped:nil];
-            }
-        }
+//        UIView *touchView = [touches anyObject].view;
+//        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
+//            if (_ratioDecreasing >= 0.7){
+//                [self.baseLayerView restoreSavedRect];
+//                [self.baseLayerView restoreFrameOfAllSubviews];
+//                [UIView animateWithDuration:0.1 + 0.2*(1-_ratioDecreasing) animations:^{
+//                    [self.view setNeedsLayout];
+//                    [self.view layoutIfNeeded];
+//                }];
+//            } else {
+//                //Save
+//                [self btnNextTapped:nil];
+//            }
+//        }
         return;
     }
     
@@ -404,6 +421,27 @@
 
 
 - (IBAction)btnToolBubbleTapped:(id)sender {
+    BubbleObject *bubbleObject = [[BubbleObject alloc] initWithText:@""
+                                                           bubbleID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 1]
+                                                      withDirection:BubbleDirectionUpperLeft];
+    [bubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 0]
+                   forDirection:BubbleDirectionBottomRight];
+    [bubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 2]
+                   forDirection:BubbleDirectionUpperRight];
+    [bubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 3]
+                   forDirection:BubbleDirectionBottomLeft];
+    
+    [bubbleObject changeBubbleTypeTo:BubbleTypeStar];
+    
+    [viewModel addObject:bubbleObject];
+    
+    ComicObjectView *bubbleComicObjectView = [[ComicObjectView alloc] initWithComicObject:bubbleObject];
+    bubbleComicObjectView.parentView = backgroundView;
+    bubbleComicObjectView.delegate = self;
+    
+    [backgroundView addSubview:bubbleComicObjectView];
+    
+    [viewModel saveObject];
 }
 
 
@@ -648,6 +686,16 @@
     [self changePenToolImageWithColor:_drawingColor];
 }
 
+// MARK: - notification handlers
+
+- (void)keyboardDidShowWithNotification:(NSNotification *)notification {
+    _isKeyboardVisible = YES;
+}
+
+- (void)keyboardDidHideWithNotification:(NSNotification *)notification {
+    _isKeyboardVisible = NO;
+}
+
 // MARK: - private methods
 - (BaseObject *)createComicObject:(ComicObjectType)type index:(NSInteger)index category:(NSInteger)category {
 	BaseObject *obj;
@@ -687,6 +735,8 @@
 	ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
     comicView.parentView = backgroundView;
 	comicView.delegate = self;
+    // TODO: Remove! This is for debug only
+    [comicView setFrame:CGRectMake(100, 100, comicView.frame.size.width, comicView.frame.size.height)];
 	[backgroundView addSubview:comicView];
 }
 
@@ -976,6 +1026,64 @@
             [self.baseLayerView addSubview:sticker];
         }
     }
+}
+
+#pragma mark - CMCBubbleView Delegate Methods
+
+- (void)bubbleTypeSubiconDidClickWithSelectedBubbleType:(BubbleObjectType)bubbleType
+                                         andCurrentText:(NSString *)bubbleText
+                                   forCurrentBubbleView:(CMCBubbleView *)bubbleView
+                                            andRootView:(ComicObjectView *)comicObjectView {
+    
+    BubbleObjectDirection bubbleDirection = bubbleView.currentBubbleDirection;
+    
+    [viewModel.arrayObjects removeObject:comicObjectView.comicObject];
+    
+    BubbleObject *newBubbleObject = [[BubbleObject alloc] initWithText:bubbleText
+                                                              bubbleID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 0]
+                                                         withDirection:bubbleDirection];
+    int bubbleTypeIndex;
+    switch(bubbleType) {
+        case BubbleTypeStar:
+            bubbleTypeIndex = 0;
+            break;
+            
+        case BubbleTypeSleep:
+            bubbleTypeIndex = 4;
+            break;
+            
+        case BubbleTypeThink:
+            bubbleTypeIndex = 1;
+            break;
+            
+        case BubbleTypeScary:
+            bubbleTypeIndex = 5;
+            break;
+            
+        case BubbleTypeHeart:
+            bubbleTypeIndex = 3;
+            break;
+            
+        case BubbleTypeAngry:
+            bubbleTypeIndex = 2;
+            break;
+    }
+    [newBubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", bubbleTypeIndex, 0]
+                        forDirection:BubbleDirectionBottomRight];
+    [newBubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", bubbleTypeIndex, 3]
+                        forDirection:BubbleDirectionBottomLeft];
+    [newBubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", bubbleTypeIndex, 1]
+                        forDirection:BubbleDirectionUpperLeft];
+    [newBubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", bubbleTypeIndex, 2]
+                        forDirection:BubbleDirectionUpperRight];
+    
+    [newBubbleObject changeBubbleTypeTo:bubbleType];
+    [newBubbleObject switchBubbleURLToDirection:bubbleDirection];
+    
+    comicObjectView.comicObject = newBubbleObject;
+    
+    [viewModel addObject:newBubbleObject];
+    [viewModel saveObject];
 }
 
 @end
