@@ -387,6 +387,7 @@
 		CE91CE271EB9D9B800637AD7 /* category4.png in Resources */ = {isa = PBXBuildFile; fileRef = CE91CE201EB9D9B800637AD7 /* category4.png */; };
 		CE91CE281EB9D9B800637AD7 /* category5.png in Resources */ = {isa = PBXBuildFile; fileRef = CE91CE211EB9D9B800637AD7 /* category5.png */; };
 		CE91CE291EB9D9B800637AD7 /* category6.png in Resources */ = {isa = PBXBuildFile; fileRef = CE91CE221EB9D9B800637AD7 /* category6.png */; };
+		E2520BC91EE81A3D00309E5A /* arial-rounded-mt-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2520BC81EE81A3D00309E5A /* arial-rounded-mt-bold.ttf */; };
 		F31794211E868AF40083BD19 /* GIFGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F31794201E868AF40083BD19 /* GIFGenerator.m */; };
 		F323D4531E8BCF7E00B41659 /* RoundCapProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F323D4521E8BCF7E00B41659 /* RoundCapProgressView.m */; };
 		F323D4591E8E448800B41659 /* ComicMaking.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F323D4571E8E448800B41659 /* ComicMaking.storyboard */; };
@@ -1096,6 +1097,7 @@
 		CE91CE201EB9D9B800637AD7 /* category4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = category4.png; path = Resources/categoryIcon/category4.png; sourceTree = "<group>"; };
 		CE91CE211EB9D9B800637AD7 /* category5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = category5.png; path = Resources/categoryIcon/category5.png; sourceTree = "<group>"; };
 		CE91CE221EB9D9B800637AD7 /* category6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = category6.png; path = Resources/categoryIcon/category6.png; sourceTree = "<group>"; };
+		E2520BC81EE81A3D00309E5A /* arial-rounded-mt-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "arial-rounded-mt-bold.ttf"; sourceTree = "<group>"; };
 		F317941F1E868AF40083BD19 /* GIFGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GIFGenerator.h; path = Utils/GIFGenerator.h; sourceTree = "<group>"; };
 		F31794201E868AF40083BD19 /* GIFGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GIFGenerator.m; path = Utils/GIFGenerator.m; sourceTree = "<group>"; };
 		F323D4511E8BCF7E00B41659 /* RoundCapProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoundCapProgressView.h; path = CustomizedUI/RoundCapProgressView.h; sourceTree = "<group>"; };
@@ -2718,6 +2720,7 @@
 		CE12CBA31EAFF0BF00EA0E40 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E2520BC71EE819E800309E5A /* Fonts */,
 				CE1D4E101EC33553009D8321 /* LayerImages */,
 				CE12CC471EB87C4000EA0E40 /* Category */,
 				CE12CBA41EAFF0CD00EA0E40 /* StaticStickers */,
@@ -2804,6 +2807,14 @@
 				CE91B3E71ECCEBE400E767A1 /* ComicSharingViewController.m */,
 			);
 			name = ComicSharingViewController;
+			sourceTree = "<group>";
+		};
+		E2520BC71EE819E800309E5A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				E2520BC81EE81A3D00309E5A /* arial-rounded-mt-bold.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		F317941E1E8689110083BD19 /* Utils */ = {
@@ -3179,6 +3190,7 @@
 				CE12CC3C1EB87C3C00EA0E40 /* theme_GIF0_0.gif in Resources */,
 				0C43F5D81E9F431B00AB71F9 /* 3slidebook.png in Resources */,
 				CE12CC1B1EB87C2100EA0E40 /* theme_sticker0_0.png in Resources */,
+				E2520BC91EE81A3D00309E5A /* arial-rounded-mt-bold.ttf in Resources */,
 				CE12CC211EB87C2100EA0E40 /* theme_sticker2_0.png in Resources */,
 				0C43F6501E9F450700AB71F9 /* HeaderView.xib in Resources */,
 				0C43F6091E9F43F900AB71F9 /* GroupSectionCell.xib in Resources */,
