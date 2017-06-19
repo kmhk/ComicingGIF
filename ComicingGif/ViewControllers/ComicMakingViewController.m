@@ -148,11 +148,11 @@
         return;
     }
     if (!_isDrawing) {
-//        UIView *touchView = [touches anyObject].view;
-//        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
-//            _ratioDecreasing = 1;
-//            [self.baseLayerView saveFrameOfAllSubviewsWithTreeCount:1];
-//        }
+        UIView *touchView = [touches anyObject].view;
+        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
+            _ratioDecreasing = 1;
+            [self.baseLayerView saveFrameOfAllSubviewsWithTreeCount:1];
+        }
         return;
     }
 
@@ -187,21 +187,21 @@
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (!_isDrawing) {
-//        UIView *touchView = [touches anyObject].view;
-//        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
-//            if (_ratioDecreasing >= 0.6) {
-//                _ratioDecreasing -= 0.01;
-//                
-//                NSLog(@"............RATIO DECREASING: %f",_ratioDecreasing);
-//                CGFloat newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
-//                CGFloat newHeight = _baseLayerInitialFrame.size.height * _ratioDecreasing;
-//                
-//                _baseLayerView.frame = CGRectMake(_baseLayerInitialFrame.origin.x, _baseLayerInitialFrame.origin.y, newWidth, newHeight);
-//                _baseLayerView.center = self.view.center;
-//                NSLog(@"............RESULTANT FRAME: %@",NSStringFromCGRect(_baseLayerView.frame));
-//                [self.baseLayerView setSubViewWithWithDimensionAsPerRatio:_ratioDecreasing treeCount:1];
-//            }
-//        }
+        UIView *touchView = [touches anyObject].view;
+        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
+            if (_ratioDecreasing >= 0.6) {
+                _ratioDecreasing -= 0.01;
+                
+                NSLog(@"............RATIO DECREASING: %f",_ratioDecreasing);
+                CGFloat newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
+                CGFloat newHeight = _baseLayerInitialFrame.size.height * _ratioDecreasing;
+                
+                _baseLayerView.frame = CGRectMake(_baseLayerInitialFrame.origin.x, _baseLayerInitialFrame.origin.y, newWidth, newHeight);
+                _baseLayerView.center = self.view.center;
+                NSLog(@"............RESULTANT FRAME: %@",NSStringFromCGRect(_baseLayerView.frame));
+                [self.baseLayerView setSubViewWithWithDimensionAsPerRatio:_ratioDecreasing treeCount:1];
+            }
+        }
         return;
     }
     // if imageView stack is empty – return from drawing
@@ -246,20 +246,20 @@
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (!_isDrawing) {
-//        UIView *touchView = [touches anyObject].view;
-//        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
-//            if (_ratioDecreasing >= 0.7){
-//                [self.baseLayerView restoreSavedRect];
-//                [self.baseLayerView restoreFrameOfAllSubviews];
-//                [UIView animateWithDuration:0.1 + 0.2*(1-_ratioDecreasing) animations:^{
-//                    [self.view setNeedsLayout];
-//                    [self.view layoutIfNeeded];
-//                }];
-//            } else {
-//                //Save
-//                [self btnNextTapped:nil];
-//            }
-//        }
+        UIView *touchView = [touches anyObject].view;
+        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
+            if (_ratioDecreasing >= 0.7){
+                [self.baseLayerView restoreSavedRect];
+                [self.baseLayerView restoreFrameOfAllSubviews];
+                [UIView animateWithDuration:0.1 + 0.2*(1-_ratioDecreasing) animations:^{
+                    [self.view setNeedsLayout];
+                    [self.view layoutIfNeeded];
+                }];
+            } else {
+                //Save
+                [self btnNextTapped:nil];
+            }
+        }
         return;
     }
     
@@ -735,8 +735,8 @@
 	ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
     comicView.parentView = backgroundView;
 	comicView.delegate = self;
-    // TODO: Remove! This is for debug only
-    [comicView setFrame:CGRectMake(100, 100, comicView.frame.size.width, comicView.frame.size.height)];
+//    // TODO: Remove! This is for debug only
+//    [comicView setFrame:CGRectMake(100, 100, comicView.frame.size.width, comicView.frame.size.height)];
 	[backgroundView addSubview:comicView];
 }
 
