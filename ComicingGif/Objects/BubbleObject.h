@@ -10,18 +10,43 @@
 
 @interface BubbleObject : BaseObject
 
+typedef NS_ENUM(NSInteger, BubbleObjectDirection) {
+    BubbleDirectionUpperLeft,
+    BubbleDirectionUpperRight,
+    BubbleDirectionBottomLeft,
+    BubbleDirectionBottomRight
+};
+
+typedef NS_ENUM(NSInteger, BubbleObjectType) {
+    BubbleTypeStar,
+    BubbleTypeSleep,
+    BubbleTypeThink,
+    BubbleTypeScary,
+    BubbleTypeHeart,
+    BubbleTypeAngry
+};
+
 // bubble image resource name
 @property (nonatomic) NSURL *bubbleURL;
+
+@property (nonatomic, readonly) BubbleObjectType currentType;
+@property (nonatomic, readonly) BubbleObjectDirection currentDirection;
+@property (nonatomic, readonly) NSURL *bubbleUpperLeftURL;
+@property (nonatomic, readonly) NSURL *bubbleUpperRightURL;
+@property (nonatomic, readonly) NSURL *bubbleBottomLeftURL;
+@property (nonatomic, readonly) NSURL *bubbleBottomRightURL;
+
+@property (nonatomic) NSURL *bubbleSnapshotImageURL;
 
 // bubble text
 @property (nonatomic) NSString *text;
 
+- (void)setResourceID:(NSString *)resourceID forDirection:(BubbleObjectDirection)direction;
+- (void)switchBubbleURLToDirection:(BubbleObjectDirection)direction;
+- (void)changeBubbleTypeTo:(BubbleObjectType)bubbleType;
 
 // create bubble object with text and bubble image resource ID
+- (id)initWithText:(NSString *)txt bubbleID:(NSString *)ID withDirection:(BubbleObjectDirection)direction;
 - (id)initWithText:(NSString *)txt bubbleID:(NSString *)ID;
-
-
-// create bubble object with text and bubble image URL
-- (id)initWithText:(NSString *)txt bubbleURL:(NSString *)urlString;
 
 @end
