@@ -44,6 +44,8 @@
 
 #define discreteValueOfSeconds 0.01
 
+#define W_H 40
+
 @implementation CBComicImageSection
 - (CBBaseCollectionViewCell*)cellForCollectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath{
     [super cellForCollectionView:collectionView atIndexPath:indexPath];
@@ -72,6 +74,25 @@
     }
     
     NSData *gifData = [self getGifDataFromFileName:_comicItemModel.comicPage.gifLayerPath];
+    
+    cell.baseLayerImageView.animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:gifData];
+    [cell.baseLayerImageView setLoopCompletionBlock:^(NSUInteger loopCountRemaining){
+        
+    }];
+    
+    //
+//
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        NSLog(@"Count of animated images - %lu",cell.baseLayerImageView.animatedImage.frameCount);
+//        cell.baseLayerImageView.currentFrameIndex = 0;
+//        [cell.baseLayerImageView stopAnimating];
+//    });
+    
+
+    
+    
+    
+    
     UIImageView *baseImageView = [self createImageViewWith:gifData frame:cell.baseLayerImageView.frame bAnimate:YES withAnimation:NO];
     [self setGifPropertiesOfImageView:baseImageView toNewImageView:cell.baseLayerImageView];
     
@@ -114,9 +135,9 @@
                 CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
 //                CGFloat ratioHeight = rect.size.height / SCREEN_HEIGHT;
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth)/2, (frameOfObject.size.height * ratioWidth)/2);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth - W_H)/2, (frameOfObject.size.height * ratioWidth - W_H)/2);
                 } else {
-                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth, frameOfObject.size.height * ratioWidth);
+                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth - W_H, frameOfObject.size.height * ratioWidth - W_H);
                 }
                 i ++;
 
@@ -142,9 +163,9 @@
                 
                 CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth)/2, (frameOfObject.size.height * ratioWidth)/2);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth - W_H)/2, (frameOfObject.size.height * ratioWidth - W_H)/2);
                 } else {
-                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth, frameOfObject.size.height * ratioWidth);
+                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth - W_H, frameOfObject.size.height * ratioWidth - W_H);
                 }
                 i ++;
                 
@@ -245,9 +266,9 @@
                 CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
                 //                CGFloat ratioHeight = rect.size.height / SCREEN_HEIGHT;
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth)/2, (frameOfObject.size.height * ratioWidth)/2);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth - W_H)/2, (frameOfObject.size.height * ratioWidth - W_H)/2);
                 } else {
-                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth, frameOfObject.size.height * ratioWidth);
+                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth - W_H, frameOfObject.size.height * ratioWidth - W_H);
                 }
                 i ++;
                 
@@ -282,9 +303,9 @@
                 
                 CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth)/2, (frameOfObject.size.height * ratioWidth)/2);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth - W_H)/2, (frameOfObject.size.width * ratioWidth)/2, (frameOfObject.size.height * ratioWidth - W_H)/2);
                 } else {
-                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth, frameOfObject.size.height * ratioWidth);
+                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth - W_H, frameOfObject.size.height * ratioWidth - W_H);
                 }
                 i ++;
                 
@@ -330,9 +351,9 @@
             continue;
         }
         
-//        UIImage *img = [self scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
-        UIImage *imageTemp = [UIImage imageWithCGImage:cgImg];
-        UIImage *img = [UIImage resizeImage:imageTemp newSize:rect.size];
+        UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
+//        UIImage *imageTemp = [UIImage imageWithCGImage:cgImg];
+//        UIImage *img = [UIImage resizeImage:imageTemp newSize:rect.size];
         [arrayImages addObject:img];
         
         NSDictionary *property = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(srcImage, i, nil));
@@ -447,18 +468,7 @@
 
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CBComicItemModel* model= [self.dataArray objectAtIndex:indexPath.row];
-    
-    NSInteger comicImageTopConstraint = 5;
-    if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_LANDSCAPE){
-        CGSize size = CGSizeMake(WideSlideWidth, ((WideSlideWidth) * (WideSlideWidthToHeightRatio)) + comicImageTopConstraint);
-        return size;
-    }else if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF){
-        CGSize size = CGSizeMake(SmallTallSlideWidth, ((SmallTallSlideWidth) * (TallSlideWidthToHeightRatio)) + comicImageTopConstraint);
-        return size;
-    }else {
-        CGSize size = CGSizeMake(LargeTallSlideWidth, ((LargeTallSlideWidth) * (TallSlideWidthToHeightRatio)) + comicImageTopConstraint);
-        return size;
-    }
+    return [Global getSizeOfComicSlideWithModel:model];
 }
 
 - (void)printWidth:(CGFloat)width andH:(CGFloat)h andCollV:(CGRect)rect {

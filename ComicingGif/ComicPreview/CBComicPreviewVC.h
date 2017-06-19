@@ -29,6 +29,7 @@
 @property (nonatomic, assign) BOOL shouldFetchAndReload;
 @property (nonatomic, assign) BOOL shouldntRefreshAfterDidLayoutSubviews;
 @property (nonatomic, assign) NSInteger indexForSlideToRefresh;
+@property (strong, nonatomic) UIView *transitionView;
 
 - (void)prepareView;
 - (void)refreshSlideAtIndex:(NSInteger)indexOfSlide isTall:(BOOL)isTall completionBlock:(void (^)(BOOL isComplete))completionBlock;

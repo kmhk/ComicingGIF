@@ -570,7 +570,7 @@
 			continue;
 		}
 		
-		UIImage *img = [self scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
+		UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
 		[arrayImages addObject:img];
 		
 		NSDictionary *property = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(srcImage, i, nil));

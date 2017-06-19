@@ -57,7 +57,7 @@
             </constraints>
             <size key="customSize" width="84" height="88"/>
             <connections>
-                <outlet property="baseLayerImageView" destination="Hrk-6m-CBf" id="cFV-Od-9hn"/>
+                <outlet property="baseLayerImageView" destination="Hrk-6m-CBf" id="y5S-DW-moG"/>
                 <outlet property="containerView" destination="ASh-KG-C8B" id="zud-IH-FT3"/>
                 <outlet property="staticImageView" destination="tLt-DO-1yi" id="OO7-WA-w2u"/>
                 <outlet property="topLayerView" destination="ZxH-ET-BRB" id="QeT-qe-XrF"/>

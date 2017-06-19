@@ -7,6 +7,7 @@
 //
 
 #import "Global.h"
+#import "CBComicItemModel.h"
 
 @implementation Global
 
@@ -115,6 +116,46 @@
     
     NSString *imageName = [NSString stringWithFormat:@"%@%@",colorName, imageDirection];
     return [UIImage imageNamed:imageName];
+}
+
+- (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size {
+    UIGraphicsBeginImageContextWithOptions(size, NO, 1);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
++ (double)positive:(double)number {
+    return number<0?-number:number;
+}
+
++ (CGSize)getSizeOfComicSlideWithModel:(CBComicItemModel *)model {
+    CGSize size;
+    if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_LANDSCAPE){
+        size = [Global getWideSlideSize];
+    }else if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF){
+        size = [Global getTallSmallSlideSize];
+    }else {
+        size = [Global getTallBigSlideSize];
+    }
+    
+    NSInteger comicImageTopConstraint = 5; //5 top constraint is also added in xib
+    size.height += comicImageTopConstraint;
+    return size;
+}
+
++ (CGSize)getTallBigSlideSize {
+    return CGSizeMake(LargeTallSlideWidth, ((LargeTallSlideWidth) * (TallSlideWidthToHeightRatio)));
+}
+
++ (CGSize)getTallSmallSlideSize {
+    return CGSizeMake(SmallTallSlideWidth, ((SmallTallSlideWidth) * (TallSlideWidthToHeightRatio)));
+}
+
++ (CGSize)getWideSlideSize {
+    return CGSizeMake(WideSlideWidth, ((WideSlideWidth) * (WideSlideWidthToHeightRatio)));
 }
 
 @end

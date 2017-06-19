@@ -48,7 +48,6 @@ CBComicPageCollectionDelegate
 //@property (nonatomic, strong) CBComicPageViewController* previewVC;
 @property (nonatomic, strong) CBComicPageCollectionVC* comicPageCollectionVC;
 @property (nonatomic, strong) ZoomInteractiveTransition * transition;
-@property (strong, nonatomic) UIView *transitionView;
 @property (strong, nonatomic) NSString *fileNameToSave;
 @property (strong, nonatomic) NSMutableArray *dirtySubviews;
 @property (strong, nonatomic) NSMutableArray *dirtysubviewData;
@@ -111,23 +110,23 @@ CBComicPageCollectionDelegate
             
             [self prepareView];
             
-//            if (self.dataArray == nil || self.dataArray.count == 0) {
-//                [self pushAddSlideTap:NO ofIndex:-1];
-//            }
+            if (self.dataArray == nil || self.dataArray.count == 0) {
+                [self pushAddSlideTap:NO ofIndex:-1];
+            }
             
-            [self addEmptySlide:NO completionBlock:^(BOOL a) {
-                
-            }];
-            [self addEmptySlide:YES completionBlock:^(BOOL a) {
-                
-            }];
-            [self addEmptySlide:YES completionBlock:^(BOOL a) {
-                
-            }];
-            [self addEmptySlide:YES completionBlock:^(BOOL a) {
-                
-            }];
-            self.comicPageCollectionVC.collectionView.backgroundView.backgroundColor = [UIColor redColor];
+//            [self addEmptySlide:NO completionBlock:^(BOOL a) {
+//                
+//            }];
+//            [self addEmptySlide:YES completionBlock:^(BOOL a) {
+//                
+//            }];
+//            [self addEmptySlide:YES completionBlock:^(BOOL a) {
+//                
+//            }];
+//            [self addEmptySlide:YES completionBlock:^(BOOL a) {
+//                
+//            }];
+//            self.comicPageCollectionVC.collectionView.backgroundView.backgroundColor = [UIColor redColor];
             //End
         }
 //    });
@@ -160,13 +159,10 @@ CBComicPageCollectionDelegate
     
     [self.comicPageCollectionVC replaceComicItemAtIndex:indexOfSlide withComicItem:model completion:^(BOOL finished, CBComicItemModel *comicItem) {
         if(finished){
+            NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 1)];
             dispatch_async(dispatch_get_main_queue(), ^{
-                
-                NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 1)];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
-                    completionBlock(YES);
-                });
+                [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+                completionBlock(YES);
             });
         }
     }];
@@ -200,16 +196,17 @@ CBComicPageCollectionDelegate
         NSLog(@"\n.............ADD FETCHED CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
         NSLog(@"\n............... DATA ARRAY: %@",self.dataArray);
         
+        __weak CBComicPreviewVC *weakSelf = self;
         [self.comicPageCollectionVC addComicItem:model completion:^(BOOL finished, CBComicItemModel *itemModel) {
-            self.transitionView = [_comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_indexForSlideToRefresh inSection:0]];
+            weakSelf.transitionView = [weakSelf.comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:weakSelf.indexForSlideToRefresh inSection:0]].contentView;
             if(finished){
-                if ([itemModel isEqual:[self.dataArray lastObject]]) {
+                if ([itemModel isEqual:[weakSelf.dataArray lastObject]]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSLog(@"*\n*\n*\n*\n*\n*\n*\n*\n*\n*\n*\n*\n*\n*\n*\n*\n");
                         //                        [self.comicPageCollectionVC.collectionView reloadData];
                         //                        [self.tableView reloadData];
                         
-                        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 1)];
+//                        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 1)];
                         dispatch_async(dispatch_get_main_queue(), ^{
 //                            [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
                         });
@@ -280,6 +277,8 @@ CBComicPageCollectionDelegate
 
 - (UIView *)viewForZoomTransition:(BOOL)isSource
 {
+    _transitionView.hidden = NO;
+    NSLog(@"zzzzzzzzzzzzzzzzzz.............................. %@",self.transitionView);
     return self.transitionView;
 }
 
@@ -404,9 +403,10 @@ CBComicPageCollectionDelegate
         NSLog(@"\n.............ADD FETCHED CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
         NSLog(@"\n............... DATA ARRAY: %@",self.dataArray);
     
+        __weak CBComicPreviewVC *weakSelf = self;
         [self.comicPageCollectionVC addComicItem:model completion:^(BOOL finished, CBComicItemModel *itemModel) {
             if(finished){
-                self.transitionView = [_comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataArray.count - 1 inSection:0]];
+                weakSelf.transitionView = [weakSelf.comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:weakSelf.dataArray.count - 1 inSection:0]].contentView;
                 completionBlock(YES);
 //                if ([itemModel isEqual:[self.dataArray lastObject]]) {
 //                    dispatch_async(dispatch_get_main_queue(), ^{
@@ -530,7 +530,7 @@ CBComicPageCollectionDelegate
     vc.indexSaved = index;
     [vc initWithBaseImage:[NSURL URLWithString:baseURLString] frame:slideRect andSubviewArray:arrTemp isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:@"isTall"] boolValue] index:index];
     
-    self.transitionView = [_comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
+    self.transitionView = [_comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]].contentView;
 
     [self.navigationController pushViewController:vc animated:YES];
 //    [self pushAddSlideTap:!(itemModel.itemOrientation==COMIC_ITEM_ORIENTATION_PORTRAIT) ofIndex:index];

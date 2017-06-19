@@ -64,6 +64,10 @@
     CGFloat autoScrollSliderDeltaValue;
     
     BOOL haveAddedIconsOnce;
+    
+    UIImageView *shrinkingView;
+    CGPoint previousTouchPoint;
+    CGPoint newTouchPoint;
 }
 
 @property (weak, nonatomic) IBOutlet UIButton *btnPlay;
@@ -82,7 +86,9 @@
 
 @property (strong, nonatomic) IBOutlet UIView *baseLayerView;
 @property (assign, nonatomic) CGFloat ratioDecreasing;
+@property (assign, nonatomic) CGFloat ratioMinimumValue;
 @property (assign, nonatomic) CGRect baseLayerInitialFrame;
+@property (assign, nonatomic) CGRect backgroundInitialFrame;
 @property (weak, nonatomic) IBOutlet UIImageView *buttonBookViewImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *buttonPlayPauseViewImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *buttonCloseImageView;
@@ -101,6 +107,8 @@
 @property (weak, nonatomic) IBOutlet ScrollBarSlider *scrollBarSlider;
 @property (strong, nonatomic) NSMutableArray<TimerImageViewStruct *> *timerImageViews;
 @property (strong, nonatomic) NSMutableArray *scrollBarIconViews;
+
+@property (assign, nonatomic) BOOL didLayoutSubviewsOnce;
 
 /**
  Use this mutable array to store all drawings made during active drawing mode. Each drawing has its own ImageView this will enable undo function for drawing because we can just remove last ImageView from this array
@@ -281,7 +289,7 @@
             continue;
         }
         
-        UIImage *img = [self scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
+        UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
         [arrayImages addObject:img];
         
         NSDictionary *property = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(srcImage, i, nil));
@@ -311,15 +319,6 @@
     
     return imgView;
     
-}
-
-- (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size {
-    UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
-    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return newImage;
 }
 
 - (void)setImageOnTimerImageView:(TimerImageViewStruct *)timerImageView withCurrentSliderValue:(CGFloat)currentSliderValue {
@@ -381,7 +380,38 @@
         UIView *touchView = [touches anyObject].view;
         if ([touchView.superview.superview isEqual:self.baseLayerView]) {
             _ratioDecreasing = 1;
-            [self.baseLayerView saveFrameOfAllSubviewsWithTreeCount:1];
+//            [self.baseLayerView saveCurrentRect];
+//            [self.baseLayerView saveFrameOfAllSubviewsWithTreeCount:1];
+            
+            
+            UIImage *resultingImage;
+            if (_isTall) {
+                UIGraphicsBeginImageContextWithOptions(_baseLayerView.frame.size, YES, 1.0);
+                [_baseLayerView.layer renderInContext:UIGraphicsGetCurrentContext()];
+                resultingImage = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                
+                shrinkingView = [[UIImageView alloc] initWithFrame:self.baseLayerView.frame];
+                resultingImage = [[Global global] scaledImage:resultingImage size:_baseLayerView.frame.size];
+            } else {
+                UIGraphicsBeginImageContextWithOptions(backgroundView.frame.size, YES, 1.0);
+                [backgroundView.layer renderInContext:UIGraphicsGetCurrentContext()];
+                resultingImage = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                
+                shrinkingView = [[UIImageView alloc] initWithFrame:backgroundView.frame];
+                resultingImage = [[Global global] scaledImage:resultingImage size:backgroundView.frame.size];
+            }
+            shrinkingView.center = self.baseLayerView.center;
+            shrinkingView.image =  resultingImage;
+            [self.view addSubview:shrinkingView];
+            
+            [self.view sendSubviewToBack:shrinkingView];
+            [self.view sendSubviewToBack:_baseLayerView];
+            self.baseLayerView.hidden = YES;
+            
+            CGSize size = self.isTall?[Global getTallBigSlideSize]:[Global getWideSlideSize];
+            self.ratioMinimumValue = size.width/_baseLayerView.frame.size.width;
         }
         return;
     }
@@ -419,18 +449,37 @@
     if (!_isDrawing) {
         UIView *touchView = [touches anyObject].view;
         if ([touchView.superview.superview isEqual:self.baseLayerView]) {
-            if (_ratioDecreasing >= 0.6) {
-                _ratioDecreasing -= 0.01;
-                
-                NSLog(@"............RATIO DECREASING: %f",_ratioDecreasing);
-                CGFloat newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
-                CGFloat newHeight = _baseLayerInitialFrame.size.height * _ratioDecreasing;
-                
-                _baseLayerView.frame = CGRectMake(_baseLayerInitialFrame.origin.x, _baseLayerInitialFrame.origin.y, newWidth, newHeight);
-                _baseLayerView.center = self.view.center;
-                NSLog(@"............RESULTANT FRAME: %@",NSStringFromCGRect(_baseLayerView.frame));
-                [self.baseLayerView setSubViewWithWithDimensionAsPerRatio:_ratioDecreasing treeCount:1];
+            newTouchPoint = [[touches anyObject] locationInView:self.view];
+            if (!([Global positive:(newTouchPoint.x - previousTouchPoint.x)] < 10 &&
+                [Global positive:(newTouchPoint.y - previousTouchPoint.y)] < 10)) {
+                if (_ratioDecreasing >= _ratioMinimumValue) {
+                    _ratioDecreasing -= 0.01;
+                    
+                    NSLog(@"............RATIO DECREASING: %f",_ratioDecreasing);
+                    CGFloat newWidth,newHeight,newX,newY;
+                    if (_isTall) {
+                        newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
+                        newHeight = _baseLayerInitialFrame.size.height * _ratioDecreasing;
+                        newX = _baseLayerInitialFrame.origin.x + (_baseLayerInitialFrame.size.width - newWidth)/2;
+                        newY = _baseLayerInitialFrame.origin.y + (_baseLayerInitialFrame.size.height - newHeight)/2;
+                    } else {
+                        newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
+                        newHeight = _backgroundInitialFrame.size.height * _ratioDecreasing;
+                        newX = _backgroundInitialFrame.origin.x + (_backgroundInitialFrame.size.width - newWidth)/2;
+                        newY = _backgroundInitialFrame.origin.y + (_backgroundInitialFrame.size.height - newHeight)/2;
+                    }
+                    
+                    CGRect newFrame = CGRectMake(newX, newY, newWidth, newHeight);
+                    //                _baseLayerView.frame = newFrame;
+                    ////                _baseLayerView.center = self.view.center;
+                    //                NSLog(@"............RESULTANT FRAME: %@",NSStringFromCGRect(_baseLayerView.frame));
+                    //                [self.baseLayerView setSubViewWithWithDimensionAsPerRatio:_ratioDecreasing treeCount:1];
+                    NSLog(@"%@",NSStringFromCGRect(newFrame));
+                    
+                    shrinkingView.frame = newFrame;
+                }
             }
+            previousTouchPoint = newTouchPoint;
         }
         return;
     }
@@ -478,12 +527,19 @@
     if (!_isDrawing) {
         UIView *touchView = [touches anyObject].view;
         if ([touchView.superview.superview isEqual:self.baseLayerView]) {
-            if (_ratioDecreasing >= 0.7){
-                [self.baseLayerView restoreSavedRect];
-                [self.baseLayerView restoreFrameOfAllSubviews];
+            if (_ratioDecreasing >= _ratioMinimumValue){
                 [UIView animateWithDuration:0.1 + 0.2*(1-_ratioDecreasing) animations:^{
-                    [self.view setNeedsLayout];
-                    [self.view layoutIfNeeded];
+//                    [self.baseLayerView restoreSavedRect];
+//                    [self.baseLayerView restoreFrameOfAllSubviews];
+                    if (_isTall) {
+                        shrinkingView.frame = self.baseLayerView.frame;
+                    } else {
+                        shrinkingView.frame = backgroundView.frame;
+                    }
+                } completion:^(BOOL finished) {
+                    shrinkingView.hidden = YES;
+                    [shrinkingView removeFromSuperview];
+                    self.baseLayerView.hidden = NO;
                 }];
             } else {
                 //Save
@@ -560,8 +616,8 @@
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self.scrollBarSlider action:@selector(sliderTapGesture:)];
         [self.scrollBarSlider addGestureRecognizer:tapGesture];
     } else {
-        self.sliderContainerViewBottomConstraint.constant = -self.sliderContainerView.frame.size.height;
-        self.sliderBlackViewBottomConstraint.constant = -self.sliderBlackView.frame.size.height;
+//        self.sliderContainerViewBottomConstraint.constant = -self.sliderContainerView.frame.size.height;
+//        self.sliderBlackViewBottomConstraint.constant = -self.sliderBlackView.frame.size.height;
         self.sliderContainerView.hidden = self.sliderBlackView.hidden = YES;
     }
 }
@@ -569,7 +625,11 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    _baseLayerInitialFrame = _baseLayerView.frame;
+    if (!_didLayoutSubviewsOnce) {
+        _didLayoutSubviewsOnce = !_didLayoutSubviewsOnce;
+        _baseLayerInitialFrame = _baseLayerView.frame;
+        _backgroundInitialFrame = backgroundView.frame;
+    }
     
     [self setAlpha:NO];
     [UIView animateWithDuration:0.2f animations:^{
@@ -603,7 +663,8 @@
 }
 
 - (UIView *)viewForZoomTransition:(BOOL)isSource {
-    return self.baseLayerView;
+    NSLog(@"zzzzzzzzzzzzzzzzzz..............................xx %@",shrinkingView != nil ? shrinkingView : backgroundView);
+    return shrinkingView != nil ? shrinkingView : backgroundView;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -891,10 +952,11 @@
 //        [self.navigationController pushViewController:vc animated:YES];
     } else {
         CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
-        vc.shouldntRefreshAfterDidLayoutSubviews = _indexSaved == -1? NO:YES;
+//        vc.shouldntRefreshAfterDidLayoutSubviews = _indexSaved == -1? NO:YES;
         vc.indexForSlideToRefresh = _indexSaved;
         [vc refreshSlideAtIndex:_indexSaved isTall:self.isTall completionBlock:^(BOOL isComplete) {
             dispatch_async(dispatch_get_main_queue(), ^{
+                vc.transitionView.hidden = NO;
                 [self.navigationController popToRootViewControllerAnimated:YES];
             });
         }];
@@ -916,6 +978,7 @@
 //        CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
 //        vc.shouldntRefreshAfterDidLayoutSubviews = NO;
 //    }
+    shrinkingView = nil;
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -1032,6 +1095,7 @@
 	}
     _timerImageViews = [NSMutableArray array];
 	backgroundView = [ComicObjectView createComicViewWith:viewModel.arrayObjects delegate:self timerImageViews:_timerImageViews];
+//    backgroundView.frame = CGRectMake(0, 0, self.baseLayerView.frame.size.width, self.baseLayerView.frame.size.height);
 	[self.baseLayerView insertSubview:backgroundView atIndex:0];
     
     //Set tags----------

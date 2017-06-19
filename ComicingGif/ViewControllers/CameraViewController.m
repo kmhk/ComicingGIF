@@ -79,6 +79,7 @@
     
     self.imgviewToggle.frame = CGRectMake(self.imgviewToggle.frame.origin.x, self.blueBackgroundImageView.frame.size.height - (self.imgviewToggle.frame.size.height + 5),
                                           self.imgviewToggle.frame.size.width, self.imgviewToggle.frame.size.height);
+    [self showProgress:YES progress:0];
 }
 
 -(void)viewDidLayoutSubviews {

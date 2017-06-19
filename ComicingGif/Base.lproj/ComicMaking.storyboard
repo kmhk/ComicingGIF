@@ -22,7 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pKL-i6-UqL">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pKL-i6-UqL">
                                 <rect key="frame" x="9.3333333333333428" y="0.0" width="395.33333333333337" height="668.33333333333337"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -30,7 +30,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HNj-VK-M8O" userLabel="AnimatedGIF leadingView">
-                                <rect key="frame" x="0.0" y="609" width="28.666666666666668" height="2"/>
+                                <rect key="frame" x="0.0" y="609.33333333333337" width="28.666666666666668" height="2"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="7CT-xK-CDo"/>
@@ -40,7 +40,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="668.33333333333337"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eEi-dp-dcP">
-                                <rect key="frame" x="28.666666666666671" y="583" width="62" height="53.666666666666629"/>
+                                <rect key="frame" x="28.666666666666671" y="584" width="62" height="52.666666666666629"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="eEi-dp-dcP" secondAttribute="height" multiplier="193:164" id="37S-Qf-58G"/>
                                 </constraints>
@@ -57,7 +57,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5AA-2Y-0cg">
-                                <rect key="frame" x="285" y="584" width="64.333333333333314" height="50.333333333333371"/>
+                                <rect key="frame" x="285" y="585" width="64.333333333333314" height="49.333333333333371"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="5AA-2Y-0cg" secondAttribute="height" multiplier="210:161" id="27j-rb-bgV"/>
                                 </constraints>
@@ -67,7 +67,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r9y-Lc-iHt" userLabel="Bubble TrailingView">
-                                <rect key="frame" x="349.33333333333326" y="608" width="64.666666666666686" height="2"/>
+                                <rect key="frame" x="349.33333333333326" y="608.33333333333337" width="64.666666666666686" height="2"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="AmE-MH-eNg"/>
@@ -251,6 +251,9 @@
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NlB-iW-d1g" userLabel="TappableButton">
                                         <rect key="frame" x="0.0" y="0.0" width="30" height="30.000000000000007"/>
+                                        <connections>
+                                            <action selector="btnPlayTapped:" destination="xBQ-ZW-Gb5" eventType="touchUpInside" id="GjH-oE-iwl"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -405,7 +408,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BHu-oD-Sbm">
-                                        <rect key="frame" x="22.666666666666686" y="229.33333333333331" width="15" height="15"/>
+                                        <rect key="frame" x="22.666666666666686" y="229.66666666666669" width="15" height="15"/>
                                         <color key="backgroundColor" red="0.0" green="0.57647058823529407" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="15" id="rpt-07-wzi"/>
@@ -444,7 +447,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dPa-GR-BgL">
-                                        <rect key="frame" x="22.666666666666686" y="367" width="15" height="15"/>
+                                        <rect key="frame" x="22.666666666666686" y="367.33333333333331" width="15" height="15"/>
                                         <color key="backgroundColor" red="0.94901960784313721" green="0.42352941176470588" blue="0.12941176470588234" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="15" id="LmN-DP-wdX"/>
@@ -581,7 +584,7 @@
                         <outlet property="bookViewButton" destination="dp9-4P-cEs" id="tQY-EL-cKW"/>
                         <outlet property="btnClose" destination="OrZ-qY-UPF" id="NfD-hw-rLK"/>
                         <outlet property="btnNext" destination="ljV-Ht-suv" id="EET-Tj-Zh2"/>
-                        <outlet property="btnPlay" destination="NlB-iW-d1g" id="7I0-NA-7Ic"/>
+                        <outlet property="btnPlay" destination="NlB-iW-d1g" id="uV1-B6-HWi"/>
                         <outlet property="btnToolAnimateGIF" destination="eEi-dp-dcP" id="wDy-SH-vnR"/>
                         <outlet property="btnToolBubble" destination="5AA-2Y-0cg" id="ugI-9s-Lln"/>
                         <outlet property="btnToolPen" destination="13P-bE-RLv" id="Z0q-wE-9Vh"/>
@@ -598,7 +601,7 @@
                         <outlet property="penToolImageView" destination="cMO-42-Dl0" id="wGs-1M-dKd"/>
                         <outlet property="penUndoImageView" destination="bl2-Qf-7Eg" id="mLa-05-tcK"/>
                         <outlet property="penUndoView" destination="xNw-zS-e5Q" id="izD-tu-bWD"/>
-                        <outlet property="playPauseButton" destination="NlB-iW-d1g" id="zIO-iO-lgT"/>
+                        <outlet property="playPauseButton" destination="NlB-iW-d1g" id="8l9-B5-Uge"/>
                         <outlet property="scrollBarSlider" destination="vgR-oE-dKW" id="ysu-tw-bHW"/>
                         <outlet property="sliderBlackView" destination="wgb-dj-5xb" id="Vmb-o2-B9X"/>
                         <outlet property="sliderBlackViewBottomConstraint" destination="Y17-YD-PcJ" id="MUL-w7-eRo"/>

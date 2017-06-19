@@ -230,7 +230,7 @@
 - (UIView*)getZoomTransitionViewForIndexPath:(NSIndexPath *)indexPath {
     if(indexPath){
         CBComicImageCell * cell = (CBComicImageCell*)[self.collectionView cellForItemAtIndexPath:indexPath];
-        return cell;
+        return cell.contentView;
     }
     return nil;
 }

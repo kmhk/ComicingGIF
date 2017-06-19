@@ -339,6 +339,9 @@
 		0C43F74A1E9F4EC100AB71F9 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C43F7481E9F4EC100AB71F9 /* libsqlite3.0.tbd */; };
 		0C43F74B1E9F4EC100AB71F9 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C43F7491E9F4EC100AB71F9 /* libsqlite3.tbd */; };
 		0C43F74E1E9F649400AB71F9 /* Main_MainPage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C43F74D1E9F649400AB71F9 /* Main_MainPage.storyboard */; };
+		6DDF35F01F00E9B400F0555B /* theme_GIF0_0.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6DDF35ED1F00E9B400F0555B /* theme_GIF0_0.gif */; };
+		6DDF35F11F00E9B400F0555B /* theme_GIF0_1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6DDF35EE1F00E9B400F0555B /* theme_GIF0_1.gif */; };
+		6DDF35F21F00E9B400F0555B /* theme_GIF0_2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6DDF35EF1F00E9B400F0555B /* theme_GIF0_2.gif */; };
 		6DE9A6FC1EE011590017C979 /* ScrollBarSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE9A6FB1EE011590017C979 /* ScrollBarSlider.m */; };
 		6DE9A7051EE062750017C979 /* TimerImageViewStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE9A7041EE062750017C979 /* TimerImageViewStruct.m */; };
 		A20E5866DD2FB391E862A3C7 /* libPods-ComicingGif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEAB9E6CD9B129793D59342 /* libPods-ComicingGif.a */; };
@@ -364,9 +367,6 @@
 		CE12CC2E1EB87C2100EA0E40 /* theme_sticker6_0.png in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC181EB87C2100EA0E40 /* theme_sticker6_0.png */; };
 		CE12CC2F1EB87C2100EA0E40 /* theme_sticker6_1.png in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC191EB87C2100EA0E40 /* theme_sticker6_1.png */; };
 		CE12CC301EB87C2100EA0E40 /* theme_sticker6_2.png in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC1A1EB87C2100EA0E40 /* theme_sticker6_2.png */; };
-		CE12CC3C1EB87C3C00EA0E40 /* theme_GIF0_0.gif in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC311EB87C3C00EA0E40 /* theme_GIF0_0.gif */; };
-		CE12CC3D1EB87C3C00EA0E40 /* theme_GIF0_1.gif in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC321EB87C3C00EA0E40 /* theme_GIF0_1.gif */; };
-		CE12CC3E1EB87C3C00EA0E40 /* theme_GIF0_2.gif in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC331EB87C3C00EA0E40 /* theme_GIF0_2.gif */; };
 		CE12CC3F1EB87C3C00EA0E40 /* theme_GIF1_0.gif in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC341EB87C3C00EA0E40 /* theme_GIF1_0.gif */; };
 		CE12CC401EB87C3C00EA0E40 /* theme_GIF1_1.gif in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC351EB87C3C00EA0E40 /* theme_GIF1_1.gif */; };
 		CE12CC411EB87C3C00EA0E40 /* theme_GIF2_0.gif in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC361EB87C3C00EA0E40 /* theme_GIF2_0.gif */; };
@@ -1076,6 +1076,10 @@
 		0C43F7491E9F4EC100AB71F9 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		0C43F74D1E9F649400AB71F9 /* Main_MainPage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_MainPage.storyboard; sourceTree = "<group>"; };
 		5C6CB3F124F1DC1C548C2BE5 /* Pods-ComicingGif.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ComicingGif.release.xcconfig"; path = "Pods/Target Support Files/Pods-ComicingGif/Pods-ComicingGif.release.xcconfig"; sourceTree = "<group>"; };
+		6DA21AED1EF7D9B50086C140 /* ComicingGifPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicingGifPrefixHeader.pch; sourceTree = "<group>"; };
+		6DDF35ED1F00E9B400F0555B /* theme_GIF0_0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_0.gif; path = Resources/animationGIF/theme_GIF0_0.gif; sourceTree = "<group>"; };
+		6DDF35EE1F00E9B400F0555B /* theme_GIF0_1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_1.gif; path = Resources/animationGIF/theme_GIF0_1.gif; sourceTree = "<group>"; };
+		6DDF35EF1F00E9B400F0555B /* theme_GIF0_2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_2.gif; path = Resources/animationGIF/theme_GIF0_2.gif; sourceTree = "<group>"; };
 		6DE9A6FA1EE011590017C979 /* ScrollBarSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollBarSlider.h; sourceTree = "<group>"; };
 		6DE9A6FB1EE011590017C979 /* ScrollBarSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollBarSlider.m; sourceTree = "<group>"; };
 		6DE9A7031EE062750017C979 /* TimerImageViewStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerImageViewStruct.h; sourceTree = "<group>"; };
@@ -1103,9 +1107,6 @@
 		CE12CC181EB87C2100EA0E40 /* theme_sticker6_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = theme_sticker6_0.png; path = Resources/staticSticker/theme_sticker6_0.png; sourceTree = "<group>"; };
 		CE12CC191EB87C2100EA0E40 /* theme_sticker6_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = theme_sticker6_1.png; path = Resources/staticSticker/theme_sticker6_1.png; sourceTree = "<group>"; };
 		CE12CC1A1EB87C2100EA0E40 /* theme_sticker6_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = theme_sticker6_2.png; path = Resources/staticSticker/theme_sticker6_2.png; sourceTree = "<group>"; };
-		CE12CC311EB87C3C00EA0E40 /* theme_GIF0_0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_0.gif; path = Resources/animationGIF/theme_GIF0_0.gif; sourceTree = "<group>"; };
-		CE12CC321EB87C3C00EA0E40 /* theme_GIF0_1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_1.gif; path = Resources/animationGIF/theme_GIF0_1.gif; sourceTree = "<group>"; };
-		CE12CC331EB87C3C00EA0E40 /* theme_GIF0_2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_2.gif; path = Resources/animationGIF/theme_GIF0_2.gif; sourceTree = "<group>"; };
 		CE12CC341EB87C3C00EA0E40 /* theme_GIF1_0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF1_0.gif; path = Resources/animationGIF/theme_GIF1_0.gif; sourceTree = "<group>"; };
 		CE12CC351EB87C3C00EA0E40 /* theme_GIF1_1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF1_1.gif; path = Resources/animationGIF/theme_GIF1_1.gif; sourceTree = "<group>"; };
 		CE12CC361EB87C3C00EA0E40 /* theme_GIF2_0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF2_0.gif; path = Resources/animationGIF/theme_GIF2_0.gif; sourceTree = "<group>"; };
@@ -3048,9 +3049,9 @@
 		F323D45B1E8E677B00B41659 /* AnimationGIF */ = {
 			isa = PBXGroup;
 			children = (
-				CE12CC311EB87C3C00EA0E40 /* theme_GIF0_0.gif */,
-				CE12CC321EB87C3C00EA0E40 /* theme_GIF0_1.gif */,
-				CE12CC331EB87C3C00EA0E40 /* theme_GIF0_2.gif */,
+				6DDF35ED1F00E9B400F0555B /* theme_GIF0_0.gif */,
+				6DDF35EE1F00E9B400F0555B /* theme_GIF0_1.gif */,
+				6DDF35EF1F00E9B400F0555B /* theme_GIF0_2.gif */,
 				CE12CC341EB87C3C00EA0E40 /* theme_GIF1_0.gif */,
 				CE12CC351EB87C3C00EA0E40 /* theme_GIF1_1.gif */,
 				CE12CC361EB87C3C00EA0E40 /* theme_GIF2_0.gif */,
@@ -3160,6 +3161,7 @@
 			isa = PBXGroup;
 			children = (
 				F36BE3A81E830E22007F6CE7 /* main.m */,
+				6DA21AED1EF7D9B50086C140 /* ComicingGifPrefixHeader.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3310,7 +3312,6 @@
 				E2583E2E1EE9CECD005772E7 /* theme_bubble_4_2.png in Resources */,
 				0C43F6141E9F442000AB71F9 /* FriendsListTableViewCell.xib in Resources */,
 				0C43F7471E9F4E7F00AB71F9 /* GroupCell.xib in Resources */,
-				CE12CC3C1EB87C3C00EA0E40 /* theme_GIF0_0.gif in Resources */,
 				0C43F5D81E9F431B00AB71F9 /* 3slidebook.png in Resources */,
 				CE12CC1B1EB87C2100EA0E40 /* theme_sticker0_0.png in Resources */,
 				E2520BC91EE81A3D00309E5A /* arial-rounded-mt-bold.ttf in Resources */,
@@ -3347,6 +3348,7 @@
 				F36BE3B41E830E22007F6CE7 /* Assets.xcassets in Resources */,
 				E2583E2B1EE9CECD005772E7 /* theme_bubble_3_2.png in Resources */,
 				0C43F6811E9F456500AB71F9 /* FooterView.xib in Resources */,
+				6DDF35F11F00E9B400F0555B /* theme_GIF0_1.gif in Resources */,
 				CE12CC271EB87C2100EA0E40 /* theme_sticker3_3.png in Resources */,
 				CE91CE261EB9D9B800637AD7 /* category3.png in Resources */,
 				CE12CC441EB87C3C00EA0E40 /* theme_GIF4_0.gif in Resources */,
@@ -3400,6 +3402,7 @@
 				0C43F6491E9F44E000AB71F9 /* searchFriendView.xib in Resources */,
 				CE12CC241EB87C2100EA0E40 /* theme_sticker3_0.png in Resources */,
 				E2583E2A1EE9CECD005772E7 /* theme_bubble_2_2.png in Resources */,
+				6DDF35F21F00E9B400F0555B /* theme_GIF0_2.gif in Resources */,
 				CE12CC461EB87C3C00EA0E40 /* theme_GIF6_0.gif in Resources */,
 				CE12CC3F1EB87C3C00EA0E40 /* theme_GIF1_0.gif in Resources */,
 				0C43F5F41E9F43CD00AB71F9 /* AvatarView.xib in Resources */,
@@ -3416,6 +3419,7 @@
 				CE1D4E0B1EC2F72F009D8321 /* layoutView.xib in Resources */,
 				E2583E311EE9CECD005772E7 /* theme_bubble_4_3.png in Resources */,
 				0C43F4371E9F3B4500AB71F9 /* CBComicPageViewController.xib in Resources */,
+				6DDF35F01F00E9B400F0555B /* theme_GIF0_0.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3909,6 +3913,8 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/ComicingGif/Classes/ShareModule/Framework",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/ComicingGif/ComicingGifPrefixHeader.pch";
 				INFOPLIST_FILE = ComicingGif/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3936,6 +3942,8 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/ComicingGif/Classes/ShareModule/Framework",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/ComicingGif/ComicingGifPrefixHeader.pch";
 				INFOPLIST_FILE = ComicingGif/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

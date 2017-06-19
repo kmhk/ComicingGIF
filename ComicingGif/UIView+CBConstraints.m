@@ -43,9 +43,13 @@ static void const *key = @"kk";
 }
 
 - (void)setSubViewWithWithDimensionAsPerRatio:(CGFloat)ratio treeCount:(NSInteger)treeCount {
-    for (UIView *subView in self.subviews) {
+    for (int count = 0; count < self.subviews.count; count++) {
+        UIView *subView = self.subviews[count];
         if ([subView isKindOfClass:[UIView class]]) {
             subView.frame = CGRectMake(self.savedRect.origin.x * ratio, self.savedRect.origin.y * ratio, self.savedRect.size.width * ratio, self.savedRect.size.height * ratio);
+            if (treeCount == 3) {
+                subView.frame = CGRectMake(subView.frame.origin.x, subView.frame.origin.y, subView.frame.size.width - 40, subView.frame.size.height - 40);
+            }
             NSLog(@".....................TREE COUNT: %ld , RATIO: %f ,and from: %@", (long)treeCount, ratio, NSStringFromCGRect(subView.frame));
             [subView setSubViewWithWithDimensionAsPerRatio:ratio treeCount:treeCount+1];
         }

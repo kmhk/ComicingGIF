@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 #import "AppConstants.h"
 
+@class CBComicItemModel;
+
 #define GlobalObject [Global global]
 
 typedef NS_ENUM(NSInteger, ScreenSizeType)
@@ -43,5 +45,12 @@ typedef enum {
 
 @property (strong, nonatomic) UIImage *placeholder_comic;
 @property (nonatomic) BOOL isUserEnterSecondTime;
+
+- (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size;
++ (double)positive:(double)number;
++ (CGSize)getSizeOfComicSlideWithModel:(CBComicItemModel *)model;
++ (CGSize)getTallBigSlideSize;
++ (CGSize)getTallSmallSlideSize;
++ (CGSize)getWideSlideSize;
 
 @end
