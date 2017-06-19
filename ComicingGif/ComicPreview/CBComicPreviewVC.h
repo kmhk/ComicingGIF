@@ -28,7 +28,10 @@
 
 @property (nonatomic, assign) BOOL shouldFetchAndReload;
 @property (nonatomic, assign) BOOL shouldntRefreshAfterDidLayoutSubviews;
+@property (nonatomic, assign) NSInteger indexForSlideToRefresh;
 
 - (void)prepareView;
+- (void)refreshSlideAtIndex:(NSInteger)indexOfSlide isTall:(BOOL)isTall completionBlock:(void (^)(BOOL isComplete))completionBlock;
+- (void)deleteLastCell;
 
 @end

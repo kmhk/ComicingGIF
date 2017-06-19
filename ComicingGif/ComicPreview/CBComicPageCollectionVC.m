@@ -63,7 +63,7 @@
     CBComicImageSection* section= [CBComicImageSection new];
     section.dataArray= self.dataArray;
     [self.sectionArray addObject:section];
-    [self.collectionView reloadData];
+//    [self.collectionView reloadData];
 }
 
 - (void)refreshDataArray:(NSMutableArray*)dataArray{
@@ -152,7 +152,7 @@
     }
 }
 
-- (void)addComicItem:(CBComicItemModel*)comicItem completion:(void (^)(BOOL))completion {
+- (void)addComicItem:(CBComicItemModel*)comicItem completion:(void (^)(BOOL, CBComicItemModel *))completion {
     if (self.dataArray.count == kMaxItemsInComic) {
         return;
     }
@@ -165,17 +165,52 @@
     }
 //    [[[self.sectionArray objectAtIndex:0] dataArray] addObject:comicItem];
     [self refreshImageOrientation];
-//    [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.dataArray indexOfObject:comicItem] inSection:0]]];
+    [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.dataArray.count - 1 inSection:0]]];
     
     
-    if (self.collectionView != nil) {
-        [self.collectionView reloadData];
-    }
+//    if (self.collectionView != nil) {
+//        [self.collectionView reloadData];
+//    }
     
     
 //    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:[self.dataArray indexOfObject:comicItem] inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:YES];
     
-    completion(YES);
+    completion(YES, comicItem);
+}
+
+- (void)replaceComicItemAtIndex:(NSInteger)indexOfComicItem withComicItem:(CBComicItemModel*)comicItem completion:(void (^)(BOOL, CBComicItemModel *))completion {
+    if(!self.dataArray){
+        self.dataArray= [NSMutableArray new];
+    }
+    [self.dataArray replaceObjectAtIndex:indexOfComicItem withObject:comicItem];
+    if(self.sectionArray.count == 0){
+        [self setupSections];
+    }
+    [self refreshImageOrientation];
+
+//    if (self.collectionView != nil) {
+//        [self.collectionView reloadData];
+//    }
+    [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexOfComicItem inSection:0]]];
+    
+    completion(YES, comicItem);
+}
+
+- (void)removeComicItemAtIndex:(NSInteger)index {
+    if(self.dataArray.count == 0){
+        return;
+    }
+    [self.dataArray removeObjectAtIndex:index];
+    if(self.sectionArray.count == 0){
+        [self setupSections];
+    }
+    [self refreshImageOrientation];
+    
+//    if (self.collectionView != nil) {
+//        [self.collectionView reloadData];
+//    }
+    
+    [self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]]];
 }
 
 #pragma mark- UICollectionViewDataSource helper methods

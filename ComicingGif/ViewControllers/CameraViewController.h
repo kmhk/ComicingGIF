@@ -23,5 +23,7 @@ MFMailComposeViewControllerDelegate
 @property (nonatomic) CameraViewModel *viewModel;
 
 @property BOOL isVerticalCamera;
+@property (assign, nonatomic) BOOL isNewSlide;
+@property (assign, nonatomic) NSInteger indexOfSlide;
 
 @end

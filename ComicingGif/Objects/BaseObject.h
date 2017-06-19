@@ -35,6 +35,7 @@ typedef enum {
 @property (nonatomic) CGFloat angle;	// rotated radian angle of object. default is 0
 @property (nonatomic) CGFloat scale;	// scaled rate.
 
+@property(assign, nonatomic) CGFloat delayTimeInSeconds; // This will be used to do know after how much seconds this enhancement will appear on screen
 
 // create base object by type and parameter sender
 + (BaseObject *)comicObjectWith:(ComicObjectType)type userInfo:(id)sender;

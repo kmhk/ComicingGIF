@@ -40,20 +40,28 @@
 	if (!self) {
 		return nil;
 	}
-	
+    if (self.timerImageViews == nil) {
+        self.timerImageViews = [NSMutableArray array];
+    }
+    
+    self.delayTimeInSeconds = obj.delayTimeInSeconds;
+    
 	self.comicObject = obj;
 	self.backgroundColor = [UIColor clearColor];
 	self.userInteractionEnabled = YES;
-	
+    
 	if (obj.objType == ObjectBaseImage) {
-		[self createBaseImageView];
+		UIImageView *imageView = [self createBaseImageView];
+        [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:imageView delayTime:self.delayTimeInSeconds andObjectType:obj.objType]];
 		
 	} else if (obj.objType == ObjectAnimateGIF) {
-		[self createAnimationGIFView];
+        UIImageView *imageView = [self createAnimationGIFView];
+        [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:imageView delayTime:self.delayTimeInSeconds andObjectType:obj.objType]];
 		[self addGestures];
 	
 	} else if (obj.objType == ObjectSticker) {
-		[self createStickerView];
+		UIImageView *imageView = [self createStickerView];
+        [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:imageView delayTime:self.delayTimeInSeconds andObjectType:obj.objType]];
 		[self addGestures];
 		
 	} else if (obj.objType == ObjectBubble) {
@@ -114,7 +122,7 @@
     return bubbleObjectView;
 }
 
-+ (ComicObjectView *)createComicViewWith:(NSArray *)array delegate:(id)userInfo {
++ (ComicObjectView *)createComicViewWith:(NSArray *)array delegate:(id)userInfo timerImageViews:(NSMutableArray *)timerImageViews {
 	if (!array || !array.count) {
 		NSLog(@"There is nothing comic objects");
 		return nil;
@@ -124,6 +132,10 @@
 	ComicObjectView *backgroundView = [[ComicObjectView alloc] initWithComicObject:array.firstObject];
     
     NSMutableArray<ComicObjectView *> *penObjectsViewArray = [NSMutableArray new];
+    
+    if (backgroundView.timerImageViews != nil) {
+        [timerImageViews addObjectsFromArray:backgroundView.timerImageViews];
+    }
     
 	for (NSInteger i = 1; i < array.count; i ++) {
 		BaseObject *obj = array[i];
@@ -169,6 +181,10 @@
         }
         
 		[backgroundView addSubview:comicView];
+        
+        if (comicView.timerImageViews != nil) {
+            [timerImageViews addObjectsFromArray:comicView.timerImageViews];
+        }
 	}
     
     // Generate single image view with all drawings. Nil – if there is no drawings in current comics item
@@ -229,18 +245,21 @@
 }
 
 // MARK: - priviate create methods
-- (void)createBaseImageView {
+- (UIImageView *)createBaseImageView {
 	BkImageObject *obj = (BkImageObject *)self.comicObject;
 	self.frame = obj.frame;
 	
     NSString *fileName1 = [NSString stringWithFormat:@"%@",[obj.fileURL lastPathComponent]];
     NSURL *fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fileName1]];
     
+    
     NSData *data = [NSData dataWithContentsOfURL:fileURL];
-    [self createImageViewWith:data frame:self.bounds bAnimate:YES];
+    UIImageView *imageView = [self createImageViewWith:data frame:self.bounds bAnimate:YES];
+    
+    return imageView;
 }
 
-- (void)createAnimationGIFView {
+- (UIImageView *)createAnimationGIFView {
 	StickerObject *obj = (StickerObject *)self.comicObject;
 	self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
 	
@@ -248,10 +267,12 @@
 	/*
 	 real inside content view's size is less (40, 40) than object view. because it needs to show tool bar of all comic objects
 	 */
-	[self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width - W_PADDING, obj.frame.size.height - H_PADDING) bAnimate:YES];
+	UIImageView *imageView = [self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width - W_PADDING, obj.frame.size.height - H_PADDING) bAnimate:YES];
+    
+    return imageView;
 }
 
-- (void)createStickerView {
+- (UIImageView *)createStickerView {
 	StickerObject *obj = (StickerObject *)self.comicObject;
 	self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
 	
@@ -259,7 +280,9 @@
 	/*
 	 real inside content view's size is less (40, 40) than object view. because it needs to show tool bar of all comic objects
 	 */
-	[self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width - W_PADDING, obj.frame.size.height - H_PADDING) bAnimate:NO];
+	UIImageView *imageView = [self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width - W_PADDING, obj.frame.size.height - H_PADDING) bAnimate:NO];
+    
+    return imageView;
 }
 
 - (void)createBubbleView {
@@ -449,7 +472,7 @@
     }
 }
 
-- (void)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag {
+- (UIImageView *)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag {
 	CGImageSourceRef srcImage = CGImageSourceCreateWithData(toCF data, nil);
 	if (!srcImage) {
 		NSLog(@"loading image failed");
@@ -496,6 +519,8 @@
 	imgView.animationDuration = totalDuration;
 	imgView.animationRepeatCount = 1;//(flag == YES? 0 : 1);
 	[imgView startAnimating];
+    
+    return imgView;
 }
 
 - (void)adjustBubbleDirectionWithBubbleViewCenter:(CGPoint)centerPoint {

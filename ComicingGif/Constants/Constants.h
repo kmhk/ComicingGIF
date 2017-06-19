@@ -11,6 +11,23 @@
 
 @interface Constants : NSObject
 
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
+#define SCREEN_MIN_LENGTH (MIN(SCREEN_WIDTH, SCREEN_HEIGHT))
+#define IS_IPHONE_3G (IS_IPHONE && SCREEN_MAX_LENGTH == 480)
+#define IS_IPHONE_5 (IS_IPHONE && SCREEN_MAX_LENGTH == 568.0)
+#define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
+#define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
+
+#define LargeTallSlideWidth IS_IPHONE_5? 254: (IS_IPHONE_6? 309: 348)
+#define SmallTallSlideWidth IS_IPHONE_5? 121: (IS_IPHONE_6? 148: 168)
+#define WideSlideWidth IS_IPHONE_5? 254: (IS_IPHONE_6? 309: 348)
+
+#define TallSlideWidthToHeightRatio 1.69
+#define WideSlideWidthToHeightRatio 0.39
+
 #pragma mark - URLs
 
 //extern NSString * const BASE_URL;

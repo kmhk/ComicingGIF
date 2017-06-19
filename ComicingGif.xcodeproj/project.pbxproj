@@ -339,6 +339,8 @@
 		0C43F74A1E9F4EC100AB71F9 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C43F7481E9F4EC100AB71F9 /* libsqlite3.0.tbd */; };
 		0C43F74B1E9F4EC100AB71F9 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C43F7491E9F4EC100AB71F9 /* libsqlite3.tbd */; };
 		0C43F74E1E9F649400AB71F9 /* Main_MainPage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C43F74D1E9F649400AB71F9 /* Main_MainPage.storyboard */; };
+		6DE9A6FC1EE011590017C979 /* ScrollBarSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE9A6FB1EE011590017C979 /* ScrollBarSlider.m */; };
+		6DE9A7051EE062750017C979 /* TimerImageViewStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE9A7041EE062750017C979 /* TimerImageViewStruct.m */; };
 		A20E5866DD2FB391E862A3C7 /* libPods-ComicingGif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEAB9E6CD9B129793D59342 /* libPods-ComicingGif.a */; };
 		CE12CC1B1EB87C2100EA0E40 /* theme_sticker0_0.png in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC051EB87C2100EA0E40 /* theme_sticker0_0.png */; };
 		CE12CC1C1EB87C2100EA0E40 /* theme_sticker0_1.png in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC061EB87C2100EA0E40 /* theme_sticker0_1.png */; };
@@ -1072,6 +1074,10 @@
 		0C43F7491E9F4EC100AB71F9 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		0C43F74D1E9F649400AB71F9 /* Main_MainPage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_MainPage.storyboard; sourceTree = "<group>"; };
 		5C6CB3F124F1DC1C548C2BE5 /* Pods-ComicingGif.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ComicingGif.release.xcconfig"; path = "Pods/Target Support Files/Pods-ComicingGif/Pods-ComicingGif.release.xcconfig"; sourceTree = "<group>"; };
+		6DE9A6FA1EE011590017C979 /* ScrollBarSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollBarSlider.h; sourceTree = "<group>"; };
+		6DE9A6FB1EE011590017C979 /* ScrollBarSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollBarSlider.m; sourceTree = "<group>"; };
+		6DE9A7031EE062750017C979 /* TimerImageViewStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerImageViewStruct.h; sourceTree = "<group>"; };
+		6DE9A7041EE062750017C979 /* TimerImageViewStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerImageViewStruct.m; sourceTree = "<group>"; };
 		AE19661F1E1C934A23192074 /* Pods-ComicingGif.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ComicingGif.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ComicingGif/Pods-ComicingGif.debug.xcconfig"; sourceTree = "<group>"; };
 		CE12CC051EB87C2100EA0E40 /* theme_sticker0_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = theme_sticker0_0.png; path = Resources/staticSticker/theme_sticker0_0.png; sourceTree = "<group>"; };
 		CE12CC061EB87C2100EA0E40 /* theme_sticker0_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = theme_sticker0_1.png; path = Resources/staticSticker/theme_sticker0_1.png; sourceTree = "<group>"; };
@@ -3046,6 +3052,10 @@
 			children = (
 				F323D4731E8E6CBD00B41659 /* ComicMakingViewController.h */,
 				F323D4741E8E6CBD00B41659 /* ComicMakingViewController.m */,
+				6DE9A7031EE062750017C979 /* TimerImageViewStruct.h */,
+				6DE9A7041EE062750017C979 /* TimerImageViewStruct.m */,
+				6DE9A6FA1EE011590017C979 /* ScrollBarSlider.h */,
+				6DE9A6FB1EE011590017C979 /* ScrollBarSlider.m */,
 			);
 			name = ComicMakingViewController;
 			sourceTree = "<group>";
@@ -3243,7 +3253,7 @@
 				TargetAttributes = {
 					F36BE3A31E830E22007F6CE7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = Q8NGZS6ASA;
+						DevelopmentTeam = HVU988ZRCM;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -3624,6 +3634,7 @@
 				0C43F7031E9F4B6800AB71F9 /* MainPage3SlideCell.m in Sources */,
 				0C43F3A51E9F386E00AB71F9 /* Slides.m in Sources */,
 				0C43F35F1E9F37C700AB71F9 /* ModelController.m in Sources */,
+				6DE9A7051EE062750017C979 /* TimerImageViewStruct.m in Sources */,
 				0C43F5A01E9F417300AB71F9 /* STTwitterHTML.m in Sources */,
 				0C43F6721E9F452F00AB71F9 /* FindFriendsTableCell.m in Sources */,
 				0C43F70A1E9F4BCF00AB71F9 /* UIImage+ImageCompress.m in Sources */,
@@ -3648,6 +3659,7 @@
 				F3FB2CA91E931CEA0087BD9C /* ComicObjectSerialize.m in Sources */,
 				0C43F33B1E9F36C200AB71F9 /* NSArray+MTLManipulationAdditions.m in Sources */,
 				0C43F7211E9F4D4100AB71F9 /* BFPaperButton.m in Sources */,
+				6DE9A6FC1EE011590017C979 /* ScrollBarSlider.m in Sources */,
 				0C43F7221E9F4D4100AB71F9 /* UIColor+BFPaperColors.m in Sources */,
 				0C43F6421E9F44E000AB71F9 /* ComicImageListView.m in Sources */,
 				0C43F64F1E9F450700AB71F9 /* HeaderView.m in Sources */,
@@ -3871,9 +3883,9 @@
 			baseConfigurationReference = AE19661F1E1C934A23192074 /* Pods-ComicingGif.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Leonard Bensonoff (AXMJ9J8EV9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonard Bensonoff (AXMJ9J8EV9)";
-				DEVELOPMENT_TEAM = Q8NGZS6ASA;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Stephen Wright (SNU9UY72ZE)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Stephen Wright (SNU9UY72ZE)";
+				DEVELOPMENT_TEAM = HVU988ZRCM;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3888,8 +3900,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.TheCustomerFactor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d698db5e-b022-48d3-9064-2dfdaeb82e5d";
-				PROVISIONING_PROFILE_SPECIFIER = "Dev Provision";
+				PROVISIONING_PROFILE = "89eb5765-c574-409f-a4cd-934aa0f187c1";
+				PROVISIONING_PROFILE_SPECIFIER = theCustomerFactorDevelopment;
 			};
 			name = Debug;
 		};
@@ -3898,9 +3910,9 @@
 			baseConfigurationReference = 5C6CB3F124F1DC1C548C2BE5 /* Pods-ComicingGif.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Leonard Bensonoff (AXMJ9J8EV9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonard Bensonoff (AXMJ9J8EV9)";
-				DEVELOPMENT_TEAM = Q8NGZS6ASA;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Stephen Wright (SNU9UY72ZE)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Stephen Wright (SNU9UY72ZE)";
+				DEVELOPMENT_TEAM = HVU988ZRCM;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3915,8 +3927,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.TheCustomerFactor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d698db5e-b022-48d3-9064-2dfdaeb82e5d";
-				PROVISIONING_PROFILE_SPECIFIER = "Dev Provision";
+				PROVISIONING_PROFILE = "89eb5765-c574-409f-a4cd-934aa0f187c1";
+				PROVISIONING_PROFILE_SPECIFIER = theCustomerFactorDevelopment;
 			};
 			name = Release;
 		};

@@ -47,7 +47,7 @@
         }
         [self changePageToIndex:self.viewControllers.count-1 completed:^(BOOL success) {
             if(success){
-                [vc addComicItem:comicItem completion:^(BOOL finished) {
+                [vc addComicItem:comicItem completion:^(BOOL finished, CBComicItemModel *itemModel) {
                     
                 }];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -61,7 +61,7 @@
         if(self.currentIndex != self.viewControllers.count-1){
             [self changePageToIndex:self.viewControllers.count-1 completed:^(BOOL success) {
                 if(success){
-                    [vc addComicItem:comicItem completion:^(BOOL finished) {
+                    [vc addComicItem:comicItem completion:^(BOOL finished, CBComicItemModel *itemModel) {
                         
                     }];
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -70,7 +70,7 @@
                 }
             }];
         }else{
-            [vc addComicItem:comicItem completion:^(BOOL finished) {
+            [vc addComicItem:comicItem completion:^(BOOL finished, CBComicItemModel *itemModel) {
                 
             }];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -104,7 +104,7 @@
         NSInteger itemToAdd= self.index+1*kMaxItemsInComic;
         if(itemToAdd-1 < self.dataArray.count){
             CBComicPageCollectionVC* currentVC= [self.viewControllers objectAtIndex:index];
-            [currentVC addComicItem:[self.dataArray objectAtIndex:itemToAdd-1] completion:^(BOOL finished) {
+            [currentVC addComicItem:[self.dataArray objectAtIndex:itemToAdd-1] completion:^(BOOL finished, CBComicItemModel *itemModel) {
                 
             }];
         }

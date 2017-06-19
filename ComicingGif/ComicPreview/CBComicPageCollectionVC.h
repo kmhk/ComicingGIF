@@ -22,7 +22,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *comicBookBackgroundRight;
 @property (weak, nonatomic) IBOutlet UIImageView *comicBookBackgroundBottom;
 @property (weak, nonatomic) IBOutlet UIButton *rainbowColorCircleButton;
-- (void)addComicItem:(CBComicItemModel*)comicItem completion:(void (^)(BOOL finished))completion;
+- (void)addComicItem:(CBComicItemModel*)comicItem completion:(void (^)(BOOL, CBComicItemModel *))completion;
+- (void)replaceComicItemAtIndex:(NSInteger)indexOfComicItem withComicItem:(CBComicItemModel*)comicItem completion:(void (^)(BOOL, CBComicItemModel *))completion;
+- (void)removeComicItemAtIndex:(NSInteger)index;
 - (CGFloat)contentHeight;
 - (void)refreshDataArray:(NSMutableArray*)dataArray;
 - (UIView*)getZoomTransitionViewForIndexPath:(NSIndexPath *)indexPath;

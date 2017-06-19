@@ -10,7 +10,7 @@
 #import "RoundCapProgressView.h"
 #import "ComicMakingViewController.h"
 #import "ComicObjectSerialize.h"
-
+#import "CBComicPreviewVC.h"
 
 #define TOPBADDING		0.0
 #define BOTTOMPADDING	0.0
@@ -111,8 +111,8 @@
 	if ([segue.identifier isEqualToString:@"segueMaking"]) {
 		NSURL *url = (NSURL *)sender;
 		ComicMakingViewController *vc = (ComicMakingViewController *)segue.destinationViewController;
-
-		[vc initWithBaseImage:url frame:self.cameraPreview.frame andSubviewArray:nil isTall:!self.isVerticalCamera index:-1];
+        vc.indexSaved = _indexOfSlide;
+		[vc initWithBaseImage:url frame:self.cameraPreview.frame andSubviewArray:nil isTall:!self.isVerticalCamera index:_indexOfSlide];
 	}
 }
 
@@ -269,6 +269,10 @@
 - (IBAction)closeBtnTapped:(id)sender {
 	[self resetRecord];
     [self.navigationController popViewControllerAnimated:YES];
+    if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[CBComicPreviewVC class]]) {
+        CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
+        [vc deleteLastCell];
+    }
 }
 
 - (IBAction)changeCameraTapped:(id)sender {

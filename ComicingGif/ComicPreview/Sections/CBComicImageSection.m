@@ -15,18 +15,20 @@
 #import "BubbleObject.h"
 #import "PenObject.h"
 #import "ComicObjectView.h"
+#import "Constants.h"
 
 #define kHorizontalMargin 0.0f
 #define kVerticalMargin 5.0f
 
-#define kCollectionViewLeftMargin 4.5f
-#define kCollectionViewRightMargin 4.5f
+#define kCollectionViewLeftMargin 5.0f
+#define kCollectionViewRightMargin 5.0f
 #define kCollectionViewMiddleMargin 0.0f
 
 #define kLandscapeCellHeight 106.0f
 #define kPortraitCellHeight 228.0f
 
-#define kVerticalCellMultiplier 1.78f
+#define kVerticalCellMultiplier 1.65f
+#define kWideCellMultiplier 0.406f
 
 #define kCellIdentifier @"ComicImageCell"
 
@@ -37,6 +39,8 @@
 #define toCF (CFTypeRef)
 #define fromCF (id)
 #endif
+
+#define discreteValueOfSeconds 0.01
 
 @implementation CBComicImageSection
 - (CBBaseCollectionViewCell*)cellForCollectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath{
@@ -49,37 +53,35 @@
         cell= [nibs firstObject];
     }
     
-//    self.collectionView.backgroundColor = [UIColor redColor];
-//    _comicItemModel = [self.dataArray objectAtIndex:indexPath.row];
     for (CBComicItemModel *item in self.dataArray) {
         NSLog(@"............DATA ARRAY IN CELL: %@",item.comicPage);
     }
     
-//    self.collectionView.backgroundColor = [UIColor yellowColor];
-    
-//    ComicItemAnimatedSticker *st = [ComicItemAnimatedSticker new];
-//    st.objFrame = CGRectMake(50, 80, 100, 100);
-//    [st addItemWithImage:[YYImage imageNamed:@"WTF"]];
-//    _comicItemModel.comicPage.subviews = [NSMutableArray arrayWithObject:st];
-//    cell.staticImageView.image = _comicItemModel.baseLayerImage;
-//    cell.animatedImageView.image = _comicItemModel.baseLayerGif;
+    self.timerImageViews = [NSMutableArray array];
     
     return cell;
 }
 
 - (void)createUIForCell:(CBComicImageCell *)cell withIndex:(NSInteger)index andFrame : (CGRect ) rect {
-    if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-        
-    }
     
     NSLog(@"\n\n\nCELLLLLLLLLLLLLLLLL B: %lu %@, CollFrame: %@", index, _comicItemModel.comicPage.subviews, NSStringFromCGRect(rect));
     for (UIView *view in [cell.topLayerView subviews]) {
         [view removeFromSuperview];
     }
-    if (_comicItemModel.isBaseLayerGif)
+    
+    NSData *gifData = [self getGifDataFromFileName:_comicItemModel.comicPage.gifLayerPath];
+    UIImageView *baseImageView = [self createImageViewWith:gifData frame:cell.baseLayerImageView.frame bAnimate:YES withAnimation:NO];
+    [self setGifPropertiesOfImageView:baseImageView toNewImageView:cell.baseLayerImageView];
+    
+    if (baseImageView.animationImages.count > 1)//_comicItemModel.isBaseLayerGif)
     {
         // NEED to handle 3 layer
-        cell.baseLayerImageView.image = [AppHelper getGifFile:_comicItemModel.comicPage.gifLayerPath];
+//        cell.baseLayerImageView.image = [AppHelper getGifFile:_comicItemModel.comicPage.gifLayerPath];
+
+        [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:cell.baseLayerImageView delayTime:0 andObjectType:ObjectAnimateGIF]];
+        
+        self.maxTimeOfFullAnimation = cell.baseLayerImageView.animationDuration;
+        
         cell.staticImageView.image = [AppHelper getImageFile:_comicItemModel.comicPage.printScreenPath];
         //-> Loop subviews and get animation sticker and static image.
         //animation sticker you can check like …
@@ -102,7 +104,7 @@
                 
                 NSBundle *bundle = [NSBundle mainBundle] ;
                 NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
-                NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".gif" withString:@""] ofType:@"gif"];
+                NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".gif" withString:@""] ofType:@"gif"];;
                 NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
                 CGRect rectOfGif;
 //                sticker.image =  [UIImage sd_animatedGIFWithData:gifData];
@@ -116,20 +118,49 @@
                 }
                 i ++;
 
-                UIImageView *stickerImageView = [self createImageViewWith:gifData frame:rectOfGif bAnimate:YES];
+                
+                UIImageView *stickerImageView = [self createImageViewWith:gifData frame:rectOfGif bAnimate:YES withAnimation:NO];
+                
                 CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
                 stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
                 [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
                 [cell.topLayerView addSubview:stickerImageView];
-//                NSLog(@".............IF ADDED STICKER: %@",sticker);
-                //                    sticker.backgroundColor = [UIColor brownColor];
-                //                    [cell.topLayerView setBackgroundColor:[UIColor greenColor]];
-                //                    cell.topLayerView.alpha = 0.4;
+                
+                [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:stickerImageView delayTime:[[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue] andObjectType:ObjectAnimateGIF]];
+                
+            } else if (objectTypeIndex == ObjectSticker) {
+                
+                CGRect frameOfObject = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
+                
+                NSBundle *bundle = [NSBundle mainBundle] ;
+                NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
+                NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".png" withString:@""] ofType:@"png"];
+                NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
+                CGRect rectOfGif;
+                
+                CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
+                if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth)/2, (frameOfObject.size.height * ratioWidth)/2);
+                } else {
+                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth, frameOfObject.size.height * ratioWidth);
+                }
+                i ++;
+                
+                UIImageView *stickerImageView = [[UIImageView alloc]initWithFrame:rectOfGif];
+                stickerImageView.image = [UIImage imageWithData:gifData];
+                
+                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
+                stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
+                stickerImageView.hidden = YES;
+                [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+                [cell.topLayerView addSubview:stickerImageView];
+                
+                [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:stickerImageView delayTime:[[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue] andObjectType:ObjectSticker]];
                 
             } else if (objectTypeIndex == ObjectBubble) {
                 BubbleObject *bubbleObject = [[BubbleObject alloc] initFromDict:subview];
                 ComicObjectView *bubbleObjectView = [ComicObjectView createListViewComicBubbleObjectViewWithObject:bubbleObject];
-
+                
                 CGPoint scaledOriginPoint = CGPointMake(bubbleObjectView.frame.origin.x * scales.width,
                                                         bubbleObjectView.frame.origin.y * scales.height);
                 
@@ -137,7 +168,7 @@
                 
                 [bubbleObjectView setFrame:CGRectMake(scaledOriginPoint.x, scaledOriginPoint.y,
                                                       bubbleObjectView.frame.size.width,
-                                                      bubbleObjectView.frame.size.height)];                
+                                                      bubbleObjectView.frame.size.height)];
                 
                 cell.topLayerView.bounds = CGRectInset(cell.topLayerView.frame, kVerticalMargin, kVerticalMargin);
                 [cell.topLayerView setFrame:cell.frame];
@@ -148,11 +179,11 @@
                 ComicObjectView *drawingObjectView = [[ComicObjectView alloc] initWithComicObject:penObject];
                 [penObjectsViewsArray addObject:drawingObjectView];
             }
+            
         }
         
         UIImageView *allDrawingsImageView = [ComicObjectView createListViewComicPenObjectViewsWithArray:penObjectsViewsArray];
         if (allDrawingsImageView) {
-            
             allDrawingsImageView.transform = CGAffineTransformMakeScale(scales.width, scales.height);
             [allDrawingsImageView setFrame:CGRectMake(0,
                                                       0,
@@ -167,33 +198,90 @@
             }
         }
         
-        //Handle static Image… here we have to create an abstract class in ComicItem called class name as ComicItemStaticImage
-//        for (id subview in _comicItemModel.comicPage.subviews) {
-//            if ([subview isKindOfClass:[ComicItemStaticImage class]]) {
-//                //Handle middle layer.
-//            }
-//        }
+        
+        [_mainSlideTimer invalidate];
+        _mainSlideTimer = nil;
+        _mainSlideTimer = [NSTimer scheduledTimerWithTimeInterval:discreteValueOfSeconds
+                                                           target:self
+                                                         selector:@selector(mainTimer:)
+                                                         userInfo:nil
+                                                          repeats:YES];
     } else {
         // This can be 2 layer or single layer
         
-        cell.baseLayerImageView.image = [AppHelper getImageFile:_comicItemModel.comicPage.printScreenPath];
-        
-        //-> Loop subviews and get animation sticker
-        //animation sticker you can check like …
+//        cell.baseLayerImageView.image = [AppHelper getImageFile:_comicItemModel.comicPage.printScreenPath];
+        self.maxTimeOfFullAnimation = 0;
+        //-> Loop subviews
+        int i = 0;
         for (id subview in _comicItemModel.comicPage.subviews) {
-            if ([subview isKindOfClass:[ComicItemAnimatedSticker class]]) {
+            NSLog(@"Subviews - %@",subview);
+            if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue]==17) {
                 //Handle top layer that is sticker gif
-                ComicItemAnimatedSticker *sticker = (ComicItemAnimatedSticker *)subview;
+                //                                ComicItemAnimatedSticker *sticker = [ComicItemAnimatedSticker new];
+                CGRect frameOfObject = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
+                
+                //                sticker.combineAnimationFileName = [subview objectForKey:@"url"];
+                
+                NSBundle *bundle = [NSBundle mainBundle] ;
+                NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
+                NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".gif" withString:@""] ofType:@"gif"];
+                NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
+                CGRect rectOfGif;
+                //                sticker.image =  [UIImage sd_animatedGIFWithData:gifData];
+                
+                CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
+                //                CGFloat ratioHeight = rect.size.height / SCREEN_HEIGHT;
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-                    sticker.frame = CGRectMake(sticker.objFrame.origin.x/2, sticker.objFrame.origin.y/2, sticker.objFrame.size.width/2, sticker.objFrame.size.height/2);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth)/2, (frameOfObject.size.height * ratioWidth)/2);
                 } else {
-                    sticker.frame = CGRectMake(sticker.objFrame.origin.x, sticker.objFrame.origin.y, sticker.objFrame.size.width, sticker.objFrame.size.height);
+                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth, frameOfObject.size.height * ratioWidth);
                 }
-                [cell.topLayerView addSubview:sticker];
-                NSLog(@".............ELSE ADDED STICKER: %@",sticker);
-//                    sticker.backgroundColor = [UIColor brownColor];
-//                    [cell.topLayerView setBackgroundColor:[UIColor greenColor]];
-//                    cell.topLayerView.alpha = 0.4;
+                i ++;
+                
+                
+                //                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                UIImageView *stickerImageView = [self createImageViewWith:gifData frame:rectOfGif bAnimate:YES withAnimation:YES];
+                
+                
+                //                    dispatch_async(dispatch_get_main_queue(), ^{
+                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
+                stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
+                [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+                [cell.topLayerView addSubview:stickerImageView];
+                //                    });
+                //                } );
+                
+                //                NSLog(@".............IF ADDED STICKER: %@",sticker);
+                //                    sticker.backgroundColor = [UIColor brownColor];
+                //                    [cell.topLayerView setBackgroundColor:[UIColor greenColor]];
+                //                    cell.topLayerView.alpha = 0.4;
+            }
+            
+            //18 is for static stickers
+            if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue] == 18) {
+                CGRect frameOfObject = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
+                
+                NSBundle *bundle = [NSBundle mainBundle] ;
+                NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
+                NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".png" withString:@""] ofType:@"png"];
+                NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
+                CGRect rectOfGif;
+                
+                CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
+                if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth)/2, (frameOfObject.size.height * ratioWidth)/2);
+                } else {
+                    rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth, frameOfObject.origin.y * ratioWidth, frameOfObject.size.width * ratioWidth, frameOfObject.size.height * ratioWidth);
+                }
+                i ++;
+                
+                UIImageView *stickerImageView = [[UIImageView alloc]initWithFrame:rectOfGif];
+                stickerImageView.image = [UIImage imageWithData:gifData];
+                
+                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
+                stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
+                [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+                [cell.topLayerView addSubview:stickerImageView];
             }
         }
     }
@@ -210,7 +298,7 @@
     return newImage;
 }
 
-- (UIImageView *)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag {
+- (UIImageView *)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag withAnimation:(BOOL)shouldAnimate {
     CGImageSourceRef srcImage = CGImageSourceCreateWithData(toCF data, nil);
     if (!srcImage) {
         NSLog(@"loading image failed");
@@ -245,7 +333,9 @@
         CGImageRelease(cgImg);
     }
     
-    CFRelease(srcImage);
+    if (srcImage != nil) {
+        CFRelease(srcImage);
+    }
     
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:rect];
     imgView.image = arrayImages.firstObject;
@@ -255,9 +345,60 @@
     imgView.animationImages = arrayImages;
     imgView.animationDuration = totalDuration;
     imgView.animationRepeatCount = (flag == YES? 0 : 1);
-    [imgView startAnimating];
+    if (shouldAnimate) {
+        [imgView startAnimating];
+    }
     
     return imgView;
+}
+
+- (void)setGifPropertiesOfImageView:(UIImageView *)oldImageView toNewImageView:(UIImageView *)newImageView {
+    newImageView.image = oldImageView.image;
+    newImageView.autoresizingMask = oldImageView.autoresizingMask;
+    newImageView.animationImages = oldImageView.animationImages;
+    newImageView.animationDuration = oldImageView.animationDuration;
+    newImageView.animationRepeatCount = oldImageView.animationRepeatCount;
+}
+
+- (NSData *)getGifDataFromFileName:(NSString *)fileName {
+    
+    NSString *fileName1 = [NSString stringWithFormat:@"%@",[fileName lastPathComponent]];
+    NSURL *fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fileName1]];
+    
+    NSData *gifData = [NSData dataWithContentsOfURL:fileURL];
+    return gifData;
+}
+
+- (void)mainTimer:(NSTimer *)timer {
+    if (_currentTimeInterval > _maxTimeOfFullAnimation) {
+        _currentTimeInterval = 0;
+    }
+    for (TimerImageViewStruct *timerImageView in self.timerImageViews) {
+
+        if (timerImageView.imageView.animationImages.count > 1) { // FOR GIFs
+            if (timerImageView.imageView.hidden == YES && (_currentTimeInterval > timerImageView.delayTimeOfImageView)) {
+                timerImageView.imageView.hidden = NO;
+                [self makeImageViewStartItsAnimationFromFirstFrame:timerImageView.imageView];
+            }
+            if (timerImageView.imageView.hidden == NO && (_currentTimeInterval <= timerImageView.delayTimeOfImageView)) {
+                timerImageView.imageView.hidden = YES;
+                [timerImageView.imageView stopAnimating];
+            }
+        } else {  // FOR IMAGES
+            if (timerImageView.imageView.hidden == YES && (_currentTimeInterval > timerImageView.delayTimeOfImageView)) {
+                timerImageView.imageView.hidden = NO;
+            }
+            if (timerImageView.imageView.hidden == NO && (_currentTimeInterval <= timerImageView.delayTimeOfImageView)) {
+                timerImageView.imageView.hidden = YES;
+            }
+        }
+    }
+    _currentTimeInterval+=discreteValueOfSeconds;
+}
+
+- (void)makeImageViewStartItsAnimationFromFirstFrame:(UIImageView *)imageView {
+    imageView.image = [imageView.animationImages firstObject];
+    [imageView startAnimating];
 }
 
 -(void)registerNibForCollectionView:(UICollectionView *)collectionView
@@ -265,22 +406,38 @@
     [collectionView registerNib:[UINib nibWithNibName:@"CBComicImageCell" bundle:nil] forCellWithReuseIdentifier:kCellIdentifier];
 }
 
+//- (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+//    NSLog(@"CollectionView size for item : %@",self.collectionView);
+//    NSLog(@"......................SCREENSIZE: %@",NSStringFromCGRect([UIScreen mainScreen].bounds));
+////    CGSize collectionViewSize= self.collectionView.bounds.size;
+//    CGFloat width= floorf(([UIScreen mainScreen].bounds.size.width - (32+16))-(kCollectionViewLeftMargin+kCollectionViewRightMargin+ (kHorizontalMargin*2))); // 32 and 16 are the leading and trailing of collectionview
+//    CBComicItemModel* model= [self.dataArray objectAtIndex:indexPath.row];
+//    
+//    if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_LANDSCAPE){
+//        [self printWidth:width andH:width*kWideCellMultiplier andCollV:self.collectionView.frame];
+//        return CGSizeMake(width, width*kWideCellMultiplier);
+//    }else if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF){
+//        CGFloat cellWidth= floorf((width-kCollectionViewMiddleMargin - kVerticalCellMultiplier)/2 -1);
+//        [self printWidth:cellWidth andH:cellWidth*kVerticalCellMultiplier andCollV:self.collectionView.frame];
+//        return CGSizeMake(cellWidth, floorf(cellWidth*kVerticalCellMultiplier));
+//    }else {
+//        [self printWidth:width andH:floorf(width*kVerticalCellMultiplier) andCollV:self.collectionView.frame];
+//        return CGSizeMake(width, floorf(width*kVerticalCellMultiplier));
+//    }
+//}
+
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"CollectionView size for item : %@",self.collectionView);
-    NSLog(@"......................SCREENSIZE: %@",NSStringFromCGRect([UIScreen mainScreen].bounds));
-//    CGSize collectionViewSize= self.collectionView.bounds.size;
-    CGFloat width= floorf(([UIScreen mainScreen].bounds.size.width - (32+16))-(kCollectionViewLeftMargin+kCollectionViewRightMargin+ (kHorizontalMargin*2))); // 32 and 16 are the leading and trailing of collectionview
     CBComicItemModel* model= [self.dataArray objectAtIndex:indexPath.row];
+    
     if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_LANDSCAPE){
-        [self printWidth:width andH:width/1.7286 andCollV:self.collectionView.frame];
-        return CGSizeMake(width, width/1.7286);
+        CGSize size = CGSizeMake(WideSlideWidth, (WideSlideWidth) * (WideSlideWidthToHeightRatio));
+        return size;
     }else if(model.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF){
-        CGFloat cellWidth= floorf((width-kCollectionViewMiddleMargin - kVerticalCellMultiplier)/2 -1);
-        [self printWidth:cellWidth andH:cellWidth*kVerticalCellMultiplier andCollV:self.collectionView.frame];
-        return CGSizeMake(cellWidth, floorf(cellWidth*kVerticalCellMultiplier));
+        CGSize size = CGSizeMake(SmallTallSlideWidth, (SmallTallSlideWidth) * (TallSlideWidthToHeightRatio));
+        return size;
     }else {
-        [self printWidth:width andH:floorf(width*kVerticalCellMultiplier) andCollV:self.collectionView.frame];
-        return CGSizeMake(width, floorf(width*kVerticalCellMultiplier));
+        CGSize size = CGSizeMake(LargeTallSlideWidth, (LargeTallSlideWidth) * (TallSlideWidthToHeightRatio));
+        return size;
     }
 }
 

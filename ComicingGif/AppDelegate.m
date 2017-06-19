@@ -38,6 +38,7 @@
         
         CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
         vcCameraViewController.isVerticalCamera = NO;
+        vcCameraViewController.indexOfSlide = -1;
         
         NSArray *controllers = [NSArray arrayWithObjects:vcCBComicPreviewVC, vcCameraViewController, nil];
         UINavigationController *navC = [[UINavigationController alloc] initWithRootViewController:vcCameraViewController];
