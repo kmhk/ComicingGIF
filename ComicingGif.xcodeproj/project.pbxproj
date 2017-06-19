@@ -412,6 +412,7 @@
 		E2FBB5B61EE329A4003D7541 /* theme_bubble_0_2.png in Resources */ = {isa = PBXBuildFile; fileRef = E2FBB5B21EE329A4003D7541 /* theme_bubble_0_2.png */; };
 		E2FBB5B71EE329A4003D7541 /* theme_bubble_0_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E2FBB5B31EE329A4003D7541 /* theme_bubble_0_0.png */; };
 		E2FBB5B81EE329A4003D7541 /* theme_bubble_0_3.png in Resources */ = {isa = PBXBuildFile; fileRef = E2FBB5B41EE329A4003D7541 /* theme_bubble_0_3.png */; };
+		E2FBB5BC1EE5CA80003D7541 /* CMCBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2FBB5BB1EE5CA80003D7541 /* CMCBubbleView.m */; };
 		F31794211E868AF40083BD19 /* GIFGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F31794201E868AF40083BD19 /* GIFGenerator.m */; };
 		F323D4531E8BCF7E00B41659 /* RoundCapProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F323D4521E8BCF7E00B41659 /* RoundCapProgressView.m */; };
 		F323D4591E8E448800B41659 /* ComicMaking.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F323D4571E8E448800B41659 /* ComicMaking.storyboard */; };
@@ -1146,6 +1147,8 @@
 		E2FBB5B21EE329A4003D7541 /* theme_bubble_0_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = theme_bubble_0_2.png; sourceTree = "<group>"; };
 		E2FBB5B31EE329A4003D7541 /* theme_bubble_0_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = theme_bubble_0_0.png; sourceTree = "<group>"; };
 		E2FBB5B41EE329A4003D7541 /* theme_bubble_0_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = theme_bubble_0_3.png; sourceTree = "<group>"; };
+		E2FBB5BA1EE5CA80003D7541 /* CMCBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMCBubbleView.h; sourceTree = "<group>"; };
+		E2FBB5BB1EE5CA80003D7541 /* CMCBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMCBubbleView.m; sourceTree = "<group>"; };
 		F317941F1E868AF40083BD19 /* GIFGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GIFGenerator.h; path = Utils/GIFGenerator.h; sourceTree = "<group>"; };
 		F31794201E868AF40083BD19 /* GIFGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GIFGenerator.m; path = Utils/GIFGenerator.m; sourceTree = "<group>"; };
 		F323D4511E8BCF7E00B41659 /* RoundCapProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoundCapProgressView.h; path = CustomizedUI/RoundCapProgressView.h; sourceTree = "<group>"; };
@@ -2897,6 +2900,15 @@
 			name = Bubble;
 			sourceTree = "<group>";
 		};
+		E2FBB5B91EE5CA64003D7541 /* CMCBubbleView */ = {
+			isa = PBXGroup;
+			children = (
+				E2FBB5BA1EE5CA80003D7541 /* CMCBubbleView.h */,
+				E2FBB5BB1EE5CA80003D7541 /* CMCBubbleView.m */,
+			);
+			name = CMCBubbleView;
+			sourceTree = "<group>";
+		};
 		F317941E1E8689110083BD19 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -2978,6 +2990,7 @@
 		F323D45A1E8E459100B41659 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E2FBB5B91EE5CA64003D7541 /* CMCBubbleView */,
 				CE1D4E091EC2F50F009D8321 /* LayoutViews */,
 				0C43F7421E9F4E7F00AB71F9 /* GroupCell */,
 				0C43F73E1E9F4E6100AB71F9 /* CMCUserCell */,
@@ -3668,6 +3681,7 @@
 				0C43F4B51E9F3CEF00AB71F9 /* GroupMember.m in Sources */,
 				0C43F3961E9F384B00AB71F9 /* SDWebImageDownloader.m in Sources */,
 				0C43F6BC1E9F483A00AB71F9 /* CropStickerViewController.m in Sources */,
+				E2FBB5BC1EE5CA80003D7541 /* CMCBubbleView.m in Sources */,
 				0C43F7071E9F4BB600AB71F9 /* ComicPageViewController.m in Sources */,
 				0C43F46F1E9F3BF600AB71F9 /* YYAnimatedImageView.m in Sources */,
 				0C43F5A61E9F417300AB71F9 /* JSONSyntaxHighlight.m in Sources */,
