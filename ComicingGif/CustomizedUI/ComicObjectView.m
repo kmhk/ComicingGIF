@@ -9,6 +9,7 @@
 #import "ComicObjectView.h"
 #import "ObjectHeader.h"
 #import <ImageIO/ImageIO.h>
+#import "CMCBubbleView.h"
 
 
 #if __has_feature(objc_arc)
@@ -20,7 +21,7 @@
 #endif
 
 
-@interface ComicObjectView()
+@interface ComicObjectView() <CMCBubbleTextViewDelegate>
 {
 	UIPanGestureRecognizer *panGesture;
 	UIRotationGestureRecognizer *rotateGesture;
@@ -86,9 +87,39 @@
     
 	for (NSInteger i = 1; i < array.count; i ++) {
 		BaseObject *obj = array[i];
-		ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
-		comicView.parentView = backgroundView;
-		comicView.delegate = userInfo;
+        ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
+        comicView.parentView = backgroundView;
+        comicView.delegate = userInfo;
+        
+        if (obj.objType == ObjectBubble) {
+            BubbleObject *initialBubbleObject = [[BubbleObject alloc] initWithText:@""
+                                                          bubbleID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 1]
+                                                     withDirection:BubbleDirectionUpperLeft];
+            [initialBubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 0]
+                                forDirection:BubbleDirectionBottomRight];
+            [initialBubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 2]
+                                forDirection:BubbleDirectionUpperRight];
+            [initialBubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 3]
+                                forDirection:BubbleDirectionBottomLeft];
+            [initialBubbleObject changeBubbleTypeTo:BubbleTypeStar];
+            
+            comicView = [[ComicObjectView alloc] initWithComicObject:initialBubbleObject];
+            comicView.parentView = backgroundView;
+            comicView.delegate = userInfo;
+            comicView.comicObject = obj;
+            
+            [comicView setFrame:CGRectMake(obj.frame.origin.x,
+                                           obj.frame.origin.y,
+                                           comicView.frame.size.width,
+                                           comicView.frame.size.height)];
+            
+            if (obj.scale != 1) {
+                comicView.transform = CGAffineTransformMakeScale(obj.scale, obj.scale);
+            }
+            
+            [comicView adjustBubbleDirectionWithBubbleViewCenter:comicView.center
+                                       withForceBubbleViewReload:YES];
+        }
         
         // For performance reasons it will be better to combine all drawings into single image view and add only this image view to the background
         if (obj.objType == ObjectPen) {
@@ -124,6 +155,38 @@
 	}
 }
 
+- (void)setDelegate:(id<ComicObjectViewDelegate>)delegate {
+    _delegate = delegate;
+    // Only for bubble objects we need to setup BubbleDelegate
+    if (self.comicObject.objType != ObjectBubble) {
+        return;
+    }
+    if (self.subviews.count == 0) {
+        return;
+    }
+    CMCBubbleView *bubbleView = (CMCBubbleView *) self.subviews.firstObject;
+    if (_delegate && [_delegate conformsToProtocol:@protocol(CMCBubbleViewDelegate)]) {
+        bubbleView.bubbleDelegate = (id<CMCBubbleViewDelegate>) _delegate;
+    }
+}
+
+- (void)setComicObject:(BaseObject *)comicObject {
+    _comicObject = comicObject;
+    // Only for bubble objects we need to change bubble image
+    if (self.comicObject.objType != ObjectBubble) {
+        return;
+    }
+    if (self.subviews.count == 0) {
+        return;
+    }
+    
+    CMCBubbleView *bubbleView = (CMCBubbleView *) self.subviews.firstObject;
+    BubbleObject *bubbleObject = (BubbleObject *) comicObject;
+    
+    bubbleView.currentBubbleType = bubbleObject.currentType;
+    [bubbleView setBubbleImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:bubbleObject.bubbleURL]]];
+    [bubbleView setBubbleText: bubbleObject.text];
+}
 
 // MARK: - priviate create methods
 - (void)createBaseImageView {
@@ -160,7 +223,21 @@
 }
 
 - (void)createBubbleView {
-	
+    BubbleObject *bubbleObject = (BubbleObject *) self.comicObject;
+    NSData *bubbleImageData = [NSData dataWithContentsOfURL:bubbleObject.bubbleURL];
+    
+    CGFloat bubbleWidth = (bubbleObject.frame.size.width / 2) - W_PADDING;
+    CGFloat bubbleHeight = (bubbleObject.frame.size.height / 2) - H_PADDING;
+    
+    NSInteger bubbleInnerRootViewOffset = BUBBLE_ROOT_VIEW_OFFSET;
+    self.frame = CGRectMake(bubbleObject.frame.origin.x,
+                            bubbleObject.frame.origin.y,
+                            bubbleWidth + bubbleInnerRootViewOffset,
+                            bubbleHeight + bubbleInnerRootViewOffset);
+    
+    [self createBubbleImageViewWithData:bubbleImageData
+                             bubbleText:bubbleObject.text
+                                  frame:CGRectMake(0, 0, bubbleWidth, bubbleHeight)];
 }
 
 - (void)createCaptionView {
@@ -190,6 +267,12 @@
 	pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGestureHandler:)];
 	[self addGestureRecognizer:pinchGesture];
 	
+    if (self.comicObject.objType == ObjectBubble) {
+        // There is no need in rotation for bubbles.
+        // Because bubble has it's own positioning system (bubble directions. See `BubbleObjectDirection` ENUM)
+        return;
+    }
+    
 	rotateGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotateGestureHandler:)];
 	[self addGestureRecognizer:rotateGesture];
 }
@@ -288,6 +371,44 @@
     UIGraphicsEndImageContext();
 }
 
+- (void)createBubbleImageViewWithData:(NSData *)imageData bubbleText:(NSString *)text frame:(CGRect)frame {
+    [self createBubbleImageViewWithData:imageData
+                             bubbleText:text
+                                  frame:frame
+        shouldReloadBubbleViewDirection:NO];
+}
+
+- (void)createBubbleImageViewWithData:(NSData *)imageData
+                           bubbleText:(NSString *)text
+                                frame:(CGRect)frame
+      shouldReloadBubbleViewDirection:(BOOL)shouldReloadBubbleViewDirection {
+    
+    BOOL shouldAddBubbleViewAsSubview = YES;
+    CMCBubbleView *bubbleView;
+    BubbleObjectDirection bubbleDirection = ((BubbleObject *) self.comicObject).currentDirection;
+    if (self.subviews.count == 0) {
+        bubbleView = [[CMCBubbleView alloc] initWithFrame:frame andBubbleDirection:bubbleDirection];
+        bubbleView.bubbleTextDelegate = self;
+    } else {
+        bubbleView = (CMCBubbleView *) self.subviews.firstObject;
+        shouldAddBubbleViewAsSubview = NO;
+    }
+    
+    [bubbleView setBubbleImage:[UIImage imageWithData:imageData]];
+    [bubbleView setBubbleText:text];
+    
+    if (bubbleView.currentBubbleDirection != bubbleDirection || shouldReloadBubbleViewDirection) {
+        bubbleView.currentBubbleDirection = bubbleDirection;
+    }
+    
+    if (shouldAddBubbleViewAsSubview) {
+        [bubbleView removeFromSuperview];
+        [self addSubview:bubbleView];
+        [bubbleView showBubbleTypesIcons];
+        [bubbleView activateTextField];
+    }
+}
+
 - (void)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag {
 	CGImageSourceRef srcImage = CGImageSourceCreateWithData(toCF data, nil);
 	if (!srcImage) {
@@ -337,6 +458,50 @@
 	[imgView startAnimating];
 }
 
+- (void)adjustBubbleDirectionWithBubbleViewCenter:(CGPoint)centerPoint {
+    [self adjustBubbleDirectionWithBubbleViewCenter:centerPoint
+                          withForceBubbleViewReload:NO];
+}
+
+- (void)adjustBubbleDirectionWithBubbleViewCenter:(CGPoint)centerPoint withForceBubbleViewReload:(BOOL)shouldReloadBubble {
+    if (self.comicObject.objType != ObjectBubble) {
+        return;
+    }
+    
+    // TODO: Move those calculation to the initialization method.
+    // We don't need to do them every time we need to determiine bubble direction
+    UIScreen *currentScreen = [UIScreen mainScreen];
+    CGRect screenBounds = currentScreen.bounds;
+    CGFloat screenHalfWidth = screenBounds.size.width / 2;
+    CGFloat screenHalfHeight = screenBounds.size.height / 2;
+    CGRect upperLeftScreenSectionRect = CGRectMake(0, 0, screenHalfWidth, screenHalfHeight);
+    CGRect upperRightScreenSectionRect = CGRectMake(screenHalfWidth, 0, screenHalfWidth, screenHalfHeight);
+    CGRect bottomLeftScreenSectionRect = CGRectMake(0, screenHalfHeight, screenHalfWidth, screenHalfHeight);
+    CGRect bottomRightScreenSectionRect = CGRectMake(screenHalfWidth, screenHalfHeight, screenHalfWidth, screenHalfHeight);
+    
+    BubbleObjectDirection currentBubbleDirection = ((BubbleObject *) self.comicObject).currentDirection;
+    BubbleObjectDirection actualBubbleDirection = currentBubbleDirection;
+    
+    if (CGRectContainsPoint(upperLeftScreenSectionRect, centerPoint)) {
+        actualBubbleDirection = BubbleDirectionUpperLeft;
+    } else if (CGRectContainsPoint(upperRightScreenSectionRect, centerPoint)) {
+        actualBubbleDirection = BubbleDirectionUpperRight;
+    } else if (CGRectContainsPoint(bottomLeftScreenSectionRect, centerPoint)) {
+        actualBubbleDirection = BubbleDirectionBottomLeft;
+    } else if (CGRectContainsPoint(bottomRightScreenSectionRect, centerPoint)) {
+        actualBubbleDirection = BubbleDirectionBottomRight;
+    }
+    
+    if (actualBubbleDirection != currentBubbleDirection || shouldReloadBubble) {
+        [((BubbleObject *) self.comicObject) switchBubbleURLToDirection:actualBubbleDirection];
+        BubbleObject *bubbleObject = (BubbleObject *) self.comicObject;
+        NSData *bubbleImageData = [NSData dataWithContentsOfURL:bubbleObject.bubbleURL];
+        [self createBubbleImageViewWithData:bubbleImageData
+                                 bubbleText:bubbleObject.text
+                                      frame:bubbleObject.frame
+            shouldReloadBubbleViewDirection:shouldReloadBubble];
+    }
+}
 
 // MARK: - gesture handler implementations
 - (void)panGestureHandler:(UIPanGestureRecognizer *)gesture {
@@ -347,8 +512,15 @@
         CGPoint translation = [gesture translationInView:gesture.view];
         gesture.view.center = CGPointMake(gesture.view.center.x + translation.x, gesture.view.center.y + translation.y);
         [gesture setTranslation:CGPointZero inView:gesture.view];
-        self.comicObject.frame = self.frame;
-		
+     
+        if (self.comicObject.objType == ObjectBubble) {
+            self.comicObject.frame = CGRectMake(self.frame.origin.x,
+                                                self.frame.origin.y,
+                                                self.comicObject.frame.size.width,
+                                                self.comicObject.frame.size.height);
+        } else {
+            self.comicObject.frame = self.frame;
+        }
 		[self.delegate saveObject];
 		
 	} else {
@@ -357,6 +529,15 @@
 			[self.delegate removeObject:self];
 		}
 	}
+    
+    if (self.comicObject.objType != ObjectBubble) {
+        // Only for bubble objects we need to adjust final resource image.
+        // Depends on bubble position on the screen
+        // Otherwise – return from this gesture handler
+        return;
+    }
+    
+    [self adjustBubbleDirectionWithBubbleViewCenter:gesture.view.center];    
 }
 
 - (void)pinchGestureHandler:(UIPinchGestureRecognizer *)gesture {
@@ -396,5 +577,19 @@
     // Drawing code
 }
 */
+
+#pragma mark - CMCBubbleView Text Delegate
+
+- (void)bubbleTextDidChange:(NSString *)text {
+    if (self.comicObject.objType != ObjectBubble) {
+        return;
+    }
+    BubbleObject *bubbleObject = (BubbleObject *) self.comicObject;
+    bubbleObject.text = text;
+    
+    if (_delegate) {
+        [_delegate saveObject];
+    }
+}
 
 @end
