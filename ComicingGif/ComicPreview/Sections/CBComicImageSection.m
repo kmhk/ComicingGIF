@@ -11,6 +11,10 @@
 #import "CBComicItemModel.h"
 #import "AppHelper.h"
 #import <ImageIO/ImageIO.h>
+#import "BaseObject.h"
+#import "BubbleObject.h"
+#import "PenObject.h"
+#import "ComicObjectView.h"
 
 #define kHorizontalMargin 0.0f
 #define kVerticalMargin 5.0f
@@ -79,11 +83,17 @@
         cell.staticImageView.image = [AppHelper getImageFile:_comicItemModel.comicPage.printScreenPath];
         //-> Loop subviews and get animation sticker and static image.
         //animation sticker you can check like …
+        
+        NSMutableArray<ComicObjectView *> *penObjectsViewsArray = [NSMutableArray new];
+        CGRect screenRect = [UIScreen mainScreen].bounds;
+        CGSize scales = CGSizeMake(cell.bounds.size.width / screenRect.size.width,
+                                   cell.bounds.size.height / screenRect.size.height);
+        
         int i = 0;
         for (NSDictionary* subview in _comicItemModel.comicPage.subviews) {
+            int objectTypeIndex = [[[subview objectForKey:@"baseInfo"] objectForKey:@"type"] intValue];
             
-            NSLog(@"Subviews - %@",subview);
-            if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue]==17) {
+            if (objectTypeIndex == ObjectAnimateGIF) {
                 //Handle top layer that is sticker gif
 //                                ComicItemAnimatedSticker *sticker = [ComicItemAnimatedSticker new];
                 CGRect frameOfObject = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
@@ -115,8 +125,46 @@
                 //                    sticker.backgroundColor = [UIColor brownColor];
                 //                    [cell.topLayerView setBackgroundColor:[UIColor greenColor]];
                 //                    cell.topLayerView.alpha = 0.4;
-            }
+                
+            } else if (objectTypeIndex == ObjectBubble) {
+                BubbleObject *bubbleObject = [[BubbleObject alloc] initFromDict:subview];
+                ComicObjectView *bubbleObjectView = [ComicObjectView createListViewComicBubbleObjectViewWithObject:bubbleObject];
 
+                CGPoint scaledOriginPoint = CGPointMake(bubbleObjectView.frame.origin.x * scales.width,
+                                                        bubbleObjectView.frame.origin.y * scales.height);
+                
+                bubbleObjectView.transform = CGAffineTransformScale(bubbleObjectView.transform, scales.width, scales.height);
+                
+                [bubbleObjectView setFrame:CGRectMake(scaledOriginPoint.x, scaledOriginPoint.y,
+                                                      bubbleObjectView.frame.size.width,
+                                                      bubbleObjectView.frame.size.height)];                
+                
+                cell.topLayerView.bounds = CGRectInset(cell.topLayerView.frame, kVerticalMargin, kVerticalMargin);
+                [cell.topLayerView setFrame:cell.frame];
+                [cell.topLayerView addSubview:bubbleObjectView];
+                
+            } else if (objectTypeIndex == ObjectPen) {
+                PenObject *penObject = [[PenObject alloc] initFromDict:subview];
+                ComicObjectView *drawingObjectView = [[ComicObjectView alloc] initWithComicObject:penObject];
+                [penObjectsViewsArray addObject:drawingObjectView];
+            }
+        }
+        
+        UIImageView *allDrawingsImageView = [ComicObjectView createListViewComicPenObjectViewsWithArray:penObjectsViewsArray];
+        if (allDrawingsImageView) {
+            
+            allDrawingsImageView.transform = CGAffineTransformMakeScale(scales.width, scales.height);
+            [allDrawingsImageView setFrame:CGRectMake(0,
+                                                      0,
+                                                      allDrawingsImageView.frame.size.width,
+                                                      allDrawingsImageView.frame.size.height)];
+            [cell.topLayerView setFrame:cell.frame];
+            cell.topLayerView.bounds = CGRectInset(cell.topLayerView.frame, kVerticalMargin, kVerticalMargin);
+            if (cell.topLayerView.subviews.count > 0) {
+                [cell.topLayerView insertSubview:allDrawingsImageView atIndex:0];
+            } else {
+                [cell.topLayerView addSubview:allDrawingsImageView];
+            }
         }
         
         //Handle static Image… here we have to create an abstract class in ComicItem called class name as ComicItemStaticImage
