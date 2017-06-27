@@ -16,6 +16,7 @@
 #import "PenObject.h"
 #import "ComicObjectView.h"
 #import "Constants.h"
+#import "CaptionObject.h"
 
 #define kHorizontalMargin 0.0f
 #define kVerticalMargin 5.0f
@@ -178,8 +179,19 @@
                 PenObject *penObject = [[PenObject alloc] initFromDict:subview];
                 ComicObjectView *drawingObjectView = [[ComicObjectView alloc] initWithComicObject:penObject];
                 [penObjectsViewsArray addObject:drawingObjectView];
+            } else if (objectTypeIndex == ObjectCaption) {
+                CaptionObject *captionObject = [[CaptionObject alloc] initFromDict:subview];
+                ComicObjectView *captionObjectView = [ComicObjectView createListViewComicCaptionObjectViewWithObject:captionObject];
+                CGPoint scaledOriginPoint = CGPointMake(captionObjectView.frame.origin.x * scales.width,
+                                                        captionObjectView.frame.origin.y * scales.height);
+                captionObjectView.transform = CGAffineTransformScale(captionObjectView.transform, scales.width, scales.height);
+                [captionObjectView setFrame:CGRectMake(scaledOriginPoint.x, scaledOriginPoint.y,
+                                                      captionObjectView.frame.size.width,
+                                                      captionObjectView.frame.size.height)];
+                cell.topLayerView.bounds = CGRectInset(cell.topLayerView.frame, kVerticalMargin, kVerticalMargin);
+                [cell.topLayerView setFrame:cell.frame];
+                [cell.topLayerView addSubview:captionObjectView];
             }
-            
         }
         
         UIImageView *allDrawingsImageView = [ComicObjectView createListViewComicPenObjectViewsWithArray:penObjectsViewsArray];
