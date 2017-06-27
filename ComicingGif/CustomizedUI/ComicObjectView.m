@@ -88,6 +88,17 @@
     return allDrawingsImageView;
 }
 
++ (ComicObjectView *)createListViewComicCaptionObjectViewWithObject:(CaptionObject *)captionObject {
+    ComicObjectView *captionObjectView = [[ComicObjectView alloc] initWithComicObject:captionObject];
+    
+    CMCCaptionView *captionView = (CMCCaptionView *) captionObjectView.subviews.firstObject;
+    [captionView hidePlusIcon];
+    [captionView hideCaptionSubicons];
+    [captionView stopShowingCaptionTypeIcons];
+    
+    return captionObjectView;
+}
+
 + (ComicObjectView *)createListViewComicBubbleObjectViewWithObject:(BubbleObject *)bubbleObject {
     BubbleObject *initialBubbleObject = [[BubbleObject alloc] initWithText:@""
                                                                   bubbleID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 1]

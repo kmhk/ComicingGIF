@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#include "BubbleObject.h"
+#import "BubbleObject.h"
+#import "CaptionObject.h"
 #import "TimerImageViewStruct.h"
 
 @class BaseObject;
@@ -43,6 +44,7 @@
 @property (strong, nonatomic) UIView *parentView;
 
 + (ComicObjectView *)createListViewComicBubbleObjectViewWithObject:(BubbleObject *)bubbleObject;
++ (ComicObjectView *)createListViewComicCaptionObjectViewWithObject:(CaptionObject *)captionObject;
 + (UIImageView *)createListViewComicPenObjectViewsWithArray:(inout NSArray<ComicObjectView *> *)penObjectViewsArray;
 
 @end
