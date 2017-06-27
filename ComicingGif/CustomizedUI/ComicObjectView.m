@@ -10,6 +10,7 @@
 #import "ObjectHeader.h"
 #import <ImageIO/ImageIO.h>
 #import "CMCBubbleView.h"
+#import "CMCCaptionView.h"
 
 
 #if __has_feature(objc_arc)
@@ -21,7 +22,7 @@
 #endif
 
 
-@interface ComicObjectView() <CMCBubbleTextViewDelegate>
+@interface ComicObjectView() <CMCBubbleTextViewDelegate, CMCCaptionTextViewDelegate>
 {
 	UIPanGestureRecognizer *panGesture;
 	UIRotationGestureRecognizer *rotateGesture;
@@ -214,34 +215,68 @@
 - (void)setDelegate:(id<ComicObjectViewDelegate>)delegate {
     _delegate = delegate;
     // Only for bubble objects we need to setup BubbleDelegate
-    if (self.comicObject.objType != ObjectBubble) {
+    if (self.comicObject.objType == ObjectBubble) {
+        if (self.subviews.count == 0) {
+            return;
+        }
+        CMCBubbleView *bubbleView = (CMCBubbleView *) self.subviews.firstObject;
+        if (_delegate && [_delegate conformsToProtocol:@protocol(CMCBubbleViewDelegate)]) {
+            bubbleView.bubbleDelegate = (id<CMCBubbleViewDelegate>) _delegate;
+        }
         return;
     }
-    if (self.subviews.count == 0) {
+    
+    if (self.comicObject.objType == ObjectCaption) {
+        if (self.subviews.count == 0) {
+            return;
+        }
+        CMCCaptionView *bubbleView = (CMCCaptionView *) self.subviews.firstObject;
+        if (_delegate && [_delegate conformsToProtocol:@protocol(CMCCaptionViewDelegate)]) {
+            bubbleView.captionDelegate = (id<CMCCaptionViewDelegate>) _delegate;
+        }
         return;
     }
-    CMCBubbleView *bubbleView = (CMCBubbleView *) self.subviews.firstObject;
-    if (_delegate && [_delegate conformsToProtocol:@protocol(CMCBubbleViewDelegate)]) {
-        bubbleView.bubbleDelegate = (id<CMCBubbleViewDelegate>) _delegate;
-    }
+    
 }
 
 - (void)setComicObject:(BaseObject *)comicObject {
     _comicObject = comicObject;
-    // Only for bubble objects we need to change bubble image
-    if (self.comicObject.objType != ObjectBubble) {
-        return;
-    }
-    if (self.subviews.count == 0) {
+    
+    if (self.comicObject.objType == ObjectBubble) {
+        // Only for bubble objects we need to change bubble image
+        if (self.subviews.count == 0) {
+            return;
+        }
+        CMCBubbleView *bubbleView = (CMCBubbleView *) self.subviews.firstObject;
+        BubbleObject *bubbleObject = (BubbleObject *) comicObject;
+        bubbleView.currentBubbleType = bubbleObject.currentType;
+        [bubbleView setBubbleImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:bubbleObject.bubbleURL]]];
+        [bubbleView setBubbleText: bubbleObject.text];
         return;
     }
     
-    CMCBubbleView *bubbleView = (CMCBubbleView *) self.subviews.firstObject;
-    BubbleObject *bubbleObject = (BubbleObject *) comicObject;
-    
-    bubbleView.currentBubbleType = bubbleObject.currentType;
-    [bubbleView setBubbleImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:bubbleObject.bubbleURL]]];
-    [bubbleView setBubbleText: bubbleObject.text];
+    if (self.comicObject.objType == ObjectCaption) {
+        if (self.subviews.count == 0) {
+            return;
+        }
+        CMCCaptionView *captionView = (CMCCaptionView *) self.subviews.firstObject;
+        CaptionObject *captionObject = (CaptionObject *) comicObject;
+        
+        CGFloat captionViewOffset = CAPTION_INNER_OFFSET;
+        self.frame = CGRectMake(captionObject.frame.origin.x,
+                                captionObject.frame.origin.y - captionViewOffset,
+                                captionObject.frame.size.width,
+                                captionObject.frame.size.height + captionViewOffset);        
+        captionView.frame = CGRectMake(0,
+                                       captionViewOffset,
+                                       captionObject.frame.size.width,
+                                       captionObject.frame.size.height);
+        
+        captionView.currentCaptionType = captionObject.type;
+        [captionView setCaptionText:captionObject.text];
+        
+        return;
+    }
 }
 
 // MARK: - priviate create methods
@@ -304,7 +339,15 @@
 }
 
 - (void)createCaptionView {
-	
+    CaptionObject *captionObject = (CaptionObject *) self.comicObject;
+    CGFloat captionViewOffset = CAPTION_INNER_OFFSET;
+    self.frame = CGRectMake(captionObject.frame.origin.x,
+                            captionObject.frame.origin.y - captionViewOffset,
+                            captionObject.frame.size.width,
+                            captionObject.frame.size.height + captionViewOffset);
+    [self createCaptionViewWithText:captionObject.text
+                               type:captionObject.type
+                           andFrame:CGRectMake(0, captionViewOffset, captionObject.frame.size.width, captionObject.frame.size.height)];
 }
 
 - (void)createPenView {
@@ -326,6 +369,11 @@
 - (void)addGestures {
 	panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureHandler:)];
 	[self addGestureRecognizer:panGesture];
+    
+    if (self.comicObject.objType == ObjectCaption) {
+        // We don't need pinch to zoom or rotatation gestures for Caption
+        return;
+    }
 	
 	pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGestureHandler:)];
 	[self addGestureRecognizer:pinchGesture];
@@ -472,6 +520,27 @@
     }
 }
 
+- (void)createCaptionViewWithText:(NSString *)text
+                             type:(CaptionObjectType)type
+                         andFrame:(CGRect)frame {
+    BOOL shouldAddBubbleViewAsSubview = YES;
+    CMCCaptionView *captionView;
+    if (self.subviews.count == 0) {
+        captionView = [[CMCCaptionView alloc] initWithFrame:frame andCaptionType:type];
+        captionView.captionTextDelegate = self;
+    } else {
+        captionView = (CMCCaptionView *) self.subviews.firstObject;
+        shouldAddBubbleViewAsSubview = NO;
+    }
+    [captionView setCaptionText:text];
+    if (shouldAddBubbleViewAsSubview) {
+        [captionView removeFromSuperview];
+        [self addSubview:captionView];
+        [captionView showCaptionTypeIcons];
+        [captionView activateTextField];
+    }
+}
+
 - (UIImageView *)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag {
 	CGImageSourceRef srcImage = CGImageSourceCreateWithData(toCF data, nil);
 	if (!srcImage) {
@@ -583,6 +652,11 @@
                                                 self.frame.origin.y,
                                                 self.comicObject.frame.size.width,
                                                 self.comicObject.frame.size.height);
+        } else if (self.comicObject.objType == ObjectCaption) {
+            self.comicObject.frame = CGRectMake(self.frame.origin.x,
+                                                self.frame.origin.y,
+                                                self.comicObject.frame.size.width,
+                                                self.comicObject.frame.size.height);
         } else {
             self.comicObject.frame = self.frame;
         }
@@ -652,6 +726,19 @@
     BubbleObject *bubbleObject = (BubbleObject *) self.comicObject;
     bubbleObject.text = text;
     
+    if (_delegate) {
+        [_delegate saveObject];
+    }
+}
+
+#pragma mark - CMCCaptionView Text Delegate
+
+- (void)captionTextDidChange:(NSString *)text {
+    if (self.comicObject.objType != ObjectCaption) {
+        return;
+    }
+    CaptionObject *captionObject = (CaptionObject *) self.comicObject;
+    captionObject.text = text;
     if (_delegate) {
         [_delegate saveObject];
     }
