@@ -14,8 +14,6 @@
 
 @protocol CMCBubbleViewDelegate <NSObject>
 @required
-//- (void)bubbleTypeSubiconDidClickWithSenderView:(id)sender
-//                                  andBubbleType:(BubbleObjectType)bubbleType;
 - (void)bubbleTypeSubiconDidClickWithSelectedBubbleType:(BubbleObjectType)bubbleType
                                          andCurrentText:(NSString *)bubbleText
                                    forCurrentBubbleView:(id)sender
@@ -29,7 +27,7 @@
 
 @interface CMCBubbleView : UIView
 
-@property (nonatomic) BubbleObjectType currentBubbleType; // TODO: use bubble type to deternime correct spacing between elements.
+@property (nonatomic) BubbleObjectType currentBubbleType;
 @property (nonatomic) BubbleObjectDirection currentBubbleDirection;
 @property (nonatomic) id<CMCBubbleViewDelegate> bubbleDelegate;
 @property (nonatomic) id<CMCBubbleTextViewDelegate> bubbleTextDelegate;
