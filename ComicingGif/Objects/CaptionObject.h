@@ -10,14 +10,18 @@
 
 @interface CaptionObject : BaseObject
 
-// caption string
+typedef NS_ENUM(NSInteger, CaptionObjectType) {
+    CaptionTypeDefault,
+    CaptionTypeTextWithoutBackgroun,
+    CaptionTypeYellowBox
+};
+
 @property (nonatomic) NSString *text;
+@property (nonatomic) CaptionObjectType type;
 
-// caption color
-@property (nonatomic) UIColor *color;
+- (id)initWithText:(NSString *)text captionType:(CaptionObjectType)captionType;
+- (id)initWithText:(NSString *)text captionType:(CaptionObjectType)captionType andFrame:(CGRect)frame;
 
-
-// create caption object with text
-- (id)initWithText:(NSString *)txt color:(UIColor *)color;
+- (void)changeCaptionTypeTo:(CaptionObjectType)captionType;
 
 @end
