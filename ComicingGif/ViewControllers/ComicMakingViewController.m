@@ -737,6 +737,29 @@
 
 
 - (IBAction)btnToolTextTapped:(id)sender {
+    CGRect screenBounds = [UIScreen mainScreen].bounds;
+    CaptionObject *captionObject = [[CaptionObject alloc] initWithText:@""
+                                                           captionType:CaptionTypeDefault
+                                                              andFrame:CGRectMake(5, 200, screenBounds.size.width - 20, 30)];
+    CGFloat timeDelay = self.scrollBarSlider.value;
+    captionObject.delayTimeInSeconds = timeDelay;
+    
+    [viewModel addObject:captionObject];
+    
+    ComicObjectView *captionComicObjectView = [[ComicObjectView alloc] initWithComicObject:captionObject];
+    captionComicObjectView.parentView = backgroundView;
+    captionComicObjectView.delegate = self;
+    [backgroundView addSubview:captionComicObjectView];
+    
+    // TODO : test is everything is fine
+    captionComicObjectView.tag = (enhancementsBaseTag) + enhancementsBaseTagCount++;
+//    [self.timerImageViews addObjectsFromArray:captionComicObjectView.timerImageViews];
+    [self addIconToScrollBarAfterAdditionOfComicObjectViewWithTag:captionComicObjectView.tag
+                                                andBaseObjectType:captionObject.objType
+                                                   andSliderValue:self.scrollBarSlider.value];
+    
+    
+    [viewModel saveObject];
 }
 
 - (IBAction)buttonPenUndoTapped:(id)sender {
@@ -1051,9 +1074,11 @@
     UIButton *iconButton = [[UIButton alloc] initWithFrame:[self.scrollBarSlider getCurrentRectForScollBarIconWithSliderValue:sliderValue]];
     iconButton.tag = tag;
     
-//    if (obj.objType == ObjectAnimateGIF) {
+    if (type == ObjectCaption) {
+        [iconButton setImage:[UIImage imageNamed:@"caption-slider-icon"] forState:UIControlStateNormal];
+    } else {
         [iconButton setImage:[UIImage imageNamed:@"Bubble"] forState:UIControlStateNormal];
-//    }
+    }
     
     [[self.scrollBarSlider superview] addSubview:iconButton];
     [iconButton addTarget:self action:@selector(iconTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -1379,6 +1404,40 @@
             [self.baseLayerView addSubview:sticker];
         }
     }
+}
+
+#pragma mark - CMCCaptionView Delegate Methods
+
+- (void)captionTypeSubiconDidClickWithSelectedCaptionType:(CaptionObjectType)type
+                                           andCurrentText:(NSString *)text
+                                    forCurrentCaptionView:(CMCCaptionView *)sender
+                                              andRootView:(ComicObjectView *)comicObjectView {
+    [viewModel.arrayObjects removeObject:comicObjectView.comicObject];
+    
+    CaptionObject *oldCaptionObject = (CaptionObject *) comicObjectView.comicObject;
+    CaptionObject *newCaptionObject = [[CaptionObject alloc] initWithText:text captionType:type];
+    
+    newCaptionObject.delayTimeInSeconds = oldCaptionObject.delayTimeInSeconds;
+    
+    CGRect screenBounds = [UIScreen mainScreen].bounds;
+    CGRect captionObjectFrame;
+    if (type == CaptionTypeYellowBox) {
+        CGFloat boxWidth = (screenBounds.size.width - 20)/2;
+        CGFloat boxHeight = 70;
+        captionObjectFrame = CGRectMake(screenBounds.size.width - boxWidth - 17, -5,
+                                        boxWidth, boxHeight);
+        
+    } else {
+        captionObjectFrame = CGRectMake(oldCaptionObject.frame.origin.x,
+                                        oldCaptionObject.frame.origin.y,
+                                        screenBounds.size.width - 20, 30);
+    }
+    
+    newCaptionObject.frame = captionObjectFrame;
+    comicObjectView.comicObject = newCaptionObject;
+    
+    [viewModel addObject:newCaptionObject];
+    [viewModel saveObject];
 }
 
 #pragma mark - CMCBubbleView Delegate Methods

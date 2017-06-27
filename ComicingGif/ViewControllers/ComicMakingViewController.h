@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ComicObjectView.h"
 #import "CMCBubbleView.h"
+#import "CMCCaptionView.h"
 
 
 @interface ComicMakingViewController : UIViewController
@@ -18,7 +19,8 @@ UICollectionViewDataSource,
 UICollectionViewDelegateFlowLayout,
 UIGestureRecognizerDelegate,
 ComicObjectViewDelegate,
-CMCBubbleViewDelegate
+CMCBubbleViewDelegate,
+CMCCaptionViewDelegate
 >
 
 // initialize comic making view controller with background GIF/Image from url
