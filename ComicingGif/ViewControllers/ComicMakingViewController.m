@@ -589,8 +589,13 @@
         if (noBaseLayerComicObjectViews.count >= 1) {
             //By removing first object base layer fix the issue where the icon for base layer appears at start always
             for (int i = 1; i < noBaseLayerComicObjectViews.count; i++) {
+                if (![noBaseLayerComicObjectViews[i] isKindOfClass:[ComicObjectView class]]) {
+                    continue;
+                }
                 ComicObjectView *comicObjectView = noBaseLayerComicObjectViews[i];
-                [self addIconToScrollBarAfterAdditionOfComicObjectViewWithTag:comicObjectView.tag andBaseObjectType:comicObjectView.comicObject.objType andSliderValue:comicObjectView.delayTimeInSeconds];
+                [self addIconToScrollBarAfterAdditionOfComicObjectViewWithTag:comicObjectView.tag
+                                                            andBaseObjectType:comicObjectView.comicObject.objType
+                                                               andSliderValue:comicObjectView.delayTimeInSeconds];
             }
         }
     }
