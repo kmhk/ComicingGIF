@@ -54,8 +54,9 @@
 		return obj;
 		
 	} else if (type == ObjectCaption) {
-//		CaptionObject *obj = [[CaptionObject alloc] initWithText:sender];
-//		return obj;
+        CaptionObject *obj = [[CaptionObject alloc] initWithText:sender[@"text"]
+                                                     captionType:[sender[@"captionType"] integerValue]];
+		return obj;
 	}
 	
 	return nil;
@@ -91,6 +92,9 @@
     } else if (type == ObjectBubble) {
         BubbleObject *bubbleObject = [[BubbleObject alloc] initFromDict:dict];
         return bubbleObject;
+    } else if (type == ObjectCaption) {
+        CaptionObject *captionObject = [[CaptionObject alloc] initFromDict:dict];
+        return captionObject;
     }
 	
 	return nil;
