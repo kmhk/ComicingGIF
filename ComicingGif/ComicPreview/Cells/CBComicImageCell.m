@@ -7,6 +7,19 @@
 //
 
 #import "CBComicImageCell.h"
+#import <ImageIO/ImageIO.h>
+
+#if __has_feature(objc_arc)
+#define toCF (__bridge CFTypeRef)
+#define fromCF (__bridge id)
+#else
+#define toCF (CFTypeRef)
+#define fromCF (id)
+#endif
+
+#define discreteValueOfSeconds 0.01
+
+#define W_H 40
 
 @implementation CBComicImageCell
 
@@ -26,28 +39,12 @@
     
     NSData *gifData = [self getGifDataFromFileName:_comicItemModel.comicPage.gifLayerPath];
     
-//    cell.baseLayerImageView.image = [[FLAnimatedImage alloc] initWithAnimatedGIFData:gifData];
-    
-    //
-    //
-    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    //        NSLog(@"Count of animated images - %lu",cell.baseLayerImageView.animatedImage.frameCount);
-    //        cell.baseLayerImageView.currentFrameIndex = 0;
-    //        [cell.baseLayerImageView stopAnimating];
-    //    });
-    
-    
-    
-    
-    
-    
     UIImageView *baseImageView = [self createImageViewWith:gifData frame:cell.baseLayerImageView.frame bAnimate:YES withAnimation:NO];
     [self setGifPropertiesOfImageView:baseImageView toNewImageView:cell.baseLayerImageView];
     
     if (baseImageView.animationImages.count > 1)//_comicItemModel.isBaseLayerGif)
     {
         // NEED to handle 3 layer
-        //        cell.baseLayerImageView.image = [AppHelper getGifFile:_comicItemModel.comicPage.gifLayerPath];
         
         [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:cell.baseLayerImageView delayTime:0 andObjectType:ObjectAnimateGIF]];
         

@@ -14,13 +14,4 @@
 
 @interface CBComicImageSection : CBBaseCollectionViewSection
 
-@property (strong, nonatomic) CBComicItemModel *comicItemModel;
-@property (strong, nonatomic) NSTimer *mainSlideTimer;
-@property (assign, nonatomic) CGFloat currentTimeInterval;
-@property (assign, nonatomic) CGFloat maxTimeOfFullAnimation;
-
-@property (strong, nonatomic) NSMutableArray<TimerImageViewStruct*> *timerImageViews;
-
-- (void)createUIForCell:(CBComicImageCell *)cell withIndex:(NSInteger)index andFrame : (CGRect ) rect;
-
 @end

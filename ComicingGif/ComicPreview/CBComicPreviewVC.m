@@ -132,6 +132,12 @@ CBComicPageCollectionDelegate
 //    });
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self startPlayingOneByOne];
+}
+
 - (void)refreshSlideAtIndex:(NSInteger)indexOfSlide isTall:(BOOL)isTall completionBlock:(void (^)(BOOL))completionBlock {
     if (indexOfSlide+1 > self.dataArray.count) {
         return;
@@ -271,6 +277,19 @@ CBComicPageCollectionDelegate
         
         [self.tableView reloadData];
     }
+}
+
+#pragma mark - Play one by one
+
+- (void)setInitialFrameForAllSlides {
+    NSInteger numberOfSlides = [self.comicPageCollectionVC.collectionView numberOfItemsInSection:0];
+    for (int i = 0; i< numberOfSlides; i++) {
+        
+    }
+}
+
+- (void)startPlayingOneByOne {
+    [self setInitialFrameForAllSlides];
 }
 
 #pragma mark - ZoomTransitionProtocol
