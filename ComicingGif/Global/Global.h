@@ -52,5 +52,6 @@ typedef enum {
 + (CGSize)getTallBigSlideSize;
 + (CGSize)getTallSmallSlideSize;
 + (CGSize)getWideSlideSize;
++ (NSInteger)getWidthOfSlideAsPerUIImplemented;
 
 @end

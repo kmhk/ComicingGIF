@@ -29,11 +29,12 @@
 #import "ComicPreviewModel.h"
 #import <Photos/Photos.h>
 #import "CBComicPageCollectionVC.h"
+#import "CBComicImageCell.h"
 
 #define kPreviewViewTag 12001
 
 @interface CBComicPreviewVC () <ZoomTransitionProtocol, UIGestureRecognizerDelegate, TitleFontDelegate, ComicBookColorCBViewControllerDelegate, CBPreviewHeaderDelegate,
-CBComicPageCollectionDelegate
+CBComicPageCollectionDelegate,PlayOneByOneLooper
 //,CBComicPageViewControllerDelegate
 > {
     UILabel *headerTitleTextView;
@@ -183,6 +184,16 @@ CBComicPageCollectionDelegate
     _shouldFetchAndReload = NO;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    NSInteger numberOfSlides = [self.comicPageCollectionVC.collectionView numberOfItemsInSection:0];
+    for (int i = 0; i< numberOfSlides; i++) {
+        CBComicImageCell *slideCell = (CBComicImageCell *)[self.comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:0]];
+        [slideCell stopAllGifPlays];
+    }
+}
+
 - (void)prepareView 
 {
 //    self.comicSlides = [self getDataFromFile];
@@ -284,12 +295,29 @@ CBComicPageCollectionDelegate
 - (void)setInitialFrameForAllSlides {
     NSInteger numberOfSlides = [self.comicPageCollectionVC.collectionView numberOfItemsInSection:0];
     for (int i = 0; i< numberOfSlides; i++) {
-        
+        CBComicImageCell *slideCell = (CBComicImageCell *)[self.comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:0]];
+        slideCell.playOneByOneDelegate = self;
+        [slideCell setInitialFrameOfCell];
     }
 }
 
 - (void)startPlayingOneByOne {
     [self setInitialFrameForAllSlides];
+    
+    [self slideDidFinishPlayingOnceWithIndex:0];
+}
+
+- (void)slideDidFinishPlayingOnceWithIndex:(NSInteger)index {
+    NSInteger numberOfSlides = [self.comicPageCollectionVC.collectionView numberOfItemsInSection:0];
+    if (index >= numberOfSlides) {
+        //There are no more slides left
+        
+        //Restart play one by one
+        [self slideDidFinishPlayingOnceWithIndex:0];
+        return;
+    }
+    CBComicImageCell *slideCell = (CBComicImageCell *)[self.comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
+    [slideCell animateOnce];
 }
 
 #pragma mark - ZoomTransitionProtocol

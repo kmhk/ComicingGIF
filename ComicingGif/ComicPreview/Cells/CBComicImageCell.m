@@ -28,10 +28,14 @@
     self.containerView.clipsToBounds = YES;
     self.containerView.layer.borderColor = [UIColor blackColor].CGColor;
     self.containerView.layer.borderWidth = 3.0f;
+    
+    if (_maxTimeOfFullAnimation < 3) {
+        _maxTimeOfFullAnimation = 3;
+    }
 }
 
 - (void)createUIForCell:(CBComicImageCell *)cell withIndex:(NSInteger)index andFrame : (CGRect ) rect {
-    
+    _index = index;
     NSLog(@"\n\n\nCELLLLLLLLLLLLLLLLL B: %lu %@, CollFrame: %@", index, _comicItemModel.comicPage.subviews, NSStringFromCGRect(rect));
     for (UIView *view in [cell.topLayerView subviews]) {
         [view removeFromSuperview];
@@ -46,9 +50,9 @@
     {
         // NEED to handle 3 layer
         
-        [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:cell.baseLayerImageView delayTime:0 andObjectType:ObjectAnimateGIF]];
-        
-        self.maxTimeOfFullAnimation = cell.baseLayerImageView.animationDuration;
+        TimerImageViewStruct *timerImageViewStruct = [[TimerImageViewStruct alloc]initWithImageView:cell.baseLayerImageView delayTime:0 andObjectType:ObjectAnimateGIF];
+        [self.timerImageViews addObject:timerImageViewStruct];
+        [self reCalculateMaxTimeWithDelay:timerImageViewStruct.delayTimeOfImageView andGifPlayTime:timerImageViewStruct.imageView.animationDuration];
         
 //        cell.staticImageView.image = [AppHelper getImageFile:_comicItemModel.comicPage.printScreenPath];
         //-> Loop subviews and get animation sticker and static image.
@@ -71,7 +75,7 @@
                 CGRect rectOfGif;
                 //                sticker.image =  [UIImage sd_animatedGIFWithData:gifData];
                 
-                CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
+                CGFloat ratioWidth = rect.size.width / [Global getWidthOfSlideAsPerUIImplemented]; //ratio SlideView To ScreenSize
                 //                CGFloat ratioHeight = rect.size.height / SCREEN_HEIGHT;
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
                     rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth - W_H)/2, (frameOfObject.size.height * ratioWidth - W_H)/2);
@@ -80,7 +84,7 @@
                 }
                 i ++;
                 
-                
+                NSLog(@"GGGGGGGGGGGGGGGG   %@",NSStringFromCGRect(rectOfGif));
                 UIImageView *stickerImageView = [self createImageViewWith:gifData frame:rectOfGif bAnimate:YES withAnimation:NO];
                 
                 CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
@@ -88,7 +92,18 @@
                 [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
                 [cell.topLayerView addSubview:stickerImageView];
                 
-                [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:stickerImageView delayTime:[[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue] andObjectType:ObjectAnimateGIF]];
+//                [cell.topLayerView addConstraint:[NSLayoutConstraint constraintWithItem:cell.topLayerView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:stickerImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:rectOfGif.origin.x]];
+//                
+//                [cell.topLayerView addConstraint:[NSLayoutConstraint constraintWithItem:cell.topLayerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:stickerImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:rectOfGif.origin.y]];
+//                
+//                [cell.topLayerView addConstraint:[NSLayoutConstraint constraintWithItem:stickerImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:rectOfGif.size.height]];
+//                
+//                [cell.topLayerView addConstraint:[NSLayoutConstraint constraintWithItem:stickerImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:rectOfGif.size.width]];
+                
+                TimerImageViewStruct *timerImageViewStruct = [[TimerImageViewStruct alloc]initWithImageView:stickerImageView delayTime:[[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue] andObjectType:ObjectAnimateGIF];
+                [self.timerImageViews addObject:timerImageViewStruct];
+                [self reCalculateMaxTimeWithDelay:timerImageViewStruct.delayTimeOfImageView andGifPlayTime:timerImageViewStruct.imageView.animationDuration];
+                
             }
             
             //18 is for static stickers
@@ -101,7 +116,7 @@
                 NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
                 CGRect rectOfGif;
                 
-                CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
+                CGFloat ratioWidth = rect.size.width / [Global getWidthOfSlideAsPerUIImplemented]; //ratio SlideView To ScreenSize
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
                     rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth - W_H)/2, (frameOfObject.size.height * ratioWidth - W_H)/2);
                 } else {
@@ -121,19 +136,10 @@
                 [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:stickerImageView delayTime:[[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue] andObjectType:ObjectSticker]];
             }
         }
-        
-        [_mainSlideTimer invalidate];
-        _mainSlideTimer = nil;
-        _mainSlideTimer = [NSTimer scheduledTimerWithTimeInterval:discreteValueOfSeconds
-                                                           target:self
-                                                         selector:@selector(mainTimer:)
-                                                         userInfo:nil
-                                                          repeats:YES];
     } else {
         // This can be 2 layer or single layer
         
         //        cell.baseLayerImageView.image = [AppHelper getImageFile:_comicItemModel.comicPage.printScreenPath];
-        self.maxTimeOfFullAnimation = 0;
         //-> Loop subviews
         int i = 0;
         for (id subview in _comicItemModel.comicPage.subviews) {
@@ -152,7 +158,7 @@
                 CGRect rectOfGif;
                 //                sticker.image =  [UIImage sd_animatedGIFWithData:gifData];
                 
-                CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
+                CGFloat ratioWidth = rect.size.width / [Global getWidthOfSlideAsPerUIImplemented]; //ratio SlideView To ScreenSize
                 //                CGFloat ratioHeight = rect.size.height / SCREEN_HEIGHT;
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
                     rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth)/2, (frameOfObject.size.width * ratioWidth - W_H)/2, (frameOfObject.size.height * ratioWidth - W_H)/2);
@@ -190,7 +196,7 @@
                 NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
                 CGRect rectOfGif;
                 
-                CGFloat ratioWidth = rect.size.width / SCREEN_WIDTH; //ratio SlideView To ScreenSize
+                CGFloat ratioWidth = rect.size.width / [Global getWidthOfSlideAsPerUIImplemented]; //ratio SlideView To ScreenSize
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
                     rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth)/2, (frameOfObject.origin.y * ratioWidth - W_H)/2, (frameOfObject.size.width * ratioWidth)/2, (frameOfObject.size.height * ratioWidth - W_H)/2);
                 } else {
@@ -294,10 +300,25 @@
     return gifData;
 }
 
-- (void)mainTimer:(NSTimer *)timer {
-    if (_currentTimeInterval > _maxTimeOfFullAnimation) {
-        _currentTimeInterval = 0;
+- (void)reCalculateMaxTimeWithDelay:(CGFloat)delayTime andGifPlayTime:(CGFloat)playTime {
+    if ((delayTime + playTime) > _maxTimeOfFullAnimation) {
+        _maxTimeOfFullAnimation = delayTime + playTime;
     }
+}
+
+- (void)mainTimer:(NSTimer *)timer {
+    _isSlidePlaying = YES;
+    if (_currentTimeInterval > _maxTimeOfFullAnimation) {
+        [self stopAllGifPlays];
+        
+        if (self.playOneByOneDelegate && [self.playOneByOneDelegate conformsToProtocol:@protocol(PlayOneByOneLooper)] && [self.playOneByOneDelegate respondsToSelector:@selector(slideDidFinishPlayingOnceWithIndex:)]) {
+            //This method will make the main controller to start animation of next slide
+            [self.playOneByOneDelegate slideDidFinishPlayingOnceWithIndex:_index + 1];
+            _isSlidePlaying = NO;
+        }
+        return;
+    }
+    
     for (TimerImageViewStruct *timerImageView in self.timerImageViews) {
         
         if (timerImageView.delayTimeOfImageView == 0) {
@@ -311,6 +332,11 @@
             }
             if (timerImageView.imageView.hidden == NO && (_currentTimeInterval < timerImageView.delayTimeOfImageView)) {
                 timerImageView.imageView.hidden = YES;
+                [timerImageView.imageView stopAnimating];
+            }
+            if (_currentTimeInterval > timerImageView.imageView.animationDuration + timerImageView.delayTimeOfImageView) {
+                timerImageView.imageView.image = nil;
+                timerImageView.imageView.image = [timerImageView.imageView.animationImages lastObject];
                 [timerImageView.imageView stopAnimating];
             }
         } else {  // FOR IMAGES
@@ -328,6 +354,49 @@
 - (void)makeImageViewStartItsAnimationFromFirstFrame:(UIImageView *)imageView {
     imageView.image = [imageView.animationImages firstObject];
     [imageView startAnimating];
+}
+
+#pragma mark - Play one by one
+
+- (void)setInitialFrameOfCell {
+    [self stopAllGifPlays];
+}
+
+- (void)animateOnce {
+    //Start the play after some time
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self startTimer];
+//    });
+}
+
+- (void)startTimer {
+    [self setBorderColorWithPlayingStatus:YES];
+    
+    [_mainSlideTimer invalidate];
+    _mainSlideTimer = nil;
+    _mainSlideTimer = [NSTimer scheduledTimerWithTimeInterval:discreteValueOfSeconds
+                                                       target:self
+                                                     selector:@selector(mainTimer:)
+                                                     userInfo:nil
+                                                      repeats:YES];
+}
+
+- (void)stopAllGifPlays {
+    for (TimerImageViewStruct *timerImageView in self.timerImageViews) {
+        [timerImageView.imageView stopAnimating];
+    }
+    [_mainSlideTimer invalidate];
+    _mainSlideTimer = nil;
+    _currentTimeInterval = 0;
+    [self setBorderColorWithPlayingStatus:NO];
+}
+
+- (void)setBorderColorWithPlayingStatus:(BOOL)isPlaying {
+    if (isPlaying) {
+        self.containerView.layer.borderColor = [UIColor yellowColor].CGColor;
+    } else {
+        self.containerView.layer.borderColor = [UIColor blackColor].CGColor;
+    }
 }
 
 @end

@@ -526,7 +526,7 @@
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (!_isDrawing) {
         UIView *touchView = [touches anyObject].view;
-        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
+        if ([touchView.superview.superview isEqual:self.baseLayerView] || [touchView isEqual:self.view]) {
             if (_ratioDecreasing >= _ratioMinimumValue){
                 [UIView animateWithDuration:0.1 + 0.2*(1-_ratioDecreasing) animations:^{
 //                    [self.baseLayerView restoreSavedRect];

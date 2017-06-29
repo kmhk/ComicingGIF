@@ -158,4 +158,11 @@
     return CGSizeMake(WideSlideWidth, ((WideSlideWidth) * (WideSlideWidthToHeightRatio)));
 }
 
++ (NSInteger)getWidthOfSlideAsPerUIImplemented {
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+    CGFloat height = screenHeight - 0.092 * screenHeight; //0.092 is the proportion of height of bottom bar(black view) to main view in comic making screen
+    
+    return height/TallSlideWidthToHeightRatio;
+}
+
 @end

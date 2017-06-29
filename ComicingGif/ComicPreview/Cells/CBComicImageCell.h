@@ -11,6 +11,12 @@
 #import "CBComicItemModel.h"
 #import "TimerImageViewStruct.h"
 
+@protocol PlayOneByOneLooper <NSObject>
+
+- (void)slideDidFinishPlayingOnceWithIndex:(NSInteger)index;
+
+@end
+
 @interface CBComicImageCell : CBBaseCollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
@@ -28,6 +34,13 @@
 
 @property (strong, nonatomic) NSMutableArray<TimerImageViewStruct*> *timerImageViews;
 
+@property (assign, nonatomic) id<PlayOneByOneLooper> playOneByOneDelegate;
+@property (assign, nonatomic) NSInteger index;
+@property (assign, nonatomic) BOOL isSlidePlaying;
+
 - (void)createUIForCell:(CBComicImageCell *)cell withIndex:(NSInteger)index andFrame : (CGRect ) rect;
+- (void)setInitialFrameOfCell;
+- (void)animateOnce;
+- (void)stopAllGifPlays;
 
 @end

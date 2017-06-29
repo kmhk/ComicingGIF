@@ -221,7 +221,7 @@
     if([section isKindOfClass:[CBComicImageSection class]]){
         // Do something
         ((CBComicImageCell *)cell).comicItemModel = [self.dataArray objectAtIndex:indexPath.item];
-        [(CBComicImageCell *)cell createUIForCell:(CBComicImageCell *)cell withIndex:indexPath.item andFrame:self.collectionView.frame];
+        [(CBComicImageCell *)cell createUIForCell:(CBComicImageCell *)cell withIndex:indexPath.item andFrame:cell.frame];
     }
     return cell;
 }
