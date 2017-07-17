@@ -84,26 +84,15 @@
                 }
                 i ++;
                 
-                NSLog(@"GGGGGGGGGGGGGGGG   %@",NSStringFromCGRect(rectOfGif));
-                UIImageView *stickerImageView = [self createImageViewWith:gifData frame:rectOfGif bAnimate:YES withAnimation:NO];
-                
-                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
-                stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
-                [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
-                [cell.topLayerView addSubview:stickerImageView];
-                
-//                [cell.topLayerView addConstraint:[NSLayoutConstraint constraintWithItem:cell.topLayerView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:stickerImageView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:rectOfGif.origin.x]];
-//                
-//                [cell.topLayerView addConstraint:[NSLayoutConstraint constraintWithItem:cell.topLayerView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:stickerImageView attribute:NSLayoutAttributeTop multiplier:1.0 constant:rectOfGif.origin.y]];
-//                
-//                [cell.topLayerView addConstraint:[NSLayoutConstraint constraintWithItem:stickerImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:rectOfGif.size.height]];
-//                
-//                [cell.topLayerView addConstraint:[NSLayoutConstraint constraintWithItem:stickerImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:rectOfGif.size.width]];
-                
-                TimerImageViewStruct *timerImageViewStruct = [[TimerImageViewStruct alloc]initWithImageView:stickerImageView delayTime:[[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue] andObjectType:ObjectAnimateGIF];
-                [self.timerImageViews addObject:timerImageViewStruct];
-                [self reCalculateMaxTimeWithDelay:timerImageViewStruct.delayTimeOfImageView andGifPlayTime:timerImageViewStruct.imageView.animationDuration];
-                
+                CGFloat timerDelay = [[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue];
+                [self createImageViewWith:gifData
+                                    frame:rectOfGif
+                                 bAnimate:YES
+                            withAnimation:NO
+                             isBackground:NO
+                      backgroundSuperview:nil
+                             topLayerView:cell.topLayerView
+                                withDelay:timerDelay];
             }
             
             //18 is for static stickers
@@ -227,6 +216,90 @@
     return newImage;
 }
 
+
+- (void)createImageViewWith:(NSData *)data
+                      frame:(CGRect)rect
+                   bAnimate:(BOOL)flag
+              withAnimation:(BOOL)shouldAnimate
+               isBackground:(BOOL)isBackground
+        backgroundSuperview:(__weak UIImageView *)backgroundSuperview
+               topLayerView:(__weak UIView *)topLayerView
+                  withDelay:(CGFloat)delay {
+    
+    dispatch_queue_t const preloadQueue = dispatch_queue_create("preload-queue", DISPATCH_QUEUE_SERIAL);
+    __weak CBComicImageCell *weakSelf = self;
+    dispatch_async(preloadQueue, ^{
+        NSLog(@"Start new queue for image processing");
+        CGImageSourceRef srcImage = CGImageSourceCreateWithData(toCF data, nil);
+        if (!srcImage) {
+            NSLog(@"loading image failed");
+        }
+        NSNumber *frameDuration;
+        NSTimeInterval totalDuration = 0;
+        size_t imgCount = CGImageSourceGetCount(srcImage);
+        NSMutableArray *arrayImages = [NSMutableArray new];
+        
+        UIImageView *resultImageView = [[UIImageView alloc] initWithFrame:rect];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            resultImageView.autoresizingMask = 0B11111;
+            resultImageView.userInteractionEnabled = YES;
+            if (isBackground) {
+                [backgroundSuperview insertSubview:resultImageView atIndex:0];
+            } else {
+                [topLayerView addSubview:resultImageView];
+            }
+        });
+        
+        for (NSInteger i = 0; i < imgCount; i += 2) {
+            CGImageRef cgImg = CGImageSourceCreateImageAtIndex(srcImage, i, nil);
+            if (!cgImg) {
+                NSLog(@"loading %ldth image failed from the source", (long)i);
+                continue;
+            }
+            
+            UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
+            
+            if (!resultImageView.image) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    resultImageView.image = img;
+                });
+            }
+            
+            [arrayImages addObject:img];
+            NSDictionary *property = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(srcImage, i, nil));
+            NSDictionary *gifDict = property[fromCF kCGImagePropertyGIFDictionary];
+            frameDuration = gifDict[fromCF kCGImagePropertyGIFUnclampedDelayTime];
+            if (!frameDuration) {
+                frameDuration = gifDict[fromCF kCGImagePropertyGIFDelayTime];
+            }
+            totalDuration += frameDuration.floatValue * 2;
+            CGImageRelease(cgImg);
+        }
+        
+        if (srcImage != nil) {
+            CFRelease(srcImage);
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            resultImageView.image = arrayImages.firstObject;
+            resultImageView.animationImages = arrayImages;
+            resultImageView.animationDuration = totalDuration;
+            resultImageView.animationRepeatCount = (flag == YES? 0 : 1);
+            if (shouldAnimate) {
+                [resultImageView startAnimating];
+            }
+            TimerImageViewStruct *timerImageViewStruct = [[TimerImageViewStruct alloc] initWithImageView:resultImageView
+                                                                                               delayTime:delay
+                                                                                           andObjectType:ObjectAnimateGIF];
+            [weakSelf.timerImageViews addObject:timerImageViewStruct];
+            [weakSelf reCalculateMaxTimeWithDelay:timerImageViewStruct.delayTimeOfImageView
+                                   andGifPlayTime:timerImageViewStruct.imageView.animationDuration];
+
+        });
+    });
+}
+
+
 - (UIImageView *)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag withAnimation:(BOOL)shouldAnimate {
     CGImageSourceRef srcImage = CGImageSourceCreateWithData(toCF data, nil);
     if (!srcImage) {
@@ -239,7 +312,8 @@
     NSMutableArray *arrayImages;
     
     arrayImages = [[NSMutableArray alloc] init];
-    for (NSInteger i = 0; i < imgCount; i ++) {
+    // Skip every second frame in the gif
+    for (NSInteger i = 0; i < imgCount; i += 2) {
         CGImageRef cgImg = CGImageSourceCreateImageAtIndex(srcImage, i, nil);
         if (!cgImg) {
             NSLog(@"loading %ldth image failed from the source", (long)i);
@@ -258,8 +332,8 @@
         if (!frameDuration) {
             frameDuration = gifDict[fromCF kCGImagePropertyGIFDelayTime];
         }
-        
-        totalDuration += frameDuration.floatValue;
+        // Make delay between frames 2 times slower
+        totalDuration += frameDuration.floatValue * 2;
         
         CGImageRelease(cgImg);
     }
