@@ -56,8 +56,7 @@
         [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:imageView delayTime:self.delayTimeInSeconds andObjectType:obj.objType]];
 		
 	} else if (obj.objType == ObjectAnimateGIF) {
-        UIImageView *imageView = [self createAnimationGIFView];
-        [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:imageView delayTime:self.delayTimeInSeconds andObjectType:obj.objType]];
+        [self createAnimationGIFView];
 		[self addGestures];
 	
 	} else if (obj.objType == ObjectSticker) {
@@ -305,7 +304,7 @@
     return imageView;
 }
 
-- (UIImageView *)createAnimationGIFView {
+- (void)createAnimationGIFView {
 	StickerObject *obj = (StickerObject *)self.comicObject;
 	self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
 	
@@ -313,9 +312,14 @@
 	/*
 	 real inside content view's size is less (40, 40) than object view. because it needs to show tool bar of all comic objects
 	 */
-	UIImageView *imageView = [self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width - W_PADDING, obj.frame.size.height - H_PADDING) bAnimate:YES];
-    
-    return imageView;
+    CGRect stickerRect = CGRectMake(0, 0, obj.frame.size.width - W_PADDING, obj.frame.size.height - H_PADDING);
+    [self createImageViewWith:data
+                        frame:stickerRect
+                     bAnimate:YES
+                withAnimation:YES
+                 isBackground:NO
+          backgroundSuperview:nil
+                 topLayerView:self];
 }
 
 - (UIImageView *)createStickerView {
@@ -550,6 +554,87 @@
         [captionView showCaptionTypeIcons];
         [captionView activateTextField];
     }
+}
+
+- (void)createImageViewWith:(NSData *)data
+                      frame:(CGRect)rect
+                   bAnimate:(BOOL)flag
+              withAnimation:(BOOL)shouldAnimate
+               isBackground:(BOOL)isBackground
+        backgroundSuperview:(__weak UIImageView *)backgroundSuperview
+               topLayerView:(__weak UIView *)topLayerView {
+    
+    dispatch_queue_t const preloadQueue = dispatch_queue_create("preload-queue", DISPATCH_QUEUE_SERIAL);
+    __weak ComicObjectView *weakSelf = self;
+    
+    dispatch_async(preloadQueue, ^{
+        NSLog(@"Start new queue for image processing");
+        CGImageSourceRef srcImage = CGImageSourceCreateWithData(toCF data, nil);
+        if (!srcImage) {
+            NSLog(@"loading image failed");
+        }
+        NSNumber *frameDuration;
+        NSTimeInterval totalDuration = 0;
+        size_t imgCount = CGImageSourceGetCount(srcImage);
+        NSMutableArray *arrayImagesL = [NSMutableArray new];
+        
+        UIImageView *resultImageView = [[UIImageView alloc] initWithFrame:rect];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            resultImageView.autoresizingMask = 0B11111;
+            resultImageView.userInteractionEnabled = YES;
+            if (isBackground) {
+                [backgroundSuperview insertSubview:resultImageView atIndex:0];
+            } else {
+                [weakSelf addSubview:resultImageView];
+            }
+        });
+        
+        for (NSInteger i = 0; i < imgCount; i += 4) {
+            CGImageRef cgImg = CGImageSourceCreateImageAtIndex(srcImage, i, nil);
+            if (!cgImg) {
+                NSLog(@"loading %ldth image failed from the source", (long)i);
+                continue;
+            }
+            
+            UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
+            
+            if (!resultImageView.image) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    resultImageView.image = img;
+                });
+            }
+            
+            [arrayImagesL addObject:img];
+            NSDictionary *property = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(srcImage, i, nil));
+            NSDictionary *gifDict = property[fromCF kCGImagePropertyGIFDictionary];
+            frameDuration = gifDict[fromCF kCGImagePropertyGIFUnclampedDelayTime];
+            if (!frameDuration) {
+                frameDuration = gifDict[fromCF kCGImagePropertyGIFDelayTime];
+            }
+            totalDuration += frameDuration.floatValue * 4;
+            CGImageRelease(cgImg);
+        }
+        
+        if (srcImage != nil) {
+            CFRelease(srcImage);
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            resultImageView.image = arrayImages.firstObject;
+            resultImageView.animationImages = arrayImagesL;
+            resultImageView.animationDuration = totalDuration;
+            resultImageView.animationRepeatCount = (flag == YES? 0 : 1);
+            if (shouldAnimate) {
+                [resultImageView startAnimating];
+            }
+            
+            TimerImageViewStruct *timerImageView = [[TimerImageViewStruct alloc] initWithImageView:resultImageView
+                                                                                         delayTime:weakSelf.delayTimeInSeconds
+                                                                                     andObjectType:weakSelf.comicObject.objType];
+            [weakSelf.timerImageViews addObject:timerImageView];
+            
+        });
+    });
 }
 
 - (UIImageView *)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag {
