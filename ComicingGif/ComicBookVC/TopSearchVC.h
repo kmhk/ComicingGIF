@@ -12,9 +12,11 @@
 
 @interface TopSearchVC : UIViewController<UITableViewDelegate>
 {
-    TopBarViewController *topBarView;
+//    TopBarViewController *topBarView;
 //    UIViewController* _parentViewContent;
 }
+
+@property (nonatomic) TopBarViewController *topBarView;
 
 @property NSArray *searchResultArray;
 @property (nonatomic, strong) UserSearch *friendSearchObject;

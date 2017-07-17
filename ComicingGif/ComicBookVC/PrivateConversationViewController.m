@@ -394,7 +394,9 @@
     [self.view addSubview:topBarView.view];
     [topBarView didMoveToParentViewController:self];
     
-    __block typeof(self) weakSelf = self;
+//    __block typeof(self) weakSelf = self;
+    __weak PrivateConversationViewController *weakSelf = self;
+    
     topBarView.homeAction = ^(void) {
         //        CameraViewController *cameraView = [weakSelf.storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
         //        [weakSelf presentViewController:cameraView animated:YES completion:nil];
@@ -404,7 +406,7 @@
     topBarView.contactAction = ^(void) {
         //        ContactsViewController *contactsView = [weakSelf.storyboard instantiateViewControllerWithIdentifier:CONTACTS_VIEW];
         //        [weakSelf presentViewController:contactsView animated:YES completion:nil];
-        [AppHelper closeMainPageviewController:self];
+        [AppHelper closeMainPageviewController:weakSelf];
     };
     topBarView.meAction = ^(void) {
         //        [weakSelf performSegueWithIdentifier:ME_VIEW_SEGUE sender:nil];

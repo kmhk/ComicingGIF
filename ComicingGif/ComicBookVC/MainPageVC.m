@@ -285,11 +285,13 @@ NSString * const BottomBarView = @"BottomBarView";
     [bottomBarView.view setFrame:CGRectMake(0, self.view.frame.size.height - 30,self.view.frame.size.width, self.view.frame.size.height/2.2f)];
     [self addChildViewController:bottomBarView];
     [self.view addSubview:bottomBarView.view];
+    
+    __weak MainPageVC *weakSelf = self;    
     bottomBarView.connectAction = ^(void) {
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         ContactController* cVc = (ContactController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"Contact"];
         mainStoryboard = nil;
-        [self.navigationController pushViewController:cVc animated:YES];
+        [weakSelf.navigationController pushViewController:cVc animated:YES];
     };
     [bottomBarView didMoveToParentViewController:self];
 }
@@ -321,7 +323,9 @@ NSString * const BottomBarView = @"BottomBarView";
     [self.view addSubview:topBarView.view];
     [topBarView didMoveToParentViewController:self];
     
-    __block typeof(self) weakSelf = self;
+//    __block typeof(self) weakSelf = self;
+    __weak MainPageVC *weakSelf = self;
+    
     topBarView.homeAction = ^(void) {
         [weakSelf callAPIToGetTheComics];
     };
@@ -341,8 +345,8 @@ NSString * const BottomBarView = @"BottomBarView";
         [[NSNotificationCenter defaultCenter] removeObserver:weakSelf name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] removeObserver:weakSelf name:UIKeyboardWillHideNotification object:nil];
         
-        TopSearchVC *topSearchView = [weakSelf.storyboard instantiateViewControllerWithIdentifier:TOP_SEARCH_VIEW];
-        [topSearchView displayContentController:self];
+        TopSearchVC *topSearchViewLocal = [weakSelf.storyboard instantiateViewControllerWithIdentifier:TOP_SEARCH_VIEW];
+        [topSearchViewLocal displayContentController:weakSelf];
     };
     topBarView.isHomeHidden = YES;
 }

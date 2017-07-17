@@ -561,7 +561,9 @@
     [self.view addSubview:topBarView.view];
     [topBarView didMoveToParentViewController:self];
     
-    __block typeof(self) weakSelf = self;
+//    __block typeof(self) weakSelf = self;
+    __weak FriendPageVC *weakSelf = self;
+    
     topBarView.homeAction = ^(void) {
         currentPageDownScroll = 0;
         currentPageUpScroll = 0;
@@ -573,7 +575,7 @@
     topBarView.contactAction = ^(void) {
 //        ContactsViewController *contactsView = [weakSelf.storyboard instantiateViewControllerWithIdentifier:CONTACTS_VIEW];
 //        [weakSelf presentViewController:contactsView animated:YES completion:nil];
-        [AppHelper closeMainPageviewController:self];
+        [AppHelper closeMainPageviewController:weakSelf];
     };
     topBarView.meAction = ^(void) {
         MePageVC *meView = [weakSelf.storyboard instantiateViewControllerWithIdentifier:ME_VIEW_SEGUE];
@@ -582,7 +584,7 @@
     };
     topBarView.searchAction = ^(void) {
         TopSearchVC *topSearchView = [weakSelf.storyboard instantiateViewControllerWithIdentifier:TOP_SEARCH_VIEW];
-        [topSearchView displayContentController:self];
+        [topSearchView displayContentController:weakSelf];
         //        [weakSelf presentViewController:topSearchView animated:YES completion:nil];
     };
 }

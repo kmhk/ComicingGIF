@@ -74,11 +74,11 @@ const int blurViewTag = 1010;
     }];
     if ([parentViewContent isKindOfClass:[MainPageVC class]])
     {
-        topBarView.isHomeHidden = YES;
+        _topBarView.isHomeHidden = YES;
     }
     else
     {
-        topBarView.isHomeHidden = NO;
+        _topBarView.isHomeHidden = NO;
     }
 }
 
@@ -131,7 +131,7 @@ const int blurViewTag = 1010;
 #pragma mark Methods
 
 - (void)addTopBarView {
-    topBarView = [self.storyboard instantiateViewControllerWithIdentifier:TOP_BAR_VIEW];
+    _topBarView = [self.storyboard instantiateViewControllerWithIdentifier:TOP_BAR_VIEW];
     CGFloat heightOfTopBar;
     CGFloat heightOfNavBar = 44;
 
@@ -151,13 +151,15 @@ const int blurViewTag = 1010;
     {
         heightOfTopBar = heightOfNavBar+6;
     }
-    [topBarView.view setFrame:CGRectMake(0, 0, self.view.frame.size.width, heightOfTopBar)];
-    [self addChildViewController:topBarView];
-    [self.view addSubview:topBarView.view];
-    [topBarView didMoveToParentViewController:self];
+    [_topBarView.view setFrame:CGRectMake(0, 0, self.view.frame.size.width, heightOfTopBar)];
+    [self addChildViewController:_topBarView];
+    [self.view addSubview:_topBarView.view];
+    [_topBarView didMoveToParentViewController:self];
     
-    __block typeof(self) weakSelf = self;
-    topBarView.homeAction = ^(void) {
+    //__block typeof(self) weakSelf = self;
+    __weak TopSearchVC *weakSelf = self;
+    
+    _topBarView.homeAction = ^(void) {
         if ([weakSelf.parentViewController isKindOfClass:[MainPageGroupViewController class]]||[weakSelf.parentViewController isKindOfClass:[PrivateConversationViewController class]])
         {
             [weakSelf.navigationController popToRootViewControllerAnimated:YES];
@@ -169,26 +171,27 @@ const int blurViewTag = 1010;
         [weakSelf.navigationController pushViewController:contactsView animated:YES];
         }
     };
-    topBarView.contactAction = ^(void) {
+    
+    _topBarView.contactAction = ^(void) {
         //        ContactsViewController *contactsView = [weakSelf.storyboard instantiateViewControllerWithIdentifier:CONTACTS_VIEW];
         //        [weakSelf presentViewController:contactsView animated:YES completion:nil];
-        [AppHelper closeMainPageviewController:self];
+        [AppHelper closeMainPageviewController:weakSelf];
     };
-    topBarView.meAction = ^(void) {
+    _topBarView.meAction = ^(void) {
         MePageVC *meView = [weakSelf.storyboard instantiateViewControllerWithIdentifier:ME_VIEW_SEGUE];
         //        [weakSelf presentViewController:meView animated:YES completion:nil];
         [weakSelf.navigationController pushViewController:meView animated:YES];
     };
-    topBarView.searchAction = ^(void) {
-        [topBarView handleSearchControl:YES];
+    _topBarView.searchAction = ^(void) {
+        [weakSelf.topBarView handleSearchControl:YES];
     };
-    topBarView.searchUser = ^(NSString* searchText){
+    _topBarView.searchUser = ^(NSString* searchText){
         //        [topBarView handleSearchControl:YES];
-        [self doSearchUser:searchText];
+        [weakSelf doSearchUser:searchText];
     };
     
     //By default handle textSearch
-    [topBarView handleSearchControl:YES];
+    [_topBarView handleSearchControl:YES];
 }
 -(void) addBlurEffectOverImageView{
     UIVisualEffect *blurEffect;
@@ -267,7 +270,7 @@ const int blurViewTag = 1010;
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-    for (id view in topBarView.view.subviews)
+    for (id view in _topBarView.view.subviews)
     {
         if ([view isKindOfClass:[UITextField class]] && [(UITextField *)view isEditing] && self.searchResultArray.count == 0)
         {
