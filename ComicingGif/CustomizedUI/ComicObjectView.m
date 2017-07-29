@@ -190,8 +190,8 @@
             // We don't need to add each drawing as a subview right away.
             continue;
         }
-        
-		[backgroundView addSubview:comicView];
+        [backgroundView addSubview:comicView];
+
         
         if (comicView.timerImageViews != nil) {
             [timerImageViews addObjectsFromArray:comicView.timerImageViews];

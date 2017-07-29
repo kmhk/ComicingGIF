@@ -339,6 +339,7 @@
 		0C43F74A1E9F4EC100AB71F9 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C43F7481E9F4EC100AB71F9 /* libsqlite3.0.tbd */; };
 		0C43F74B1E9F4EC100AB71F9 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C43F7491E9F4EC100AB71F9 /* libsqlite3.tbd */; };
 		0C43F74E1E9F649400AB71F9 /* Main_MainPage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C43F74D1E9F649400AB71F9 /* Main_MainPage.storyboard */; };
+		0CA2E1751F2C41940030D241 /* ComicSansMSRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CA2E1741F2C41590030D241 /* ComicSansMSRegular.ttf */; };
 		6DDF35F01F00E9B400F0555B /* theme_GIF0_0.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6DDF35ED1F00E9B400F0555B /* theme_GIF0_0.gif */; };
 		6DDF35F11F00E9B400F0555B /* theme_GIF0_1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6DDF35EE1F00E9B400F0555B /* theme_GIF0_1.gif */; };
 		6DDF35F21F00E9B400F0555B /* theme_GIF0_2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6DDF35EF1F00E9B400F0555B /* theme_GIF0_2.gif */; };
@@ -1075,6 +1076,7 @@
 		0C43F7481E9F4EC100AB71F9 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		0C43F7491E9F4EC100AB71F9 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		0C43F74D1E9F649400AB71F9 /* Main_MainPage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_MainPage.storyboard; sourceTree = "<group>"; };
+		0CA2E1741F2C41590030D241 /* ComicSansMSRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ComicSansMSRegular.ttf; sourceTree = "<group>"; };
 		5C6CB3F124F1DC1C548C2BE5 /* Pods-ComicingGif.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ComicingGif.release.xcconfig"; path = "Pods/Target Support Files/Pods-ComicingGif/Pods-ComicingGif.release.xcconfig"; sourceTree = "<group>"; };
 		6DA21AED1EF7D9B50086C140 /* ComicingGifPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicingGifPrefixHeader.pch; sourceTree = "<group>"; };
 		6DDF35ED1F00E9B400F0555B /* theme_GIF0_0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_0.gif; path = Resources/animationGIF/theme_GIF0_0.gif; sourceTree = "<group>"; };
@@ -2876,6 +2878,7 @@
 		E2520BC71EE819E800309E5A /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				0CA2E1741F2C41590030D241 /* ComicSansMSRegular.ttf */,
 				E2F1150E1F023823002097E9 /* arial-mt-std-medium.otf */,
 				E2520BC81EE81A3D00309E5A /* arial-rounded-mt-bold.ttf */,
 			);
@@ -3299,6 +3302,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CA2E1751F2C41940030D241 /* ComicSansMSRegular.ttf in Resources */,
 				0C43F6471E9F44E000AB71F9 /* InviteFriendsView.xib in Resources */,
 				CE12CC411EB87C3C00EA0E40 /* theme_GIF2_0.gif in Resources */,
 				0C43F60B1E9F43F900AB71F9 /* GroupsSection.xib in Resources */,
@@ -3365,7 +3369,6 @@
 				E2583E261EE9CECD005772E7 /* theme_bubble_2_1.png in Resources */,
 				0C43F6241E9F447700AB71F9 /* GroupsMembersSection.xib in Resources */,
 				E2583E321EE9CECD005772E7 /* theme_bubble_1_3.png in Resources */,
-				CE12CC3E1EB87C3C00EA0E40 /* theme_GIF0_2.gif in Resources */,
 				CE91CE251EB9D9B800637AD7 /* category2.png in Resources */,
 				0C43F6C81E9F485600AB71F9 /* SignUp.xib in Resources */,
 				E2FBB5B81EE329A4003D7541 /* theme_bubble_0_3.png in Resources */,
@@ -3387,7 +3390,6 @@
 				0C43F7331E9F4D8300AB71F9 /* PrivateConversationCell.xib in Resources */,
 				CE12CC2A1EB87C2100EA0E40 /* theme_sticker5_0.png in Resources */,
 				CE91CE231EB9D9B800637AD7 /* category0.png in Resources */,
-				CE12CC3D1EB87C3C00EA0E40 /* theme_GIF0_1.gif in Resources */,
 				E2583E251EE9CECD005772E7 /* theme_bubble_1_1.png in Resources */,
 				CE12CC2C1EB87C2100EA0E40 /* theme_sticker5_2.png in Resources */,
 				0C43F6451E9F44E000AB71F9 /* InviteFriendCell.xib in Resources */,

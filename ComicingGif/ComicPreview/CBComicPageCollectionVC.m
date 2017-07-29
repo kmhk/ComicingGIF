@@ -91,7 +91,7 @@
             if([section isKindOfClass:[CBComicImageSection class]]){
                 self.selectedIndexPath= indexPath;
                 // Show alert view
-                [self showDeleteAlertForIndexPath:indexPath];
+//                [self showDeleteAlertForIndexPath:indexPath];
             }
         }
     }

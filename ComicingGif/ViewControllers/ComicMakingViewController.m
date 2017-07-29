@@ -386,13 +386,17 @@
             
             UIImage *resultingImage;
             if (_isTall) {
-                UIGraphicsBeginImageContextWithOptions(_baseLayerView.frame.size, YES, 1.0);
-                [_baseLayerView.layer renderInContext:UIGraphicsGetCurrentContext()];
-                resultingImage = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsBeginImageContextWithOptions(self.baseLayerView.bounds.size, NO, [UIScreen mainScreen].scale);
+                
+                [backgroundView drawViewHierarchyInRect:self.baseLayerView.bounds afterScreenUpdates:YES];
+                
+                // old style [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+                
+                UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
                 UIGraphicsEndImageContext();
                 
                 shrinkingView = [[UIImageView alloc] initWithFrame:self.baseLayerView.frame];
-                resultingImage = [[Global global] scaledImage:resultingImage size:_baseLayerView.frame.size];
+                resultingImage = image;
             } else {
                 UIGraphicsBeginImageContextWithOptions(backgroundView.frame.size, YES, 1.0);
                 [backgroundView.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -408,8 +412,10 @@
             
             [self.view sendSubviewToBack:shrinkingView];
             [self.view sendSubviewToBack:_baseLayerView];
+//            [self.view bringSubviewToFront:shrinkingView];
             self.baseLayerView.hidden = YES;
-            
+
+
             CGSize size = self.isTall?[Global getTallBigSlideSize]:[Global getWideSlideSize];
             self.ratioMinimumValue = size.width/_baseLayerView.frame.size.width;
         }
@@ -630,7 +636,6 @@
         _baseLayerInitialFrame = _baseLayerView.frame;
         _backgroundInitialFrame = backgroundView.frame;
     }
-    
     [self setAlpha:NO];
     [UIView animateWithDuration:0.2f animations:^{
         [self setAlpha:YES];
