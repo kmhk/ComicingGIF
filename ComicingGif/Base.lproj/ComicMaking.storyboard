@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="xBQ-ZW-Gb5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13156.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="xBQ-ZW-Gb5">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13137.5"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -293,6 +294,7 @@
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="8" translatesAutoresizingMaskIntoConstraints="NO" id="vgR-oE-dKW" customClass="ScrollBarSlider">
                                         <rect key="frame" x="13" y="37.666666666666629" width="348" height="31"/>
+                                        <color key="minimumTrackTintColor" red="1" green="0.94901960784313721" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="slideChanged:" destination="xBQ-ZW-Gb5" eventType="valueChanged" id="jsU-aQ-yZR"/>
                                         </connections>
@@ -408,7 +410,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BHu-oD-Sbm">
-                                        <rect key="frame" x="22.666666666666686" y="229.33333333333331" width="15" height="15"/>
+                                        <rect key="frame" x="22.666666666666686" y="229.66666666666669" width="15" height="15"/>
                                         <color key="backgroundColor" red="0.0" green="0.57647058823529407" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="15" id="rpt-07-wzi"/>
@@ -447,7 +449,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dPa-GR-BgL">
-                                        <rect key="frame" x="22.666666666666686" y="367" width="15" height="15"/>
+                                        <rect key="frame" x="22.666666666666686" y="367.33333333333331" width="15" height="15"/>
                                         <color key="backgroundColor" red="0.94901960784313721" green="0.42352941176470588" blue="0.12941176470588234" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="15" id="LmN-DP-wdX"/>
@@ -596,17 +598,23 @@
                         <outlet property="buttonPlayPauseViewImageView" destination="w1Y-cU-e8X" id="SYh-3u-ihe"/>
                         <outlet property="buttonToolStickerImageView" destination="1wA-kb-vW1" id="BCW-Xx-IeC"/>
                         <outlet property="buttonToolTextImageView" destination="dkS-r2-Wd5" id="cYJ-yI-2dq"/>
+                        <outlet property="closeView" destination="bMZ-x7-vBF" id="9vk-Wf-lrp"/>
                         <outlet property="drawingImageView" destination="VNn-pP-SVb" id="6NZ-HV-wTG"/>
+                        <outlet property="lockView" destination="V0v-42-Sp0" id="iKL-Wx-kfL"/>
                         <outlet property="penColorStackView" destination="Brb-MQ-U5h" id="SBD-Of-kh8"/>
                         <outlet property="penToolImageView" destination="cMO-42-Dl0" id="wGs-1M-dKd"/>
                         <outlet property="penUndoImageView" destination="bl2-Qf-7Eg" id="mLa-05-tcK"/>
                         <outlet property="penUndoView" destination="xNw-zS-e5Q" id="izD-tu-bWD"/>
+                        <outlet property="penView" destination="alB-Zp-twt" id="OrD-mz-Kfb"/>
                         <outlet property="playPauseButton" destination="NlB-iW-d1g" id="8l9-B5-Uge"/>
+                        <outlet property="playView" destination="a5C-hJ-ZzF" id="Avd-BW-HdW"/>
                         <outlet property="scrollBarSlider" destination="vgR-oE-dKW" id="ysu-tw-bHW"/>
                         <outlet property="sliderBlackView" destination="wgb-dj-5xb" id="Vmb-o2-B9X"/>
                         <outlet property="sliderBlackViewBottomConstraint" destination="Y17-YD-PcJ" id="MUL-w7-eRo"/>
                         <outlet property="sliderContainerView" destination="8Uz-xx-gip" id="cQM-zp-66j"/>
                         <outlet property="sliderContainerViewBottomConstraint" destination="KuA-uo-6aE" id="Onm-Kw-w10"/>
+                        <outlet property="stickerView" destination="H8D-YP-HQk" id="rIh-Z2-FrY"/>
+                        <outlet property="textView" destination="Eeq-KU-otG" id="9ns-9c-k27"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LWR-Mv-txI" userLabel="First Responder" sceneMemberID="firstResponder"/>

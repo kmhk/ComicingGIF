@@ -27,6 +27,7 @@ CMCCaptionViewDelegate
 
 @property (nonatomic) NSInteger indexSaved;
 @property (nonatomic, assign) BOOL shouldShowScrollBar;
+@property (nonatomic) BOOL isFromCamera;
 
 - (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect andSubviewArray:(NSMutableArray *)arrSubviews isTall:(BOOL)isTall index:(NSInteger)index;
 

@@ -3271,8 +3271,8 @@
 				TargetAttributes = {
 					F36BE3A31E830E22007F6CE7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = HVU988ZRCM;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = 75A5DAPRYG;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -3365,7 +3365,6 @@
 				E2583E261EE9CECD005772E7 /* theme_bubble_2_1.png in Resources */,
 				0C43F6241E9F447700AB71F9 /* GroupsMembersSection.xib in Resources */,
 				E2583E321EE9CECD005772E7 /* theme_bubble_1_3.png in Resources */,
-				CE12CC3E1EB87C3C00EA0E40 /* theme_GIF0_2.gif in Resources */,
 				CE91CE251EB9D9B800637AD7 /* category2.png in Resources */,
 				0C43F6C81E9F485600AB71F9 /* SignUp.xib in Resources */,
 				E2FBB5B81EE329A4003D7541 /* theme_bubble_0_3.png in Resources */,
@@ -3387,7 +3386,6 @@
 				0C43F7331E9F4D8300AB71F9 /* PrivateConversationCell.xib in Resources */,
 				CE12CC2A1EB87C2100EA0E40 /* theme_sticker5_0.png in Resources */,
 				CE91CE231EB9D9B800637AD7 /* category0.png in Resources */,
-				CE12CC3D1EB87C3C00EA0E40 /* theme_GIF0_1.gif in Resources */,
 				E2583E251EE9CECD005772E7 /* theme_bubble_1_1.png in Resources */,
 				CE12CC2C1EB87C2100EA0E40 /* theme_sticker5_2.png in Resources */,
 				0C43F6451E9F44E000AB71F9 /* InviteFriendCell.xib in Resources */,
@@ -3906,8 +3904,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Stephen Wright (SNU9UY72ZE)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Stephen Wright (SNU9UY72ZE)";
-				DEVELOPMENT_TEAM = HVU988ZRCM;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 75A5DAPRYG;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3924,8 +3922,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.TheCustomerFactor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "89eb5765-c574-409f-a4cd-934aa0f187c1";
-				PROVISIONING_PROFILE_SPECIFIER = theCustomerFactorDevelopment;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -3935,8 +3933,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Stephen Wright (SNU9UY72ZE)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Stephen Wright (SNU9UY72ZE)";
-				DEVELOPMENT_TEAM = HVU988ZRCM;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 75A5DAPRYG;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3953,8 +3951,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.TheCustomerFactor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "89eb5765-c574-409f-a4cd-934aa0f187c1";
-				PROVISIONING_PROFILE_SPECIFIER = theCustomerFactorDevelopment;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

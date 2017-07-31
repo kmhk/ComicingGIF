@@ -11,6 +11,15 @@
 @implementation ScrollBarSlider
 
 
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+    
+//    CGRect fr = self.frame;
+//    fr.size.height = 20;
+//
+//    self.frame = fr;
+    self.minimumTrackTintColor = [UIColor colorWithRed:255/255.0 green:242/255.0 blue:0/255.0 alpha:1.0];
+}
 
 - (void)sliderTapGesture:(UITapGestureRecognizer *)gesture {
     CGPoint tapPoint = [gesture locationInView:self];
@@ -33,13 +42,14 @@
 - (UIImage *)getSliderBackView
 {
     CGSize sliderSize = self.frame.size;
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, sliderSize.width, sliderSize.height/3)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, sliderSize.width, 20)];
     view.backgroundColor = [UIColor blackColor];
     view.clipsToBounds = YES;
-    view.layer.borderWidth = 1;
-    view.layer.borderColor = [UIColor whiteColor].CGColor;
-    view.layer.cornerRadius = view.frame.size.height/2;
     
+    view.layer.borderWidth = 2;
+    view.layer.borderColor = [UIColor colorWithRed:0/255.0 green:174/255.0 blue:239/255.0 alpha:1.0].CGColor;
+    view.layer.cornerRadius = view.frame.size.height/2;
+//    view.layer.masksToBounds = true;
     UIView *superView = [[UIView alloc] initWithFrame:view.frame];
     superView.backgroundColor = [UIColor blackColor];
     [superView addSubview:view];
@@ -48,7 +58,6 @@
     [superView.layer renderInContext:UIGraphicsGetCurrentContext()];
     
     UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
-    
     UIGraphicsEndImageContext();
     img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(1, 25, 1, 25)];
     return img;

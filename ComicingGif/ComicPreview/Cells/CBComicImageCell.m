@@ -320,7 +320,21 @@
             continue;
         }
         
-        UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
+        
+        /*
+         C0mrade Edit:
+         
+         Bellow code runs in for cycle as O(n), it's huge operation, needs to decompose and assign
+         separate threads, image scale is hard coded and i think it should be gone to constants and
+         it needs defined scale multiplier, for now multiplier is set to 3.0 as on iPhone 7 it works
+         with no expenses, tested on iOS 11 Beta - Memory is stable and holds 22.5 MB - CPU load on zero.
+         
+        */
+        
+        // This line should be moved to app constants.
+        CGSize imagePixelSize = CGSizeMake(rect.size.width * 3.0, rect.size.height * 3.0); //
+        
+        UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:imagePixelSize];
         //        UIImage *imageTemp = [UIImage imageWithCGImage:cgImg];
         //        UIImage *img = [UIImage resizeImage:imageTemp newSize:rect.size];
         [arrayImages addObject:img];

@@ -89,8 +89,10 @@
             [view setFrame:CGRectMake(0, 0, viewWidth, viewHeight)];
             
             view.tag = (CaptionObjectType) [captionTypeTagsArray[arrayItemCounter] integerValue];
+            // CGFloat centerX = ([UIScreen mainScreen].bounds.size.width - view.frame.size.width)*0.5;
             
-            view.center = [subiconsCenterPointsArray[arrayItemCounter] CGPointValue];
+            CGFloat centerX = [subiconsCenterPointsArray[arrayItemCounter] CGPointValue].x / 2;
+            view.center = CGPointMake(centerX, [subiconsCenterPointsArray[arrayItemCounter] CGPointValue].y);
             
             UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]
                                                             initWithTarget:self
@@ -196,18 +198,18 @@
 }
 
 - (UIFont *)captionTextViewFontForType:(CaptionObjectType)captionType {
-    UIFont *resultFont = [UIFont systemFontOfSize:10];
+    UIFont *resultFont = [UIFont systemFontOfSize:12];
     switch (captionType) {
         case CaptionTypeDefault:
-            resultFont = [UIFont fontWithName:@"Arial MT Std" size:18];
+            resultFont = [UIFont fontWithName:@"Arial MT Std" size:21];
             break;
             
         case CaptionTypeTextWithoutBackgroun:
-            resultFont = [UIFont fontWithName:@"Arial MT Std" size:40];
+            resultFont = [UIFont fontWithName:@"Arial MT Std" size:48];
             break;
             
         case CaptionTypeYellowBox:
-            resultFont = [UIFont fontWithName:@"Arial MT Std" size:14]; //  Medium
+            resultFont = [UIFont fontWithName:@"Arial MT Std" size:16.8]; //  Medium
             break;
     }
     
@@ -323,10 +325,17 @@
                                toAlpha:(CGFloat)toAlpha
                                toScale:(CGAffineTransform)toScale {
     dispatch_async(dispatch_get_main_queue(), ^{
+//        CGFloat padding = 0;
         for (UIView *view in @[_captionDefaultTypeImageView, _captionWithoutBackgroundTypeImageView,
                                _captionYellowBoxTypeImageView]) {
             view.alpha = fromAlpha;
             view.transform = fromScale;
+            
+//            CGRect fr = view.frame;
+//            fr.origin.x = padding + (([UIScreen mainScreen].bounds.size.width - view.frame.size.width) / 2.0);
+//            padding = fr.size.width + 15;
+//
+//            view.frame = fr;
         }
         
         [UIView animateWithDuration:0.4
