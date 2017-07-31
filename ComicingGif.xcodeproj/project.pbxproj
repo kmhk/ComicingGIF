@@ -3274,7 +3274,7 @@
 				TargetAttributes = {
 					F36BE3A31E830E22007F6CE7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 75A5DAPRYG;
+						DevelopmentTeam = PV7F3V653B;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -3909,7 +3909,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Stephen Wright (SNU9UY72ZE)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 75A5DAPRYG;
+				DEVELOPMENT_TEAM = PV7F3V653B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -3938,7 +3938,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Stephen Wright (SNU9UY72ZE)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 75A5DAPRYG;
+				DEVELOPMENT_TEAM = PV7F3V653B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

@@ -1049,7 +1049,7 @@
     
     if (!self.isFromCamera) {
         shrinkingView = nil;
-        [self dismissViewControllerAnimated:false completion:nil];
+        [self.navigationController popViewControllerAnimated:true];
         return;
     }
     
@@ -1059,7 +1059,14 @@
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action){
         // ALSO SHOULD DELETE EVERYTHING
         shrinkingView = nil;
-        [self dismissViewControllerAnimated:false completion:nil];
+        
+        CATransition *transition = [CATransition animation];
+        transition.duration = 0.3;
+        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        transition.type = kCATransitionFade;
+        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+        
+        [self.navigationController popViewControllerAnimated:NO];
     }];
     UIAlertAction *otherAction = [UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
         [alert dismissViewControllerAnimated:true completion:nil];

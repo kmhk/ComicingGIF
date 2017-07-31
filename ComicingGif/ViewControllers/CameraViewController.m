@@ -415,13 +415,8 @@
     ComicMakingViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ComicMakingViewController"];
     vc.isFromCamera = true;
     vc.indexSaved = _indexOfSlide;
-    [vc setModalPresentationStyle:UIModalPresentationCustom];
-    [vc setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-    
-    // move down animation block
-    // C0mrade:
+
     __weak typeof(self) wSelf = self;
-    
     self.captureHolder.translatesAutoresizingMaskIntoConstraints = true;
     self.topBar.translatesAutoresizingMaskIntoConstraints = true;
     
@@ -436,23 +431,29 @@
         wSelf.topBar.frame = tempTopBar;
         wSelf.viewProgressContainer.alpha = 0.0;
     } completion:^(BOOL finished) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [wSelf resetRecord];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                wSelf.captureHolder.translatesAutoresizingMaskIntoConstraints = false;
-                wSelf.topBar.translatesAutoresizingMaskIntoConstraints = false;
-                wSelf.viewProgressContainer.alpha = 1.0;
-                wSelf.viewProgressContainer.hidden = YES;
-            });
-            [vc initWithBaseImage:url frame:wSelf.cameraPreview.frame andSubviewArray:nil isTall:!wSelf.isVerticalCamera index:_indexOfSlide];
-            [wSelf presentViewController:vc animated:YES completion:nil];
+        [wSelf resetRecord];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [wSelf setupDefaultsValuesForTopAndBottomAnimatedViews];
         });
+        [vc initWithBaseImage:url frame:wSelf.cameraPreview.frame andSubviewArray:nil isTall:!wSelf.isVerticalCamera index:_indexOfSlide];
+        
+        [UIView transitionWithView:self.navigationController.view duration:0.75
+                           options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                               [wSelf.navigationController pushViewController:vc animated:NO];
+                           } completion:nil];
     }];
     
     
     
     // ComicMakingViewController
     
+}
+
+- (void) setupDefaultsValuesForTopAndBottomAnimatedViews {
+    self.captureHolder.translatesAutoresizingMaskIntoConstraints = NO;
+    self.topBar.translatesAutoresizingMaskIntoConstraints = NO;
+    self.viewProgressContainer.alpha = 1.0;
+    self.viewProgressContainer.hidden = YES;
 }
 
 
