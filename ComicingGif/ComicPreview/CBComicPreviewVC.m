@@ -391,9 +391,9 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         }
     }
     if ([cell isKindOfClass:[CBPreviewHeaderCell class]]) {
-        height = 105;
+        height = 80;
         //Same calculation in ComicTitleFontDropDownViewController
-        height = IS_IPHONE_5?114: (IS_IPHONE_6?124: (IS_IPHONE_6P?134: 144));
+//        height = IS_IPHONE_5?114: (IS_IPHONE_6?124: (IS_IPHONE_6P?134: 144));
     }
     return height;
 }

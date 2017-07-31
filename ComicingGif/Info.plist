@@ -4,6 +4,7 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>ComicSansMSRegular.ttf</string>
 		<string>arial-mt-std-medium.otf</string>
 		<string>arial-rounded-mt-bold.ttf</string>
 	</array>

@@ -447,13 +447,14 @@
         wSelf.captureHolder.frame = tempFrame;
         wSelf.topBar.frame = tempTopBar;
     } completion:^(BOOL finished) {
-        [self resetRecord];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            self.captureHolder.translatesAutoresizingMaskIntoConstraints = false;
-            self.topBar.translatesAutoresizingMaskIntoConstraints = false;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [wSelf resetRecord];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                wSelf.captureHolder.translatesAutoresizingMaskIntoConstraints = false;
+                wSelf.topBar.translatesAutoresizingMaskIntoConstraints = false;
+            });
+            [wSelf presentViewController:vc animated:YES completion:nil];
         });
-        
-        [wSelf presentViewController:vc animated:YES completion:nil];
     }];
     
     
