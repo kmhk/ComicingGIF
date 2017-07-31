@@ -28,13 +28,9 @@
 @property (weak, nonatomic) IBOutlet UIView *cameraPreview;
 @property (weak, nonatomic) IBOutlet RoundCapProgressView *progressBar;
 @property (weak, nonatomic) IBOutlet UIView *topBar;
-
 @property (weak, nonatomic) IBOutlet UIImageView *imgviewToggle;
 @property (weak, nonatomic) IBOutlet UIImageView *imgviewRecording;
-@property (weak, nonatomic) IBOutlet UIImageView *blueBackgroundImageView;
-
 @property (weak, nonatomic) IBOutlet UIButton *btnChangeScene;
-
 @property (weak, nonatomic) IBOutlet UIView *viewProgressContainer;
 @property (weak, nonatomic) IBOutlet RoundCapProgressView *processingView;
 @property (weak, nonatomic) IBOutlet UIButton *btnRotate;
@@ -43,9 +39,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgSelected;
 @property (weak, nonatomic) IBOutlet UIView *closeView;
 
-
 @end
-
 
 @implementation CameraViewController
 
@@ -75,7 +69,6 @@
     self.processingView.backgroundColor = [UIColor clearColor];
     
     self.progressBar.hidden = YES;
-    
     self.navigationController.navigationBar.hidden = YES;
     
 }
@@ -206,9 +199,10 @@
 
 - (void)showProgress:(BOOL)bHide progress:(double)progress {
     [self.viewProgressContainer setHidden:bHide];
-    self.processingView.progress = progress;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.processingView.progress = progress;
+    }];
 }
-
 
 // MARK: recorder control
 - (void)resetRecord {
@@ -381,10 +375,7 @@
 
 
 // MARK: - CameraViewModelDelegate implementaions
-- (void)videoProgressingWith:(CGFloat)progress
-{
-    NSLog(@"generating GIF with %.2f %%", progress);
-    
+- (void)videoProgressingWith:(CGFloat)progress {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self showProgress:NO progress:progress];
     });
@@ -426,7 +417,6 @@
     ComicMakingViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ComicMakingViewController"];
     vc.isFromCamera = true;
     vc.indexSaved = _indexOfSlide;
-    [vc initWithBaseImage:url frame:self.cameraPreview.frame andSubviewArray:nil isTall:!self.isVerticalCamera index:_indexOfSlide];
     [vc setModalPresentationStyle:UIModalPresentationCustom];
     [vc setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
     
@@ -446,6 +436,7 @@
     [UIView animateWithDuration:0.5 animations:^{
         wSelf.captureHolder.frame = tempFrame;
         wSelf.topBar.frame = tempTopBar;
+        wSelf.viewProgressContainer.alpha = 0.0;
     } completion:^(BOOL finished) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [wSelf resetRecord];
@@ -453,6 +444,7 @@
                 wSelf.captureHolder.translatesAutoresizingMaskIntoConstraints = false;
                 wSelf.topBar.translatesAutoresizingMaskIntoConstraints = false;
             });
+            [vc initWithBaseImage:url frame:wSelf.cameraPreview.frame andSubviewArray:nil isTall:!wSelf.isVerticalCamera index:_indexOfSlide];
             [wSelf presentViewController:vc animated:YES completion:nil];
         });
     }];

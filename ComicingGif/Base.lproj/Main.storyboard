@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13156.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Djk-yA-53O">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13168.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Djk-yA-53O">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13137.5"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13147.4"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -52,7 +52,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tHT-WI-mxq" userLabel="ControlView">
                                 <rect key="frame" x="142" y="490" width="130" height="187"/>
                                 <subviews>
-                                    <view alpha="0.59999999999999998" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d3q-5z-4w5" userLabel="AnimatedView">
+                                    <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d3q-5z-4w5" userLabel="AnimatedView">
                                         <rect key="frame" x="29" y="43" width="72" height="144"/>
                                         <color key="backgroundColor" red="0.0" green="0.68235294117647061" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -96,7 +96,7 @@
                                     <constraint firstItem="8R9-Tr-ira" firstAttribute="centerX" secondItem="tHT-WI-mxq" secondAttribute="centerX" id="zYi-R7-eQP"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qLD-GF-jop" userLabel="Top Bar">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qLD-GF-jop" userLabel="Top Bar">
                                 <rect key="frame" x="0.0" y="33" width="414" height="128"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dSh-RU-cbX" userLabel="ReButton">

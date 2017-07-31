@@ -213,7 +213,7 @@
 }
 
 - (void)exportGIFwithPhotos {
-	[GIFGenerator generateGIF:self.arrayPhotos delayTime:0.5 progress:^(double progress) {		
+	[GIFGenerator generateGIF:self.arrayPhotos delayTime:0.0 progress:^(double progress) {
 		if ([self.delegate respondsToSelector:@selector(videoProgressingWith:)]) {
 			[self.delegate videoProgressingWith:(progress)];
 		}
