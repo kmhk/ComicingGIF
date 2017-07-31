@@ -35,12 +35,14 @@
 
 // MARK: - public recorder initialize & control method
 - (void)setupRecorderWith:(UIView *)view {
-	__weak id weakSelf = self;
+    __weak id weakSelf = self;
+    
 	self.recorder.delegate = weakSelf;
 	self.recorder.videoConfiguration.size = view.frame.size;
+    self.recorder.videoConfiguration.scalingMode = AVVideoScalingModeResize;
 	self.recorder.previewView = view;
-	
-	exportSize = view.frame.size;//CGSizeMake(view.frame.size.width * [UIScreen mainScreen].scale, view.frame.size.height * [UIScreen mainScreen].scale);
+	exportSize = view.frame.size;
+    
 }
 
 - (void)releaseCamera {

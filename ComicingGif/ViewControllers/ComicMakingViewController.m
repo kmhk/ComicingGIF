@@ -70,6 +70,11 @@
     CGPoint newTouchPoint;
 }
 
+// Constrait Helpers For Later Animations
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerConstraint; // - .size.height
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *gifAnimateConstraint; // - 50
+
+
 @property (weak, nonatomic) IBOutlet UIButton *btnPlay;
 @property (weak, nonatomic) IBOutlet UIView *penView;
 @property (weak, nonatomic) IBOutlet UIView *textView;
@@ -154,54 +159,68 @@
     // c0mrade: Should Be Refactored
     
     // store real positions
-    CGRect oldBottomFr = self.sliderContainerView.frame;
-    CGRect oldAnimGifFr = self.btnToolAnimateGIF.frame;
-    CGRect oldBubbleFr = self.btnToolBubble.frame;
-    CGRect oldStickerFr = self.stickerView.frame;
-    CGRect oldPenFr = self.penView.frame;
-    CGRect oldTextFr = self.textView.frame;
-    CGRect oldCloseFr = self.closeView.frame;
-    CGRect oldLockFr = self.lockView.frame;
-    CGRect oldPlayFr = self.playView.frame;
+//    CGRect oldBottomFr = self.sliderContainerView.frame;
+//    CGRect oldAnimGifFr = self.btnToolAnimateGIF.frame;
+//    CGRect oldBubbleFr = self.btnToolBubble.frame;
+//    CGRect oldStickerFr = self.stickerView.frame;
+//    CGRect oldPenFr = self.penView.frame;
+//    CGRect oldTextFr = self.textView.frame;
+//    CGRect oldCloseFr = self.closeView.frame;
+//    CGRect oldLockFr = self.lockView.frame;
+//    CGRect oldPlayFr = self.playView.frame;
     
     // temp frame
-    CGRect tempFr = self.sliderContainerView.frame;
-    tempFr.origin.y = [UIScreen mainScreen].bounds.size.width;
+//    CGRect tempFr = self.sliderContainerView.frame;
+//    tempFr.origin.y = [UIScreen mainScreen].bounds.size.height;
     
     // unlock autolayout from current objects
-    self.sliderContainerView.translatesAutoresizingMaskIntoConstraints = true;
-    self.btnToolAnimateGIF.translatesAutoresizingMaskIntoConstraints = true;
-    self.btnToolBubble.translatesAutoresizingMaskIntoConstraints = true;
-    self.stickerView.translatesAutoresizingMaskIntoConstraints = true;
-    self.textView.translatesAutoresizingMaskIntoConstraints = true;
-    self.penView.translatesAutoresizingMaskIntoConstraints = true;
+//    self.sliderContainerView.translatesAutoresizingMaskIntoConstraints = true;
+//    self.btnToolAnimateGIF.translatesAutoresizingMaskIntoConstraints = true;
+//    self.btnToolBubble.translatesAutoresizingMaskIntoConstraints = true;
+//    self.stickerView.translatesAutoresizingMaskIntoConstraints = true;
+//    self.textView.translatesAutoresizingMaskIntoConstraints = true;
+//    self.penView.translatesAutoresizingMaskIntoConstraints = true;
     
     // hide objects outside of superview bounds
-    self.sliderContainerView.frame = tempFr;
-    self.btnToolAnimateGIF.frame = tempFr;
-    self.btnToolBubble.frame = tempFr;
-    self.stickerView.frame = tempFr;
-    self.closeView.frame = tempFr;
-    self.playView.frame = tempFr;
-    self.lockView.frame = tempFr;
-    self.textView.frame = tempFr;
-    self.penView.frame = tempFr;
+//    self.sliderContainerView.frame = CGRectOffset(self.sliderContainerView.frame, 0, 100); // footer view
+//    self.btnToolAnimateGIF.frame = tempFr; // heart button footer
+//    self.btnToolBubble.frame = tempFr; // bubble button footer
+//    self.stickerView.frame = tempFr; // sticker view footer
+//    self.closeView.frame = tempFr;
+//    self.playView.frame = tempFr;
+//    self.lockView.frame = tempFr;
+//    self.textView.frame = tempFr; // textview footer
+//    self.penView.frame = tempFr; // penview footer
+    
+    
+//    [self.view layoutIfNeeded];
+//    self.footerConstraint.constant = -(self.sliderContainerView.frame.size.height);
+//    self.gifAnimateConstraint.constant = -(self.btnToolAnimateGIF.frame.size.height);
     
     // animate appereance of objects
-    __weak typeof(self) wSelf = self;
-    [UIView animateWithDuration:0.5 animations:^{
-        wSelf.sliderContainerView.frame = oldBottomFr;
-        wSelf.btnToolAnimateGIF.frame = oldAnimGifFr;
-        wSelf.btnToolBubble.frame = oldBubbleFr;
-        wSelf.stickerView.frame = oldStickerFr;
-        wSelf.textView.frame = oldPenFr;
-        wSelf.penView.frame = oldTextFr;
-        wSelf.closeView.frame = oldCloseFr;
-        wSelf.playView.frame = oldPlayFr;
-        wSelf.lockView.frame = oldLockFr;
-    } completion:^(BOOL finished) {
-        
-    }];
+//    __weak typeof(self) wSelf = self;
+//
+//
+//    [self.view layoutIfNeeded];
+//    [UIView animateWithDuration: 5.0 animations:^{
+//        self.footerConstraint.constant = 0;
+//        self.gifAnimateConstraint.constant = 0;
+//        [self.view layoutIfNeeded];
+//
+//
+    
+//        wSelf.sliderContainerView.frame = oldBottomFr;
+//        wSelf.btnToolAnimateGIF.frame = oldAnimGifFr;
+//        wSelf.btnToolBubble.frame = oldBubbleFr;
+//        wSelf.stickerView.frame = oldStickerFr;
+//        wSelf.textView.frame = oldPenFr;
+//        wSelf.penView.frame = oldTextFr;
+//        wSelf.closeView.frame = oldCloseFr;
+//        wSelf.playView.frame = oldPlayFr;
+//        wSelf.lockView.frame = oldLockFr;
+//    } completion:^(BOOL finished) {
+//
+//    }];
     
 }
 

@@ -767,8 +767,9 @@ typedef NS_ENUM(NSInteger, CMCBubbleSubiconTag) {
 #pragma mark -
 
 - (void)plusIconWillShow:(id)sender {
-    [self hideBubbleSubicons];
-    [self showPlusIcon];
+    [self showBubbleSubicons];
+//    [self hideBubbleSubicons];
+//    [self showPlusIcon];
 }
 
 - (void)startPlusIconAppearanceTimerWithDuration:(NSTimeInterval)duration {

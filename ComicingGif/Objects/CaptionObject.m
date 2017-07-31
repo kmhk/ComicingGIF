@@ -42,7 +42,7 @@
     NSDictionary *baseDict = (NSDictionary *) dict[@"baseInfo"];
     self.objType = (ComicObjectType)[baseDict[@"type"] integerValue];
     self.angle = [baseDict[@"angle"] floatValue];
-    self.scale = [baseDict[@"scale"] floatValue];
+    self.scale = ([baseDict[@"scale"] floatValue]/100)*20 + [baseDict[@"scale"] floatValue];
     self.frame = CGRectFromString(baseDict[@"frame"]);
     self.delayTimeInSeconds = [baseDict[@"delayTime"] floatValue];
     

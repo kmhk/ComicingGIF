@@ -159,7 +159,9 @@
 }
 
 - (void)updateProgressBar {
-    self.progressBar.progress = self.progressBar.progress + 1.0 / MAXDURATION / 10;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.progressBar.progress = self.progressBar.progress + 1.0 / MAXDURATION / 10;
+    }];
 }
 
 - (void)setToggleImage:(BOOL)isRecording {
@@ -341,29 +343,32 @@
 }
 
 - (IBAction)changeSceneTapped:(id)sender {
-    CGFloat height, y;
+    _isVerticalCamera = (self.cameraPreview.frame.size.height > self.view.frame.size.height / 2) ? YES:NO;
     
-    if (self.cameraPreview.frame.size.height > self.view.frame.size.height / 2) {
-        height = self.cameraPreview.frame.size.width / 2;
-        y = (self.view.frame.size.height - height) / 2;
-        _isVerticalCamera = YES;
+    CGFloat padding, height, centerY;
+    CGFloat progressBarHeight = 10.0;
+    
+    if (_isVerticalCamera == true) {
+        padding = 5.0 + progressBarHeight;
+        height = (self.view.frame.size.width / self.view.frame.size.height) * self.view.frame.size.width;
+        centerY = self.captureHolder.frame.origin.y - (height + padding);
     } else {
-        height = self.view.frame.size.height - TOPBADDING - BOTTOMPADDING;
-        y = 20;
-        _isVerticalCamera = NO;
+        padding = 0.0;
+        height = self.view.frame.size.height;
+        centerY = 0;
     }
     
     // C0mrade:
     __weak typeof(self) wSelf = self;
     [UIView animateWithDuration:0.5 animations:^{
-        wSelf.cameraPreview.frame = CGRectMake(wSelf.cameraPreview.frame.origin.x, y, wSelf.cameraPreview.frame.size.width, height);
-        [wSelf.viewModel setupRecorderWith:wSelf.cameraPreview];
-        
+        wSelf.cameraPreview.frame = CGRectMake(wSelf.cameraPreview.frame.origin.x,
+                                               centerY, wSelf.cameraPreview.frame.size.width, height);
         if (CGAffineTransformEqualToTransform(wSelf.btnChangeScene.transform, CGAffineTransformIdentity)) {
             wSelf.btnChangeScene.transform = CGAffineTransformMakeRotation(M_PI_2);
         } else {
             wSelf.btnChangeScene.transform = CGAffineTransformIdentity;
         }
+        [wSelf.viewModel setupRecorderWith:wSelf.cameraPreview];
     }];
 }
 
