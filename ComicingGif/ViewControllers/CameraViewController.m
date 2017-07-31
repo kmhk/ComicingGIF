@@ -199,9 +199,7 @@
 
 - (void)showProgress:(BOOL)bHide progress:(double)progress {
     [self.viewProgressContainer setHidden:bHide];
-    [UIView animateWithDuration:0.5 animations:^{
-        self.processingView.progress = progress;
-    }];
+    self.processingView.progress = progress;
 }
 
 // MARK: recorder control
@@ -443,6 +441,8 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 wSelf.captureHolder.translatesAutoresizingMaskIntoConstraints = false;
                 wSelf.topBar.translatesAutoresizingMaskIntoConstraints = false;
+                wSelf.viewProgressContainer.alpha = 1.0;
+                wSelf.viewProgressContainer.hidden = YES;
             });
             [vc initWithBaseImage:url frame:wSelf.cameraPreview.frame andSubviewArray:nil isTall:!wSelf.isVerticalCamera index:_indexOfSlide];
             [wSelf presentViewController:vc animated:YES completion:nil];
