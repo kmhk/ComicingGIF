@@ -1598,18 +1598,17 @@
     newCaptionObject.delayTimeInSeconds = oldCaptionObject.delayTimeInSeconds;
     
     CGRect screenBounds = [UIScreen mainScreen].bounds;
-    CGRect captionObjectFrame;
-    if (type == CaptionTypeYellowBox) {
-        CGFloat boxWidth = (screenBounds.size.width - 20)/2;
-        CGFloat boxHeight = 70;
-        captionObjectFrame = CGRectMake(screenBounds.size.width - boxWidth - 17, -5,
-                                        boxWidth, boxHeight);
-        
-    } else {
-        captionObjectFrame = CGRectMake(oldCaptionObject.frame.origin.x,
+//    if (type == CaptionTypeYellowBox) {
+//        CGFloat boxWidth = (screenBounds.size.width - 20)/2;
+//        CGFloat boxHeight = 70;
+//        captionObjectFrame = CGRectMake(screenBounds.size.width - boxWidth - 17, -5,
+//                                        boxWidth, boxHeight);
+//
+//    } else {
+       CGRect captionObjectFrame = CGRectMake(oldCaptionObject.frame.origin.x,
                                         oldCaptionObject.frame.origin.y,
                                         screenBounds.size.width - 20, 30);
-    }
+//    }
     
     newCaptionObject.frame = captionObjectFrame;
     comicObjectView.comicObject = newCaptionObject;

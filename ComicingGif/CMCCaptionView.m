@@ -282,7 +282,7 @@
 - (NSArray<NSValue *> *)subiconsImageViewCenterPointsArray {
     CGFloat iconsOffset = 35;
     
-    CGPoint yellowBoxImageViewCenterPoint = _plusImageView.center;
+    CGPoint yellowBoxImageViewCenterPoint = CGPointMake(([UIScreen mainScreen].bounds.size.width / 2.0) + iconsOffset, 5);
     CGPoint withoutBackgroundImageViewCenterPoint = CGPointMake(yellowBoxImageViewCenterPoint.x - iconsOffset, yellowBoxImageViewCenterPoint.y);
     CGPoint defaultImageViewCenterPoint = CGPointMake(withoutBackgroundImageViewCenterPoint.x - iconsOffset - 5, withoutBackgroundImageViewCenterPoint.y);
     
