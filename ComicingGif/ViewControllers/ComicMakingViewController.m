@@ -470,16 +470,19 @@
             
             UIImage *resultingImage;
             if (_isTall) {
-                UIGraphicsBeginImageContextWithOptions(self.baseLayerView.bounds.size, NO, [UIScreen mainScreen].scale);
+                UIGraphicsBeginImageContextWithOptions(backgroundView.bounds.size, NO, [UIScreen mainScreen].scale);
                 
-                [backgroundView drawViewHierarchyInRect:self.baseLayerView.bounds afterScreenUpdates:YES];
+                [backgroundView drawViewHierarchyInRect:backgroundView.bounds afterScreenUpdates:YES];
                 
                 // old style [self.layer renderInContext:UIGraphicsGetCurrentContext()];
                 
                 UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
                 UIGraphicsEndImageContext();
                 
-                shrinkingView = [[UIImageView alloc] initWithFrame:self.baseLayerView.frame];
+                CGPoint point = [backgroundView.superview convertPoint:backgroundView.frame.origin toView:nil];
+                
+                shrinkingView = [[UIImageView alloc] initWithFrame:CGRectMake(point.x, point.y, backgroundView.frame.size.width, backgroundView.frame.size.height)];
+                
                 resultingImage = image;
             } else {
                 UIGraphicsBeginImageContextWithOptions(backgroundView.frame.size, YES, 1.0);
@@ -489,8 +492,10 @@
                 
                 shrinkingView = [[UIImageView alloc] initWithFrame:backgroundView.frame];
                 resultingImage = [[Global global] scaledImage:resultingImage size:backgroundView.frame.size];
+                
             }
-            shrinkingView.center = self.baseLayerView.center;
+            
+            shrinkingView.contentMode = UIViewContentModeScaleAspectFit;
             shrinkingView.image =  resultingImage;
             [self.view addSubview:shrinkingView];
             
@@ -622,7 +627,10 @@
                     //                    [self.baseLayerView restoreSavedRect];
                     //                    [self.baseLayerView restoreFrameOfAllSubviews];
                     if (_isTall) {
-                        shrinkingView.frame = self.baseLayerView.frame;
+                        CGPoint point = [backgroundView.superview convertPoint:backgroundView.frame.origin toView:nil];
+                        CGRect frame = shrinkingView.frame;
+                        frame.origin = point;
+                        shrinkingView.frame = frame;
                     } else {
                         shrinkingView.frame = backgroundView.frame;
                     }
@@ -1207,9 +1215,10 @@
         NSLog(@"There is nothing comic objects");
         return;
     }
+    
     _timerImageViews = [NSMutableArray array];
     backgroundView = [ComicObjectView createComicViewWith:viewModel.arrayObjects delegate:self timerImageViews:_timerImageViews];
-    //    backgroundView.frame = CGRectMake(0, 0, self.baseLayerView.frame.size.width, self.baseLayerView.frame.size.height);
+    backgroundView.frame = CGRectMake(0, 20, 305, 495.5);
     [self.baseLayerView insertSubview:backgroundView atIndex:0];
     
     //Set tags----------
