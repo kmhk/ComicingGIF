@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -27,16 +26,16 @@
             <rect key="frame" x="0.0" y="0.0" width="346" height="460"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WhiteTop" translatesAutoresizingMaskIntoConstraints="NO" id="y4Q-kq-wJA" userLabel="TopImageView">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LBlueTop" translatesAutoresizingMaskIntoConstraints="NO" id="y4Q-kq-wJA" userLabel="TopImageView">
                     <rect key="frame" x="10" y="0.0" width="326" height="15"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WhiteLeft" translatesAutoresizingMaskIntoConstraints="NO" id="eHk-yI-A96" userLabel="LeftImageView">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LBlueLeft" translatesAutoresizingMaskIntoConstraints="NO" id="eHk-yI-A96" userLabel="LeftImageView">
                     <rect key="frame" x="10" y="15" width="17" height="415"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WhiteRight" translatesAutoresizingMaskIntoConstraints="NO" id="USo-PP-7v7">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LBlueRight" translatesAutoresizingMaskIntoConstraints="NO" id="USo-PP-7v7">
                     <rect key="frame" x="296" y="15" width="40" height="415"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WhiteBottom" translatesAutoresizingMaskIntoConstraints="NO" id="7IN-eD-Kyw" userLabel="BottomImageView">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LBlueBottom" translatesAutoresizingMaskIntoConstraints="NO" id="7IN-eD-Kyw" userLabel="BottomImageView">
                     <rect key="frame" x="10" y="430" width="326" height="30"/>
                 </imageView>
                 <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="none" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rBf-Kd-2ev">
@@ -98,10 +97,10 @@
         </view>
     </objects>
     <resources>
-        <image name="WhiteBottom" width="1220" height="81"/>
-        <image name="WhiteLeft" width="40" height="1768"/>
-        <image name="WhiteRight" width="150" height="1768"/>
-        <image name="WhiteTop" width="1220" height="60"/>
+        <image name="LBlueBottom" width="1220" height="80"/>
+        <image name="LBlueLeft" width="40" height="1770"/>
+        <image name="LBlueRight" width="150" height="1770"/>
+        <image name="LBlueTop" width="1220" height="61"/>
         <image name="colorCircle" width="18" height="18"/>
     </resources>
 </document>
