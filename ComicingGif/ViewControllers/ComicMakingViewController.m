@@ -1215,10 +1215,10 @@
         NSLog(@"There is nothing comic objects");
         return;
     }
-    
+    [self.view layoutIfNeeded];
     _timerImageViews = [NSMutableArray array];
     backgroundView = [ComicObjectView createComicViewWith:viewModel.arrayObjects delegate:self timerImageViews:_timerImageViews];
-    backgroundView.frame = CGRectMake(0, 20, 305, 495.5);
+    backgroundView.frame = CGRectMake(0, 20, self.baseLayerView.frame.size.width, self.baseLayerView.frame.size.height-20);
     [self.baseLayerView insertSubview:backgroundView atIndex:0];
     
     //Set tags----------

@@ -78,21 +78,21 @@
                 CGFloat ratioHeight; //ratio SlideView To ScreenSize
                 if (IS_IPHONE_5) {
                     ratioWidth = rect.size.width / 305;
-                    ratioHeight = rect.size.height / 515.5;
+                    ratioHeight = rect.size.height / 495.5;
                 } else if (IS_IPHONE_6) {
                     ratioWidth = rect.size.width / 358;
-                    ratioHeight = rect.size.height / 605;
+                    ratioHeight = rect.size.height / 585;
                 } else {
-                    ratioWidth = rect.size.width / 358;
-                    ratioHeight = rect.size.height / 605;
+                    ratioWidth = rect.size.width / 395.333;
+                    ratioHeight = rect.size.height / 648.333;
                 }
 
 
                 //                CGFloat ratioHeight = rect.size.height / SCREEN_HEIGHT;
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) , (frameOfObject.origin.y * ratioHeight) - 15, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
                 } else {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) , (frameOfObject.origin.y * ratioHeight) - 15, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
                 }
                 i ++;
                 
@@ -121,20 +121,20 @@
                 CGFloat ratioHeight; //ratio SlideView To ScreenSize
                 if (IS_IPHONE_5) {
                     ratioWidth = rect.size.width / 305;
-                    ratioHeight = rect.size.height / 515.5;
+                    ratioHeight = rect.size.height / 495.5;
                 } else if (IS_IPHONE_6) {
                     ratioWidth = rect.size.width / 358;
-                    ratioHeight = rect.size.height / 605;
+                    ratioHeight = rect.size.height / 585;
                 } else {
-                    ratioWidth = rect.size.width / 358;
-                    ratioHeight = rect.size.height / 605;
+                    ratioWidth = rect.size.width / 395.333;
+                    ratioHeight = rect.size.height / 648.333;
                 }
                 
                 //                CGFloat ratioHeight = rect.size.height / SCREEN_HEIGHT;
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) , (frameOfObject.origin.y * ratioHeight) - 15, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
                 } else {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) , (frameOfObject.origin.y * ratioHeight) - 15, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
                 }
                 i ++;
                 
@@ -176,20 +176,20 @@
                 CGFloat ratioHeight; //ratio SlideView To ScreenSize
                 if (IS_IPHONE_5) {
                     ratioWidth = rect.size.width / 305;
-                    ratioHeight = rect.size.height / 515.5;
+                    ratioHeight = rect.size.height / 495.5;
                 } else if (IS_IPHONE_6) {
                     ratioWidth = rect.size.width / 358;
-                    ratioHeight = rect.size.height / 605;
+                    ratioHeight = rect.size.height / 585;
                 } else {
-                    ratioWidth = rect.size.width / 358;
-                    ratioHeight = rect.size.height / 605;
+                    ratioWidth = rect.size.width / 395.333;
+                    ratioHeight = rect.size.height / 648.333;
                 }
                 
                 //                CGFloat ratioHeight = rect.size.height / SCREEN_HEIGHT;
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) , (frameOfObject.origin.y * ratioHeight) - 15, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
                 } else {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) , (frameOfObject.origin.y * ratioHeight) - 15, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
                 }
                 i ++;
                 
@@ -226,20 +226,20 @@
                 CGFloat ratioHeight; //ratio SlideView To ScreenSize
                 if (IS_IPHONE_5) {
                     ratioWidth = rect.size.width / 305;
-                    ratioHeight = rect.size.height / 515.5;
+                    ratioHeight = rect.size.height / 495.5;
                 } else if (IS_IPHONE_6) {
                     ratioWidth = rect.size.width / 358;
-                    ratioHeight = rect.size.height / 605;
+                    ratioHeight = rect.size.height / 585;
                 } else {
-                    ratioWidth = rect.size.width / 358;
-                    ratioHeight = rect.size.height / 605;
+                    ratioWidth = rect.size.width / 395.333;
+                    ratioHeight = rect.size.height / 648.333;
                 }
                 
                 //                CGFloat ratioHeight = rect.size.height / SCREEN_HEIGHT;
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) , (frameOfObject.origin.y * ratioHeight) - 15, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
                 } else {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) , (frameOfObject.origin.y * ratioHeight) - 15, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
                 }
                 i ++;
                 
