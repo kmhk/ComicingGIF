@@ -9,6 +9,12 @@
 #import "CBComicImageCell.h"
 #import <ImageIO/ImageIO.h>
 
+#import "BaseObject.h"
+#import "BubbleObject.h"
+#import "PenObject.h"
+#import "ComicObjectView.h"
+#import "CMCBubbleView.h"
+
 #if __has_feature(objc_arc)
 #define toCF (__bridge CFTypeRef)
 #define fromCF (__bridge id)
@@ -40,6 +46,14 @@
     for (UIView *view in [cell.topLayerView subviews]) {
         [view removeFromSuperview];
     }
+    
+    int kVerticalMargin = 10;
+    NSMutableArray<ComicObjectView *> *penObjectsViewsArray = [NSMutableArray new];
+    NSMutableDictionary<NSNumber *, NSMutableArray<ComicObjectView *> *> *multiplePenObjecsDevidedByTimeDelay = [NSMutableDictionary new];
+    
+    CGRect screenRect = [UIScreen mainScreen].bounds;
+    CGSize scales = CGSizeMake(cell.bounds.size.width / screenRect.size.width,
+                               cell.bounds.size.height / screenRect.size.height);
     
     NSData *gifData = [self getGifDataFromFileName:_comicItemModel.comicPage.gifLayerPath];
     
@@ -149,6 +163,112 @@
                 
                 [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:stickerImageView delayTime:[[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue] andObjectType:ObjectSticker]];
             }
+            
+            int objectTypeIndex = [[[subview objectForKey:@"baseInfo"] objectForKey:@"type"] intValue];
+
+            if (objectTypeIndex == ObjectBubble) {
+                BubbleObject *bubbleObject = [[BubbleObject alloc] initFromDict:subview];
+                ComicObjectView *bubbleObjectView = [ComicObjectView createListViewComicBubbleObjectViewWithObject:bubbleObject];
+                
+                CGPoint scaledOriginPoint = CGPointMake(bubbleObjectView.frame.origin.x * scales.width,
+                                                        bubbleObjectView.frame.origin.y * scales.height);
+                
+                bubbleObjectView.transform = CGAffineTransformScale(bubbleObjectView.transform, scales.width, scales.height);
+                
+                [bubbleObjectView setFrame:CGRectMake(scaledOriginPoint.x, scaledOriginPoint.y,
+                                                      bubbleObjectView.frame.size.width,
+                                                      bubbleObjectView.frame.size.height)];
+                
+                CMCBubbleView *bubbleView = (CMCBubbleView *)bubbleObjectView.subviews.firstObject;
+                [bubbleView deactivateTextField];
+                
+                cell.topLayerView.bounds = CGRectInset(cell.topLayerView.frame, kVerticalMargin, kVerticalMargin);
+                [cell.topLayerView setFrame:cell.frame];
+                [cell.topLayerView addSubview:bubbleObjectView];
+                
+                TimerImageViewStruct *timerViewStruct = [[TimerImageViewStruct alloc]initWithImageView:nil
+                                                                                             delayTime:[[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue]
+                                                                                         andObjectType:ObjectBubble];
+                timerViewStruct.view = bubbleObjectView;
+                [self.timerImageViews addObject:timerViewStruct];
+                
+            } else if (objectTypeIndex == ObjectPen) {
+                PenObject *penObject = [[PenObject alloc] initFromDict:subview];
+                ComicObjectView *drawingObjectView = [[ComicObjectView alloc] initWithComicObject:penObject];
+                [penObjectsViewsArray addObject:drawingObjectView];
+                
+                
+                NSNumber *currentKey = @(penObject.delayTimeInSeconds);
+                NSMutableArray<ComicObjectView *> *arrayForCurrentTimeDelay = [multiplePenObjecsDevidedByTimeDelay objectForKey:currentKey];
+                if (!arrayForCurrentTimeDelay) {
+                    arrayForCurrentTimeDelay = [NSMutableArray new];
+                }
+                [arrayForCurrentTimeDelay addObject:drawingObjectView];
+                [multiplePenObjecsDevidedByTimeDelay setObject:arrayForCurrentTimeDelay
+                                                        forKey:currentKey];
+                
+                
+            } else if (objectTypeIndex == ObjectCaption) {
+                
+                CaptionObject *captionObject = [[CaptionObject alloc] initFromDict:subview];
+                ComicObjectView *captionObjectView = [ComicObjectView createListViewComicCaptionObjectViewWithObject:captionObject];
+                CGPoint scaledOriginPoint = CGPointMake(captionObjectView.frame.origin.x * scales.width,
+                                                        captionObjectView.frame.origin.y * scales.height);
+                captionObjectView.transform = CGAffineTransformScale(captionObjectView.transform, scales.width, scales.height);
+                [captionObjectView setFrame:CGRectMake(scaledOriginPoint.x, scaledOriginPoint.y,
+                                                       captionObjectView.frame.size.width,
+                                                       captionObjectView.frame.size.height)];
+                cell.topLayerView.bounds = CGRectInset(cell.topLayerView.frame, kVerticalMargin, kVerticalMargin);
+                [cell.topLayerView setFrame:cell.frame];
+                [cell.topLayerView addSubview:captionObjectView];
+                
+                TimerImageViewStruct *timerViewStruct = [[TimerImageViewStruct alloc]initWithImageView:nil
+                                                                                             delayTime:[[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue]
+                                                                                         andObjectType:ObjectCaption];
+                timerViewStruct.view = captionObjectView;
+                [self.timerImageViews addObject:timerViewStruct];
+            }
+        
+            
+            if (multiplePenObjecsDevidedByTimeDelay.count > 0) {
+                for (NSNumber *timeDelayKey in multiplePenObjecsDevidedByTimeDelay.allKeys) {
+                    NSMutableArray *penViewForTimeDelayArray = [multiplePenObjecsDevidedByTimeDelay objectForKey:timeDelayKey];
+                    
+                    ComicObjectView *drawingObjectView = [ComicObjectView createSingleImageViewFromDrawingsArrayofPenViews:penViewForTimeDelayArray];
+                    
+                    if (cell.topLayerView.subviews.count > 0) {
+                        [cell.topLayerView insertSubview:drawingObjectView atIndex:0];
+                    } else {
+                        [cell.topLayerView addSubview:drawingObjectView];
+                    }
+                    
+                    TimerImageViewStruct *timerViewStruct = [[TimerImageViewStruct alloc] initWithImageView:nil
+                                                                                                  delayTime:timeDelayKey.floatValue
+                                                                                              andObjectType:ObjectPen];
+                    timerViewStruct.view = drawingObjectView;
+                    [self.timerImageViews addObject:timerViewStruct];
+                }
+                
+            }
+            
+            /*
+            UIImageView *allDrawingsImageView = [ComicObjectView createListViewComicPenObjectViewsWithArray:penObjectsViewsArray];
+            if (allDrawingsImageView) {
+                
+                allDrawingsImageView.transform = CGAffineTransformMakeScale(scales.width, scales.height);
+                [allDrawingsImageView setFrame:CGRectMake(0,
+                                                          0,
+                                                          allDrawingsImageView.frame.size.width,
+                                                          allDrawingsImageView.frame.size.height)];
+                [cell.topLayerView setFrame:cell.frame];
+                cell.topLayerView.bounds = CGRectInset(cell.topLayerView.frame, kVerticalMargin, kVerticalMargin);
+                if (cell.topLayerView.subviews.count > 0) {
+                    [cell.topLayerView insertSubview:allDrawingsImageView atIndex:0];
+                } else {
+                    [cell.topLayerView addSubview:allDrawingsImageView];
+                }
+            }
+            */
         }
     } else {
         // This can be 2 layer or single layer
@@ -480,6 +600,13 @@
             }
             if (timerImageView.imageView.hidden == NO && (_currentTimeInterval <= timerImageView.delayTimeOfImageView)) {
                 timerImageView.imageView.hidden = YES;
+            }
+            
+            if (timerImageView.view.hidden == YES && (_currentTimeInterval > timerImageView.delayTimeOfImageView)) {
+                timerImageView.view.hidden = NO;
+            }
+            if (timerImageView.view.hidden == NO && (_currentTimeInterval <= timerImageView.delayTimeOfImageView)) {
+                timerImageView.view.hidden = YES;
             }
         }
     }
