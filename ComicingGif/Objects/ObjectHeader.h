@@ -18,7 +18,10 @@
 
 
 #define COUNT_STICKERS		@[@3, @3, @3, @4, @2, @4, @3]
-#define COUNT_GIFS			@[@3, @2, @2, @1, @1, @1, @1]
+
+//#define COUNT_GIFS			@[@13, @2, @2, @1, @1, @1, @1]
+#define COUNT_GIFS			@[@6, @7, @2, @1, @1, @1, @1]
+
 #define COUNT_CATEGORY		8
 
 #endif /* ObjectHeader_h */
