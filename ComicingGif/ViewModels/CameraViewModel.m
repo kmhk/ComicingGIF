@@ -227,7 +227,8 @@
 }
 
 - (void)exportGIFwithVideo {
-	SCAssetExportSession *exportSession = [[SCAssetExportSession alloc] initWithAsset:self.recorder.session.assetRepresentingSegments];
+//    AVAsset *tmpAsset = [AVAsset assetWithURL:[NSURL fileURLWithPath:@"/Users/Ahmed/Desktop/IMG_5047.mp4"]];
+    SCAssetExportSession *exportSession = [[SCAssetExportSession alloc] initWithAsset:self.recorder.session.assetRepresentingSegments];
 	exportSession.videoConfiguration.enabled = true;
 	exportSession.videoConfiguration.size = exportSize;
 	exportSession.videoConfiguration.scalingMode = AVVideoScalingModeResizeAspectFill;
