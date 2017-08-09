@@ -12,10 +12,14 @@
 
 @interface TimerImageViewStruct : NSObject
 
+@property(nonatomic, strong) UIView *view;
+
 @property(nonatomic, strong) UIImageView *imageView;
 @property(nonatomic, assign) CGFloat delayTimeOfImageView;
 @property(nonatomic, assign) ComicObjectType objType;
 
 - (instancetype)initWithImageView:(UIImageView *)imageView delayTime:(CGFloat)delayTime andObjectType:(ComicObjectType)objType;
+
+- (void)adjustViewAppearanceWithDelay:(CGFloat)delay;
 
 @end

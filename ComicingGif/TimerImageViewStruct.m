@@ -7,6 +7,7 @@
 //
 
 #import "TimerImageViewStruct.h"
+#import "CMCCaptionView.h"
 
 @implementation TimerImageViewStruct
 
@@ -19,6 +20,18 @@
     }
     
     return self;
+}
+
+- (void)adjustViewAppearanceWithDelay:(CGFloat)delay {
+    if (self.objType != ObjectCaption) {
+        return;
+    }
+    if (![self.view isKindOfClass:[CMCCaptionView class]]) {
+        return;
+    }
+    // TODO: add caption support
+//    CMCCaptionView *captionView = (CMCCaptionView *) self.view;
+//    [captionView switchTextContentToPrimaryText:(delay < captionView.secondaryTextActivationTimeOffset)];
 }
 
 @end
