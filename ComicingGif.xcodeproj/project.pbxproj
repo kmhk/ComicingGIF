@@ -427,7 +427,10 @@
 		E2583E321EE9CECD005772E7 /* theme_bubble_1_3.png in Resources */ = {isa = PBXBuildFile; fileRef = E2583E221EE9CECD005772E7 /* theme_bubble_1_3.png */; };
 		E26647E31F24941C0031F2BB /* image-0-0.png in Resources */ = {isa = PBXBuildFile; fileRef = E26647E11F24941C0031F2BB /* image-0-0.png */; };
 		E26647E41F24941C0031F2BB /* image-0-5.png in Resources */ = {isa = PBXBuildFile; fileRef = E26647E21F24941C0031F2BB /* image-0-5.png */; };
+		E266A1B01F20C680007E5722 /* CMCExpandableCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E266A1AF1F20C680007E5722 /* CMCExpandableCollectionViewFlowLayout.m */; };
 		E26C41631EFEF4C900D37798 /* CMCCaptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = E26C41621EFEF4C900D37798 /* CMCCaptionView.m */; };
+		E28C57771F1F35AE00E5A930 /* CMCExpandableCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = E28C57761F1F35AE00E5A930 /* CMCExpandableCollectionView.m */; };
+		E2C155871F2E2C46005F95AB /* PassthroughBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C155861F2E2C46005F95AB /* PassthroughBackgroundView.m */; };
 		E2ED9FB91EEAA2E800DDE833 /* theme_bubble_5_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E2ED9FB51EEAA2E800DDE833 /* theme_bubble_5_0.png */; };
 		E2ED9FBA1EEAA2E800DDE833 /* theme_bubble_5_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E2ED9FB61EEAA2E800DDE833 /* theme_bubble_5_1.png */; };
 		E2ED9FBB1EEAA2E800DDE833 /* theme_bubble_5_2.png in Resources */ = {isa = PBXBuildFile; fileRef = E2ED9FB71EEAA2E800DDE833 /* theme_bubble_5_2.png */; };
@@ -1190,8 +1193,14 @@
 		E2583E221EE9CECD005772E7 /* theme_bubble_1_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = theme_bubble_1_3.png; sourceTree = "<group>"; };
 		E26647E11F24941C0031F2BB /* image-0-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image-0-0.png"; sourceTree = "<group>"; };
 		E26647E21F24941C0031F2BB /* image-0-5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image-0-5.png"; sourceTree = "<group>"; };
+		E266A1AE1F20C680007E5722 /* CMCExpandableCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMCExpandableCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		E266A1AF1F20C680007E5722 /* CMCExpandableCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMCExpandableCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		E26C41611EFEF4C900D37798 /* CMCCaptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMCCaptionView.h; sourceTree = "<group>"; };
 		E26C41621EFEF4C900D37798 /* CMCCaptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMCCaptionView.m; sourceTree = "<group>"; };
+		E28C57751F1F35AE00E5A930 /* CMCExpandableCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMCExpandableCollectionView.h; sourceTree = "<group>"; };
+		E28C57761F1F35AE00E5A930 /* CMCExpandableCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMCExpandableCollectionView.m; sourceTree = "<group>"; };
+		E2C155851F2E2C46005F95AB /* PassthroughBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassthroughBackgroundView.h; sourceTree = "<group>"; };
+		E2C155861F2E2C46005F95AB /* PassthroughBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PassthroughBackgroundView.m; sourceTree = "<group>"; };
 		E2ED9FB51EEAA2E800DDE833 /* theme_bubble_5_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = theme_bubble_5_0.png; sourceTree = "<group>"; };
 		E2ED9FB61EEAA2E800DDE833 /* theme_bubble_5_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = theme_bubble_5_1.png; sourceTree = "<group>"; };
 		E2ED9FB71EEAA2E800DDE833 /* theme_bubble_5_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = theme_bubble_5_2.png; sourceTree = "<group>"; };
@@ -2934,6 +2943,26 @@
 			name = CMCCaptionView;
 			sourceTree = "<group>";
 		};
+		E28C57741F1F356300E5A930 /* ExpandableCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				E28C57751F1F35AE00E5A930 /* CMCExpandableCollectionView.h */,
+				E28C57761F1F35AE00E5A930 /* CMCExpandableCollectionView.m */,
+				E266A1AE1F20C680007E5722 /* CMCExpandableCollectionViewFlowLayout.h */,
+				E266A1AF1F20C680007E5722 /* CMCExpandableCollectionViewFlowLayout.m */,
+			);
+			name = ExpandableCollectionView;
+			sourceTree = "<group>";
+		};
+		E2C155841F2E2C08005F95AB /* PassthroughBackgroundView */ = {
+			isa = PBXGroup;
+			children = (
+				E2C155851F2E2C46005F95AB /* PassthroughBackgroundView.h */,
+				E2C155861F2E2C46005F95AB /* PassthroughBackgroundView.m */,
+			);
+			name = PassthroughBackgroundView;
+			sourceTree = "<group>";
+		};
 		E2FBB5B01EE32886003D7541 /* Bubble */ = {
 			isa = PBXGroup;
 			children = (
@@ -3055,6 +3084,8 @@
 		F323D45A1E8E459100B41659 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E2C155841F2E2C08005F95AB /* PassthroughBackgroundView */,
+				E28C57741F1F356300E5A930 /* ExpandableCollectionView */,
 				E26C41601EFEF4B000D37798 /* CMCCaptionView */,
 				E2FBB5B91EE5CA64003D7541 /* CMCBubbleView */,
 				CE1D4E091EC2F50F009D8321 /* LayoutViews */,
@@ -3705,6 +3736,7 @@
 				0C43F43A1E9F3B4500AB71F9 /* CBComicImageCell.m in Sources */,
 				0C43F33A1E9F36C200AB71F9 /* MTLValueTransformer.m in Sources */,
 				0C43F3941E9F384B00AB71F9 /* SDWebImageCompat.m in Sources */,
+				E266A1B01F20C680007E5722 /* CMCExpandableCollectionViewFlowLayout.m in Sources */,
 				0C43F43C1E9F3B4500AB71F9 /* CBComicPreviewCell.m in Sources */,
 				F36BE3A91E830E22007F6CE7 /* main.m in Sources */,
 				0C43F2F51E9F361300AB71F9 /* CBBaseViewController.m in Sources */,
@@ -3718,6 +3750,7 @@
 				0C43F6E01E9F48F800AB71F9 /* FrinedsUsingComicingCell.m in Sources */,
 				0C43F4EA1E9F3DCB00AB71F9 /* ActiveInbox.m in Sources */,
 				0C43F6711E9F452F00AB71F9 /* CropRegisterViewController.m in Sources */,
+				E28C57771F1F35AE00E5A930 /* CMCExpandableCollectionView.m in Sources */,
 				0C43F3651E9F37F600AB71F9 /* CustomScrollView.m in Sources */,
 				0C43F5451E9F3E4000AB71F9 /* ComicNetworking.m in Sources */,
 				0C43F6E61E9F492300AB71F9 /* FindFriendsView.m in Sources */,
@@ -3855,6 +3888,7 @@
 				0C43F7171E9F4CF600AB71F9 /* CMCComic.m in Sources */,
 				0C43F3DD1E9F3AC600AB71F9 /* YLGIFImage.m in Sources */,
 				0C43F4ED1E9F3DCB00AB71F9 /* InviteScore+CoreDataProperties.m in Sources */,
+				E2C155871F2E2C46005F95AB /* PassthroughBackgroundView.m in Sources */,
 				0C43F3AC1E9F38DA00AB71F9 /* SubIndexpageCell.m in Sources */,
 				0C43F3B51E9F392400AB71F9 /* ComicCellViewController.m in Sources */,
 				F323D4991E8F035200B41659 /* BkImageObject.m in Sources */,
