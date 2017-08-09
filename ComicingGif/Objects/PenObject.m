@@ -38,6 +38,7 @@
     self.frame = CGRectFromString(baseDict[@"frame"]);
     self.angle = [baseDict[@"angle"] floatValue];
     self.scale = [baseDict[@"scale"] floatValue];
+    self.delayTimeInSeconds = [baseDict[@"delayTime"] floatValue];
     
     _brushSize = [dict[@"brush-size"] floatValue];
     _color = [self colorFromDictionary:dict[@"color"]];

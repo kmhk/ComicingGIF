@@ -46,6 +46,7 @@
     self.objType = (ComicObjectType)[baseDict[@"type"] integerValue];
     self.angle = [baseDict[@"angle"] floatValue];
     self.scale = [baseDict[@"scale"] floatValue];
+    self.delayTimeInSeconds = [baseDict[@"delayTime"] floatValue];
     
     _text = dict[@"text"];
     
