@@ -1,3 +1,4 @@
+
 //
 //  ComicObjectView.m
 //  ComicingGif
@@ -65,20 +66,39 @@
 		[self addGestures];
 		
 	} else if (obj.objType == ObjectBubble) {
-		[self createBubbleView];
+		CMCBubbleView *bubbleView = [self createBubbleView];
 		[self addGestures];
+
+        TimerImageViewStruct *timerObject = [[TimerImageViewStruct alloc]initWithImageView:nil
+                                                                                 delayTime:self.delayTimeInSeconds
+                                                                             andObjectType:obj.objType];
+        timerObject.view = bubbleView;
+        [self.timerImageViews addObject:timerObject];
 		
 	} else if (obj.objType == ObjectCaption) {
-		[self createCaptionView];
+        CMCCaptionView *captionView = [self createCaptionView];
 		[self addGestures];
+        
+        TimerImageViewStruct *timerObject = [[TimerImageViewStruct alloc]initWithImageView:nil
+                                                                                 delayTime:self.delayTimeInSeconds
+                                                                             andObjectType:obj.objType];
+        timerObject.view = captionView;
+        [self.timerImageViews addObject:timerObject];
+
 		
 	} else if (obj.objType == ObjectPen) {
-		[self createPenView];
+		UIImageView *penView = [self createPenView];
+        
+        TimerImageViewStruct *timerObject = [[TimerImageViewStruct alloc]initWithImageView:penView
+                                                                                 delayTime:self.delayTimeInSeconds
+                                                                             andObjectType:obj.objType];
+//        timerObject.view = penView;
+        [self.timerImageViews addObject:timerObject];
 	}
 	
 	self.transform = CGAffineTransformScale(CGAffineTransformIdentity, self.comicObject.scale, self.comicObject.scale);
 	self.transform = CGAffineTransformRotate(self.transform, self.comicObject.angle);
-	
+    
 	return self;
 }
 
@@ -144,6 +164,8 @@
     
     NSMutableArray<ComicObjectView *> *penObjectsViewArray = [NSMutableArray new];
     
+    NSMutableDictionary<NSNumber *, NSMutableArray<ComicObjectView *> *> *multiplePenObjecsDevidedByTimeDelay = [NSMutableDictionary new];
+    
     if (backgroundView.timerImageViews != nil) {
         [timerImageViews addObjectsFromArray:backgroundView.timerImageViews];
     }
@@ -166,6 +188,8 @@
                                 forDirection:BubbleDirectionBottomLeft];
             [initialBubbleObject changeBubbleTypeTo:BubbleTypeStar];
             
+            initialBubbleObject.delayTimeInSeconds = obj.delayTimeInSeconds;
+            
             comicView = [[ComicObjectView alloc] initWithComicObject:initialBubbleObject];
             comicView.parentView = backgroundView;
             comicView.delegate = userInfo;
@@ -184,10 +208,31 @@
                                        withForceBubbleViewReload:YES];
         }
         
+        if (obj.objType == ObjectCaption) {
+            CMCCaptionView *captionView = (CMCCaptionView *) comicView.subviews.firstObject;
+            [captionView deactivateTextField];
+        }
+        if (obj.objType == ObjectBubble) {
+            CMCBubbleView *bubbleView = (CMCBubbleView *) comicView.subviews.firstObject;
+            [bubbleView deactivateTextField];
+        }
+        
         // For performance reasons it will be better to combine all drawings into single image view and add only this image view to the background
         if (obj.objType == ObjectPen) {
             [penObjectsViewArray addObject:comicView];
             // We don't need to add each drawing as a subview right away.
+            
+            
+            NSNumber *currentKey = @(obj.delayTimeInSeconds);
+            NSMutableArray<ComicObjectView *> *arrayForCurrentTimeDelay = [multiplePenObjecsDevidedByTimeDelay objectForKey:currentKey];
+            if (!arrayForCurrentTimeDelay) {
+                arrayForCurrentTimeDelay = [NSMutableArray new];
+            }
+            [arrayForCurrentTimeDelay addObject:comicView];
+            [multiplePenObjecsDevidedByTimeDelay setObject:arrayForCurrentTimeDelay
+                                                    forKey:currentKey];
+            
+            
             continue;
         }
         [backgroundView addSubview:comicView];
@@ -198,6 +243,27 @@
         }
 	}
     
+    if (multiplePenObjecsDevidedByTimeDelay.count > 0) {
+        
+        for (NSNumber *timeDelayKey in multiplePenObjecsDevidedByTimeDelay.allKeys) {
+            NSMutableArray *penViewForTimeDelayArray = [multiplePenObjecsDevidedByTimeDelay objectForKey:timeDelayKey];
+            
+            ComicObjectView *drawingObjectView = [self createSingleImageViewFromDrawingsArrayofPenViews:penViewForTimeDelayArray];
+            
+            if (backgroundView.subviews.count > 1) {
+                [backgroundView insertSubview:drawingObjectView atIndex:1];
+            } else {
+                [backgroundView addSubview:drawingObjectView];
+            }
+            
+            if (drawingObjectView.timerImageViews != nil) {
+                [timerImageViews addObjectsFromArray:drawingObjectView.timerImageViews];
+            }
+        }
+        
+    }
+    
+    /*
     // Generate single image view with all drawings. Nil – if there is no drawings in current comics item
     UIImageView *allDrawingsImageView = [self createSingleImageViewFromDrawingsArray:penObjectsViewArray];
     if (allDrawingsImageView) {
@@ -210,6 +276,7 @@
             [backgroundView addSubview:allDrawingsImageView];
         }
     }
+    */
 	
 	return backgroundView;
 }
@@ -240,10 +307,15 @@
         if (self.subviews.count == 0) {
             return;
         }
-        CMCCaptionView *bubbleView = (CMCCaptionView *) self.subviews.firstObject;
+        CMCCaptionView *captionView = (CMCCaptionView *) self.subviews.firstObject;
+
         if (_delegate && [_delegate conformsToProtocol:@protocol(CMCCaptionViewDelegate)]) {
-            bubbleView.captionDelegate = (id<CMCCaptionViewDelegate>) _delegate;
+            captionView.captionDelegate = (id<CMCCaptionViewDelegate>) _delegate;
         }
+//        if (_delegate && [_delegate conformsToProtocol:@protocol(CMCCaptionSecondaryTextDelegate)]) {
+//            captionView.captionSecondaryTextDelegate = (id<CMCCaptionSecondaryTextDelegate>) _delegate;
+//        }
+
         return;
     }
     
@@ -285,6 +357,8 @@
         captionView.currentCaptionType = captionObject.type;
         [captionView setCaptionText:captionObject.text];
         
+        [captionView activateTextField];
+        
         return;
     }
 }
@@ -306,13 +380,13 @@
 
 - (void)createAnimationGIFView {
 	StickerObject *obj = (StickerObject *)self.comicObject;
-	self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
+	self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width+150, obj.frame.size.height+150);
 	
 	NSData *data = [NSData dataWithContentsOfURL:obj.stickerURL];
 	/*
 	 real inside content view's size is less (40, 40) than object view. because it needs to show tool bar of all comic objects
 	 */
-    CGRect stickerRect = CGRectMake(0, 0, obj.frame.size.width - W_PADDING, obj.frame.size.height - H_PADDING);
+    CGRect stickerRect = CGRectMake(0, 0, obj.frame.size.width - W_PADDING +150, obj.frame.size.height - H_PADDING +150);
     [self createImageViewWith:data
                         frame:stickerRect
                      bAnimate:YES
@@ -335,7 +409,7 @@
     return imageView;
 }
 
-- (void)createBubbleView {
+- (CMCBubbleView *)createBubbleView {
     BubbleObject *bubbleObject = (BubbleObject *) self.comicObject;
     NSData *bubbleImageData = [NSData dataWithContentsOfURL:bubbleObject.bubbleURL];
     
@@ -348,24 +422,33 @@
                             bubbleWidth + bubbleInnerRootViewOffset,
                             bubbleHeight + bubbleInnerRootViewOffset);
     
-    [self createBubbleImageViewWithData:bubbleImageData
-                             bubbleText:bubbleObject.text
-                                  frame:CGRectMake(0, 0, bubbleWidth, bubbleHeight)];
+    CMCBubbleView *bubbleView = [self createBubbleImageViewWithData:bubbleImageData
+                                                         bubbleText:bubbleObject.text
+                                                              frame:CGRectMake(0, 0, bubbleWidth, bubbleHeight)];
+    return bubbleView;
 }
 
-- (void)createCaptionView {
+- (CMCCaptionView *)createCaptionView {
     CaptionObject *captionObject = (CaptionObject *) self.comicObject;
     CGFloat captionViewOffset = CAPTION_INNER_OFFSET;
     self.frame = CGRectMake(captionObject.frame.origin.x,
                             captionObject.frame.origin.y - captionViewOffset,
                             captionObject.frame.size.width,
                             captionObject.frame.size.height + captionViewOffset);
-    [self createCaptionViewWithText:captionObject.text
-                               type:captionObject.type
-                           andFrame:CGRectMake(0, captionViewOffset, captionObject.frame.size.width, captionObject.frame.size.height)];
+    CMCCaptionView *captionView = [self createCaptionViewWithText:captionObject.text
+                                                             type:captionObject.type
+                                                         andFrame:CGRectMake(0, captionViewOffset,
+                                                                             captionObject.frame.size.width,
+                                                                             captionObject.frame.size.height)];
+    if (captionObject.type == CaptionTypeTextWithoutBackgroun) {
+//        captionView.secondaryTextActivationTimeOffset = captionObject.secondaryTextActivationTimeOffset;
+//        captionView.primaryText = captionObject.primaryText;
+//        captionView.secondaryText = captionObject.secondaryText;
+    }
+    return captionView;
 }
 
-- (void)createPenView {
+- (UIImageView *)createPenView {
 	PenObject *penObject = (PenObject *) self.comicObject;
     self.frame = CGRectMake(penObject.frame.origin.x,
                             penObject.frame.origin.y,
@@ -374,9 +457,10 @@
     UIColor *color = penObject.color;
     CGFloat brushSize = penObject.brushSize;
     NSArray<NSValue *> *coordinates = penObject.coordinates;
-    [self createDrawingWithCoordinates:coordinates
-                                 color:color
-                          andBrushSize:brushSize];
+    UIImageView *imageView = [self createDrawingWithCoordinates:coordinates
+                                                          color:color
+                                                   andBrushSize:brushSize];
+    return imageView;
 }
 
 
@@ -450,7 +534,65 @@
     return finalDrawingImageView;
 }
 
-- (void)createDrawingWithCoordinates:(NSArray<NSValue *> *)coordinates
++ (ComicObjectView *)createSingleImageViewFromDrawingsArrayofPenViews:(inout NSMutableArray<ComicObjectView *> *)penObjectsViewArray {
+    
+    if (!penObjectsViewArray || penObjectsViewArray.count == 0) {
+        return nil;
+    }
+    
+    ComicObjectView *firstComicObjectView = penObjectsViewArray.firstObject;
+    
+    UIImageView *finalDrawingImageView = [[UIImageView alloc] initWithFrame:firstComicObjectView.frame];
+    
+    UIGraphicsBeginImageContext(finalDrawingImageView.frame.size);
+    [finalDrawingImageView.image drawInRect:CGRectMake(0, 0,
+                                                       finalDrawingImageView.frame.size.width,
+                                                       finalDrawingImageView.frame.size.height)
+                                  blendMode:kCGBlendModeNormal
+                                      alpha:1.0];
+    for (ComicObjectView *drawingComicObjectView in penObjectsViewArray) {
+        if (!drawingComicObjectView ||
+            drawingComicObjectView.subviews.count != 1 ||
+            ![drawingComicObjectView.subviews.firstObject isMemberOfClass:[UIImageView class]]) {
+            continue;
+        }
+        UIImageView *drawingImageView = (UIImageView *) drawingComicObjectView.subviews.firstObject;
+        
+        [drawingImageView.image drawInRect:CGRectMake(0, 0,
+                                                      drawingImageView.frame.size.width,
+                                                      drawingImageView.frame.size.height)
+                                 blendMode:kCGBlendModeNormal
+                                     alpha:1.0];
+        [drawingImageView removeFromSuperview];
+    }
+    finalDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    [penObjectsViewArray removeAllObjects];
+    
+    
+    //((UIImageView *)firstComicObjectView.subviews.firstObject).image = finalDrawingImageView.image;
+    ComicObjectView *finalComicObjectView = [[ComicObjectView alloc]
+                                             initWithComicObject:((PenObject *)firstComicObjectView.comicObject)]; //  objectAtIndex:penObjectsViewArray.count - 1
+    if (finalComicObjectView.subviews > 0 && [finalComicObjectView.subviews.firstObject isKindOfClass:[UIImageView class]]) {
+        [finalComicObjectView.subviews.firstObject removeFromSuperview];
+    }
+//    [finalComicObjectView addSubview:finalDrawingImageView];
+    [finalComicObjectView addImageViewSubview:finalDrawingImageView withTimeDelay:firstComicObjectView.delayTimeInSeconds];
+    
+    
+    return finalComicObjectView;
+}
+
+- (void)addImageViewSubview:(UIImageView *)view withTimeDelay:(CGFloat)timeDelay {
+    [self addSubview:view];
+    self.delayTimeInSeconds = timeDelay;
+    TimerImageViewStruct *timerObject = [[TimerImageViewStruct alloc]initWithImageView:view
+                                                                             delayTime:self.delayTimeInSeconds
+                                                                         andObjectType:self.comicObject.objType];
+    [self.timerImageViews addObject:timerObject];
+}
+
+- (UIImageView *)createDrawingWithCoordinates:(NSArray<NSValue *> *)coordinates
                                color:(UIColor *)color
                         andBrushSize:(CGFloat)brushSize {
     UIImageView *drawingImageView = [[UIImageView alloc] initWithFrame:self.frame];
@@ -458,7 +600,7 @@
     
     if (coordinates.count < 2) {
         // There Should be at least 2 points in a single drawing object
-        return;
+        return nil;
     }
     
     CGFloat red, green, blue, alpha;
@@ -495,19 +637,22 @@
     drawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
     
     UIGraphicsEndImageContext();
+    
+    return drawingImageView;
 }
 
-- (void)createBubbleImageViewWithData:(NSData *)imageData bubbleText:(NSString *)text frame:(CGRect)frame {
-    [self createBubbleImageViewWithData:imageData
-                             bubbleText:text
-                                  frame:frame
-        shouldReloadBubbleViewDirection:NO];
+- (CMCBubbleView *)createBubbleImageViewWithData:(NSData *)imageData bubbleText:(NSString *)text frame:(CGRect)frame {
+    CMCBubbleView *bubbleView = [self createBubbleImageViewWithData:imageData
+                                                         bubbleText:text
+                                                              frame:frame
+                                    shouldReloadBubbleViewDirection:NO];
+    return bubbleView;
 }
 
-- (void)createBubbleImageViewWithData:(NSData *)imageData
-                           bubbleText:(NSString *)text
-                                frame:(CGRect)frame
-      shouldReloadBubbleViewDirection:(BOOL)shouldReloadBubbleViewDirection {
+- (CMCBubbleView *)createBubbleImageViewWithData:(NSData *)imageData
+                                      bubbleText:(NSString *)text
+                                           frame:(CGRect)frame
+                 shouldReloadBubbleViewDirection:(BOOL)shouldReloadBubbleViewDirection {
     
     BOOL shouldAddBubbleViewAsSubview = YES;
     CMCBubbleView *bubbleView;
@@ -533,9 +678,10 @@
         [bubbleView showBubbleTypesIcons];
         [bubbleView activateTextField];
     }
+    return bubbleView;
 }
 
-- (void)createCaptionViewWithText:(NSString *)text
+- (CMCCaptionView *)createCaptionViewWithText:(NSString *)text
                              type:(CaptionObjectType)type
                          andFrame:(CGRect)frame {
     BOOL shouldAddBubbleViewAsSubview = YES;
@@ -554,6 +700,7 @@
         [captionView showCaptionTypeIcons];
         [captionView activateTextField];
     }
+    return captionView;
 }
 
 - (void)createImageViewWith:(NSData *)data
@@ -589,14 +736,16 @@
             }
         });
         
-        for (NSInteger i = 0; i < imgCount; i += 4) {
+        for (NSInteger i = 0; i < imgCount; i += 2) {
             CGImageRef cgImg = CGImageSourceCreateImageAtIndex(srcImage, i, nil);
             if (!cgImg) {
                 NSLog(@"loading %ldth image failed from the source", (long)i);
                 continue;
             }
             
-            UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
+            UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg]
+                                                   size:rect.size
+                               withInterpolationQuality:kCGInterpolationDefault];
             
             if (!resultImageView.image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -611,7 +760,7 @@
             if (!frameDuration) {
                 frameDuration = gifDict[fromCF kCGImagePropertyGIFDelayTime];
             }
-            totalDuration += frameDuration.floatValue * 4;
+            totalDuration += frameDuration.floatValue * 2;
             CGImageRelease(cgImg);
         }
         
@@ -633,6 +782,9 @@
                                                                                      andObjectType:weakSelf.comicObject.objType];
             [weakSelf.timerImageViews addObject:timerImageView];
             
+            [weakSelf executeAnimatedStickerStateDelegateForComicObjectView:weakSelf
+                                                              withTimeDelay:weakSelf.delayTimeInSeconds
+                                                              andBaseObject:weakSelf.comicObject];
         });
     });
 }
@@ -733,15 +885,47 @@
     }
 }
 
+#pragma mark - Animated Sticker State Delegate Executor
+
+- (void)executeAnimatedStickerStateDelegateForComicObjectView:(ComicObjectView *)comicObjectView
+                                                withTimeDelay:(CGFloat)delay
+                                                andBaseObject:(BaseObject *)object {
+    if (!_animatedStickerStateDelegate) {
+        return;
+    }
+    if (![_animatedStickerStateDelegate respondsToSelector:@selector(comicObjectView:didFinishRenderingWithDelayTime:andBaseObject:)]) {
+        return;
+    }
+    [_animatedStickerStateDelegate comicObjectView:comicObjectView
+                   didFinishRenderingWithDelayTime:delay
+                                     andBaseObject:object];
+}
+
 // MARK: - gesture handler implementations
 - (void)panGestureHandler:(UIPanGestureRecognizer *)gesture {
 	UIGestureRecognizerState state = [gesture state];
     CGPoint point = [gesture locationInView:self.parentView];
 	
 	if (CGRectContainsRect(self.parentView.bounds, CGRectMake(point.x - 10, point.y - 10, 20, 20)) == true) {
-        CGPoint translation = [gesture translationInView:gesture.view];
-        gesture.view.center = CGPointMake(gesture.view.center.x + translation.x, gesture.view.center.y + translation.y);
-        [gesture setTranslation:CGPointZero inView:gesture.view];
+
+        if (gesture.state == UIGestureRecognizerStateEnded) {
+            CGPoint newCenter = CGPointMake(gesture.view.center.x + gesture.view.transform.tx,
+                                            gesture.view.center.y + gesture.view.transform.ty);
+            gesture.view.center = newCenter;
+            
+            CGAffineTransform theTransform = gesture.view.transform;
+            theTransform.tx = 0.0f;
+            theTransform.ty = 0.0f;
+            gesture.view.transform = theTransform;
+            return;
+        }
+        CGPoint translation = [gesture translationInView:gesture.view.superview];
+        CGAffineTransform theTransform = gesture.view.transform;
+        theTransform.tx = translation.x;
+        theTransform.ty = translation.y;
+        gesture.view.transform = theTransform;
+
+        
      
         if (self.comicObject.objType == ObjectBubble) {
             self.comicObject.frame = CGRectMake(self.frame.origin.x,
@@ -776,18 +960,13 @@
 }
 
 - (void)pinchGestureHandler:(UIPinchGestureRecognizer *)gesture {
-//	UIGestureRecognizerState state = [gesture state];
-	
-//	if (state == UIGestureRecognizerStateBegan || state == UIGestureRecognizerStateChanged)
-	{
+
 		gesture.view.transform = CGAffineTransformScale(gesture.view.transform, gesture.scale, gesture.scale);
 		[gesture setScale:1.0];
-		
-//		NSLog(@"pinched: %f, %f", gesture.view.transform.a, gesture.view.transform.d);
+    
 		self.comicObject.scale = gesture.view.transform.a;
 		
-		[self.delegate saveObject];
-	}
+    [self.delegate saveObject];
 }
 
 - (void)rotateGestureHandler:(UIRotationGestureRecognizer *)gesture {

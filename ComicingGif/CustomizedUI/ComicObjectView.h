@@ -15,6 +15,11 @@
 @class ComicObjectView;
 
 
+@protocol ComicObjectViewAnimatedStickerStateDelegate <NSObject>
+@optional
+- (void)comicObjectView:(ComicObjectView *)comicObjectView didFinishRenderingWithDelayTime:(CGFloat)delayTime andBaseObject:(BaseObject *)baseObject;
+@end
+
 // MARK: -
 @protocol ComicObjectViewDelegate <NSObject>
 
@@ -46,5 +51,10 @@
 + (ComicObjectView *)createListViewComicBubbleObjectViewWithObject:(BubbleObject *)bubbleObject;
 + (ComicObjectView *)createListViewComicCaptionObjectViewWithObject:(CaptionObject *)captionObject;
 + (UIImageView *)createListViewComicPenObjectViewsWithArray:(inout NSArray<ComicObjectView *> *)penObjectViewsArray;
+
+@property (nonatomic) id<ComicObjectViewAnimatedStickerStateDelegate> animatedStickerStateDelegate;
+
+- (void)addImageViewSubview:(UIImageView *)view withTimeDelay:(CGFloat)timeDelay;
++ (ComicObjectView *)createSingleImageViewFromDrawingsArrayofPenViews:(inout NSMutableArray<ComicObjectView *> *)penObjectsViewArray;
 
 @end
