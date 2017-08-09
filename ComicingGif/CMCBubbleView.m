@@ -845,6 +845,13 @@ typedef NS_ENUM(NSInteger, CMCBubbleSubiconTag) {
     [_bubbleTextView becomeFirstResponder];
 }
 
+- (void)deactivateTextField {
+    if (!_bubbleTextView) {
+        return;
+    }
+    [_bubbleTextView resignFirstResponder];
+}
+
 - (void)stopShowingBubbleTypesIcons {
     if (_subiconsAppearanceTimer && _subiconsAppearanceTimer.valid) {
         [_subiconsAppearanceTimer invalidate];

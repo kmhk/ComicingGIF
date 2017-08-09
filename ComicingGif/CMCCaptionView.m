@@ -383,6 +383,13 @@
     [_captionTextView becomeFirstResponder];
 }
 
+- (void)deactivateTextField {
+    if (!_captionTextView) {
+        return;
+    }
+    [_captionTextView resignFirstResponder];
+}
+
 - (void)stopShowingCaptionTypeIcons {
     if (_subiconsAppearanceTimer && _subiconsAppearanceTimer.valid) {
         [_subiconsAppearanceTimer invalidate];

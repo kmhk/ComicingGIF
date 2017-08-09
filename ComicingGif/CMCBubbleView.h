@@ -39,6 +39,7 @@
 - (void)setBubbleText:(NSString *)bubbleText;
 - (void)showBubbleTypesIcons;
 - (void)activateTextField;
+- (void)deactivateTextField;
 
 - (void)hidePlusIcon;
 - (void)hideBubbleSubicons;
