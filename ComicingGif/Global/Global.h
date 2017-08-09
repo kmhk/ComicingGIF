@@ -47,6 +47,8 @@ typedef enum {
 @property (nonatomic) BOOL isUserEnterSecondTime;
 
 - (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size;
+- (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size withInterpolationQuality:(CGInterpolationQuality)interpolation;
+
 + (double)positive:(double)number;
 + (CGSize)getSizeOfComicSlideWithModel:(CBComicItemModel *)model;
 + (CGSize)getTallBigSlideSize;

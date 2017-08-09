@@ -128,6 +128,16 @@
     return newImage;
 }
 
+- (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size withInterpolationQuality:(CGInterpolationQuality)interpolation {
+    UIGraphicsBeginImageContextWithOptions(size, NO, 1);
+    CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), interpolation);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
 + (double)positive:(double)number {
     return number<0?-number:number;
 }
