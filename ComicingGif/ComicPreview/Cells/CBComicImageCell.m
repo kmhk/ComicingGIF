@@ -427,8 +427,7 @@
                 continue;
             }
             
-            UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
-            
+            UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size withInterpolationQuality:kCGInterpolationMedium];
             if (!resultImageView.image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     resultImageView.image = img;
@@ -503,7 +502,7 @@
         // This line should be moved to app constants.
         CGSize imagePixelSize = CGSizeMake(rect.size.width * 3.0, rect.size.height * 3.0); //
         
-        UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:imagePixelSize];
+        UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:imagePixelSize withInterpolationQuality:kCGInterpolationDefault];
         [arrayImages addObject:img];
         
         NSDictionary *property = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(srcImage, i, nil));
