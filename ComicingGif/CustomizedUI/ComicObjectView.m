@@ -176,6 +176,10 @@
         comicView.parentView = backgroundView;
         comicView.delegate = userInfo;
         
+        if (obj.objType == ObjectAnimateGIF) {
+            comicView.animatedStickerStateDelegate = userInfo;
+        }
+        
         if (obj.objType == ObjectBubble) {
             BubbleObject *initialBubbleObject = [[BubbleObject alloc] initWithText:@""
                                                           bubbleID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 1]

@@ -1337,6 +1337,10 @@
         for (int i = 1; i < noBaseLayerComicObjectViews.count; i++) {
             ComicObjectView *comicObjectView = noBaseLayerComicObjectViews[i];
             
+            if (comicObjectView.comicObject.objType == ObjectAnimateGIF) {
+                comicObjectView.hidden = YES;
+            }
+            
             //Setting the tag here helps in further calculation of frame of icons
             comicObjectView.tag = (enhancementsBaseTag) + enhancementsBaseTagCount++;
         }
@@ -1373,6 +1377,8 @@
 
 - (void)comicObjectView:(ComicObjectView *)comicObjectView didFinishRenderingWithDelayTime:(CGFloat)delayTime andBaseObject:(BaseObject *)baseObject {
     [self.timerImageViews addObjectsFromArray:comicObjectView.timerImageViews];
+    [self refreshStateOfEnhancementsWithSlideValue:self.scrollBarSlider.value];
+    comicObjectView.hidden = NO;
 }
 
 - (void)addIconToScrollBarAfterAdditionOfComicObjectViewWithTag:(NSInteger)tag andBaseObjectType:(ComicObjectType)type andSliderValue:(CGFloat)sliderValue {
