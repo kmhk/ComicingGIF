@@ -343,7 +343,7 @@
     
     if (_isVerticalCamera == true) {
         padding = 5.0 + progressBarHeight;
-        height = (self.view.frame.size.width / self.view.frame.size.height) * self.view.frame.size.width;
+        height = self.view.frame.size.width * 0.39; // formula should be gone to centralized constants
         centerY = self.captureHolder.frame.origin.y - (height + padding);
     } else {
         padding = 0.0;
