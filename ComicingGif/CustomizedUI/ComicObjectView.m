@@ -391,7 +391,7 @@
     /*
      real inside content view's size is less (40, 40) than object view. because it needs to show tool bar of all comic objects
      */
-    CGRect stickerRect = CGRectMake(0, 0, obj.frame.size.width - W_PADDING +150, obj.frame.size.height - H_PADDING +150);
+    CGRect stickerRect = CGRectMake(0, 0, obj.frame.size.width - W_PADDING +50, obj.frame.size.height - H_PADDING +50);
     [self createImageViewWith:data
                         frame:stickerRect
                      bAnimate:YES

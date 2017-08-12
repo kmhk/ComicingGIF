@@ -1671,6 +1671,14 @@ float scale = 1;
     //groupBackgroundImageView.center = CGPointMake(groupBackgroundImageView.center.x + 10, groupBackgroundImageView.center.y);
     groupBackgroundImageView.hidden = NO;
     groupBackgroundImageView.alpha = 1;
+    
+    
+    // 101, 80
+    CGRect fr = cell.frame;
+    fr.size.width = 80;
+    fr.size.height = 101;
+    cell.frame = fr;
+    
     [UIView animateWithDuration:0.1
                           delay:0.0
          usingSpringWithDamping:1.0
