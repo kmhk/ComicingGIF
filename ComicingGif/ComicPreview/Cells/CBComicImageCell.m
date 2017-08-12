@@ -488,7 +488,7 @@
             NSLog(@"loading %ldth image failed from the source", (long)i);
             continue;
         }
-                
+        
         /*
          C0mrade Edit:
          
@@ -497,12 +497,13 @@
          it needs defined scale multiplier, for now multiplier is set to 3.0 as on iPhone 7 it works
          with no expenses, tested on iOS 11 Beta - Memory is stable and holds 22.5 MB - CPU load on zero.
          
-        */
+         */
         
         // This line should be moved to app constants.
-        CGSize imagePixelSize = CGSizeMake(rect.size.width * 3.0, rect.size.height * 3.0); //
-        
+        UIImage *image = [UIImage imageWithCGImage:cgImg];
+        CGSize imagePixelSize = CGSizeMake(image.size.width/2.0, image.size.height/2.0); //
         UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:imagePixelSize withInterpolationQuality:kCGInterpolationDefault];
+
         [arrayImages addObject:img];
         
         NSDictionary *property = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(srcImage, i, nil));

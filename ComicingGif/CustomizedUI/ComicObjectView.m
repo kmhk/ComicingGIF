@@ -98,7 +98,8 @@
     
     self.transform = CGAffineTransformScale(CGAffineTransformIdentity, self.comicObject.scale, self.comicObject.scale);
     self.transform = CGAffineTransformRotate(self.transform, self.comicObject.angle);
-        
+    
+    
     return self;
 }
 
