@@ -978,7 +978,7 @@ TitleFontDelegate>
     CGRect screenBounds = [UIScreen mainScreen].bounds;
     CaptionObject *captionObject = [[CaptionObject alloc] initWithText:@""
                                                            captionType:CaptionTypeDefault
-                                                              andFrame:CGRectMake(5, 200, screenBounds.size.width - 20, 40)];
+                                                              andFrame:CGRectMake(5, 200, screenBounds.size.width - 20, 100)];
     CGFloat timeDelay = self.scrollBarSlider.value;
     captionObject.delayTimeInSeconds = timeDelay;
     
@@ -991,7 +991,7 @@ TitleFontDelegate>
     
     // TODO : test is everything is fine
     captionComicObjectView.tag = (enhancementsBaseTag) + enhancementsBaseTagCount++;
-    [self.timerImageViews addObjectsFromArray:captionComicObjectView.timerImageViews];
+    //    [self.timerImageViews addObjectsFromArray:captionComicObjectView.timerImageViews];
     [self addIconToScrollBarAfterAdditionOfComicObjectViewWithTag:captionComicObjectView.tag
                                                 andBaseObjectType:captionObject.objType
                                                    andSliderValue:self.scrollBarSlider.value];
@@ -2104,20 +2104,7 @@ float scale = 1;
     
     newCaptionObject.delayTimeInSeconds = oldCaptionObject.delayTimeInSeconds;
     
-    CGRect screenBounds = [UIScreen mainScreen].bounds;
-    //    if (type == CaptionTypeYellowBox) {
-    //        CGFloat boxWidth = (screenBounds.size.width - 20)/2;
-    //        CGFloat boxHeight = 70;
-    //        captionObjectFrame = CGRectMake(screenBounds.size.width - boxWidth - 17, -5,
-    //                                        boxWidth, boxHeight);
-    //
-    //    } else {
-    CGRect captionObjectFrame = CGRectMake(oldCaptionObject.frame.origin.x,
-                                           oldCaptionObject.frame.origin.y,
-                                           screenBounds.size.width - 20, 30);
-    //    }
-    
-    newCaptionObject.frame = captionObjectFrame;
+    newCaptionObject.frame = oldCaptionObject.frame;
     comicObjectView.comicObject = newCaptionObject;
     
     [viewModel addObject:newCaptionObject];

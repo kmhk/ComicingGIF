@@ -19,6 +19,8 @@
 		038577791F3F826B000CD2B0 /* Justlove-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0385776D1F3F802F000CD2B0 /* Justlove-Regular.ttf */; };
 		0385777A1F3F826B000CD2B0 /* Littlemorning.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0385776F1F3F803E000CD2B0 /* Littlemorning.ttf */; };
 		0385777B1F3F826B000CD2B0 /* Luckiest Softie Pro Extra Bold PS.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 038577701F3F804A000CD2B0 /* Luckiest Softie Pro Extra Bold PS.ttf */; };
+		0385777E1F3F8D2A000CD2B0 /* arial-mt-std-medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0385777D1F3F8D26000CD2B0 /* arial-mt-std-medium.otf */; };
+		0385777F1F3F8D2D000CD2B0 /* arial-rounded-mt-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0385777C1F3F8D26000CD2B0 /* arial-rounded-mt-bold.ttf */; };
 		0C43F2F11E9F360100AB71F9 /* CBBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C43F2F01E9F360100AB71F9 /* CBBaseTableViewController.m */; };
 		0C43F2F51E9F361300AB71F9 /* CBBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C43F2F41E9F361300AB71F9 /* CBBaseViewController.m */; };
 		0C43F2F91E9F362700AB71F9 /* CBBaseTableViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C43F2F81E9F362700AB71F9 /* CBBaseTableViewSection.m */; };
@@ -483,6 +485,8 @@
 		0385776E1F3F802F000CD2B0 /* Justlove-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Justlove-Italic.ttf"; sourceTree = "<group>"; };
 		0385776F1F3F803E000CD2B0 /* Littlemorning.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Littlemorning.ttf; sourceTree = "<group>"; };
 		038577701F3F804A000CD2B0 /* Luckiest Softie Pro Extra Bold PS.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Luckiest Softie Pro Extra Bold PS.ttf"; sourceTree = "<group>"; };
+		0385777C1F3F8D26000CD2B0 /* arial-rounded-mt-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "arial-rounded-mt-bold.ttf"; sourceTree = "<group>"; };
+		0385777D1F3F8D26000CD2B0 /* arial-mt-std-medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "arial-mt-std-medium.otf"; sourceTree = "<group>"; };
 		0C43F2EF1E9F360100AB71F9 /* CBBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBBaseTableViewController.h; sourceTree = "<group>"; };
 		0C43F2F01E9F360100AB71F9 /* CBBaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBBaseTableViewController.m; sourceTree = "<group>"; };
 		0C43F2F31E9F361300AB71F9 /* CBBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBBaseViewController.h; sourceTree = "<group>"; };
@@ -1293,6 +1297,8 @@
 		038577651F3F7E39000CD2B0 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				0385777D1F3F8D26000CD2B0 /* arial-mt-std-medium.otf */,
+				0385777C1F3F8D26000CD2B0 /* arial-rounded-mt-bold.ttf */,
 				038577681F3F8019000CD2B0 /* BLACKHAWK Italic.ttf */,
 				038577671F3F8019000CD2B0 /* BLACKHAWK Swash.ttf */,
 				038577661F3F8019000CD2B0 /* BLACKHAWK.ttf */,
@@ -3419,6 +3425,7 @@
 			files = (
 				038577721F3F826B000CD2B0 /* BLACKHAWK Swash.ttf in Resources */,
 				0C43F6471E9F44E000AB71F9 /* InviteFriendsView.xib in Resources */,
+				0385777E1F3F8D2A000CD2B0 /* arial-mt-std-medium.otf in Resources */,
 				CE12CC411EB87C3C00EA0E40 /* theme_GIF2_0.gif in Resources */,
 				E232182B1F228B3D00C02C60 /* image-0-4.png in Resources */,
 				E226185C1F1E9D6D000A2DCC /* theme_GIF0_12.gif in Resources */,
@@ -3490,6 +3497,7 @@
 				CE91CE291EB9D9B800637AD7 /* category6.png in Resources */,
 				0C43F6731E9F452F00AB71F9 /* FindFriendsTableCell.xib in Resources */,
 				CE12CC1E1EB87C2100EA0E40 /* theme_sticker1_0.png in Resources */,
+				0385777F1F3F8D2D000CD2B0 /* arial-rounded-mt-bold.ttf in Resources */,
 				CE12CC221EB87C2100EA0E40 /* theme_sticker2_1.png in Resources */,
 				E2583E231EE9CECD005772E7 /* theme_bubble_1_0.png in Resources */,
 				0C43F7101E9F4BF400AB71F9 /* CategoryCollectionViewCell.xib in Resources */,
