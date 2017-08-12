@@ -177,7 +177,6 @@
 
 - (void)setRecordingImage:(BOOL)isRecording completed:(void(^)())completedHandler {
     if (isRecording) {
-        NSLog(@"..........isRecording");
         [UIView animateWithDuration:0.3 animations:^{
             self.animView.backgroundColor = [UIColor colorWithRed:237/255.0 green:28/255.0 blue:36/255.0 alpha:0.6];
             self.imgviewToggle.frame = CGRectMake(self.imgviewToggle.frame.origin.x, self.animView.frame.origin.y + 3,
@@ -185,17 +184,6 @@
         } completion:^(BOOL finished) {
             completedHandler();
         }];
-        
-    } else {
-        //        NSLog(@"..........isNotRecording");
-        //        [UIView animateWithDuration:0.3 animations:^{
-        //            self.imgviewToggle.frame = CGRectMake(self.imgviewToggle.frame.origin.x,
-        //                                                  self.animView.frame.size.height,
-        //                                                  self.imgviewToggle.frame.size.width,
-        //                                                  self.imgviewToggle.frame.size.height);
-        //        } completion:^(BOOL finished) {
-        //            completedHandler();
-        //        }];
     }
 }
 
@@ -222,13 +210,11 @@
 
 - (void)startRecord {
     [self setRecordingProgress:YES];
-    
     [self.viewModel startRecord];
 }
 
 - (void)stopRecord {
     [self setRecordingProgress:NO];
-    
     [self.viewModel stopRecord];
 }
 

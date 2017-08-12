@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13168.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Djk-yA-53O">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13178.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Djk-yA-53O">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13147.4"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13156.2"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -100,10 +100,10 @@
                                 <rect key="frame" x="0.0" y="33" width="414" height="128"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dSh-RU-cbX" userLabel="ReButton">
-                                        <rect key="frame" x="350" y="18" width="42" height="48"/>
+                                        <rect key="frame" x="364" y="31" width="32" height="38"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="ISw-qI-U56"/>
-                                            <constraint firstAttribute="width" constant="42" id="KK6-oD-q2C"/>
+                                            <constraint firstAttribute="height" constant="38" id="ISw-qI-U56"/>
+                                            <constraint firstAttribute="width" constant="32" id="KK6-oD-q2C"/>
                                         </constraints>
                                         <state key="normal" backgroundImage="cameraChangeButton"/>
                                         <connections>
@@ -111,10 +111,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2bK-YS-xZg">
-                                        <rect key="frame" x="349" y="89" width="43" height="29"/>
+                                        <rect key="frame" x="364" y="89" width="33" height="19"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="29" id="T9S-Ha-hll"/>
-                                            <constraint firstAttribute="width" constant="43" id="bkR-JL-ctr"/>
+                                            <constraint firstAttribute="height" constant="19" id="T9S-Ha-hll"/>
+                                            <constraint firstAttribute="width" constant="33" id="bkR-JL-ctr"/>
                                         </constraints>
                                         <state key="normal" backgroundImage="cameraWideSide"/>
                                         <connections>
@@ -151,12 +151,12 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="dSh-RU-cbX" secondAttribute="trailing" constant="22" id="5fE-t4-8ac"/>
-                                    <constraint firstItem="2bK-YS-xZg" firstAttribute="top" secondItem="dSh-RU-cbX" secondAttribute="bottom" constant="23" id="6ig-SN-gXz"/>
+                                    <constraint firstAttribute="trailing" secondItem="dSh-RU-cbX" secondAttribute="trailing" constant="18" id="5fE-t4-8ac"/>
+                                    <constraint firstItem="2bK-YS-xZg" firstAttribute="top" secondItem="dSh-RU-cbX" secondAttribute="bottom" constant="20" id="6ig-SN-gXz"/>
                                     <constraint firstItem="vbC-14-RE4" firstAttribute="leading" secondItem="qLD-GF-jop" secondAttribute="leading" constant="26" id="AgG-lM-Bhj"/>
                                     <constraint firstAttribute="height" constant="128" id="IZs-lb-RWh"/>
-                                    <constraint firstAttribute="bottom" secondItem="2bK-YS-xZg" secondAttribute="bottom" constant="10" id="e0Z-zy-gWT"/>
-                                    <constraint firstAttribute="trailing" secondItem="2bK-YS-xZg" secondAttribute="trailing" constant="22" id="gVE-VL-isY"/>
+                                    <constraint firstAttribute="bottom" secondItem="2bK-YS-xZg" secondAttribute="bottom" constant="20" id="e0Z-zy-gWT"/>
+                                    <constraint firstAttribute="trailing" secondItem="2bK-YS-xZg" secondAttribute="trailing" constant="17" id="gVE-VL-isY"/>
                                     <constraint firstItem="vbC-14-RE4" firstAttribute="top" secondItem="qLD-GF-jop" secondAttribute="top" constant="14" id="pI0-Pl-cv8"/>
                                 </constraints>
                             </view>
@@ -267,7 +267,6 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Djk-yA-53O" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="9Qr-dm-a8g">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
