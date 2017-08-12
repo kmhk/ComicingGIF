@@ -111,6 +111,16 @@
             arrayItemCounter++;
         }
     }
+    
+    UILongPressGestureRecognizer *pressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    pressGesture.minimumPressDuration = 0.6;
+    [_captionWithoutBackgroundTypeImageView addGestureRecognizer:pressGesture];
+}
+
+- (void) handleLongPress :(UILongPressGestureRecognizer *) gesture {
+    if (gesture.state == UIGestureRecognizerStateEnded) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"openFontsView" object:self.captionTextView.text];
+    }
 }
 
 - (void)setupPlusSubiconsImageView {

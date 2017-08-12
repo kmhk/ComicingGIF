@@ -4,9 +4,17 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>ComicSansMSRegular.ttf</string>
-		<string>arial-mt-std-medium.otf</string>
-		<string>arial-rounded-mt-bold.ttf</string>
+		<string>BLACKHAWK Italic.ttf</string>
+		<string>BLACKHAWK Swash.otf</string>
+		<string>BLACKHAWK.ttf</string>
+		<string>Candyhouse Alt.ttf</string>
+		<string>Candyhouse Caps.ttf</string>
+		<string>Candyhouse Doodles.ttf</string>
+		<string>Candyhouse.ttf</string>
+		<string>Justlove-Italic.ttf</string>
+		<string>Justlove-Regular.ttf</string>
+		<string>Littlemorning.ttf</string>
+		<string>Luckiest Softie Pro Extra Bold PS.ttf</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
