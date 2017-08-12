@@ -57,6 +57,10 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 
 @implementation CBComicPreviewVC
 
+- (void) loadDataFromComicingScreen {
+    [self prepareView];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.transition = [[ZoomInteractiveTransition alloc] initWithNavigationController:self.navigationController];
@@ -68,7 +72,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     self.tableView.separatorStyle= UITableViewCellSeparatorStyleNone;
     self.dataArray= [NSMutableArray new];
     
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDataFromComicingScreen) name:@"xxxDataFromComicing" object:nil];
     //Added By ramesh-> for handle slide type
     if(self.comicType == ReplyComic && self.replyType == FriendReply) {
         self.fileNameToSave = [NSString stringWithFormat:@"ComicSlide_F%@", self.friendOrGroupId];
@@ -574,9 +578,13 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     NSString *baseURLString = [[[self.comicSlides objectAtIndex:index] objectAtIndex:0]objectForKey:@"url"];
     CGRect slideRect = CGRectFromString([[[[self.comicSlides objectAtIndex:index] objectAtIndex:0] valueForKey:@"baseInfo"] valueForKey:@"frame"]);
     
-    
     vc.indexSaved = index;
-    [vc initWithBaseImage:[NSURL URLWithString:baseURLString] frame:slideRect andSubviewArray:arrTemp isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:@"isTall"] boolValue] index:index];
+    vc.urlOfSlide = [NSURL URLWithString:baseURLString];
+    [vc initWithBaseImage:vc.urlOfSlide
+                    frame:slideRect
+          andSubviewArray:arrTemp
+                   isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:@"isTall"] boolValue]
+                    index:index];
     
     self.transitionView = [_comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]].contentView;
     

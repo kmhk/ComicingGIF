@@ -392,7 +392,6 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ComicMaking" bundle:nil];
     ComicMakingViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ComicMakingViewController"];
     vc.isFromCamera = true;
-    vc.indexSaved = _indexOfSlide;
     
     __weak typeof(self) wSelf = self;
     self.captureHolder.translatesAutoresizingMaskIntoConstraints = true;
@@ -415,10 +414,11 @@
         });
         [vc initWithBaseImage:url frame:wSelf.cameraPreview.frame andSubviewArray:nil isTall:!wSelf.isVerticalCamera index:_indexOfSlide];
         
-        [UIView transitionWithView:self.navigationController.view duration:0.75
-                           options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-                               [wSelf.navigationController pushViewController:vc animated:NO];
-                           } completion:nil];
+//        [UIView transitionWithView:self.navigationController.view duration:0.75
+//                           options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+//
+//                           } completion:nil];
+        [wSelf.navigationController pushViewController:vc animated:YES];
     }];
 }
 
