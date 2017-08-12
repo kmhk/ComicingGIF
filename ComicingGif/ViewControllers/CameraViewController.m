@@ -13,11 +13,12 @@
 #import "CBComicPreviewVC.h"
 #import "Constants.h"
 
+#import "ZOZolaZoomTransition.h" // Custom Transition Lib
+
 #define TOPBADDING		0.0
 #define BOTTOMPADDING	0.0
 
-
-@interface CameraViewController ()
+@interface CameraViewController () <ZOZolaZoomTransitionDelegate, UINavigationControllerDelegate>
 {
     NSTimer *timerProgress;
     
@@ -43,8 +44,14 @@
 
 @implementation CameraViewController
 
+// c0mrade: Custom Transition A controller
+- (void) prepareMotionLibForNavigationAnimation {
+    self.navigationController.delegate = self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self prepareMotionLibForNavigationAnimation];
     // Do any additional setup after loading the view.
     
     self.viewModel = [[CameraViewModel alloc] init];
@@ -382,31 +389,11 @@
         return;
     }
     
-    // send email GIF for the testing
-    /*if([MFMailComposeViewController canSendMail]) {
-     MFMailComposeViewController *mailCont = [[MFMailComposeViewController alloc] init];
-     mailCont.mailComposeDelegate = self;
-     
-     [mailCont setSubject:@"created GIF"];
-     [mailCont setMessageBody:@"Please take a look attached GIF file." isHTML:NO];
-     
-     NSData *data = [NSData dataWithContentsOfURL:url];
-     [mailCont addAttachmentData:data mimeType:@"GIF" fileName:@"sample.GIF"];
-     
-     [self presentViewController:mailCont animated:YES completion:nil];
-     
-     [self resetRecord];
-     }*/
-    
-    // show comic making controller
-    //    [self performSegueWithIdentifier:@"segueMaking" sender:url];
-    
-    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ComicMaking" bundle:nil];
     ComicMakingViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ComicMakingViewController"];
     vc.isFromCamera = true;
     vc.indexSaved = _indexOfSlide;
-
+    
     __weak typeof(self) wSelf = self;
     self.captureHolder.translatesAutoresizingMaskIntoConstraints = true;
     self.topBar.translatesAutoresizingMaskIntoConstraints = true;
@@ -433,11 +420,6 @@
                                [wSelf.navigationController pushViewController:vc animated:NO];
                            } completion:nil];
     }];
-    
-    
-    
-    // ComicMakingViewController
-    
 }
 
 - (void) setupDefaultsValuesForTopAndBottomAnimatedViews {
@@ -451,6 +433,74 @@
 // MARK: - MFMailComposeViewController delegate implementation
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - UINavigationControllerDelegate Methods
+- (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC {
+    // Sanity
+    if (fromVC != self && toVC != self) return nil;
+    // Determine if we're presenting or dismissing
+    ZOTransitionType type = (fromVC == self) ? ZOTransitionTypePresenting : ZOTransitionTypeDismissing;
+    // Create a transition instance with the selected cell's imageView as the target view
+    ZOZolaZoomTransition *zoomTransition = [ZOZolaZoomTransition transitionFromView:self.view // here comes imageView
+                                                                               type:type
+                                                                           duration:0.5
+                                                                           delegate:self];
+    zoomTransition.fadeColor = self.view.backgroundColor;
+    
+    return zoomTransition;
+}
+
+#pragma mark - ZOZolaZoomTransitionDelegate Methods
+- (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
+        startingFrameForView:(UIView *)targetView
+              relativeToView:(UIView *)relativeView
+          fromViewController:(UIViewController *)fromViewController
+            toViewController:(UIViewController *)toViewController {
+    
+    if (fromViewController == self) {
+        // We're pushing to the detail controller. The starting frame is taken from the selected cell's imageView.
+        return [self.view convertRect:self.view.frame toView:relativeView];
+    } else if ([fromViewController isKindOfClass:[ComicMakingViewController class]]) {
+        // We're popping back to this master controller. The starting frame is taken from the detailController's imageView.
+        ComicMakingViewController *vc = (ComicMakingViewController *)fromViewController;
+        return [vc.view convertRect:vc.view.frame toView:relativeView];
+    }
+    
+    return CGRectZero;
+}
+
+- (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
+       finishingFrameForView:(UIView *)targetView
+              relativeToView:(UIView *)relativeView
+          fromViewController:(UIViewController *)fromViewController
+            toViewController:(UIViewController *)toViewController {
+    
+    if (fromViewController == self) {
+        // We're pushing to the detail controller. The finishing frame is taken from the detailController's imageView.
+        ComicMakingViewController *vc = (ComicMakingViewController *)toViewController;
+        return [vc.view convertRect:vc.self.view.frame toView:relativeView];
+    } else if ([fromViewController isKindOfClass:[ComicMakingViewController class]]) {
+        // We're popping back to this master controller. The finishing frame is taken from the selected cell's imageView.
+        return [self.view convertRect:self.view.frame toView:relativeView];
+    }
+    
+    return CGRectZero;
+}
+
+- (NSArray *)supplementaryViewsForZolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition {
+    // Here we're returning all UICollectionViewCells that are clipped by the edge
+    // of the screen. These will be used as "supplementary views" so that the clipped
+    // cells will be drawn in their entirety rather than appearing cut off during the
+    // transition animation.
+    
+    return [[NSArray alloc] initWithObjects:self.view, nil];
+}
+
+- (CGRect)zolaZoomTransition:(ZOZolaZoomTransition *)zoomTransition
+   frameForSupplementaryView:(UIView *)supplementaryView
+              relativeToView:(UIView *)relativeView {
+    return [supplementaryView convertRect:supplementaryView.bounds toView:relativeView];
 }
 
 @end

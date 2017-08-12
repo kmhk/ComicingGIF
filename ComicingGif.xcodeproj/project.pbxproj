@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		032100689A35C2FC35A2F38A /* libPods-ComicingGif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCE3E5E34678EBF6F34E8BAD /* libPods-ComicingGif.a */; };
 		0C43F2F11E9F360100AB71F9 /* CBBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C43F2F01E9F360100AB71F9 /* CBBaseTableViewController.m */; };
 		0C43F2F51E9F361300AB71F9 /* CBBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C43F2F41E9F361300AB71F9 /* CBBaseViewController.m */; };
 		0C43F2F91E9F362700AB71F9 /* CBBaseTableViewSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C43F2F81E9F362700AB71F9 /* CBBaseTableViewSection.m */; };
@@ -345,7 +346,6 @@
 		6DDF35F21F00E9B400F0555B /* theme_GIF0_2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6DDF35EF1F00E9B400F0555B /* theme_GIF0_2.gif */; };
 		6DE9A6FC1EE011590017C979 /* ScrollBarSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE9A6FB1EE011590017C979 /* ScrollBarSlider.m */; };
 		6DE9A7051EE062750017C979 /* TimerImageViewStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE9A7041EE062750017C979 /* TimerImageViewStruct.m */; };
-		A20E5866DD2FB391E862A3C7 /* libPods-ComicingGif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEAB9E6CD9B129793D59342 /* libPods-ComicingGif.a */; };
 		CE12CC1B1EB87C2100EA0E40 /* theme_sticker0_0.png in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC051EB87C2100EA0E40 /* theme_sticker0_0.png */; };
 		CE12CC1C1EB87C2100EA0E40 /* theme_sticker0_1.png in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC061EB87C2100EA0E40 /* theme_sticker0_1.png */; };
 		CE12CC1D1EB87C2100EA0E40 /* theme_sticker0_2.png in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC071EB87C2100EA0E40 /* theme_sticker0_2.png */; };
@@ -1110,6 +1110,7 @@
 		6DE9A7031EE062750017C979 /* TimerImageViewStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerImageViewStruct.h; sourceTree = "<group>"; };
 		6DE9A7041EE062750017C979 /* TimerImageViewStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerImageViewStruct.m; sourceTree = "<group>"; };
 		AE19661F1E1C934A23192074 /* Pods-ComicingGif.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ComicingGif.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ComicingGif/Pods-ComicingGif.debug.xcconfig"; sourceTree = "<group>"; };
+		BCE3E5E34678EBF6F34E8BAD /* libPods-ComicingGif.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ComicingGif.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE12CC051EB87C2100EA0E40 /* theme_sticker0_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = theme_sticker0_0.png; path = Resources/staticSticker/theme_sticker0_0.png; sourceTree = "<group>"; };
 		CE12CC061EB87C2100EA0E40 /* theme_sticker0_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = theme_sticker0_1.png; path = Resources/staticSticker/theme_sticker0_1.png; sourceTree = "<group>"; };
 		CE12CC071EB87C2100EA0E40 /* theme_sticker0_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = theme_sticker0_2.png; path = Resources/staticSticker/theme_sticker0_2.png; sourceTree = "<group>"; };
@@ -1250,7 +1251,6 @@
 		F36BE3C51E83367B007F6CE7 /* CameraViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CameraViewModel.m; path = ViewModels/CameraViewModel.m; sourceTree = "<group>"; };
 		F3FB2CA71E931CEA0087BD9C /* ComicObjectSerialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComicObjectSerialize.h; path = Utils/ComicObjectSerialize.h; sourceTree = "<group>"; };
 		F3FB2CA81E931CEA0087BD9C /* ComicObjectSerialize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComicObjectSerialize.m; path = Utils/ComicObjectSerialize.m; sourceTree = "<group>"; };
-		FCEAB9E6CD9B129793D59342 /* libPods-ComicingGif.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ComicingGif.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1262,12 +1262,12 @@
 				0C43F74B1E9F4EC100AB71F9 /* libsqlite3.tbd in Frameworks */,
 				0C43F5131E9F3E0E00AB71F9 /* FBSDKShareKit.framework in Frameworks */,
 				0C43F5101E9F3E0E00AB71F9 /* FBSDKCoreKit.framework in Frameworks */,
-				A20E5866DD2FB391E862A3C7 /* libPods-ComicingGif.a in Frameworks */,
 				0C43F5111E9F3E0E00AB71F9 /* FBSDKLoginKit.framework in Frameworks */,
 				0C43F4D61E9F3D8B00AB71F9 /* Crashlytics.framework in Frameworks */,
 				0C43F4CF1E9F3D1900AB71F9 /* libGoogleAnalyticsServices.a in Frameworks */,
 				0C43F4D71E9F3D8B00AB71F9 /* Fabric.framework in Frameworks */,
 				0C43F5121E9F3E0E00AB71F9 /* FBSDKMessengerShareKit.framework in Frameworks */,
+				032100689A35C2FC35A2F38A /* libPods-ComicingGif.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2817,7 +2817,7 @@
 				0C43F7491E9F4EC100AB71F9 /* libsqlite3.tbd */,
 				0C43F4D41E9F3D8B00AB71F9 /* Crashlytics.framework */,
 				0C43F4D51E9F3D8B00AB71F9 /* Fabric.framework */,
-				FCEAB9E6CD9B129793D59342 /* libPods-ComicingGif.a */,
+				BCE3E5E34678EBF6F34E8BAD /* libPods-ComicingGif.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

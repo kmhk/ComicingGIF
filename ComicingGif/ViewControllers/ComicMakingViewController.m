@@ -88,7 +88,7 @@
 @property (weak, nonatomic) IBOutlet UIView *lockView;
 @property (weak, nonatomic) IBOutlet UIView *playView;
 @property (weak, nonatomic) IBOutlet UIView *closeView;
-
+@property (strong, nonatomic) UIImageView *simpleReference;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolAnimateGIF;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolBubble;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolSticker;
@@ -232,8 +232,15 @@
     
 }
 
+// c0mrade: Unwind transition to A controller - Current is B
+- (void) prepareUnwindTransitionAnimation {
+//    motionModalTransitionType = .autoReverse(presenting: .zoomOut)
+//    self.modaltra
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self prepareUnwindTransitionAnimation];
     // Do any additional setup after loading the view.
 //    [self animateAppereance];
     nCategory = 1;
@@ -419,7 +426,7 @@
     }
     
     CFRelease(srcImage);
-    
+    //gw: -ts
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:rect];
     imgView.image = arrayImages.firstObject;
     imgView.autoresizingMask = 0B11111;

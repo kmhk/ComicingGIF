@@ -1,12 +1,15 @@
 PODS:
   - SCRecorder (2.7.0)
+  - ZOZolaZoomTransition (1.0.1)
 
 DEPENDENCIES:
   - SCRecorder
+  - ZOZolaZoomTransition (~> 1.0.1)
 
 SPEC CHECKSUMS:
   SCRecorder: bbb521dbc222908876ec9cd9156bbc8a893bed44
+  ZOZolaZoomTransition: 529a1bee39aef91bf425c2ab423743163d0c6d9b
 
-PODFILE CHECKSUM: 717801cdeff4297776645dbf21ed4fd3a966b97f
+PODFILE CHECKSUM: ba911a797b20980c9fce6265eac5fff961496fcf
 
 COCOAPODS: 1.2.0
