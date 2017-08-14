@@ -22,7 +22,7 @@
 #import "TimerImageViewStruct.h"
 #import "CMCExpandableCollectionView.h"
 #import "CMCExpandableCollectionViewFlowLayout.h"
-#import "CBComicTitleFontDropdownViewController.h"
+
 #define TOOLCELLID	@"ToolCollectionViewCell"
 #define CATEGORYCELLID	@"CategoryCollectionViewCell"
 
@@ -40,11 +40,10 @@
 #define fromCF (__bridge id)
 
 @interface ComicMakingViewController () <ZoomTransitionProtocol,
-ScrollBarSliderDelegate,
-CMCExpandableCollectionViewDelegate,
-UICollectionViewDelegateFlowLayout,
-ComicObjectViewAnimatedStickerStateDelegate,
-TitleFontDelegate>
+                                        ScrollBarSliderDelegate,
+                                        CMCExpandableCollectionViewDelegate,
+                                        UICollectionViewDelegateFlowLayout,
+                                        ComicObjectViewAnimatedStickerStateDelegate>
 {
     ComicMakingViewModel *viewModel;
     ComicObjectView *backgroundView;
@@ -89,7 +88,7 @@ TitleFontDelegate>
 @property (weak, nonatomic) IBOutlet UIView *lockView;
 @property (weak, nonatomic) IBOutlet UIView *playView;
 @property (weak, nonatomic) IBOutlet UIView *closeView;
-@property (strong, nonatomic) UIImageView *simpleReference;
+
 @property (weak, nonatomic) IBOutlet UIButton *btnToolAnimateGIF;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolBubble;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolSticker;
@@ -168,107 +167,75 @@ TitleFontDelegate>
     // c0mrade: Should Be Refactored
     
     // store real positions
-    //    CGRect oldBottomFr = self.sliderContainerView.frame;
-    //    CGRect oldAnimGifFr = self.btnToolAnimateGIF.frame;
-    //    CGRect oldBubbleFr = self.btnToolBubble.frame;
-    //    CGRect oldStickerFr = self.stickerView.frame;
-    //    CGRect oldPenFr = self.penView.frame;
-    //    CGRect oldTextFr = self.textView.frame;
-    //    CGRect oldCloseFr = self.closeView.frame;
-    //    CGRect oldLockFr = self.lockView.frame;
-    //    CGRect oldPlayFr = self.playView.frame;
+//    CGRect oldBottomFr = self.sliderContainerView.frame;
+//    CGRect oldAnimGifFr = self.btnToolAnimateGIF.frame;
+//    CGRect oldBubbleFr = self.btnToolBubble.frame;
+//    CGRect oldStickerFr = self.stickerView.frame;
+//    CGRect oldPenFr = self.penView.frame;
+//    CGRect oldTextFr = self.textView.frame;
+//    CGRect oldCloseFr = self.closeView.frame;
+//    CGRect oldLockFr = self.lockView.frame;
+//    CGRect oldPlayFr = self.playView.frame;
     
     // temp frame
-    //    CGRect tempFr = self.sliderContainerView.frame;
-    //    tempFr.origin.y = [UIScreen mainScreen].bounds.size.height;
+//    CGRect tempFr = self.sliderContainerView.frame;
+//    tempFr.origin.y = [UIScreen mainScreen].bounds.size.height;
     
     // unlock autolayout from current objects
-    //    self.sliderContainerView.translatesAutoresizingMaskIntoConstraints = true;
-    //    self.btnToolAnimateGIF.translatesAutoresizingMaskIntoConstraints = true;
-    //    self.btnToolBubble.translatesAutoresizingMaskIntoConstraints = true;
-    //    self.stickerView.translatesAutoresizingMaskIntoConstraints = true;
-    //    self.textView.translatesAutoresizingMaskIntoConstraints = true;
-    //    self.penView.translatesAutoresizingMaskIntoConstraints = true;
+//    self.sliderContainerView.translatesAutoresizingMaskIntoConstraints = true;
+//    self.btnToolAnimateGIF.translatesAutoresizingMaskIntoConstraints = true;
+//    self.btnToolBubble.translatesAutoresizingMaskIntoConstraints = true;
+//    self.stickerView.translatesAutoresizingMaskIntoConstraints = true;
+//    self.textView.translatesAutoresizingMaskIntoConstraints = true;
+//    self.penView.translatesAutoresizingMaskIntoConstraints = true;
     
     // hide objects outside of superview bounds
-    //    self.sliderContainerView.frame = CGRectOffset(self.sliderContainerView.frame, 0, 100); // footer view
-    //    self.btnToolAnimateGIF.frame = tempFr; // heart button footer
-    //    self.btnToolBubble.frame = tempFr; // bubble button footer
-    //    self.stickerView.frame = tempFr; // sticker view footer
-    //    self.closeView.frame = tempFr;
-    //    self.playView.frame = tempFr;
-    //    self.lockView.frame = tempFr;
-    //    self.textView.frame = tempFr; // textview footer
-    //    self.penView.frame = tempFr; // penview footer
+//    self.sliderContainerView.frame = CGRectOffset(self.sliderContainerView.frame, 0, 100); // footer view
+//    self.btnToolAnimateGIF.frame = tempFr; // heart button footer
+//    self.btnToolBubble.frame = tempFr; // bubble button footer
+//    self.stickerView.frame = tempFr; // sticker view footer
+//    self.closeView.frame = tempFr;
+//    self.playView.frame = tempFr;
+//    self.lockView.frame = tempFr;
+//    self.textView.frame = tempFr; // textview footer
+//    self.penView.frame = tempFr; // penview footer
     
     
-    //    [self.view layoutIfNeeded];
-    //    self.footerConstraint.constant = -(self.sliderContainerView.frame.size.height);
-    //    self.gifAnimateConstraint.constant = -(self.btnToolAnimateGIF.frame.size.height);
+//    [self.view layoutIfNeeded];
+//    self.footerConstraint.constant = -(self.sliderContainerView.frame.size.height);
+//    self.gifAnimateConstraint.constant = -(self.btnToolAnimateGIF.frame.size.height);
     
     // animate appereance of objects
-    //    __weak typeof(self) wSelf = self;
-    //
-    //
-    //    [self.view layoutIfNeeded];
-    //    [UIView animateWithDuration: 5.0 animations:^{
-    //        self.footerConstraint.constant = 0;
-    //        self.gifAnimateConstraint.constant = 0;
-    //        [self.view layoutIfNeeded];
-    //
-    //
+//    __weak typeof(self) wSelf = self;
+//
+//
+//    [self.view layoutIfNeeded];
+//    [UIView animateWithDuration: 5.0 animations:^{
+//        self.footerConstraint.constant = 0;
+//        self.gifAnimateConstraint.constant = 0;
+//        [self.view layoutIfNeeded];
+//
+//
     
-    //        wSelf.sliderContainerView.frame = oldBottomFr;
-    //        wSelf.btnToolAnimateGIF.frame = oldAnimGifFr;
-    //        wSelf.btnToolBubble.frame = oldBubbleFr;
-    //        wSelf.stickerView.frame = oldStickerFr;
-    //        wSelf.textView.frame = oldPenFr;
-    //        wSelf.penView.frame = oldTextFr;
-    //        wSelf.closeView.frame = oldCloseFr;
-    //        wSelf.playView.frame = oldPlayFr;
-    //        wSelf.lockView.frame = oldLockFr;
-    //    } completion:^(BOOL finished) {
-    //
-    //    }];
+//        wSelf.sliderContainerView.frame = oldBottomFr;
+//        wSelf.btnToolAnimateGIF.frame = oldAnimGifFr;
+//        wSelf.btnToolBubble.frame = oldBubbleFr;
+//        wSelf.stickerView.frame = oldStickerFr;
+//        wSelf.textView.frame = oldPenFr;
+//        wSelf.penView.frame = oldTextFr;
+//        wSelf.closeView.frame = oldCloseFr;
+//        wSelf.playView.frame = oldPlayFr;
+//        wSelf.lockView.frame = oldLockFr;
+//    } completion:^(BOOL finished) {
+//
+//    }];
     
-}
-
--(void)getSelectedFontName:(NSString *)fontName andTitle:(NSString *)title {
-    
-}
-
-// c0mrade: Open Fonts
-- (void) openDropDownMenu: (NSNotification *) data {
-    UIStoryboard *mainPageStoryBoard = [UIStoryboard storyboardWithName:@"Main_MainPage" bundle:nil];
-    CBComicTitleFontDropdownViewController *vc = [mainPageStoryBoard instantiateViewControllerWithIdentifier:@"CBComicTitleFontDropdownViewController"];
-    
-    
-    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    vc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    vc.delegate = self;
-    
-    NSString *str = (NSString *)[data object];
-    if ([str length] > 0) {
-        vc.titleText = str;
-    } else {
-        vc.titleText = @"You Test Title";
-    }
-    
-    [self presentViewController:vc animated:NO completion:nil];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // c0mrade: Dropdown Fonts
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(openDropDownMenu:)
-                                                 name:@"openFontsView"
-                                               object:nil];
-    
-    
     // Do any additional setup after loading the view.
-    //    [self animateAppereance];
+//    [self animateAppereance];
     nCategory = 1;
     
     _ratioDecreasing = 1;
@@ -452,7 +419,7 @@ TitleFontDelegate>
     }
     
     CFRelease(srcImage);
-    //gw: -ts
+    
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:rect];
     imgView.image = arrayImages.firstObject;
     imgView.autoresizingMask = 0B11111;
@@ -575,10 +542,10 @@ TitleFontDelegate>
             
             [self.view sendSubviewToBack:shrinkingView];
             [self.view sendSubviewToBack:_baseLayerView];
-            //            [self.view bringSubviewToFront:shrinkingView];
+//            [self.view bringSubviewToFront:shrinkingView];
             self.baseLayerView.hidden = YES;
-            
-            
+
+
             CGSize size = self.isTall?[Global getTallBigSlideSize]:[Global getWideSlideSize];
             self.ratioMinimumValue = size.width/_baseLayerView.frame.size.width;
         }
@@ -617,40 +584,40 @@ TitleFontDelegate>
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (!_isDrawing) {
 #warning temporarily disabled old glide implementation
-        //        UIView *touchView = [touches anyObject].view;
-        //        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
-        //            newTouchPoint = [[touches anyObject] locationInView:self.view];
-        //            if (!([Global positive:(newTouchPoint.x - previousTouchPoint.x)] < 10 &&
-        //                  [Global positive:(newTouchPoint.y - previousTouchPoint.y)] < 10)) {
-        //                if (_ratioDecreasing >= _ratioMinimumValue) {
-        //                    _ratioDecreasing -= 0.01;
-        //
-        //                    NSLog(@"............RATIO DECREASING: %f",_ratioDecreasing);
-        //                    CGFloat newWidth,newHeight,newX,newY;
-        //                    if (_isTall) {
-        //                        newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
-        //                        newHeight = _baseLayerInitialFrame.size.height * _ratioDecreasing;
-        //                        newX = _baseLayerInitialFrame.origin.x + (_baseLayerInitialFrame.size.width - newWidth)/2;
-        //                        newY = _baseLayerInitialFrame.origin.y + (_baseLayerInitialFrame.size.height - newHeight)/2;
-        //                    } else {
-        //                        newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
-        //                        newHeight = _backgroundInitialFrame.size.height * _ratioDecreasing;
-        //                        newX = _backgroundInitialFrame.origin.x + (_backgroundInitialFrame.size.width - newWidth)/2;
-        //                        newY = _backgroundInitialFrame.origin.y + (_backgroundInitialFrame.size.height - newHeight)/2;
-        //                    }
-        //
-        //                    CGRect newFrame = CGRectMake(newX, newY, newWidth, newHeight);
-        //                    //                _baseLayerView.frame = newFrame;
-        //                    ////                _baseLayerView.center = self.view.center;
-        //                    //                NSLog(@"............RESULTANT FRAME: %@",NSStringFromCGRect(_baseLayerView.frame));
-        //                    //                [self.baseLayerView setSubViewWithWithDimensionAsPerRatio:_ratioDecreasing treeCount:1];
-        //                    NSLog(@"%@",NSStringFromCGRect(newFrame));
-        //
-        //                    shrinkingView.frame = newFrame;
-        //                }
-        //            }
-        //            previousTouchPoint = newTouchPoint;
-        //        }
+//        UIView *touchView = [touches anyObject].view;
+//        if ([touchView.superview.superview isEqual:self.baseLayerView]) {
+//            newTouchPoint = [[touches anyObject] locationInView:self.view];
+//            if (!([Global positive:(newTouchPoint.x - previousTouchPoint.x)] < 10 &&
+//                  [Global positive:(newTouchPoint.y - previousTouchPoint.y)] < 10)) {
+//                if (_ratioDecreasing >= _ratioMinimumValue) {
+//                    _ratioDecreasing -= 0.01;
+//                    
+//                    NSLog(@"............RATIO DECREASING: %f",_ratioDecreasing);
+//                    CGFloat newWidth,newHeight,newX,newY;
+//                    if (_isTall) {
+//                        newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
+//                        newHeight = _baseLayerInitialFrame.size.height * _ratioDecreasing;
+//                        newX = _baseLayerInitialFrame.origin.x + (_baseLayerInitialFrame.size.width - newWidth)/2;
+//                        newY = _baseLayerInitialFrame.origin.y + (_baseLayerInitialFrame.size.height - newHeight)/2;
+//                    } else {
+//                        newWidth = _baseLayerInitialFrame.size.width * _ratioDecreasing;
+//                        newHeight = _backgroundInitialFrame.size.height * _ratioDecreasing;
+//                        newX = _backgroundInitialFrame.origin.x + (_backgroundInitialFrame.size.width - newWidth)/2;
+//                        newY = _backgroundInitialFrame.origin.y + (_backgroundInitialFrame.size.height - newHeight)/2;
+//                    }
+//                    
+//                    CGRect newFrame = CGRectMake(newX, newY, newWidth, newHeight);
+//                    //                _baseLayerView.frame = newFrame;
+//                    ////                _baseLayerView.center = self.view.center;
+//                    //                NSLog(@"............RESULTANT FRAME: %@",NSStringFromCGRect(_baseLayerView.frame));
+//                    //                [self.baseLayerView setSubViewWithWithDimensionAsPerRatio:_ratioDecreasing treeCount:1];
+//                    NSLog(@"%@",NSStringFromCGRect(newFrame));
+//                    
+//                    shrinkingView.frame = newFrame;
+//                }
+//            }
+//            previousTouchPoint = newTouchPoint;
+//        }
         return;
     }
     // if imageView stack is empty – return from drawing
@@ -901,23 +868,23 @@ TitleFontDelegate>
 
 
 - (IBAction)btnToolAnimateGifTapped:(id)sender {
-    UIView *toolView = [self createToolView:ObjectAnimateGIF];
-    toolView.frame = CGRectOffset(toolView.frame, self.baseLayerView.frame.size.width, 0);
-    toolView.alpha = 0.0;
-    [self.baseLayerView addSubview:toolView];
+	UIView *toolView = [self createToolView:ObjectAnimateGIF];
+	toolView.frame = CGRectOffset(toolView.frame, self.baseLayerView.frame.size.width, 0);
+	toolView.alpha = 0.0;
+	[self.baseLayerView addSubview:toolView];
     
-    //    [backgroundView insertSubview:toolView atIndex:backgroundView.subviews.count >= 1 ? 1 : 0];
-    //    toolView.backgroundColor = [UIColor greenColor];
-    
-    [UIView animateWithDuration:0.5 animations:^{
-        [self setToolButtonAlpah:0.0];
-        
-        toolView.frame = CGRectOffset(toolView.frame, -self.baseLayerView.frame.size.width, 0);
-        toolView.alpha = 1.0;
-        
-    } completion:^(BOOL finished) {
-        
-    }];
+//    [backgroundView insertSubview:toolView atIndex:backgroundView.subviews.count >= 1 ? 1 : 0];
+//    toolView.backgroundColor = [UIColor greenColor];
+	
+	[UIView animateWithDuration:0.5 animations:^{
+		[self setToolButtonAlpah:0.0];
+		
+		toolView.frame = CGRectOffset(toolView.frame, -self.baseLayerView.frame.size.width, 0);
+		toolView.alpha = 1.0;
+		
+	} completion:^(BOOL finished) {
+
+	}];
 }
 
 
@@ -978,7 +945,7 @@ TitleFontDelegate>
     CGRect screenBounds = [UIScreen mainScreen].bounds;
     CaptionObject *captionObject = [[CaptionObject alloc] initWithText:@""
                                                            captionType:CaptionTypeDefault
-                                                              andFrame:CGRectMake(5, 200, screenBounds.size.width - 20, 100)];
+                                                              andFrame:CGRectMake(5, 200, screenBounds.size.width - 20, 40)];
     CGFloat timeDelay = self.scrollBarSlider.value;
     captionObject.delayTimeInSeconds = timeDelay;
     
@@ -991,7 +958,7 @@ TitleFontDelegate>
     
     // TODO : test is everything is fine
     captionComicObjectView.tag = (enhancementsBaseTag) + enhancementsBaseTagCount++;
-    //    [self.timerImageViews addObjectsFromArray:captionComicObjectView.timerImageViews];
+    [self.timerImageViews addObjectsFromArray:captionComicObjectView.timerImageViews];
     [self addIconToScrollBarAfterAdditionOfComicObjectViewWithTag:captionComicObjectView.tag
                                                 andBaseObjectType:captionObject.objType
                                                    andSliderValue:self.scrollBarSlider.value];
@@ -1050,16 +1017,16 @@ TitleFontDelegate>
         }
         
         // suppose to be _drawingImageView before scrollbar drawing support
-        //        UIImageView *mainDrawingImageView = [[UIImageView alloc] initWithFrame:_drawingImageView.frame];
+//        UIImageView *mainDrawingImageView = [[UIImageView alloc] initWithFrame:_drawingImageView.frame];
         UIImageView *mainDrawingImageView = _drawingImageView;
         
         UIGraphicsBeginImageContext(self.view.frame.size);
         if (mainDrawingImageView.image) {
             [mainDrawingImageView.image drawInRect:CGRectMake(0, 0,
-                                                              mainDrawingImageView.frame.size.width,
-                                                              mainDrawingImageView.frame.size.height)
-                                         blendMode:kCGBlendModeNormal
-                                             alpha:1.0];
+                                                           mainDrawingImageView.frame.size.width,
+                                                           mainDrawingImageView.frame.size.height)
+                                      blendMode:kCGBlendModeNormal
+                                          alpha:1.0];
         }
         for (UIImageView *drawingImageView in _drawingImageViewStackArray) {
             [drawingImageView.image drawInRect:CGRectMake(0, 0,
@@ -1123,7 +1090,7 @@ TitleFontDelegate>
             return;
         }
         // Set correct image from aggregated pen object
-        //        ((UIImageView *)drawingComicObject.subviews.firstObject).image = mainDrawingImageView.image;
+//        ((UIImageView *)drawingComicObject.subviews.firstObject).image = mainDrawingImageView.image;
         
         
         
@@ -1136,7 +1103,7 @@ TitleFontDelegate>
         
         
         [backgroundView insertSubview:drawingComicObject atIndex:1];
-        
+
         // TODO : test is everything is fine
         drawingComicObject.tag = (enhancementsBaseTag) + enhancementsBaseTagCount++;
         [self.timerImageViews addObjectsFromArray:drawingComicObject.timerImageViews];
@@ -1198,30 +1165,20 @@ TitleFontDelegate>
     }];
 }
 
-- (void) deleteSlideFromLocalDirectory {
-    // Get Slide Plist
-    NSURL *docDir = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-    NSString *baseSlide = [[docDir path] stringByAppendingString:@"/slides.plist"];
-    
-    // Create Mutable Array With Slides
-    NSMutableArray *content = [[[NSArray alloc] initWithContentsOfFile:baseSlide] mutableCopy];
-    
-    // Find And Remove Data From Slides
-    for (int i = 0; i < content.count; i++) {
-        NSMutableArray *arrObj = [content objectAtIndex:i];
-        for (NSDictionary *item in arrObj) { // iterate inside slide content
-            NSURL *file = [NSURL URLWithString:[item valueForKey:@"url"]];
-            if ([[file path] isEqualToString:[self.urlOfSlide path]]) {
-                [content removeObjectAtIndex:i];
-                break;
-            }
-        }
-    }
-    [content writeToFile:baseSlide atomically:YES];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"xxxDataFromComicing" object:nil];
-}
 
 - (IBAction)btnToolCloseTapped:(id)sender {
+    //    if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[CBComicPreviewVC class]]) {
+    //        CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
+    //        vc.shouldntRefreshAfterDidLayoutSubviews = NO;
+    //    }
+    
+    
+    if (!self.isFromCamera) {
+        shrinkingView = nil;
+        [self.navigationController popViewControllerAnimated:true];
+        return;
+    }
+    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Warrning"
                                                                    message:@" are you sure you want to delete this slide?"
                                                             preferredStyle:UIAlertControllerStyleAlert];
@@ -1235,14 +1192,7 @@ TitleFontDelegate>
         transition.type = kCATransitionFade;
         [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
         
-        
-        // Delete Data From List
-        [self deleteSlideFromLocalDirectory];
-        if (!self.isFromCamera) {
-            [self.navigationController popViewControllerAnimated:true];
-        } else {
-            [self.navigationController popToRootViewControllerAnimated:true];
-        }
+        [self.navigationController popViewControllerAnimated:NO];
     }];
     UIAlertAction *otherAction = [UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
         [alert dismissViewControllerAnimated:true completion:nil];
@@ -1256,33 +1206,33 @@ TitleFontDelegate>
 
 // MARK: - gesture handler
 - (void)tapGestureHandlerForToolContainerView:(UITapGestureRecognizer *)gesture {
-    [UIView animateWithDuration:0.5 animations:^{
-        //		if (gesture.view.tag == ObjectAnimateGIF) {
-        //			gesture.view.frame = CGRectOffset(gesture.view.frame, self.baseLayerView.frame.size.width, 0);
-        //			gesture.view.alpha = 0.0;
-        //
-        //		} else if (gesture.view.tag == ObjectSticker) {
-        //			gesture.view.frame = CGRectOffset(gesture.view.frame, self.baseLayerView.frame.size.width, 0);
-        //			gesture.view.alpha = 0.0;
-        //
-        //		} else if (gesture.view.tag == ObjectBubble) {
-        //
-        //		} else if (gesture.view.tag == ObjectCaption) {
-        //
-        //		} else if (gesture.view.tag == ObjectPen) {
-        //
-        //		}
-        
+	[UIView animateWithDuration:0.5 animations:^{
+//		if (gesture.view.tag == ObjectAnimateGIF) {
+//			gesture.view.frame = CGRectOffset(gesture.view.frame, self.baseLayerView.frame.size.width, 0);
+//			gesture.view.alpha = 0.0;
+//			
+//		} else if (gesture.view.tag == ObjectSticker) {
+//			gesture.view.frame = CGRectOffset(gesture.view.frame, self.baseLayerView.frame.size.width, 0);
+//			gesture.view.alpha = 0.0;
+//			
+//		} else if (gesture.view.tag == ObjectBubble) {
+//			
+//		} else if (gesture.view.tag == ObjectCaption) {
+//			
+//		} else if (gesture.view.tag == ObjectPen) {
+//			
+//		}
+
         [collectionToolView superview].frame = CGRectOffset(gesture.view.frame, self.baseLayerView.frame.size.width, 0);
         [collectionToolView superview].alpha = 0.0;
         
-        [self setToolButtonAlpah:1.0];
-        
-    } completion:^(BOOL finished) {
+		[self setToolButtonAlpah:1.0];
+		
+	} completion:^(BOOL finished) {
         [[collectionToolView superview] removeFromSuperview];
         [backgroundView removeGestureRecognizer:_collectionViewTapGestureRecognizer];
         _collectionViewTapGestureRecognizer = nil;
-    }];
+	}];
 }
 
 - (void)handleColorPinGestureTap:(UITapGestureRecognizer *)gestureRecognizer {
@@ -1403,19 +1353,19 @@ TitleFontDelegate>
     
     ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
     comicView.parentView = backgroundView;
-    comicView.delegate = self;
+	comicView.delegate = self;
     
     if (obj.objType == ObjectAnimateGIF) {
         comicView.animatedStickerStateDelegate = self;
     }
     
-    //    // TODO: Remove! This is for debug only
+//    // TODO: Remove! This is for debug only
     [comicView setFrame:CGRectMake(100, 100, comicView.frame.size.width, comicView.frame.size.height)];
     
-    [backgroundView addSubview:comicView];
-    //    [backgroundView insertSubview:comicView atIndex:backgroundView.subviews.count >= 1 ? 1 : 0];
-    //    comicView.backgroundColor = [UIColor redColor];
-    
+	[backgroundView addSubview:comicView];
+//    [backgroundView insertSubview:comicView atIndex:backgroundView.subviews.count >= 1 ? 1 : 0];
+//    comicView.backgroundColor = [UIColor redColor];
+
     comicView.tag = (enhancementsBaseTag) + enhancementsBaseTagCount++;
     
     if (obj.objType != ObjectAnimateGIF) {
@@ -1478,29 +1428,29 @@ TitleFontDelegate>
 }
 
 - (UIView *)createToolView:(ComicObjectType)type {
-    nCategory = 1;
-    
-    PassthroughBackgroundView *toolContainerView = [[PassthroughBackgroundView alloc] initWithFrame:self.baseLayerView.bounds];
-    
+	nCategory = 1;
+	
+	PassthroughBackgroundView *toolContainerView = [[PassthroughBackgroundView alloc] initWithFrame:self.baseLayerView.bounds];
+
     toolContainerView.backgroundColor = [UIColor clearColor];
-    toolContainerView.tag = type;
-    
-    _collectionViewTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+	toolContainerView.tag = type;
+		
+	_collectionViewTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                   action:@selector(tapGestureHandlerForToolContainerView:)];
-    _collectionViewTapGestureRecognizer.delegate = self;
+	_collectionViewTapGestureRecognizer.delegate = self;
     
     [backgroundView addGestureRecognizer:_collectionViewTapGestureRecognizer];
     
     
-    //[toolContainerView addGestureRecognizer:gesture];
-    
-    // sticker collection view
-    CGRect rt = CGRectMake(0, toolContainerView.frame.size.height - 140, toolContainerView.frame.size.width, 120);
-    
-    //	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    //	layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    //	layout.minimumInteritemSpacing = 20;
-    //	layout.minimumLineSpacing = 20;
+	//[toolContainerView addGestureRecognizer:gesture];
+	
+	// sticker collection view
+	CGRect rt = CGRectMake(0, toolContainerView.frame.size.height - 140, toolContainerView.frame.size.width, 120);
+	
+//	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+//	layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+//	layout.minimumInteritemSpacing = 20;
+//	layout.minimumLineSpacing = 20;
     
     CMCExpandableCollectionViewFlowLayout *customLayout = [[CMCExpandableCollectionViewFlowLayout alloc] init];
     customLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
@@ -1508,47 +1458,47 @@ TitleFontDelegate>
     customLayout.minimumLineSpacing = 20;
     customLayout.footerReferenceSize = CGSizeMake(30, 20);
     customLayout.sectionFootersPinToVisibleBounds = YES;
-    
-    collectionToolView = [[CMCExpandableCollectionView alloc] initWithFrame:rt collectionViewLayout:customLayout/*layout*/];
-    collectionToolView.tag = type;
-    collectionToolView.delegate = self;
-    collectionToolView.dataSource = self;
+	
+	collectionToolView = [[CMCExpandableCollectionView alloc] initWithFrame:rt collectionViewLayout:customLayout/*layout*/];
+	collectionToolView.tag = type;
+	collectionToolView.delegate = self;
+	collectionToolView.dataSource = self;
     collectionToolView.backgroundColor = [UIColor clearColor];
-    collectionToolView.pagingEnabled = NO;
-    [collectionToolView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:TOOLCELLID];
+	collectionToolView.pagingEnabled = NO;
+	[collectionToolView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:TOOLCELLID];
     
-    //    collectionToolView.backgroundColor = [UIColor yellowColor];
+//    collectionToolView.backgroundColor = [UIColor yellowColor];
     
     [collectionToolView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"FooterIndetifyer"];
     [collectionToolView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"FooterIndetifyer"];
     
     [collectionToolView setShowsHorizontalScrollIndicator:NO];
     
-    [toolContainerView addSubview:collectionToolView];
-    [collectionToolView reloadData];
+	[toolContainerView addSubview:collectionToolView];
+	[collectionToolView reloadData];
     
     
     UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didReceivePinchGesture:)];
     [collectionToolView addGestureRecognizer:pinchGesture];
     
+	
+	// category collection view
+	rt = CGRectMake(0, toolContainerView.frame.size.height - 50, toolContainerView.frame.size.width, 50);
+	
+//	layout = [[UICollectionViewFlowLayout alloc] init];
+//	layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+//	
+//	collectionCategoryView = [[UICollectionView alloc] initWithFrame:rt collectionViewLayout:layout];
     
-    // category collection view
-    rt = CGRectMake(0, toolContainerView.frame.size.height - 50, toolContainerView.frame.size.width, 50);
-    
-    //	layout = [[UICollectionViewFlowLayout alloc] init];
-    //	layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    //
-    //	collectionCategoryView = [[UICollectionView alloc] initWithFrame:rt collectionViewLayout:layout];
-    
-    //	collectionCategoryView.delegate = self;
-    //	collectionCategoryView.dataSource = self;
-    //	collectionCategoryView.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:0 green:0 blue:0 alpha:0.1];
-    //	collectionCategoryView.pagingEnabled = YES;
-    //	[collectionCategoryView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CATEGORYCELLID];
-    //	[toolContainerView addSubview:collectionCategoryView];
-    //	[collectionCategoryView reloadData];
-    
-    return toolContainerView;
+//	collectionCategoryView.delegate = self;
+//	collectionCategoryView.dataSource = self;
+//	collectionCategoryView.backgroundColor = [UIColor clearColor];//[UIColor colorWithRed:0 green:0 blue:0 alpha:0.1];
+//	collectionCategoryView.pagingEnabled = YES;
+//	[collectionCategoryView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CATEGORYCELLID];
+//	[toolContainerView addSubview:collectionCategoryView];
+//	[collectionCategoryView reloadData];
+	
+	return toolContainerView;
 }
 
 - (void)setToolButtonAlpah:(CGFloat)alpha {
@@ -1567,18 +1517,18 @@ TitleFontDelegate>
 
 // MARK: - UIGesture delegate impelementation
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    //	CGPoint translation = [touch locationInView:gestureRecognizer.view];
-    //	BOOL flag = NO;
-    //
-    //	UICollectionView *collectionView;
-    //	for (UIView *view in gestureRecognizer.view.subviews) {
-    //		if ([view class] == [UICollectionView class]) {
-    //			collectionView = (UICollectionView *)view;
-    //			flag = flag | CGRectContainsPoint(collectionView.frame, translation);
-    //		}
-    //	}
-    //
-    //	return !flag;
+//	CGPoint translation = [touch locationInView:gestureRecognizer.view];
+//	BOOL flag = NO;
+//	
+//	UICollectionView *collectionView;
+//	for (UIView *view in gestureRecognizer.view.subviews) {
+//		if ([view class] == [UICollectionView class]) {
+//			collectionView = (UICollectionView *)view;
+//			flag = flag | CGRectContainsPoint(collectionView.frame, translation);
+//		}
+//	}
+//	
+//	return !flag;
     CGPoint tapPoint = [touch locationInView:gestureRecognizer.view];
     BOOL shouldReceiveTouch = YES;
     if (CGRectContainsPoint(collectionToolView.frame, tapPoint)) {
@@ -1607,7 +1557,7 @@ TitleFontDelegate>
 float scale = 1;
 - (void)didReceivePinchGesture:(UIPinchGestureRecognizer *)gestureRecognizer {
     static CGFloat scaleStart;
-    //    NSLog(@"CMC4: receive pinch gesture with state %ld", (long)gestureRecognizer.state);
+//    NSLog(@"CMC4: receive pinch gesture with state %ld", (long)gestureRecognizer.state);
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         scaleStart = scale;
     } else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
@@ -1629,24 +1579,24 @@ float scale = 1;
 //}
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    //	if (collectionView == collectionCategoryView) { // for category view
-    //		return COUNT_CATEGORY;
-    //	}
-    
-    // for recent section of each tool view
-    if (nCategory == 0) {
-        return [viewModel getRecentObjects:(ComicObjectType)collectionView.tag].count;
-    }
-    
-    // for sticker tool view
-    if (collectionView.tag == ObjectSticker) {
-        return [COUNT_STICKERS[nCategory - 1] integerValue];
-        
-    } else if (collectionView.tag == ObjectAnimateGIF) {
-        return [COUNT_GIFS[nCategory - 1] integerValue];
-    }
-    
-    return 0;
+//	if (collectionView == collectionCategoryView) { // for category view
+//		return COUNT_CATEGORY;
+//	}
+	
+	// for recent section of each tool view
+	if (nCategory == 0) {
+		return [viewModel getRecentObjects:(ComicObjectType)collectionView.tag].count;
+	}
+	
+	// for sticker tool view
+	if (collectionView.tag == ObjectSticker) {
+		return [COUNT_STICKERS[nCategory - 1] integerValue];
+		
+	} else if (collectionView.tag == ObjectAnimateGIF) {
+		return [COUNT_GIFS[nCategory - 1] integerValue];
+	}
+	
+	return 0;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -1659,11 +1609,11 @@ float scale = 1;
 }
 
 - (void)collectionView:(CMCExpandableCollectionView *)collectionView didExpandItemAtIndexPath:(NSIndexPath *)indexPath {
-    //    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-    //    cell.hidden = YES;
-    //    [collectionView reloadItemsAtIndexPaths:@[indexPath]];
+//    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+//    cell.hidden = YES;
+//    [collectionView reloadItemsAtIndexPaths:@[indexPath]];
     
-    //    [collectionView reloadData];
+//    [collectionView reloadData];
     [collectionView reloadItemsAtIndexPaths:@[indexPath]];
     
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -1671,20 +1621,12 @@ float scale = 1;
     //groupBackgroundImageView.center = CGPointMake(groupBackgroundImageView.center.x + 10, groupBackgroundImageView.center.y);
     groupBackgroundImageView.hidden = NO;
     groupBackgroundImageView.alpha = 1;
-    
-    
-    // 101, 80
-    CGRect fr = cell.frame;
-    fr.size.width = 80;
-    fr.size.height = 101;
-    cell.frame = fr;
-    
     [UIView animateWithDuration:0.1
                           delay:0.0
          usingSpringWithDamping:1.0
           initialSpringVelocity:0
                         options:UIViewAnimationOptionTransitionNone animations:^{
-                            //                            groupBackgroundImageView.center = CGPointMake(groupBackgroundImageView.center.x - 10, groupBackgroundImageView.center.y);
+//                            groupBackgroundImageView.center = CGPointMake(groupBackgroundImageView.center.x - 10, groupBackgroundImageView.center.y);
                             groupBackgroundImageView.alpha = 0;
                         } completion:nil];
     
@@ -1693,36 +1635,36 @@ float scale = 1;
     UICollectionReusableView *footer = [collectionView supplementaryViewForElementKind:UICollectionElementKindSectionFooter
                                                                            atIndexPath:indexPath];
     [UIView animateWithDuration:0.3 animations:^{
-        //        footer.frame = CGRectMake(footer.frame.origin.x, footer.frame.origin.y, newWidth, footer.frame.size.height);
+//        footer.frame = CGRectMake(footer.frame.origin.x, footer.frame.origin.y, newWidth, footer.frame.size.height);
         
         footer.center = CGPointMake(footer.center.x + newWidth/2, footer.center.y);
         
-        //        footer.subviews.firstObject.center = CGPointMake(footer.subviews.firstObject.center.x - newWidth/2, footer.subviews.firstObject.center.y);
+//        footer.subviews.firstObject.center = CGPointMake(footer.subviews.firstObject.center.x - newWidth/2, footer.subviews.firstObject.center.y);
     }];
 }
 
 - (void)collectionView:(CMCExpandableCollectionView *)collectionView didCollapseItemAtIndexPath:(NSIndexPath *)indexPath {
-    //    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-    //    cell.hidden = NO;
-    //    [collectionView reloadItemsAtIndexPaths:@[indexPath]];
+//    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+//    cell.hidden = NO;
+//    [collectionView reloadItemsAtIndexPaths:@[indexPath]];
     
-    //    [collectionView reloadData];
+//    [collectionView reloadData];
     
     if (!indexPath) {
         return;
     }
     
     [collectionView reloadItemsAtIndexPaths:@[indexPath]];
-    
+
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     
     UIImageView *groupBackgroundImageView = [cell viewWithTag:0x001];
     
     groupBackgroundImageView.center = CGPointMake(groupBackgroundImageView.center.x - 10, groupBackgroundImageView.center.y);
-    //    [UIView animateWithDuration:0.2 animations:^{
-    //        groupBackgroundImageView.center = CGPointMake(groupBackgroundImageView.center.x + 10, groupBackgroundImageView.center.y);
-    //        groupBackgroundImageView.hidden = NO;
-    //    }];
+//    [UIView animateWithDuration:0.2 animations:^{
+//        groupBackgroundImageView.center = CGPointMake(groupBackgroundImageView.center.x + 10, groupBackgroundImageView.center.y);
+//        groupBackgroundImageView.hidden = NO;
+//    }];
     groupBackgroundImageView.hidden = NO;
     groupBackgroundImageView.alpha = 0;
     [UIView animateWithDuration:0.6
@@ -1731,98 +1673,98 @@ float scale = 1;
           initialSpringVelocity:0
                         options:UIViewAnimationOptionTransitionNone animations:^{
                             groupBackgroundImageView.center = CGPointMake(groupBackgroundImageView.center.x + 10, groupBackgroundImageView.center.y);
-                            //                            groupBackgroundImageView.hidden = NO;
+//                            groupBackgroundImageView.hidden = NO;
                             groupBackgroundImageView.alpha = 1;
-                        } completion:nil];
+    } completion:nil];
     
     
     CGFloat newWidth = 80 * 6 + 7 * 3;
     UICollectionReusableView *footer = [collectionView supplementaryViewForElementKind:UICollectionElementKindSectionFooter atIndexPath:indexPath];
     [UIView animateWithDuration:0.3 animations:^{
-        //        footer.frame = CGRectMake(footer.frame.origin.x, footer.frame.origin.y, cell.frame.size.width, footer.frame.size.height);
+//        footer.frame = CGRectMake(footer.frame.origin.x, footer.frame.origin.y, cell.frame.size.width, footer.frame.size.height);
         
         footer.center = CGPointMake(footer.center.x - newWidth/2, footer.center.y);
         
-        //        footer.subviews.firstObject.center = CGPointMake(footer.subviews.firstObject.center.x - newWidth/2, footer.subviews.firstObject.center.y);
+//        footer.subviews.firstObject.center = CGPointMake(footer.subviews.firstObject.center.x - newWidth/2, footer.subviews.firstObject.center.y);
     }];
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(CMCExpandableCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    // for category view
+	// for category view
     /*
-     if (collectionView == collectionCategoryView) {
-     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CATEGORYCELLID forIndexPath:indexPath];
-     if (!cell) {
-     cell = [[UICollectionViewCell alloc] init];
-     }
-     
-     NSString *rcID = [NSString stringWithFormat:@"category%ld.png", (long)indexPath.row];
-     
-     UIImageView *imgView = [cell viewWithTag:0x100];
-     if (!imgView) {
-     imgView = [[UIImageView alloc] initWithFrame:CGRectMake(cell.bounds.size.width / 4, 0, cell.bounds.size.width / 2, cell.bounds.size.height / 2)];
-     imgView.tag = 0x100;
-     imgView.userInteractionEnabled = YES;
-     imgView.contentMode = UIViewContentModeScaleAspectFit;
-     [cell addSubview:imgView];
-     }
-     imgView.image = [UIImage imageNamed:rcID];
-     
-     UIView *chosenView = [cell viewWithTag:0x101];
-     if (nCategory == indexPath.row) {
-     if (!chosenView) {
-     chosenView = [[UIView alloc] initWithFrame:CGRectMake((cell.bounds.size.width - 8) / 2, cell.bounds.size.height - 10, 8, 8)];
-     chosenView.layer.cornerRadius = chosenView.frame.size.width / 2;
-     chosenView.backgroundColor = [UIColor whiteColor];
-     chosenView.clipsToBounds = YES;
-     chosenView.tag = 0x101;
-     [cell addSubview:chosenView];
-     }
-     
-     } else {
-     if (chosenView) {
-     [chosenView removeFromSuperview];
-     }
-     }
-     
-     return cell;
-     }
+	if (collectionView == collectionCategoryView) {
+		UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CATEGORYCELLID forIndexPath:indexPath];
+		if (!cell) {
+			cell = [[UICollectionViewCell alloc] init];
+		}
+		
+		NSString *rcID = [NSString stringWithFormat:@"category%ld.png", (long)indexPath.row];
+		
+		UIImageView *imgView = [cell viewWithTag:0x100];
+		if (!imgView) {
+			imgView = [[UIImageView alloc] initWithFrame:CGRectMake(cell.bounds.size.width / 4, 0, cell.bounds.size.width / 2, cell.bounds.size.height / 2)];
+			imgView.tag = 0x100;
+			imgView.userInteractionEnabled = YES;
+			imgView.contentMode = UIViewContentModeScaleAspectFit;
+			[cell addSubview:imgView];
+		}
+		imgView.image = [UIImage imageNamed:rcID];
+		
+		UIView *chosenView = [cell viewWithTag:0x101];
+		if (nCategory == indexPath.row) {
+			if (!chosenView) {
+				chosenView = [[UIView alloc] initWithFrame:CGRectMake((cell.bounds.size.width - 8) / 2, cell.bounds.size.height - 10, 8, 8)];
+				chosenView.layer.cornerRadius = chosenView.frame.size.width / 2;
+				chosenView.backgroundColor = [UIColor whiteColor];
+				chosenView.clipsToBounds = YES;
+				chosenView.tag = 0x101;
+				[cell addSubview:chosenView];
+			}
+			
+		} else {
+			if (chosenView) {
+				[chosenView removeFromSuperview];
+			}
+		}
+		
+		return cell;
+	}
      */
-    
-    // for tool view
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TOOLCELLID forIndexPath:indexPath];
-    if (!cell) {
-        cell = [[UICollectionViewCell alloc] init];
-    }
-    //cell.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5];
-    
-    NSString *rcID;
-    NSInteger type, index, category;
-    
+	
+	// for tool view
+	UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TOOLCELLID forIndexPath:indexPath];
+	if (!cell) {
+		cell = [[UICollectionViewCell alloc] init];
+	}
+	//cell.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5];
+	
+	NSString *rcID;
+	NSInteger type, index, category;
+	
     // for recent section
-    if (nCategory == 0) {
-        NSDictionary *dict = [viewModel getRecentObjects:(ComicObjectType)collectionView.tag][indexPath.row];
-        type = [dict[@"type"] integerValue];
-        index = [dict[@"id"] integerValue];
-        category = [dict[@"category"] integerValue];
-        
-    } else {
-        type = collectionView.tag;
-        index = indexPath.row;
-        category = nCategory - 1;
-    }
-    
-    if (type == ObjectSticker) {
-        rcID = [NSString stringWithFormat:@"theme_sticker%ld_%ld.png", (long)category, (long)index];
-        
-    } else if (type == ObjectAnimateGIF) {
-        //		rcID = [NSString stringWithFormat:@"theme_GIF%ld_%ld.gif", (long)category, (long)index];
+	if (nCategory == 0) {
+		NSDictionary *dict = [viewModel getRecentObjects:(ComicObjectType)collectionView.tag][indexPath.row];
+		type = [dict[@"type"] integerValue];
+		index = [dict[@"id"] integerValue];
+		category = [dict[@"category"] integerValue];
+		
+	} else {
+		type = collectionView.tag;
+		index = indexPath.row;
+		category = nCategory - 1;
+	}
+	
+	if (type == ObjectSticker) {
+		rcID = [NSString stringWithFormat:@"theme_sticker%ld_%ld.png", (long)category, (long)index];
+		
+	} else if (type == ObjectAnimateGIF) {
+//		rcID = [NSString stringWithFormat:@"theme_GIF%ld_%ld.gif", (long)category, (long)index];
         rcID = [NSString stringWithFormat:@"image-%ld-%ld.png", (long)category, (long)index];
-    }
-    
-    //    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stickers-pile-background"]];
-    //    backgroundImageView.userInteractionEnabled = YES;
-    //    backgroundImageView.contentMode = UIViewContentModeScaleAspectFit;
+	}
+	
+//    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stickers-pile-background"]];
+//    backgroundImageView.userInteractionEnabled = YES;
+//    backgroundImageView.contentMode = UIViewContentModeScaleAspectFit;
     
     UIImageView *groupBackgroundImageView = [cell viewWithTag:0x001];
     if (!groupBackgroundImageView) {
@@ -1833,7 +1775,7 @@ float scale = 1;
         groupBackgroundImageView.tag = 0x001;
         groupBackgroundImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
-    
+
     UIImageView *backgroundImageView = [cell viewWithTag:0x010];
     if (!backgroundImageView) {
         backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stickers-pile-background"]];
@@ -1843,19 +1785,19 @@ float scale = 1;
         backgroundImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     
-    UIImageView *imgView = [cell viewWithTag:0x100];
-    if (!imgView) {
-        imgView = [[UIImageView alloc] initWithFrame:cell.bounds];
-        imgView.tag = 0x100;
-        imgView.userInteractionEnabled = YES;
-        imgView.contentMode = UIViewContentModeScaleAspectFit;
+	UIImageView *imgView = [cell viewWithTag:0x100];
+	if (!imgView) {
+		imgView = [[UIImageView alloc] initWithFrame:cell.bounds];
+		imgView.tag = 0x100;
+		imgView.userInteractionEnabled = YES;
+		imgView.contentMode = UIViewContentModeScaleAspectFit;
         
         [cell addSubview:groupBackgroundImageView];
         [cell addSubview:backgroundImageView];
         [cell addSubview:imgView];
-    }
+	}
     
-    imgView.image = [UIImage imageNamed:rcID];
+	imgView.image = [UIImage imageNamed:rcID];
     
     groupBackgroundImageView.hidden = indexPath.item != 0;
     if (indexPath.item == 0 && [collectionView isExpandedSection:indexPath.section]) {
@@ -1866,40 +1808,40 @@ float scale = 1;
     } else if (indexPath.item == 0 && ![collectionView isExpandedSection:indexPath.section]) {
         groupBackgroundImageView.hidden = NO;
         
-        //        groupBackgroundImageView.hidden = YES;
+//        groupBackgroundImageView.hidden = YES;
         
-        //        [cell.superview bringSubviewToFront:cell];
-        //        groupBackgroundImageView.center = CGPointMake(groupBackgroundImageView.center.x - 10, groupBackgroundImageView.center.y);
-        //        [UIView animateWithDuration:3 animations:^{
-        //            groupBackgroundImageView.center = CGPointMake(groupBackgroundImageView.center.x + 10, groupBackgroundImageView.center.y);
-        //            groupBackgroundImageView.hidden = NO;
-        //        }];
+//        [cell.superview bringSubviewToFront:cell];
+//        groupBackgroundImageView.center = CGPointMake(groupBackgroundImageView.center.x - 10, groupBackgroundImageView.center.y);
+//        [UIView animateWithDuration:3 animations:^{
+//            groupBackgroundImageView.center = CGPointMake(groupBackgroundImageView.center.x + 10, groupBackgroundImageView.center.y);
+//            groupBackgroundImageView.hidden = NO;
+//        }];
         
     } else if (indexPath.item != 0) {
         groupBackgroundImageView.hidden = YES;
     }
     
     /*
-     if (indexPath.item == 0 && ![collectionView isExpandedSection:indexPath.section]) {
-     UIImageView *backgroundImageView3 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stickers-pile-background"]];
-     backgroundImageView3.userInteractionEnabled = YES;
-     backgroundImageView3.contentMode = UIViewContentModeScaleAspectFit;
-     backgroundImageView3.frame = CGRectMake(imgView.frame.origin.x + 20, imgView.frame.origin.y, imgView.frame.size.width, imgView.frame.size.height);
-     [cell insertSubview:backgroundImageView3 atIndex:0];
-     
-     UIImageView *backgroundImageView2 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stickers-pile-background"]];
-     backgroundImageView2.userInteractionEnabled = YES;
-     backgroundImageView2.contentMode = UIViewContentModeScaleAspectFit;
-     backgroundImageView2.frame = CGRectMake(imgView.frame.origin.x + 10, imgView.frame.origin.y, imgView.frame.size.width, imgView.frame.size.height);
-     [cell insertSubview:backgroundImageView2 atIndex:1];
-     }
-     
-     backgroundImageView.frame = imgView.frame;
-     [cell insertSubview:backgroundImageView atIndex:2];
-     
-     [cell addSubview:imgView];
-     */
-    return cell;
+    if (indexPath.item == 0 && ![collectionView isExpandedSection:indexPath.section]) {
+        UIImageView *backgroundImageView3 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stickers-pile-background"]];
+        backgroundImageView3.userInteractionEnabled = YES;
+        backgroundImageView3.contentMode = UIViewContentModeScaleAspectFit;
+        backgroundImageView3.frame = CGRectMake(imgView.frame.origin.x + 20, imgView.frame.origin.y, imgView.frame.size.width, imgView.frame.size.height);
+        [cell insertSubview:backgroundImageView3 atIndex:0];
+        
+        UIImageView *backgroundImageView2 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stickers-pile-background"]];
+        backgroundImageView2.userInteractionEnabled = YES;
+        backgroundImageView2.contentMode = UIViewContentModeScaleAspectFit;
+        backgroundImageView2.frame = CGRectMake(imgView.frame.origin.x + 10, imgView.frame.origin.y, imgView.frame.size.width, imgView.frame.size.height);
+        [cell insertSubview:backgroundImageView2 atIndex:1];
+    }
+    
+    backgroundImageView.frame = imgView.frame;
+    [cell insertSubview:backgroundImageView atIndex:2];
+    
+    [cell addSubview:imgView];
+	*/
+	return cell;
 }
 
 - (UICollectionReusableView *)collectionView:(CMCExpandableCollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
@@ -1923,12 +1865,12 @@ float scale = 1;
                                       UIViewAutoresizingFlexibleTopMargin    |
                                       UIViewAutoresizingFlexibleBottomMargin);
             
-            //            label.backgroundColor = [UIColor greenColor];
+//            label.backgroundColor = [UIColor greenColor];
             
             
             [footer addSubview:label];
         }
-        //        footer.backgroundColor = [UIColor redColor];
+//        footer.backgroundColor = [UIColor redColor];
         
         
         UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -1944,17 +1886,17 @@ float scale = 1;
         
         // TODO: get correct max sectionwidth
         /*
-         CGFloat newWidth = 60 * 6 + 7 * 3;
-         if ([collectionView isExpandedSection:indexPath.section]) {
-         if (footer.frame.origin.x == 0 && footer.frame.origin.y == 2){
-         footer.center = CGPointMake(footer.center.x + newWidth/2, footer.center.y);
-         }
-         //            label.center = CGPointMake(footer.center.x + newWidth/2, footer.center.y);
-         } else {
-         //            label.center = CGPointMake(footer.frame.size.width/2, footer.center.y);
-         footer.frame = CGRectMake(0, 2, footer.frame.size.width, footer.frame.size.height);
-         }
-         */
+        CGFloat newWidth = 60 * 6 + 7 * 3;
+        if ([collectionView isExpandedSection:indexPath.section]) {
+            if (footer.frame.origin.x == 0 && footer.frame.origin.y == 2){
+                footer.center = CGPointMake(footer.center.x + newWidth/2, footer.center.y);
+            }
+//            label.center = CGPointMake(footer.center.x + newWidth/2, footer.center.y);
+        } else {
+//            label.center = CGPointMake(footer.frame.size.width/2, footer.center.y);
+            footer.frame = CGRectMake(0, 2, footer.frame.size.width, footer.frame.size.height);
+        }
+        */
     }
     
     return footer;
@@ -1965,7 +1907,7 @@ float scale = 1;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    //    return 7.0;
+//    return 7.0;
     return 7.0 * scale;
 }
 
@@ -1974,80 +1916,80 @@ float scale = 1;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    //	if (collectionView == collectionCategoryView) { // for category colleciton view
-    //		if (nCategory == indexPath.row) {
-    //			return;
-    //		}
-    //
-    //		nCategory = indexPath.row;
-    //		[collectionToolView reloadData];
-    //		[collectionCategoryView reloadData];
-    //
-    //		collectionToolView.frame = CGRectOffset(collectionToolView.frame, self.view.frame.size.width, 0);
-    //		collectionToolView.alpha = 0.0;
-    //		[UIView animateWithDuration:0.5 animations:^{
-    //			collectionToolView.frame = CGRectOffset(collectionToolView.frame, -self.view.frame.size.width, 0);
-    //			collectionToolView.alpha = 1.0;
-    //		}];
-    //
-    //		return;
-    //	}
-    
-    // for tool category view
-    NSInteger type, index, category;
-    
-    if (nCategory == 0) { // for recent object
-        NSDictionary *dict = [viewModel getRecentObjects:(ComicObjectType)collectionView.tag][indexPath.row];
-        type = [dict[@"type"] integerValue];
-        index = [dict[@"id"] integerValue];
-        category = [dict[@"category"] integerValue];
-        
-    } else {
-        type = collectionView.tag;
+//	if (collectionView == collectionCategoryView) { // for category colleciton view
+//		if (nCategory == indexPath.row) {
+//			return;
+//		}
+//		
+//		nCategory = indexPath.row;
+//		[collectionToolView reloadData];
+//		[collectionCategoryView reloadData];
+//		
+//		collectionToolView.frame = CGRectOffset(collectionToolView.frame, self.view.frame.size.width, 0);
+//		collectionToolView.alpha = 0.0;
+//		[UIView animateWithDuration:0.5 animations:^{
+//			collectionToolView.frame = CGRectOffset(collectionToolView.frame, -self.view.frame.size.width, 0);
+//			collectionToolView.alpha = 1.0;
+//		}];
+//		
+//		return;
+//	}
+	
+	// for tool category view
+	NSInteger type, index, category;
+	
+	if (nCategory == 0) { // for recent object
+		NSDictionary *dict = [viewModel getRecentObjects:(ComicObjectType)collectionView.tag][indexPath.row];
+		type = [dict[@"type"] integerValue];
+		index = [dict[@"id"] integerValue];
+		category = [dict[@"category"] integerValue];
+		
+	} else {
+		type = collectionView.tag;
         index = indexPath.item == 0 ? 9 : indexPath.item + 2;
         
         if (((ComicObjectType)type) == ObjectSticker) {
             index = indexPath.item;
         }
         
-        //		category = nCategory - 1;
+//		category = nCategory - 1;
         category = indexPath.section;//indexPath.item;
-    }
-    
-    BaseObject *obj = [self createComicObject:(ComicObjectType)type index:index category:category delayTimeInSeconds:self.scrollBarSlider.value];
-    
-    if (obj) {
-        [self createComicViewWith:obj];
-        [viewModel saveObject];
-    }
+	}
+	
+	BaseObject *obj = [self createComicObject:(ComicObjectType)type index:index category:category delayTimeInSeconds:self.scrollBarSlider.value];
+	
+	if (obj) {
+		[self createComicViewWith:obj];
+		[viewModel saveObject];
+	}
 }
 
 - (CGSize)collectionView:(CMCExpandableCollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    //	if (collectionView == collectionCategoryView) {
-    //		return CGSizeMake(40, 40);
-    //	}
+//	if (collectionView == collectionCategoryView) {
+//		return CGSizeMake(40, 40);
+//	}
+	
+//	return CGSizeMake(80, 80);
     
-    //	return CGSizeMake(80, 80);
     
+//    NSLog(@"CMC: new size for item: %@", indexPath);
+//    if (indexPath.item == 0 && [collectionView isExpandedSection:indexPath.section]) {
+//        return CGSizeMake(0, 0);
+//    }
     
-    //    NSLog(@"CMC: new size for item: %@", indexPath);
-    //    if (indexPath.item == 0 && [collectionView isExpandedSection:indexPath.section]) {
-    //        return CGSizeMake(0, 0);
-    //    }
-    
-    //	return CGSizeMake(60, 60);
+//	return CGSizeMake(60, 60);
     
     return CGSizeMake(80, 80);
 }
 
 - (UIEdgeInsets)collectionView:(CMCExpandableCollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    //	if (collectionView == collectionCategoryView) {
-    //		return UIEdgeInsetsMake(3, 10, 3, 10);
-    //	}
-    
-    //	return UIEdgeInsetsMake(3, 15, 3, 15);
+//	if (collectionView == collectionCategoryView) {
+//		return UIEdgeInsetsMake(3, 10, 3, 10);
+//	}
+	
+//	return UIEdgeInsetsMake(3, 15, 3, 15);
     if ([collectionView isExpandedSection:section]) {
-        return UIEdgeInsetsMake(3, 15, 3, 0);
+        return UIEdgeInsetsMake(3, 15, 3, 0);        
     } else {
         return UIEdgeInsetsMake(3, 15, 3, 8);
     }
@@ -2112,7 +2054,20 @@ float scale = 1;
     
     newCaptionObject.delayTimeInSeconds = oldCaptionObject.delayTimeInSeconds;
     
-    newCaptionObject.frame = oldCaptionObject.frame;
+    CGRect screenBounds = [UIScreen mainScreen].bounds;
+//    if (type == CaptionTypeYellowBox) {
+//        CGFloat boxWidth = (screenBounds.size.width - 20)/2;
+//        CGFloat boxHeight = 70;
+//        captionObjectFrame = CGRectMake(screenBounds.size.width - boxWidth - 17, -5,
+//                                        boxWidth, boxHeight);
+//
+//    } else {
+       CGRect captionObjectFrame = CGRectMake(oldCaptionObject.frame.origin.x,
+                                        oldCaptionObject.frame.origin.y,
+                                        screenBounds.size.width - 20, 30);
+//    }
+    
+    newCaptionObject.frame = captionObjectFrame;
     comicObjectView.comicObject = newCaptionObject;
     
     [viewModel addObject:newCaptionObject];

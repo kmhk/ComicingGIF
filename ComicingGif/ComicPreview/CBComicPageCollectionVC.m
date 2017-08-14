@@ -39,16 +39,16 @@
     self.tapGestureRecognizer.delaysTouchesBegan= YES;
     [self.collectionView addGestureRecognizer:self.tapGestureRecognizer];
     
-    //    self.dataArray= [NSMutableArray new];
+//    self.dataArray= [NSMutableArray new];
     
-    //    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"hor_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_LANDSCAPE]];
-    //    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"ver_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_PORTRAIT]];
-    //    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"ver_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_PORTRAIT]];
-    //    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"hor_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_LANDSCAPE]];
-    //    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"hor_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_LANDSCAPE]];
-    //    [self refreshImageOrientation];
+//    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"hor_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_LANDSCAPE]];
+//    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"ver_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_PORTRAIT]];
+//    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"ver_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_PORTRAIT]];
+//    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"hor_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_LANDSCAPE]];
+//    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"hor_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_LANDSCAPE]];
+//    [self refreshImageOrientation];
     
-    //    self.collectionView.scrollEnabled= NO;
+//    self.collectionView.scrollEnabled= NO;
     
     if(!self.dataArray){
         self.dataArray= [NSMutableArray new];
@@ -63,7 +63,7 @@
     CBComicImageSection* section= [CBComicImageSection new];
     section.dataArray= self.dataArray;
     [self.sectionArray addObject:section];
-    //    [self.collectionView reloadData];
+//    [self.collectionView reloadData];
 }
 
 - (void)refreshDataArray:(NSMutableArray*)dataArray{
@@ -91,7 +91,7 @@
             if([section isKindOfClass:[CBComicImageSection class]]){
                 self.selectedIndexPath= indexPath;
                 // Show alert view
-                //                [self showDeleteAlertForIndexPath:indexPath];
+//                [self showDeleteAlertForIndexPath:indexPath];
             }
         }
     }
@@ -117,7 +117,7 @@
         CBComicItemModel* deletedItem= [self.dataArray objectAtIndex:indexPath.row];
         [self.dataArray removeObjectAtIndex:indexPath.row];
         [self refreshImageOrientation];
-        //        [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+//        [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
         [self.collectionView reloadData];
         if(self.delegate && [self.delegate conformsToProtocol:@protocol(CBComicPageCollectionDelegate)]){
             if([self.delegate respondsToSelector:@selector(didDeleteComicItem:inComicPage:)]){
@@ -163,14 +163,17 @@
     if(self.sectionArray.count == 0){
         [self setupSections];
     }
+//    [[[self.sectionArray objectAtIndex:0] dataArray] addObject:comicItem];
     [self refreshImageOrientation];
+    [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.dataArray.count - 1 inSection:0]]];
     
-    if (self.dataArray.count == 1) {
-        [self.collectionView reloadData];
-    } else {
-        [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.dataArray.count - 1 inSection:0]]];
-    }
     
+//    if (self.collectionView != nil) {
+//        [self.collectionView reloadData];
+//    }
+    
+    
+//    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:[self.dataArray indexOfObject:comicItem] inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:YES];
     
     completion(YES, comicItem);
 }
@@ -184,10 +187,10 @@
         [self setupSections];
     }
     [self refreshImageOrientation];
-    
-    //    if (self.collectionView != nil) {
-    //        [self.collectionView reloadData];
-    //    }
+
+//    if (self.collectionView != nil) {
+//        [self.collectionView reloadData];
+//    }
     [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexOfComicItem inSection:0]]];
     
     completion(YES, comicItem);
@@ -203,9 +206,9 @@
     }
     [self refreshImageOrientation];
     
-    //    if (self.collectionView != nil) {
-    //        [self.collectionView reloadData];
-    //    }
+//    if (self.collectionView != nil) {
+//        [self.collectionView reloadData];
+//    }
     
     [self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]]];
 }

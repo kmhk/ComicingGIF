@@ -103,20 +103,19 @@
 }
 
 - (void)capturePhotoWithCGRect:(CGRect)rect completionHandler:(void(^)(NSError *))completionHandler {
-    // c0mrade: Flip Fix
-    [self switchCameraCaptureMode:CameraCaptureModePhoto];
-    [self.recorder capturePhoto:^(NSError * _Nullable error, UIImage * _Nullable image) {
-        if (!error && image != nil) {
-            UIImage *resized = [self imageByScalingAndCroppingForSize:rect.size andImage:image];
-            
-            CIImage *ciImage = [[CIImage alloc] initWithImage:resized];
-            ciImage = [ciImage imageByApplyingTransform:CGAffineTransformTranslate(CGAffineTransformMakeScale(-1.0, 1.0), 0, ciImage.extent.size.height)];
-            CIContext *context = [CIContext contextWithOptions:nil];
-            UIImage *flip = [UIImage imageWithCGImage:[context createCGImage:ciImage fromRect:ciImage.extent]];
-            
-            [self.arrayPhotos addObject:flip];
-        } completionHandler(error);
-    }];
+	[self switchCameraCaptureMode:CameraCaptureModePhoto];
+	
+	[self.recorder capturePhoto:^(NSError * _Nullable error, UIImage * _Nullable image) {
+		if (!error && image) {
+//			NSLog(@"captured photo finished successfully");
+//			[self saveImageToPhotoLibrary:image];
+			
+			UIImage *imageToDisplay = [self imageByScalingAndCroppingForSize:rect.size andImage:image];
+			[self.arrayPhotos addObject:imageToDisplay];
+		}
+		
+		completionHandler(error);
+	}];
 }
 
 - (UIImage*)imageByScalingAndCroppingForSize:(CGSize)targetSize andImage:(UIImage *)image{

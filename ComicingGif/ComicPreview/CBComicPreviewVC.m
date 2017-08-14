@@ -41,10 +41,10 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     NSString *comicTitle;
     NSString *titleFontName;
     UIColor *comicBackgroundColor;
-    
-    ComicPreviewModel *viewModel;
-    
-    BOOL createComicCollectionOnce;
+	
+	ComicPreviewModel *viewModel;
+
+	BOOL createComicCollectionOnce;
 }
 //@property (nonatomic, strong) CBComicPageViewController* previewVC;
 @property (nonatomic, strong) CBComicPageCollectionVC* comicPageCollectionVC;
@@ -57,22 +57,18 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 
 @implementation CBComicPreviewVC
 
-- (void) loadDataFromComicingScreen {
-    [self prepareView];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.transition = [[ZoomInteractiveTransition alloc] initWithNavigationController:self.navigationController];
     self.transition.handleEdgePanBackGesture = NO;
     self.transition.transitionDuration = 0.4;
-    
+
     // Do any additional setup after loading the view.
     self.tableView.backgroundColor= [UIColor blackColor];
     self.tableView.separatorStyle= UITableViewCellSeparatorStyleNone;
     self.dataArray= [NSMutableArray new];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDataFromComicingScreen) name:@"xxxDataFromComicing" object:nil];
+    
     //Added By ramesh-> for handle slide type
     if(self.comicType == ReplyComic && self.replyType == FriendReply) {
         self.fileNameToSave = [NSString stringWithFormat:@"ComicSlide_F%@", self.friendOrGroupId];
@@ -84,12 +80,12 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     
     
     
-    //    [self.tableView reloadData];
+//    [self.tableView reloadData];
     
     self.navigationController.navigationBar.hidden = YES;
-    
-    viewModel = [[ComicPreviewModel alloc] init];
-    viewModel.parentVC = self;
+
+	viewModel = [[ComicPreviewModel alloc] init];
+	viewModel.parentVC = self;
 }
 
 - (void)initialiseComicPageCollectionVC {
@@ -107,34 +103,34 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         [self initialiseComicPageCollectionVC];
     }
     
-    //    dispatch_async(dispatch_get_main_queue(), ^{
-    if (!_shouldntRefreshAfterDidLayoutSubviews) {
-        _shouldntRefreshAfterDidLayoutSubviews = YES;
-        [self setupSections];
-        [self.tableView reloadData];
-        
-        [self prepareView];
-        
-        if (self.dataArray == nil || self.dataArray.count == 0) {
-            [self pushAddSlideTap:NO ofIndex:-1];
+//    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!_shouldntRefreshAfterDidLayoutSubviews) {
+            _shouldntRefreshAfterDidLayoutSubviews = YES;
+            [self setupSections];
+            [self.tableView reloadData];
+            
+            [self prepareView];
+            
+            if (self.dataArray == nil || self.dataArray.count == 0) {
+                [self pushAddSlideTap:NO ofIndex:-1];
+            }
+            
+//            [self addEmptySlide:NO completionBlock:^(BOOL a) {
+//                
+//            }];
+//            [self addEmptySlide:YES completionBlock:^(BOOL a) {
+//                
+//            }];
+//            [self addEmptySlide:YES completionBlock:^(BOOL a) {
+//                
+//            }];
+//            [self addEmptySlide:YES completionBlock:^(BOOL a) {
+//                
+//            }];
+//            self.comicPageCollectionVC.collectionView.backgroundView.backgroundColor = [UIColor redColor];
+            //End
         }
-        
-        //            [self addEmptySlide:NO completionBlock:^(BOOL a) {
-        //
-        //            }];
-        //            [self addEmptySlide:YES completionBlock:^(BOOL a) {
-        //
-        //            }];
-        //            [self addEmptySlide:YES completionBlock:^(BOOL a) {
-        //
-        //            }];
-        //            [self addEmptySlide:YES completionBlock:^(BOOL a) {
-        //
-        //            }];
-        //            self.comicPageCollectionVC.collectionView.backgroundView.backgroundColor = [UIColor redColor];
-        //End
-    }
-    //    });
+//    });
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -165,8 +161,8 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     CBComicItemModel* model= [[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] comicPage:comicPage];
     
     [self.dataArray replaceObjectAtIndex:indexOfSlide withObject:model];
-    //    NSLog(@"\n.............ADD FETCHED CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
-    //    NSLog(@"\n............... DATA ARRAY: %@",self.dataArray);
+//    NSLog(@"\n.............ADD FETCHED CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
+//    NSLog(@"\n............... DATA ARRAY: %@",self.dataArray);
     
     [self.comicPageCollectionVC replaceComicItemAtIndex:indexOfSlide withComicItem:model completion:^(BOOL finished, CBComicItemModel *comicItem) {
         if(finished){
@@ -200,13 +196,13 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 
 - (void)prepareView 
 {
-    //    self.comicSlides = [self getDataFromFile];
-    
-    _comicSlides = [[ComicObjectSerialize loadComicSlide] mutableCopy];
+//    self.comicSlides = [self getDataFromFile];
+
+     _comicSlides = [[ComicObjectSerialize loadComicSlide] mutableCopy];
     
     [self.dataArray removeAllObjects];
     [self.comicPageCollectionVC.dataArray removeAllObjects];
-    //    [((CBComicPageCollectionVC *)[self.previewVC.viewControllers lastObject]).dataArray removeAllObjects];
+//    [((CBComicPageCollectionVC *)[self.previewVC.viewControllers lastObject]).dataArray removeAllObjects];
     
     for (int i=0; i<self.comicSlides.count; i++) {
         ComicPage *comicPage = [[ComicPage alloc]init];
@@ -227,34 +223,34 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
                         //                        [self.comicPageCollectionVC.collectionView reloadData];
                         //                        [self.tableView reloadData];
                         
-                        //                        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 1)];
+//                        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 1)];
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            //                            [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+//                            [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
                         });
                     });
                 }
             }
         }];
         
-        //        [self.previewVC addComicItem:model completion:^(BOOL finished) {
-        //            if(finished){
-        //                if ([model isEqual:[self.dataArray lastObject]]) {
-        //                    dispatch_async(dispatch_get_main_queue(), ^{
-        //
-        //                        [self.previewVC.collectionView reloadData];
-        ////                        [self.tableView reloadData];
-        //                    });
-        //                }
-        //            }
-        //        }];
-        
+//        [self.previewVC addComicItem:model completion:^(BOOL finished) {
+//            if(finished){
+//                if ([model isEqual:[self.dataArray lastObject]]) {
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        
+//                        [self.previewVC.collectionView reloadData];
+////                        [self.tableView reloadData];
+//                    });
+//                }
+//            }
+//        }];
+
     }
     
-    //    for (NSData *data in self.comicSlides)
-    //    {
-    //        ComicPage *comicPage = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    //
-    //    }
+//    for (NSData *data in self.comicSlides)
+//    {
+//        ComicPage *comicPage = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+//       
+//    }
 }
 
 - (void)printComicPageObjects {
@@ -275,20 +271,20 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         NSLog(@"\n.............ADD EMPTY CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
         NSLog(@"\n............... DATA ARRAY: %@",self.dataArray);
         
-        //        [self.previewVC addComicItem:model completion:^(BOOL finished) {
-        //            if(finished){
-        //                [weekSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
-        //                //            [weekSelf.tableView reloadData];
-        //            }
-        //        }];
+//        [self.previewVC addComicItem:model completion:^(BOOL finished) {
+//            if(finished){
+//                [weekSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+//                //            [weekSelf.tableView reloadData];
+//            }
+//        }];
         
     } else {
         NSLog(@"\n.............REPLACE CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
         NSLog(@"\n............... DATA ARRAY: %@",self.dataArray);
         [((CBComicItemModel *)self.dataArray[index]) replaceWithNewModel:model];
-        //        self.previewVC.dataArray = self.dataArray;
+//        self.previewVC.dataArray = self.dataArray;
         
-        //        [((CBComicPageCollectionVC *)[[self.previewVC viewControllers] firstObject]) refreshDataArray:self.dataArray];
+//        [((CBComicPageCollectionVC *)[[self.previewVC viewControllers] firstObject]) refreshDataArray:self.dataArray];
         
         [self.tableView reloadData];
     }
@@ -306,10 +302,9 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 }
 
 - (void)startPlayingOneByOne {
-    if (_dirtySubviews != nil || _dirtysubviewData != nil) {
-        [self setInitialFrameForAllSlides];
-        [self slideDidFinishPlayingOnceWithIndex:0];
-    }
+    [self setInitialFrameForAllSlides];
+    
+    [self slideDidFinishPlayingOnceWithIndex:0];
 }
 
 - (void)slideDidFinishPlayingOnceWithIndex:(NSInteger)index {
@@ -344,12 +339,12 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 
 - (CGFloat)maxPageHeight{
     CGFloat maxHeight= 0.0f;
-    //    for(CBBaseViewController* vc in self.previewVC.viewControllers){
-    ////        if(vc.collectionView.collectionViewLayout.collectionViewContentSize.height > maxHeight){
-    //
-    //            maxHeight= vc.collectionView.collectionViewLayout.collectionViewContentSize.height;
-    ////        }
-    //    }
+//    for(CBBaseViewController* vc in self.previewVC.viewControllers){
+////        if(vc.collectionView.collectionViewLayout.collectionViewContentSize.height > maxHeight){
+//        
+//            maxHeight= vc.collectionView.collectionViewLayout.collectionViewContentSize.height;
+////        }
+//    }
     NSLog(@"CollectionView max height: %@",self.collectionView);
     maxHeight = self.comicPageCollectionVC.collectionView.collectionViewLayout.collectionViewContentSize.height;
     return ceilf(maxHeight);
@@ -381,7 +376,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     return cell;
 }
 - (void)ta_tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+
     
 }
 - (CGFloat)ta_tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -398,7 +393,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     if ([cell isKindOfClass:[CBPreviewHeaderCell class]]) {
         height = 80;
         //Same calculation in ComicTitleFontDropDownViewController
-        //        height = IS_IPHONE_5?114: (IS_IPHONE_6?124: (IS_IPHONE_6P?134: 144));
+//        height = IS_IPHONE_5?114: (IS_IPHONE_6?124: (IS_IPHONE_6P?134: 144));
     }
     return height;
 }
@@ -420,57 +415,57 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         
     }];
     
-    //    if (self.dataArray.count == 8) {
-    //        return;
-    //    }
-    //    ComicPage *comicPage = [ComicPage new];
-    //    comicPage.slideType = slideTypeWide;
-    //    [self addComicPage:comicPage withIndex:-1];
-    //
-    //    [self pushAddSlideTap:YES  ofIndex:-1];
+//    if (self.dataArray.count == 8) {
+//        return;
+//    }
+//    ComicPage *comicPage = [ComicPage new];
+//    comicPage.slideType = slideTypeWide;
+//    [self addComicPage:comicPage withIndex:-1];
+//    
+//    [self pushAddSlideTap:YES  ofIndex:-1];
     // Show Comic Making for Horizontal image
-    //    NSString *animationPath = [[NSBundle mainBundle] pathForResource:@"OOPPS" ofType:@"gif"];
-    //    CBComicItemModel* model= [[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] baseLayer:Gif staticImage:[UIImage imageNamed:@"WOW"] animatedImage:[YYImage imageWithContentsOfFile:animationPath] orientation:COMIC_ITEM_ORIENTATION_LANDSCAPE];
-    //    [self.dataArray addObject:model];
-    //    __block CBComicPreviewVC* weekSelf= self;
-    //    [self.previewVC addComicItem:model completion:^(BOOL finished) {
-    //        if(finished){
-    //            [weekSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
-    //        }
-    //    }];
+//    NSString *animationPath = [[NSBundle mainBundle] pathForResource:@"OOPPS" ofType:@"gif"];
+//    CBComicItemModel* model= [[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] baseLayer:Gif staticImage:[UIImage imageNamed:@"WOW"] animatedImage:[YYImage imageWithContentsOfFile:animationPath] orientation:COMIC_ITEM_ORIENTATION_LANDSCAPE];
+//    [self.dataArray addObject:model];
+//    __block CBComicPreviewVC* weekSelf= self;
+//    [self.previewVC addComicItem:model completion:^(BOOL finished) {
+//        if(finished){
+//            [weekSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+//        }
+//    }];
 }
 
 - (void)addEmptySlide:(BOOL)isTall completionBlock:(void (^)(BOOL))completionBlock{
     if (!self.comicPageCollectionVC) {
         [self initialiseComicPageCollectionVC];
     }
-    ComicPage *comicPage = [[ComicPage alloc]init];
+        ComicPage *comicPage = [[ComicPage alloc]init];
     NSMutableArray *subviews = [NSMutableArray array];
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:isTall], @"isTall", nil];
     [subviews addObject:dict];
     
-    [comicPage initWithgif:@"" andSubViewArray:subviews];
-    CBComicItemModel* model= [[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] comicPage:comicPage];
-    [self.dataArray addObject:model];
-    NSLog(@"\n.............ADD FETCHED CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
-    NSLog(@"\n............... DATA ARRAY: %@",self.dataArray);
+        [comicPage initWithgif:@"" andSubViewArray:subviews];
+        CBComicItemModel* model= [[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] comicPage:comicPage];
+        [self.dataArray addObject:model];
+        NSLog(@"\n.............ADD FETCHED CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
+        NSLog(@"\n............... DATA ARRAY: %@",self.dataArray);
     
-    __weak CBComicPreviewVC *weakSelf = self;
-    [self.comicPageCollectionVC addComicItem:model completion:^(BOOL finished, CBComicItemModel *itemModel) {
-        if(finished){
-            weakSelf.transitionView = [weakSelf.comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:weakSelf.dataArray.count - 1 inSection:0]].contentView;
-            completionBlock(YES);
-            //                if ([itemModel isEqual:[self.dataArray lastObject]]) {
-            //                    dispatch_async(dispatch_get_main_queue(), ^{
-            //
-            //                        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 1)];
-            //                        dispatch_async(dispatch_get_main_queue(), ^{
-            //                            //                            [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
-            //                        });
-            //                    });
-            //                }
-        }
-    }];
+        __weak CBComicPreviewVC *weakSelf = self;
+        [self.comicPageCollectionVC addComicItem:model completion:^(BOOL finished, CBComicItemModel *itemModel) {
+            if(finished){
+                weakSelf.transitionView = [weakSelf.comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:weakSelf.dataArray.count - 1 inSection:0]].contentView;
+                completionBlock(YES);
+//                if ([itemModel isEqual:[self.dataArray lastObject]]) {
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        
+//                        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 1)];
+//                        dispatch_async(dispatch_get_main_queue(), ^{
+//                            //                            [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+//                        });
+//                    });
+//                }
+            }
+        }];
 }
 
 - (void)deleteLastCell {
@@ -496,24 +491,24 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         
     }];
     
-    //    if (self.dataArray.count == 8) {
-    //        return;
-    //    }
-    //    ComicPage *comicPage = [ComicPage new];
-    //    comicPage.slideType = slideTypeTall;
-    //    [self addComicPage:comicPage withIndex:-1];
-    //
-    //    [self pushAddSlideTap:NO ofIndex:-1];
+//    if (self.dataArray.count == 8) {
+//        return;
+//    }
+//    ComicPage *comicPage = [ComicPage new];
+//    comicPage.slideType = slideTypeTall;
+//    [self addComicPage:comicPage withIndex:-1];
+//    
+//    [self pushAddSlideTap:NO ofIndex:-1];
     // Show Comic Making for Vertical image
-    //    NSString *animationPath = [[NSBundle mainBundle] pathForResource:@"OMG" ofType:@"gif"];
-    //    CBComicItemModel* model= [[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] baseLayer:StaticImage staticImage:[UIImage imageNamed:@"StickerSelectionBg"] animatedImage:[YYImage imageWithContentsOfFile:animationPath] orientation:COMIC_ITEM_ORIENTATION_PORTRAIT];
-    //    [self.dataArray addObject:model];
-    //    __block CBComicPreviewVC* weekSelf= self;
-    //    [self.previewVC addComicItem:model completion:^(BOOL finished) {
-    //        if(finished){
-    //            [weekSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
-    //        }
-    //    }];
+//    NSString *animationPath = [[NSBundle mainBundle] pathForResource:@"OMG" ofType:@"gif"];
+//    CBComicItemModel* model= [[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] baseLayer:StaticImage staticImage:[UIImage imageNamed:@"StickerSelectionBg"] animatedImage:[YYImage imageWithContentsOfFile:animationPath] orientation:COMIC_ITEM_ORIENTATION_PORTRAIT];
+//    [self.dataArray addObject:model];
+//    __block CBComicPreviewVC* weekSelf= self;
+//    [self.previewVC addComicItem:model completion:^(BOOL finished) {
+//        if(finished){
+//            [weekSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+//        }
+//    }];
 }
 
 - (void)rainbowCircleTapped:(UIButton *)rainbowButton {
@@ -558,10 +553,10 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 - (void)didDeleteComicItem:(CBComicItemModel *)comicItem inPage:(CBComicPageCollectionVC *)pageVC{
     [self.dataArray removeObject:comicItem];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
-    //    [self.tableView reloadData];
-    //    if (self.previewVC.dataArray.count == 0 && [self.previewVC viewControllers].count == 1) {
-    //        self.previewVC.view.hidden = YES;
-    //    }
+//    [self.tableView reloadData];
+//    if (self.previewVC.dataArray.count == 0 && [self.previewVC viewControllers].count == 1) {
+//        self.previewVC.view.hidden = YES;
+//    }
 }
 
 - (void)didTapOnComicItemWithIndex:(NSInteger)index {
@@ -574,22 +569,18 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     arrTemp = [[self.comicSlides objectAtIndex:index] mutableCopy];
     [arrTemp removeObjectAtIndex:0];
     
-    
+
     NSString *baseURLString = [[[self.comicSlides objectAtIndex:index] objectAtIndex:0]objectForKey:@"url"];
     CGRect slideRect = CGRectFromString([[[[self.comicSlides objectAtIndex:index] objectAtIndex:0] valueForKey:@"baseInfo"] valueForKey:@"frame"]);
     
+
     vc.indexSaved = index;
-    vc.urlOfSlide = [NSURL URLWithString:baseURLString];
-    [vc initWithBaseImage:vc.urlOfSlide
-                    frame:slideRect
-          andSubviewArray:arrTemp
-                   isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:@"isTall"] boolValue]
-                    index:index];
+    [vc initWithBaseImage:[NSURL URLWithString:baseURLString] frame:slideRect andSubviewArray:arrTemp isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:@"isTall"] boolValue] index:index];
     
     self.transitionView = [_comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]].contentView;
-    
+
     [self.navigationController pushViewController:vc animated:YES];
-    //    [self pushAddSlideTap:!(itemModel.itemOrientation==COMIC_ITEM_ORIENTATION_PORTRAIT) ofIndex:index];
+//    [self pushAddSlideTap:!(itemModel.itemOrientation==COMIC_ITEM_ORIENTATION_PORTRAIT) ofIndex:index];
 }
 
 #pragma mark - ComicBookColorCBViewControllerDelegate method
@@ -600,13 +591,13 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     if (self.comicPageCollectionVC.dataArray != 0) {
         [_comicPageCollectionVC.collectionView setBackgroundColor:color];
         
-        //        CBComicPageCollectionVC *comicPage = ((CBComicPageCollectionVC *)[[self.previewVC viewControllers] lastObject]);
+//        CBComicPageCollectionVC *comicPage = ((CBComicPageCollectionVC *)[[self.previewVC viewControllers] lastObject]);
         _comicPageCollectionVC.comicBookBackgroundTop.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@Top",backgroundImageName]];
         _comicPageCollectionVC.comicBookBackgroundLeft.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@Left",backgroundImageName]];
         _comicPageCollectionVC.comicBookBackgroundRight.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@Right",backgroundImageName]];
         _comicPageCollectionVC.comicBookBackgroundBottom.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@Bottom",backgroundImageName]];
     }
-    //    [self.tableView reloadData];
+//    [self.tableView reloadData];
     [self.comicPageCollectionVC.collectionView reloadData];
 }
 
@@ -635,48 +626,48 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 }
 
 - (IBAction)tagButtonTapped:(id)sender {
-    //    UIStoryboard *mainPageStoryBoard = [UIStoryboard storyboardWithName:@"Main_MainPage" bundle:nil];
-    //    ComicTagViewController *comicTagViewController = [mainPageStoryBoard instantiateViewControllerWithIdentifier:@"ComicTagViewController"];
-    //    comicTagViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    //    comicTagViewController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    //    [self presentViewController:comicTagViewController animated:YES completion:nil];
-    [viewModel generateVideos:^(NSURL *url) {
-        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-            PHAssetChangeRequest *changeRequest = [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:url];
-            
-            NSLog(@"%@", changeRequest.description);
-        } completionHandler:^(BOOL success, NSError *error) {
-            if (success) {
-                NSLog(@"saved down");
-            } else {
-                NSLog(@"something wrong %@", error.localizedDescription);
-            }
-            
-            UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"" message:@"Saved to library successfully" preferredStyle:UIAlertControllerStyleAlert];
-            [controller addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
-            [self presentViewController:controller animated:YES completion:nil];
-        }];
-    }];
+//    UIStoryboard *mainPageStoryBoard = [UIStoryboard storyboardWithName:@"Main_MainPage" bundle:nil];
+//    ComicTagViewController *comicTagViewController = [mainPageStoryBoard instantiateViewControllerWithIdentifier:@"ComicTagViewController"];
+//    comicTagViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//    comicTagViewController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+//    [self presentViewController:comicTagViewController animated:YES completion:nil];
+	[viewModel generateVideos:^(NSURL *url) {
+		[[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+			PHAssetChangeRequest *changeRequest = [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:url];
+			
+			NSLog(@"%@", changeRequest.description);
+		} completionHandler:^(BOOL success, NSError *error) {
+			if (success) {
+				NSLog(@"saved down");
+			} else {
+				NSLog(@"something wrong %@", error.localizedDescription);
+			}
+			
+			UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"" message:@"Saved to library successfully" preferredStyle:UIAlertControllerStyleAlert];
+			[controller addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+			[self presentViewController:controller animated:YES completion:nil];
+		}];
+	}];
 }
 
 - (IBAction)twitterButtonTapped:(UIButton *)sender {
-    [viewModel generateVideos:^(NSURL *url) {
-        [self doShareTo:TWITTER ShareImage:[UIImage imageNamed:@"comicBookBackground"] url:url];
-    }];
+	[viewModel generateVideos:^(NSURL *url) {
+		[self doShareTo:TWITTER ShareImage:[UIImage imageNamed:@"comicBookBackground"] url:url];
+	}];
 }
 
 - (IBAction)facebookButtonTapped:(UIButton *)sender {
-    [viewModel generateVideos:^(NSURL *url) {
-        [self doShareTo:FACEBOOK ShareImage:[UIImage imageNamed:@"comicBookBackground"] url:url];
-    }];
-    //    [self doShareTo:FACEBOOK ShareImage:[UIImage imageNamed:@"comicBookBackground"]];
+	[viewModel generateVideos:^(NSURL *url) {
+		[self doShareTo:FACEBOOK ShareImage:[UIImage imageNamed:@"comicBookBackground"] url:url];
+	}];
+//    [self doShareTo:FACEBOOK ShareImage:[UIImage imageNamed:@"comicBookBackground"]];
 }
 
 - (IBAction)instagramButtonTapped:(UIButton *)sender {
-    [viewModel generateVideos:^(NSURL *url) {
-        [self doShareTo:INSTAGRAM ShareImage:[UIImage imageNamed:@"comicBookBackground"] url:url];
-    }];
-    //    [self doShareTo:INSTAGRAM ShareImage:[UIImage imageNamed:@"comicBookBackground"]];
+	[viewModel generateVideos:^(NSURL *url) {
+		[self doShareTo:INSTAGRAM ShareImage:[UIImage imageNamed:@"comicBookBackground"] url:url];
+	}];
+//    [self doShareTo:INSTAGRAM ShareImage:[UIImage imageNamed:@"comicBookBackground"]];
 }
 
 -(void)doShareTo :(ShapeType)type ShareImage:(UIImage*)imgShareto url:(NSURL *)url {
@@ -715,13 +706,13 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     /* Commented for testing*/
     ShareHelper* sHelper = [ShareHelper shareHelperInit];
     sHelper.parentviewcontroller = self;
-    [sHelper shareAction:type
-               ShareText:@""
-              ShareImage:imgShareto
-                ShareUrl:url.absoluteString
-              completion:^(BOOL status) {
-                  
-              }];
+	[sHelper shareAction:type
+			   ShareText:@""
+			  ShareImage:imgShareto
+				ShareUrl:url.absoluteString
+			  completion:^(BOOL status) {
+				  
+			  }];
 }
 
 -(UIImage*)createImageWithLogo:(UIImage*)imgActualImage{
@@ -789,7 +780,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 
 - (void)pushAddSlideTap:(BOOL)isWideSlide ofIndex:(NSInteger)index
 {
-    //    CBComicPageCollectionVC *comicPage = ((CBComicPageCollectionVC *)[[self.previewVC viewControllers] lastObject]);
+//    CBComicPageCollectionVC *comicPage = ((CBComicPageCollectionVC *)[[self.previewVC viewControllers] lastObject]);
     
     NSIndexPath *indexPath;
     BOOL _isNewSlide = YES;
@@ -801,27 +792,27 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     }
     _transitionView = [_comicPageCollectionVC getZoomTransitionViewForIndexPath:indexPath];
     
-    //    ComicMakingViewController *cmv = [self.storyboard instantiateViewControllerWithIdentifier:@"ComicMakingViewController"];
-    //
-    //    if (isWideSlide == YES)
-    //    {
-    //        cmv.isWideSlide = YES;
-    //    }
-    //    else
-    //    {
-    //        cmv.isWideSlide = NO;
-    //    }
-    //
-    //    cmv.isNewSlide = _isNewSlide;
-    //    cmv.delegate = self;
-    //    cmv.comicType = self.comicType;
-    //    cmv.replyType = self.replyType;
-    //    cmv.friendOrGroupId = self.friendOrGroupId;
-    //    cmv.shareId = self.shareId;
-    //    if (!_isNewSlide) {
-    //        cmv.comicPage =  [NSKeyedUnarchiver unarchiveObjectWithData:[self.comicSlides objectAtIndex:index]];
-    //    }
-    //    [self.navigationController pushViewController:cmv animated:NO];
+//    ComicMakingViewController *cmv = [self.storyboard instantiateViewControllerWithIdentifier:@"ComicMakingViewController"];
+//    
+//    if (isWideSlide == YES)
+//    {
+//        cmv.isWideSlide = YES;
+//    }
+//    else
+//    {
+//        cmv.isWideSlide = NO;
+//    }
+//    
+//    cmv.isNewSlide = _isNewSlide;
+//    cmv.delegate = self;
+//    cmv.comicType = self.comicType;
+//    cmv.replyType = self.replyType;
+//    cmv.friendOrGroupId = self.friendOrGroupId;
+//    cmv.shareId = self.shareId;
+//    if (!_isNewSlide) {
+//        cmv.comicPage =  [NSKeyedUnarchiver unarchiveObjectWithData:[self.comicSlides objectAtIndex:index]];
+//    }
+//    [self.navigationController pushViewController:cmv animated:NO];
 }
 
 -(NSMutableArray*)getDataFromFile{
@@ -846,9 +837,9 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
               withImageView:(UIImageView *)imageView
 {
     
-    //    if (self.comicPageComicItems == nil) {
-    self.comicPageComicItems = [[ComicPage alloc] init];
-    //    }
+//    if (self.comicPageComicItems == nil) {
+        self.comicPageComicItems = [[ComicPage alloc] init];
+//    }
     if (imageView == nil)
         return;
     
@@ -932,7 +923,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 - (void)comicMakingViewControllerWithEditingDone:(ComicMakingViewController *)controll
                                    withImageView:(UIImageView *)imageView
                                  withPrintScreen:(UIImage *)printScreen
-                                    gifLayerPath:(NSString *)gifLayerPath
+                                 gifLayerPath:(NSString *)gifLayerPath
                                     withNewSlide:(BOOL)newslide withPopView:(BOOL)isPopView withIsWideSlide:(BOOL)isWideSlide
 {
     if (isPopView)
@@ -943,7 +934,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
             //Do background work
             @try {
                 
-                //                self.scrvComicSlide.isStillSaving = YES;
+//                self.scrvComicSlide.isStillSaving = YES;
                 @autoreleasepool {
                     //                    self.comicPageComicItems = nil;
                     if (self.comicPageComicItems == nil)
@@ -988,7 +979,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
                         [self.comicSlides replaceObjectAtIndex:self.editSlideIndex withObject:data];
                         [AppHelper saveDataToFile:self.comicSlides fileName:self.fileNameToSave];
                     }
-                    //                    self.scrvComicSlide.isStillSaving = NO;
+//                    self.scrvComicSlide.isStillSaving = NO;
                     data = nil;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         
@@ -1011,12 +1002,12 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
                                         
                                         [self.view addSubview:instView];
                                     }
-                                    
-                                    //                                    for (NSData *data in self.comicSlides) {
-                                    //                                        ComicPage *comicPage = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-                                    //
-                                    //                                        [self.dataArray addObject:comicPage];
-                                    //                                    }
+
+//                                    for (NSData *data in self.comicSlides) {
+//                                        ComicPage *comicPage = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+//                                        
+//                                        [self.dataArray addObject:comicPage];
+//                                    }
                                     [self addComicPage:_comicPageComicItems withIndex:_selectedIndexForAddOrEdit];
                                 });
                             }
@@ -1084,9 +1075,9 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     else
     {
         //Doing main thread
-        //        [scrvComicSlide reloadComicImageAtIndex:newSlideIndex withComicSlide:printScreen withComicSlide:dataArray];
+//        [scrvComicSlide reloadComicImageAtIndex:newSlideIndex withComicSlide:printScreen withComicSlide:dataArray];
         @try {
-            //            self.scrvComicSlide.isStillSaving = YES;
+//            self.scrvComicSlide.isStillSaving = YES;
             @autoreleasepool {
                 if (self.comicPageComicItems == nil) {
                     self.comicPageComicItems = [[ComicPage alloc] init];
