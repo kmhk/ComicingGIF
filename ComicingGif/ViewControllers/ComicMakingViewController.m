@@ -10,7 +10,7 @@
 #import "ComicMakingViewModel.h"
 #import "./../Objects/ObjectHeader.h"
 #import "./../CustomizedUI/ComicObjectView.h"
-
+#import "Global.h"
 #import <Messages/Messages.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import "ComicItem.h"
@@ -236,6 +236,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //    [self animateAppereance];
+    [Global global].haveAccessToOpenCameraScreen = false; // c0mrade: access for listview, to open camera screen
     nCategory = 1;
     
     _ratioDecreasing = 1;
@@ -1185,18 +1186,6 @@
     
     
 - (IBAction)btnToolCloseTapped:(id)sender {
-    //    if ([[self.navigationController.viewControllers firstObject] isKindOfClass:[CBComicPreviewVC class]]) {
-    //        CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
-    //        vc.shouldntRefreshAfterDidLayoutSubviews = NO;
-    //    }
-    
-    
-    if (!self.isFromCamera) {
-        shrinkingView = nil;
-        [self.navigationController popViewControllerAnimated:true];
-        return;
-    }
-    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Warrning"
                                                                    message:@" are you sure you want to delete this slide?"
                                                             preferredStyle:UIAlertControllerStyleAlert];
@@ -1204,13 +1193,21 @@
         // ALSO SHOULD DELETE EVERYTHING
         shrinkingView = nil;
         
-        CATransition *transition = [CATransition animation];
-        transition.duration = 0.3;
-        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        transition.type = kCATransitionFade;
-        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+//        CATransition *transition = [CATransition animation];
+//        transition.duration = 0.3;
+//        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//        transition.type = kCATransitionFade;
+//        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+//        [self.navigationController popViewControllerAnimated:NO];
         
-        [self.navigationController popViewControllerAnimated:NO];
+        // c0mrade: Fix For Line 720
+        if (!self.isFromCamera) {
+            [Global global].haveAccessToOpenCameraScreen = true;
+            [self.navigationController popToRootViewControllerAnimated:true];
+        } else {
+            [self.navigationController popToRootViewControllerAnimated:true];
+        }
+        
     }];
     UIAlertAction *otherAction = [UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
         [alert dismissViewControllerAnimated:true completion:nil];

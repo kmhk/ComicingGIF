@@ -500,6 +500,7 @@
         */
         
         // This line should be moved to app constants.
+        // c0mrade: Size Fixes
         CGSize imagePixelSize = CGSizeMake(rect.size.width * 3.0, rect.size.height * 3.0); //
         
         UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:imagePixelSize withInterpolationQuality:kCGInterpolationDefault];
