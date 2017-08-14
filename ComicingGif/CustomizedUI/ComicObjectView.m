@@ -824,18 +824,6 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             resultImageView.image = arrayImages.firstObject;
-            
-//            if (shouldAnimate && flag) {
-//                CGSize size = [self aspectScaledImageSizeForImageView:resultImageView image:resultImageView.image];
-//                CGRect fr = resultImageView.frame;
-//                fr.size = size;
-//                resultImageView.frame = fr;
-//                resultImageView.frame = CGRectMake(0, 0, 10, 10);
-//                resultImageView.contentMode = UIViewContentModeScaleAspectFill;
-//                resultImageView.clipsToBounds = true;
-//                resultImageView.backgroundColor = [UIColor greenColor];
-//            }
-            
             resultImageView.animationImages = arrayImagesL;
             resultImageView.animationDuration = totalDuration;
             resultImageView.animationRepeatCount = (flag == YES? 0 : 1);
@@ -900,7 +888,7 @@
     
     imgView.animationImages = arrayImages;
     imgView.animationDuration = totalDuration;
-    imgView.animationRepeatCount = 1;//(flag == YES? 0 : 1);
+    imgView.animationRepeatCount = (flag == YES? 0 : 1);
     [imgView startAnimating];
     
     return imgView;
