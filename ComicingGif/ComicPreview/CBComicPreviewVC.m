@@ -306,10 +306,9 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 }
 
 - (void)startPlayingOneByOne {
-    if (_dirtySubviews != nil || _dirtysubviewData != nil) {
-        [self setInitialFrameForAllSlides];
-        [self slideDidFinishPlayingOnceWithIndex:0];
-    }
+    // Ahmed: this method should be left unchanged, because otherwise the animation on ListView screen doesn't work
+    [self setInitialFrameForAllSlides];
+    [self slideDidFinishPlayingOnceWithIndex:0];
 }
 
 - (void)slideDidFinishPlayingOnceWithIndex:(NSInteger)index {
