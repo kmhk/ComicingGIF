@@ -1553,7 +1553,7 @@ TitleFontDelegate>
 
 - (void)setToolButtonAlpah:(CGFloat)alpha {
     self.btnToolAnimateGIF.alpha = alpha;
-    self.btnToolPen.alpha = alpha;
+//    self.btnToolPen.alpha = alpha;
     self.btnToolText.alpha = alpha;
     self.btnToolBubble.alpha = alpha;
     self.btnToolSticker.alpha = alpha;
@@ -1561,7 +1561,17 @@ TitleFontDelegate>
     
     self.buttonToolTextImageView.alpha = alpha;
     self.buttonToolStickerImageView.alpha = alpha;
-    self.penToolImageView.alpha = alpha;
+//    self.penToolImageView.alpha = alpha;
+    
+    if (alpha == 1) {
+        if (self.scrollBarSlider.value == 0) {
+            self.btnToolPen.alpha = alpha;
+            self.penToolImageView.alpha = alpha;
+        }
+    } else {
+        self.btnToolPen.alpha = alpha;
+        self.penToolImageView.alpha = alpha;
+    }
 }
 
 
