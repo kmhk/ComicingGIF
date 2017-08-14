@@ -1299,7 +1299,6 @@
     } else if (type == ObjectAnimateGIF) {
         rcID = [NSString stringWithFormat:@"theme_GIF%ld_%ld.gif", (long)category, (long)index];
         obj = [BaseObject comicObjectWith:ObjectAnimateGIF userInfo:rcID];
-        
         self.btnPlay.hidden = false;
     }
     
@@ -1350,6 +1349,11 @@
 
 - (void)createComicViewWith:(BaseObject *)obj {
     [viewModel addObject:obj];
+    
+    // c0mrade: calculate sticker frame dynamically
+    StickerObject *stk = (StickerObject *)obj;
+    UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:stk.stickerURL]];
+    
     
     ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
     comicView.parentView = backgroundView;
