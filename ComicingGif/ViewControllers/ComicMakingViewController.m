@@ -1850,6 +1850,7 @@ float scale = 1;
     UICollectionReusableView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                           withReuseIdentifier:@"FooterIndetifyer"
                                                                                  forIndexPath:indexPath];
+    
     if (kind == UICollectionElementKindSectionFooter) {
         UILabel *label = [footer viewWithTag:0x010];
         if (!label) {
@@ -1979,7 +1980,7 @@ float scale = 1;
     
 //	return CGSizeMake(60, 60);
     
-    return CGSizeMake(80, 80);
+    return CGSizeMake(80.1, 80.172);
 }
 
 - (UIEdgeInsets)collectionView:(CMCExpandableCollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
