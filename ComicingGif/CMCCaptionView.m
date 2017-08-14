@@ -40,6 +40,7 @@
     [self addSubview:_captionTextView];
     [self addSubview:_plusImageView];
     
+    [self.captionTextView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
     for (UIView *view in @[_captionDefaultTypeImageView,
                            _captionWithoutBackgroundTypeImageView,
                            _captionYellowBoxTypeImageView]) {
@@ -50,9 +51,38 @@
     return self;
 }
 
+// c0mrade: calculate textview center for text
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    UITextView *tv = object;
+    CGFloat topCorrect = ([tv bounds].size.height - [tv contentSize].height * [tv zoomScale])/2.0;
+    topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
+    tv.contentOffset = (CGPoint){.x = 0, .y = -topCorrect};
+}
+
 - (void)setupSubiconsImageViews {
-//    [self setupPlusSubiconsImageView];
     [self setupCaptionTypesSubiconImageViews];
+    [self prepareForYellowBoxInside];
+}
+
+- (void) prepareForYellowBoxInside {
+    if (self.currentCaptionType != CaptionTypeYellowBox) {
+        return;
+    }
+    
+    
+    // set frames inside Yellow Box
+    self.backgroundImageView.frame = CGRectMake(0, 0, self.frame.size.width, 81);
+    self.backgroundImageView.backgroundColor = [UIColor clearColor];
+    self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
+    
+    self.captionTextView.backgroundColor = [UIColor clearColor];
+    self.captionTextView.frame = self.backgroundImageView.frame;
+    
+    [self setTextViewMarginsForYellowBoxInside];
+}
+
+- (void) setTextViewMarginsForYellowBoxInside {
+    self.captionTextView.textContainerInset = UIEdgeInsetsMake(10, 14, 0, 14);
 }
 
 - (void)setupCaptionTypesSubiconImageViews {
@@ -74,7 +104,7 @@
         _captionWithoutBackgroundTypeImageView = [[UIImageView alloc] initWithImage:bigTextIcon];
         _captionYellowBoxTypeImageView = [[UIImageView alloc] initWithImage:yelloxBoxIcon];
         
-        CGFloat imageScaleFactor = 10;
+        CGFloat imageScaleFactor = 5;
         NSInteger arrayItemCounter = 0;
         for (UIView *view in @[_captionDefaultTypeImageView,
                                _captionWithoutBackgroundTypeImageView,
@@ -110,36 +140,95 @@
             view.center = [subiconsCenterPointsArray[arrayItemCounter] CGPointValue];
             arrayItemCounter++;
         }
+        
+        CGFloat sumCalc = _captionDefaultTypeImageView.frame.size.width +
+        _captionWithoutBackgroundTypeImageView.frame.size.width +
+        _captionYellowBoxTypeImageView.frame.size.width;
+        
+        CGRect fr = CGRectMake((self.frame.size.width - (sumCalc + 20))/2,
+                               _captionDefaultTypeImageView.frame.origin.y,
+                               _captionDefaultTypeImageView.frame.size.width, 55);
+        
+        _captionDefaultTypeImageView.frame = CGRectMake(fr.origin.x,
+                                                        fr.origin.y + 5,
+                                                        75,
+                                                        40);
+        
+        CGFloat padding = 20;
+        CGFloat viewW = self.captionDefaultTypeImageView.frame.size.width + padding;
+        _captionWithoutBackgroundTypeImageView.frame = CGRectMake(fr.origin.x + viewW,
+                                                                  fr.origin.y - 10,
+                                                                  31,
+                                                                  73);
+        
+        CGFloat xPos = fr.origin.x + viewW + _captionYellowBoxTypeImageView.frame.size.width + padding;
+        
+        _captionYellowBoxTypeImageView.frame = CGRectMake(xPos,
+                                                          fr.origin.y + 2,
+                                                          45,
+                                                          45);
+        
+        if (self.currentCaptionType == CaptionTypeYellowBox) {
+            CGRect fr = _captionDefaultTypeImageView.frame;
+            fr.origin.y = self.frame.size.height - fr.size.height;
+            fr.origin.x -= padding;
+            _captionDefaultTypeImageView.frame = fr;
+            
+            fr = _captionWithoutBackgroundTypeImageView.frame;
+            fr.origin.y = self.frame.size.height - (fr.size.height - 18);
+            fr.origin.x -= padding;
+            _captionWithoutBackgroundTypeImageView.frame = fr;
+            
+            fr = _captionYellowBoxTypeImageView.frame;
+            fr.origin.y = self.frame.size.height - fr.size.height;
+            fr.origin.x -= padding;
+            _captionYellowBoxTypeImageView.frame = fr;
+        }
+        
+    }
+    
+    UILongPressGestureRecognizer *pressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    pressGesture.minimumPressDuration = 0.2;
+    
+    [_captionWithoutBackgroundTypeImageView addGestureRecognizer:pressGesture];
+}
+
+- (void) handleLongPress :(UILongPressGestureRecognizer *) gesture {
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"openFontsView" object:self.captionTextView.text];
     }
 }
 
 - (void)setupPlusSubiconsImageView {
-//    CGRect rootFrame = self.frame;
-//    UIImage *plusImage = [UIImage imageNamed:@"plus-subicon"];
-//    if (!_plusImageView) {
-//        _plusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(rootFrame.size.width - 20,
-//                                                                       -CAPTION_INNER_OFFSET + 10,
-//                                                                       plusImage.size.width / 10,
-//                                                                       plusImage.size.height / 10)];
-//        _plusImageView.image = plusImage;
-//        _plusImageView.userInteractionEnabled = YES;
-//        _plusImageView.alpha = 0.0;
-//        _plusImageView.backgroundColor = [UIColor clearColor];
-//
-//        UITapGestureRecognizer *plusTapgestureRecognizer = [[UITapGestureRecognizer alloc]
-//                                                            initWithTarget:self
-//                                                            action:@selector(plusIconDidClickWithGestureRecognizer:)];
-//        [_plusImageView addGestureRecognizer:plusTapgestureRecognizer];
-//    } else {
-//        _plusImageView.frame = CGRectMake(rootFrame.size.width - 20,
-//                                          -CAPTION_INNER_OFFSET + 10,
-//                                          plusImage.size.width / 10,
-//                                          plusImage.size.height / 10);
-//    }
+    //    CGRect rootFrame = self.frame;
+    //    UIImage *plusImage = [UIImage imageNamed:@"plus-subicon"];
+    //    if (!_plusImageView) {
+    //        _plusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(rootFrame.size.width - 20,
+    //                                                                       -CAPTION_INNER_OFFSET + 10,
+    //                                                                       plusImage.size.width / 10,
+    //                                                                       plusImage.size.height / 10)];
+    //        _plusImageView.image = plusImage;
+    //        _plusImageView.userInteractionEnabled = YES;
+    //        _plusImageView.alpha = 0.0;
+    //        _plusImageView.backgroundColor = [UIColor clearColor];
+    //
+    //        UITapGestureRecognizer *plusTapgestureRecognizer = [[UITapGestureRecognizer alloc]
+    //                                                            initWithTarget:self
+    //                                                            action:@selector(plusIconDidClickWithGestureRecognizer:)];
+    //        [_plusImageView addGestureRecognizer:plusTapgestureRecognizer];
+    //    } else {
+    //        _plusImageView.frame = CGRectMake(rootFrame.size.width - 20,
+    //                                          -CAPTION_INNER_OFFSET + 10,
+    //                                          plusImage.size.width / 10,
+    //                                          plusImage.size.height / 10);
+    //    }
 }
 
 - (void)setupCaptionBackgroundImageViewWithCaptionType:(CaptionObjectType)captionType {
     CGRect rootFrame = self.frame;
+    rootFrame.size.height = 50;
+    rootFrame.origin.y = self.frame.size.height - rootFrame.size.height;
+    
     if (!_backgroundImageView) {
         _backgroundImageView = [[UIImageView alloc] initWithFrame:rootFrame];
     } else {
@@ -151,8 +240,12 @@
             _backgroundImageView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.5];
             break;
             
-        case CaptionTypeYellowBox:
         case CaptionTypeTextWithoutBackgroun:
+            _backgroundImageView.backgroundColor = [UIColor clearColor];
+            break;
+            
+        case CaptionTypeYellowBox:
+            _backgroundImageView.image = [UIImage imageNamed:@"yellow-box-background"];
             _backgroundImageView.backgroundColor = [UIColor clearColor];
             break;
     }
@@ -174,16 +267,23 @@
     _captionTextView.font = [self captionTextViewFontForType:captionType];
     _captionTextView.textColor = [self captiontextViewTextColorForType:captionType];
     
-    _captionTextView.textContainer.maximumNumberOfLines = 1;
-    _captionTextView.textAlignment = NSTextAlignmentCenter;
+    if (captionType == CaptionTypeYellowBox) {
+        _captionTextView.textContainer.maximumNumberOfLines = 2;
+        _captionTextView.textAlignment = NSTextAlignmentLeft;
+    } else {
+        _captionTextView.textContainer.maximumNumberOfLines = 1;
+        _captionTextView.textAlignment = NSTextAlignmentCenter;
+    }
 }
 
 #pragma mark - UI utils methods
 
 - (UIColor *)captiontextViewTextColorForType:(CaptionObjectType)captionType {
     UIColor *textColor = [UIColor blackColor];
-    if (captionType == CaptionTypeTextWithoutBackgroun || captionType == CaptionTypeYellowBox) {
+    if (captionType == CaptionTypeTextWithoutBackgroun) {
         textColor = [UIColor whiteColor];
+    } else if (captionType == CaptionTypeYellowBox) {
+        textColor = [UIColor blackColor];
     }
     return textColor;
 }
@@ -192,15 +292,15 @@
     UIFont *resultFont = [UIFont systemFontOfSize:12];
     switch (captionType) {
         case CaptionTypeDefault:
-            resultFont = [UIFont fontWithName:@"Arial MT Std" size:21];
+            resultFont = [UIFont fontWithName:@"AvenirNext-Regular" size:21];
             break;
             
         case CaptionTypeYellowBox:
-            resultFont = [UIFont fontWithName:@"Arial MT Std" size:35];
+            resultFont = [UIFont fontWithName:@"AvenirNext-Medium" size:21];
             break;
             
         case CaptionTypeTextWithoutBackgroun:
-            resultFont = [UIFont fontWithName:@"Arial MT Std" size:48];
+            resultFont = [UIFont fontWithName:@"AvenirNext-Bold" size:40];
             break;
     }
     
@@ -208,26 +308,7 @@
 }
 
 - (CGRect)captionTextViewRectForType:(CaptionObjectType)captionType {
-    CGRect resultTextViewFrame = CGRectZero;
-    CGRect rootFrame = self.frame;
-    switch (captionType) {
-        case CaptionTypeDefault:
-            resultTextViewFrame = CGRectMake(0,
-                                             CAPTION_INNER_OFFSET,
-                                             rootFrame.size.width,
-                                             rootFrame.size.height);
-            break;
-            
-        case CaptionTypeYellowBox:
-        case CaptionTypeTextWithoutBackgroun:
-            resultTextViewFrame = CGRectMake(0,
-                                             CAPTION_INNER_OFFSET - 5,
-                                             rootFrame.size.width,
-                                             rootFrame.size.height + 100);
-            break;
-    }
-    
-    return resultTextViewFrame;
+    return _backgroundImageView.frame;
 }
 
 - (NSInteger)textCharacterForType:(CaptionObjectType)captionType {
@@ -400,8 +481,8 @@
 #pragma mark - Actions Handlers
 
 - (void)plusIconDidClickWithGestureRecognizer:(UITapGestureRecognizer *)gestureRecognizer {
-//    [self showCaptionTypeIcons];
-//    [self hidePlusIcon];
+    //    [self showCaptionTypeIcons];
+    //    [self hidePlusIcon];
     [self hideCaptionSubicons];
 }
 

@@ -46,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [Global global].haveAccessToOpenCameraScreen =g false;
+    [Global global].haveAccessToOpenCameraScreen = false;
     self.viewModel = [[CameraViewModel alloc] init];
     self.viewModel.delegate = self;
     

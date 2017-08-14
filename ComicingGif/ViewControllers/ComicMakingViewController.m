@@ -22,6 +22,7 @@
 #import "TimerImageViewStruct.h"
 #import "CMCExpandableCollectionView.h"
 #import "CMCExpandableCollectionViewFlowLayout.h"
+#import "CBComicTitleFontDropdownViewController.h"
 
 #define TOOLCELLID	@"ToolCollectionViewCell"
 #define CATEGORYCELLID	@"CategoryCollectionViewCell"
@@ -43,7 +44,8 @@
     ScrollBarSliderDelegate,
     CMCExpandableCollectionViewDelegate,
     UICollectionViewDelegateFlowLayout,
-    ComicObjectViewAnimatedStickerStateDelegate>
+    ComicObjectViewAnimatedStickerStateDelegate,
+    TitleFontDelegate>
     {
         ComicMakingViewModel *viewModel;
         ComicObjectView *backgroundView;
@@ -259,10 +261,38 @@
                                                  name:UIKeyboardDidShowNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(openDropDownMenu:)
+                                                 name:@"openFontsView"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardDidHideWithNotification:)
                                                  name:UIKeyboardDidHideNotification
                                                object:nil];
 }
+
+-(void)getSelectedFontName:(NSString *)fontName andTitle:(NSString *)title {
+    NSLog(@"%@, %@",fontName,title);
+}
+
+- (void) openDropDownMenu: (NSNotification *) data {
+    UIStoryboard *mainPageStoryBoard = [UIStoryboard storyboardWithName:@"Main_MainPage" bundle:nil];
+    CBComicTitleFontDropdownViewController *vc = [mainPageStoryBoard instantiateViewControllerWithIdentifier:@"CBComicTitleFontDropdownViewController"];
+    
+    
+    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    vc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    vc.delegate = self;
+    
+    NSString *str = (NSString *)[data object];
+    if ([str length] > 0) {
+        vc.titleText = str;
+    } else {
+        vc.titleText = @"You Test Title";
+    }
+    
+    [self presentViewController:vc animated:NO completion:nil];
+}
+
 #pragma mark - Slider methods
 - (UIImage *)getSliderPlayOrPauseButtonWithImageName:(NSString *)imageName
     {
@@ -964,7 +994,7 @@
     CGRect screenBounds = [UIScreen mainScreen].bounds;
     CaptionObject *captionObject = [[CaptionObject alloc] initWithText:@""
                                                            captionType:CaptionTypeDefault
-                                                              andFrame:CGRectMake(5, 200, screenBounds.size.width - 20, 40)];
+                                                              andFrame:CGRectMake(5, 200, screenBounds.size.width - 20, 100)];
     CGFloat timeDelay = self.scrollBarSlider.value;
     captionObject.delayTimeInSeconds = timeDelay;
     
@@ -977,7 +1007,7 @@
     
     // TODO : test is everything is fine
     captionComicObjectView.tag = (enhancementsBaseTag) + enhancementsBaseTagCount++;
-    [self.timerImageViews addObjectsFromArray:captionComicObjectView.timerImageViews];
+    //    [self.timerImageViews addObjectsFromArray:captionComicObjectView.timerImageViews];
     [self addIconToScrollBarAfterAdditionOfComicObjectViewWithTag:captionComicObjectView.tag
                                                 andBaseObjectType:captionObject.objType
                                                    andSliderValue:self.scrollBarSlider.value];
@@ -2072,22 +2102,18 @@
     CaptionObject *oldCaptionObject = (CaptionObject *) comicObjectView.comicObject;
     CaptionObject *newCaptionObject = [[CaptionObject alloc] initWithText:text captionType:type];
     
+    
+    CGRect fr = oldCaptionObject.frame;
+    if (type == CaptionTypeYellowBox) {
+        fr = CGRectMake(self.view.frame.size.width - (281 + 20), 20, 281, 125);
+    } else {
+        CGFloat width = self.view.frame.size.width - 20;
+        fr = CGRectMake((self.view.frame.size.width - width)/2, 200, width, 100);
+    }
     newCaptionObject.delayTimeInSeconds = oldCaptionObject.delayTimeInSeconds;
     
-    CGRect screenBounds = [UIScreen mainScreen].bounds;
-    //    if (type == CaptionTypeYellowBox) {
-    //        CGFloat boxWidth = (screenBounds.size.width - 20)/2;
-    //        CGFloat boxHeight = 70;
-    //        captionObjectFrame = CGRectMake(screenBounds.size.width - boxWidth - 17, -5,
-    //                                        boxWidth, boxHeight);
-    //
-    //    } else {
-    CGRect captionObjectFrame = CGRectMake(oldCaptionObject.frame.origin.x,
-                                           oldCaptionObject.frame.origin.y,
-                                           screenBounds.size.width - 20, 30);
-    //    }
-    
-    newCaptionObject.frame = captionObjectFrame;
+    // c0mrade
+    newCaptionObject.frame = fr;
     comicObjectView.comicObject = newCaptionObject;
     
     [viewModel addObject:newCaptionObject];
