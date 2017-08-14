@@ -49,8 +49,7 @@
     self.delayTimeInSeconds = obj.delayTimeInSeconds;
     
     self.comicObject = obj;
-    // c0mrade: EDIT
-    self.backgroundColor = [UIColor redColor];
+    self.backgroundColor = [UIColor clearColor];
     self.userInteractionEnabled = YES;
     
     if (obj.objType == ObjectBaseImage) {
