@@ -1586,9 +1586,21 @@ TitleFontDelegate>
         return shouldReceiveTouch;
     }
     
-    for (id subview in backgroundView.subviews) {
+    int subviewIndex;
+    for (subviewIndex = 0; subviewIndex < backgroundView.subviews.count; subviewIndex++) {
+        id subview = backgroundView.subviews[subviewIndex];
         if (![subview isKindOfClass:[ComicObjectView class]]) {
             continue;
+        }
+        TimerImageViewStruct *timerStruct = self.timerImageViews[subviewIndex];
+        if (timerStruct.imageView) {
+            if (timerStruct.imageView.hidden) {
+                continue;
+            }
+        } else if (timerStruct.view) {
+            if (timerStruct.view.hidden) {
+                continue;
+            }
         }
         ComicObjectView *comicObjectView = (ComicObjectView *) subview;
         if (comicObjectView.comicObject.objType == ObjectPen) {
