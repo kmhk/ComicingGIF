@@ -386,7 +386,7 @@
 - (void)createAnimationGIFView {
     StickerObject *obj = (StickerObject *)self.comicObject;
     self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
-    
+//    self.backgroundColor = [UIColor redColor]; // c0mrade
     NSData *data = [NSData dataWithContentsOfURL:obj.stickerURL];
     /*
      real inside content view's size is less (40, 40) than object view. because it needs to show tool bar of all comic objects

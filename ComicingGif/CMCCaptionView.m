@@ -182,7 +182,7 @@
             _captionDefaultTypeImageView.frame = fr;
             
             fr = _captionWithoutBackgroundTypeImageView.frame;
-            fr.origin.y = self.frame.size.height - (fr.size.height - 18);
+            fr.origin.y = self.frame.size.height - (fr.size.height - 2);
             fr.origin.x -= padding;
             _captionWithoutBackgroundTypeImageView.frame = fr;
             

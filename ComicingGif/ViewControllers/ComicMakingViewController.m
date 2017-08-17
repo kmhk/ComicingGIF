@@ -162,42 +162,42 @@ TitleFontDelegate>
 @implementation ComicMakingViewController
 
 - (void) animateAppereance {
-//    if (!self.isFromCamera) {
-//        return;
-//    }
+    //    if (!self.isFromCamera) {
+    //        return;
+    //    }
     
-//     c0mrade: Should Be Refactored
+    //     c0mrade: Should Be Refactored
     
-//     store real positions
-        CGRect oldBottomFr = self.sliderContainerView.frame;
-        CGRect oldAnimGifFr = self.btnToolAnimateGIF.frame;
-        CGRect oldBubbleFr = self.btnToolBubble.frame;
-        CGRect oldStickerFr = self.stickerView.frame;
-        CGRect oldPenFr = self.penView.frame;
-        CGRect oldTextFr = self.textView.frame;
-        CGRect oldCloseFr = self.closeView.frame;
-        CGRect oldLockFr = self.lockView.frame;
-        CGRect oldPlayFr = self.playView.frame;
+    //     store real positions
+    CGRect oldBottomFr = self.sliderContainerView.frame;
+    CGRect oldAnimGifFr = self.btnToolAnimateGIF.frame;
+    CGRect oldBubbleFr = self.btnToolBubble.frame;
+    CGRect oldStickerFr = self.stickerView.frame;
+    CGRect oldPenFr = self.penView.frame;
+    CGRect oldTextFr = self.textView.frame;
+    CGRect oldCloseFr = self.closeView.frame;
+    CGRect oldLockFr = self.lockView.frame;
+    CGRect oldPlayFr = self.playView.frame;
     
-//     temp frame
-        CGRect tempFr = self.sliderContainerView.frame;
-        tempFr.origin.y = [UIScreen mainScreen].bounds.size.height;
+    //     temp frame
+    CGRect tempFr = self.sliderContainerView.frame;
+    tempFr.origin.y = [UIScreen mainScreen].bounds.size.height;
     
-//     unlock autolayout from current objects
-        self.sliderContainerView.translatesAutoresizingMaskIntoConstraints = true;
-        self.btnToolAnimateGIF.translatesAutoresizingMaskIntoConstraints = true;
-        self.btnToolBubble.translatesAutoresizingMaskIntoConstraints = true;
-        self.stickerView.translatesAutoresizingMaskIntoConstraints = true;
-        self.textView.translatesAutoresizingMaskIntoConstraints = true;
-        self.penView.translatesAutoresizingMaskIntoConstraints = true;
+    //     unlock autolayout from current objects
+    self.sliderContainerView.translatesAutoresizingMaskIntoConstraints = true;
+    self.btnToolAnimateGIF.translatesAutoresizingMaskIntoConstraints = true;
+    self.btnToolBubble.translatesAutoresizingMaskIntoConstraints = true;
+    self.stickerView.translatesAutoresizingMaskIntoConstraints = true;
+    self.textView.translatesAutoresizingMaskIntoConstraints = true;
+    self.penView.translatesAutoresizingMaskIntoConstraints = true;
     
-//     hide objects outside of superview bounds
-        self.sliderContainerView.frame = CGRectOffset(self.sliderContainerView.frame, 0, 100); // footer view
-        self.btnToolAnimateGIF.frame = CGRectOffset(self.btnToolAnimateGIF.frame, 0, 100); // heart button footer
-        self.btnToolBubble.frame = CGRectOffset(self.btnToolBubble.frame, 0, 100); // bubble button footer
-        self.stickerView.frame = CGRectOffset(self.stickerView.frame, 0, 100); // sticker view footer
-        self.textView.frame = CGRectOffset(self.textView.frame, 0, 150); // textview footer
-        self.penView.frame = CGRectOffset(self.penView.frame, 0, 100); // penview footer
+    //     hide objects outside of superview bounds
+    self.sliderContainerView.frame = CGRectOffset(self.sliderContainerView.frame, 0, 100); // footer view
+    self.btnToolAnimateGIF.frame = CGRectOffset(self.btnToolAnimateGIF.frame, 0, 100); // heart button footer
+    self.btnToolBubble.frame = CGRectOffset(self.btnToolBubble.frame, 0, 100); // bubble button footer
+    self.stickerView.frame = CGRectOffset(self.stickerView.frame, 0, 100); // sticker view footer
+    self.textView.frame = CGRectOffset(self.textView.frame, 0, 150); // textview footer
+    self.penView.frame = CGRectOffset(self.penView.frame, 0, 100); // penview footer
     
     
     self.closeView.frame = CGRectOffset(self.closeView.frame, 0, -100);
@@ -205,41 +205,41 @@ TitleFontDelegate>
     self.lockView.frame = CGRectOffset(self.lockView.frame, 0, -100);
     
     
+    [self.view layoutIfNeeded];
+    self.footerConstraint.constant = -(self.sliderContainerView.frame.size.height);
+    self.gifAnimateConstraint.constant = -(self.btnToolAnimateGIF.frame.size.height);
+    
+    //     animate appereance of objects
+    __weak typeof(self) wSelf = self;
+    
+    
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration: 1.0 animations:^{
+        self.footerConstraint.constant = 0;
+        self.gifAnimateConstraint.constant = 0;
         [self.view layoutIfNeeded];
-        self.footerConstraint.constant = -(self.sliderContainerView.frame.size.height);
-        self.gifAnimateConstraint.constant = -(self.btnToolAnimateGIF.frame.size.height);
-    
-//     animate appereance of objects
-        __weak typeof(self) wSelf = self;
-    
-    
-        [self.view layoutIfNeeded];
-        [UIView animateWithDuration: 1.0 animations:^{
-            self.footerConstraint.constant = 0;
-            self.gifAnimateConstraint.constant = 0;
-            [self.view layoutIfNeeded];
-    
-    
-    
-            wSelf.sliderContainerView.frame = oldBottomFr;
-            wSelf.btnToolAnimateGIF.frame = oldAnimGifFr;
-            wSelf.btnToolBubble.frame = oldBubbleFr;
-            wSelf.stickerView.frame = oldStickerFr;
-            wSelf.textView.frame = oldPenFr;
-            wSelf.penView.frame = oldTextFr;
-            wSelf.closeView.frame = oldCloseFr;
-            wSelf.playView.frame = oldPlayFr;
-            wSelf.lockView.frame = oldLockFr;
-        } completion:^(BOOL finished) {
-    
-        }];
+        
+        
+        
+        wSelf.sliderContainerView.frame = oldBottomFr;
+        wSelf.btnToolAnimateGIF.frame = oldAnimGifFr;
+        wSelf.btnToolBubble.frame = oldBubbleFr;
+        wSelf.stickerView.frame = oldStickerFr;
+        wSelf.textView.frame = oldPenFr;
+        wSelf.penView.frame = oldTextFr;
+        wSelf.closeView.frame = oldCloseFr;
+        wSelf.playView.frame = oldPlayFr;
+        wSelf.lockView.frame = oldLockFr;
+    } completion:^(BOOL finished) {
+        
+    }];
     
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-        [self animateAppereance];
+    [self animateAppereance];
     [Global global].haveAccessToOpenCameraScreen = false; // c0mrade: access for listview, to open camera screen
     nCategory = 1;
     
@@ -1255,12 +1255,12 @@ TitleFontDelegate>
         
         //        [self deleteSlideFromLocalDirectory];
         // c0mrade: Fix For Line 720
-//        if (!self.isFromCamera) {
-            [Global global].haveAccessToOpenCameraScreen = true;
-            [self.navigationController popToRootViewControllerAnimated:true];
-//        } else {
-//            [self.navigationController popToRootViewControllerAnimated:true];
-//        }
+        //        if (!self.isFromCamera) {
+        [Global global].haveAccessToOpenCameraScreen = true;
+        [self.navigationController popToRootViewControllerAnimated:true];
+        //        } else {
+        //            [self.navigationController popToRootViewControllerAnimated:true];
+        //        }
         
     }];
     UIAlertAction *otherAction = [UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
