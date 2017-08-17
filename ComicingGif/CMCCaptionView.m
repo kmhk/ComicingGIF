@@ -141,9 +141,9 @@
             arrayItemCounter++;
         }
         
-        CGSize def = CGSizeMake(72*1.5, 22*2);
-        CGSize midd = CGSizeMake(34*1.5, 35*2);
-        CGSize last = CGSizeMake(34*1.5, 33*1.5);
+        CGSize def = CGSizeMake(90, 55);
+        CGSize midd = CGSizeMake(34*1.2, 35*1.4);
+        CGSize last = CGSizeMake(40, 55);
         
         _captionDefaultTypeImageView.frame = CGRectMake(0, 0, def.width, def.width);
         _captionWithoutBackgroundTypeImageView.frame = CGRectMake(0, 0, midd.width, midd.height);
@@ -158,20 +158,20 @@
                                _captionDefaultTypeImageView.frame.size.width, 55);
         
         _captionDefaultTypeImageView.frame = CGRectMake(fr.origin.x,
-                                                        fr.origin.y + 5,
+                                                        fr.origin.y,
                                                         def.width,
                                                         def.height);
         
         CGFloat padding = 15;
         CGFloat viewW = self.captionDefaultTypeImageView.frame.size.width + padding;
         _captionWithoutBackgroundTypeImageView.frame = CGRectMake(fr.origin.x + viewW,
-                                                                  fr.origin.y - 5,
+                                                                  fr.origin.y + 2,
                                                                   midd.width,
                                                                   midd.height);
         
         CGFloat xPos = fr.origin.x + viewW + _captionYellowBoxTypeImageView.frame.size.width + padding;
         _captionYellowBoxTypeImageView.frame = CGRectMake(xPos,
-                                                          fr.origin.y + 2,
+                                                          fr.origin.y,
                                                           last.width,
                                                           last.height);
         

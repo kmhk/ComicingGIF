@@ -41,126 +41,126 @@
 #define fromCF (__bridge id)
 
 @interface ComicMakingViewController () <ZoomTransitionProtocol,
-    ScrollBarSliderDelegate,
-    CMCExpandableCollectionViewDelegate,
-    UICollectionViewDelegateFlowLayout,
-    ComicObjectViewAnimatedStickerStateDelegate,
-    TitleFontDelegate>
-    {
-        ComicMakingViewModel *viewModel;
-        ComicObjectView *backgroundView;
-        UICollectionView *collectionCategoryView;
-        CMCExpandableCollectionView *collectionToolView;
-        NSInteger nCategory;
-        
-        // Drawing properties
-        BOOL _isDrawing; // Flag to determine if pen drawing is enable right now
-        UIColor *_drawingColor; // Color which user has chosen for pen drawing.
-        CGPoint _lastPoint; // last point of drawing based on user touch events
-        CGFloat _brush; // Brush size for drawing pen
-        BOOL _mouseSwiped;
-        
-        // Keyboard appearance status property
-        BOOL _isKeyboardVisible;
-        
-        NSTimer *scrollBarTimer;
-        NSInteger discreteCount;
-        CGFloat maxSeconds;
-        NSInteger enhancementsBaseTagCount;
-        
-        NSTimer *autoScrollSliderTimer;
-        CGFloat autoScrollSliderDeltaValue;
-        
-        BOOL haveAddedIconsOnce;
-        
-        UIImageView *shrinkingView;
-        CGPoint previousTouchPoint;
-        CGPoint newTouchPoint;
-    }
+ScrollBarSliderDelegate,
+CMCExpandableCollectionViewDelegate,
+UICollectionViewDelegateFlowLayout,
+ComicObjectViewAnimatedStickerStateDelegate,
+TitleFontDelegate>
+{
+    ComicMakingViewModel *viewModel;
+    ComicObjectView *backgroundView;
+    UICollectionView *collectionCategoryView;
+    CMCExpandableCollectionView *collectionToolView;
+    NSInteger nCategory;
     
-    // Constrait Helpers For Later Animations
-    @property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerConstraint; // - .size.height
-    @property (weak, nonatomic) IBOutlet NSLayoutConstraint *gifAnimateConstraint; // - 50
+    // Drawing properties
+    BOOL _isDrawing; // Flag to determine if pen drawing is enable right now
+    UIColor *_drawingColor; // Color which user has chosen for pen drawing.
+    CGPoint _lastPoint; // last point of drawing based on user touch events
+    CGFloat _brush; // Brush size for drawing pen
+    BOOL _mouseSwiped;
     
-    @property (nonatomic) BOOL shouldContinueGif;
-    @property (weak, nonatomic) IBOutlet UIButton *btnPlay;
-    @property (weak, nonatomic) IBOutlet UIView *penView;
-    @property (weak, nonatomic) IBOutlet UIView *textView;
-    @property (weak, nonatomic) IBOutlet UIView *stickerView;
-    @property (weak, nonatomic) IBOutlet UIView *lockView;
-    @property (weak, nonatomic) IBOutlet UIView *playView;
-    @property (weak, nonatomic) IBOutlet UIView *closeView;
+    // Keyboard appearance status property
+    BOOL _isKeyboardVisible;
     
-    @property (weak, nonatomic) IBOutlet UIButton *btnToolAnimateGIF;
-    @property (weak, nonatomic) IBOutlet UIButton *btnToolBubble;
-    @property (weak, nonatomic) IBOutlet UIButton *btnToolSticker;
-    @property (weak, nonatomic) IBOutlet UIImageView *buttonToolStickerImageView;
-    @property (weak, nonatomic) IBOutlet UIButton *btnToolText;
-    @property (weak, nonatomic) IBOutlet UIImageView *buttonToolTextImageView;
-    @property (weak, nonatomic) IBOutlet UIButton *btnToolPen;
-    @property (weak, nonatomic) IBOutlet UIImageView *drawingImageView;
+    NSTimer *scrollBarTimer;
+    NSInteger discreteCount;
+    CGFloat maxSeconds;
+    NSInteger enhancementsBaseTagCount;
     
-    @property (weak, nonatomic) IBOutlet UIButton *btnNext;
-    @property (weak, nonatomic) IBOutlet UIButton *btnClose;
+    NSTimer *autoScrollSliderTimer;
+    CGFloat autoScrollSliderDeltaValue;
     
-    @property (strong, nonatomic) IBOutlet UIView *baseLayerView;
-    @property (assign, nonatomic) CGFloat ratioDecreasing;
-    @property (assign, nonatomic) CGFloat ratioMinimumValue;
-    @property (assign, nonatomic) CGRect baseLayerInitialFrame;
-    @property (assign, nonatomic) CGRect backgroundInitialFrame;
-    @property (weak, nonatomic) IBOutlet UIImageView *buttonBookViewImageView;
-    @property (weak, nonatomic) IBOutlet UIImageView *buttonPlayPauseViewImageView;
-    @property (weak, nonatomic) IBOutlet UIImageView *buttonCloseImageView;
-    @property (weak, nonatomic) IBOutlet UIButton *playPauseButton;
-    @property (weak, nonatomic) IBOutlet UIButton *buttonPenUndo;
-    @property (weak, nonatomic) IBOutlet UIButton *bookViewButton;
-    @property (weak, nonatomic) IBOutlet UIView *penUndoView;
-    @property (weak, nonatomic) IBOutlet UIImageView *penUndoImageView;
-    @property (weak, nonatomic) IBOutlet UIStackView *penColorStackView;
-    @property (weak, nonatomic) IBOutlet UIImageView *penToolImageView;
+    BOOL haveAddedIconsOnce;
     
-    @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderContainerViewBottomConstraint;
-    @property (weak, nonatomic) IBOutlet UIView *sliderContainerView;
-    @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderBlackViewBottomConstraint;
-    @property (weak, nonatomic) IBOutlet UIView *sliderBlackView;
-    @property (weak, nonatomic) IBOutlet ScrollBarSlider *scrollBarSlider;
-    @property (strong, nonatomic) NSMutableArray<TimerImageViewStruct *> *timerImageViews;
-    @property (strong, nonatomic) NSMutableArray *scrollBarIconViews;
-    
-    @property (nonatomic) UITapGestureRecognizer *collectionViewTapGestureRecognizer;
-    
-    @property (assign, nonatomic) BOOL didLayoutSubviewsOnce;
-    
-    /**
-     Use this mutable array to store all drawings made during active drawing mode. Each drawing has its own ImageView this will enable undo function for drawing because we can just remove last ImageView from this array
-     */
-    @property (nonatomic) NSMutableArray<UIImageView *> *drawingImageViewStackArray;
-    
-    /**
-     drawingCoordinateArray stores all coordinate made during active drawing mode. We need this to use those coordinates in saving system and save coordinates (with selected color and brush size) into slides.plist file. So based on this data we can restore all drawings later
-     */
-    @property (nonatomic) NSMutableArray<NSMutableArray<NSValue *> *> *drawingCoordinateArray;
-    
-    /**
-     drawingBrushSizeArray stores all brush size values made during active drawing mode. We need to use those values in saving process. (saving into slides.plist)
-     */
-    @property (nonatomic) NSMutableArray<NSNumber *> *drawingBrushSizeArray;
-    
-    /**
-     drawingColorArray stores all selected colors values made during active drawing mode. We need to use those values in saving process. (saving into slides.plist)
-     */
-    @property (nonatomic) NSMutableArray<UIColor *> *drawingColorArray;
-    
-    @property (assign, nonatomic) BOOL isTall;
-    
-    @end
+    UIImageView *shrinkingView;
+    CGPoint previousTouchPoint;
+    CGPoint newTouchPoint;
+}
+
+// Constrait Helpers For Later Animations
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerConstraint; // - .size.height
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *gifAnimateConstraint; // - 50
+
+@property (nonatomic) BOOL shouldContinueGif;
+@property (weak, nonatomic) IBOutlet UIButton *btnPlay;
+@property (weak, nonatomic) IBOutlet UIView *penView;
+@property (weak, nonatomic) IBOutlet UIView *textView;
+@property (weak, nonatomic) IBOutlet UIView *stickerView;
+@property (weak, nonatomic) IBOutlet UIView *lockView;
+@property (weak, nonatomic) IBOutlet UIView *playView;
+@property (weak, nonatomic) IBOutlet UIView *closeView;
+
+@property (weak, nonatomic) IBOutlet UIButton *btnToolAnimateGIF;
+@property (weak, nonatomic) IBOutlet UIButton *btnToolBubble;
+@property (weak, nonatomic) IBOutlet UIButton *btnToolSticker;
+@property (weak, nonatomic) IBOutlet UIImageView *buttonToolStickerImageView;
+@property (weak, nonatomic) IBOutlet UIButton *btnToolText;
+@property (weak, nonatomic) IBOutlet UIImageView *buttonToolTextImageView;
+@property (weak, nonatomic) IBOutlet UIButton *btnToolPen;
+@property (weak, nonatomic) IBOutlet UIImageView *drawingImageView;
+
+@property (weak, nonatomic) IBOutlet UIButton *btnNext;
+@property (weak, nonatomic) IBOutlet UIButton *btnClose;
+
+@property (strong, nonatomic) IBOutlet UIView *baseLayerView;
+@property (assign, nonatomic) CGFloat ratioDecreasing;
+@property (assign, nonatomic) CGFloat ratioMinimumValue;
+@property (assign, nonatomic) CGRect baseLayerInitialFrame;
+@property (assign, nonatomic) CGRect backgroundInitialFrame;
+@property (weak, nonatomic) IBOutlet UIImageView *buttonBookViewImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *buttonPlayPauseViewImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *buttonCloseImageView;
+@property (weak, nonatomic) IBOutlet UIButton *playPauseButton;
+@property (weak, nonatomic) IBOutlet UIButton *buttonPenUndo;
+@property (weak, nonatomic) IBOutlet UIButton *bookViewButton;
+@property (weak, nonatomic) IBOutlet UIView *penUndoView;
+@property (weak, nonatomic) IBOutlet UIImageView *penUndoImageView;
+@property (weak, nonatomic) IBOutlet UIStackView *penColorStackView;
+@property (weak, nonatomic) IBOutlet UIImageView *penToolImageView;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderContainerViewBottomConstraint;
+@property (weak, nonatomic) IBOutlet UIView *sliderContainerView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderBlackViewBottomConstraint;
+@property (weak, nonatomic) IBOutlet UIView *sliderBlackView;
+@property (weak, nonatomic) IBOutlet ScrollBarSlider *scrollBarSlider;
+@property (strong, nonatomic) NSMutableArray<TimerImageViewStruct *> *timerImageViews;
+@property (strong, nonatomic) NSMutableArray *scrollBarIconViews;
+
+@property (nonatomic) UITapGestureRecognizer *collectionViewTapGestureRecognizer;
+
+@property (assign, nonatomic) BOOL didLayoutSubviewsOnce;
+
+/**
+ Use this mutable array to store all drawings made during active drawing mode. Each drawing has its own ImageView this will enable undo function for drawing because we can just remove last ImageView from this array
+ */
+@property (nonatomic) NSMutableArray<UIImageView *> *drawingImageViewStackArray;
+
+/**
+ drawingCoordinateArray stores all coordinate made during active drawing mode. We need this to use those coordinates in saving system and save coordinates (with selected color and brush size) into slides.plist file. So based on this data we can restore all drawings later
+ */
+@property (nonatomic) NSMutableArray<NSMutableArray<NSValue *> *> *drawingCoordinateArray;
+
+/**
+ drawingBrushSizeArray stores all brush size values made during active drawing mode. We need to use those values in saving process. (saving into slides.plist)
+ */
+@property (nonatomic) NSMutableArray<NSNumber *> *drawingBrushSizeArray;
+
+/**
+ drawingColorArray stores all selected colors values made during active drawing mode. We need to use those values in saving process. (saving into slides.plist)
+ */
+@property (nonatomic) NSMutableArray<UIColor *> *drawingColorArray;
+
+@property (assign, nonatomic) BOOL isTall;
+
+@end
 
 
 
 // MARK: -
 
 @implementation ComicMakingViewController
-    
+
 - (void) animateAppereance {
     if (!self.isFromCamera) {
         return;
@@ -233,7 +233,7 @@
     //    }];
     
 }
-    
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -278,7 +278,6 @@
     UIStoryboard *mainPageStoryBoard = [UIStoryboard storyboardWithName:@"Main_MainPage" bundle:nil];
     CBComicTitleFontDropdownViewController *vc = [mainPageStoryBoard instantiateViewControllerWithIdentifier:@"CBComicTitleFontDropdownViewController"];
     
-    
     vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     vc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     vc.delegate = self;
@@ -295,19 +294,19 @@
 
 #pragma mark - Slider methods
 - (UIImage *)getSliderPlayOrPauseButtonWithImageName:(NSString *)imageName
-    {
-        CGSize sliderSize = CGSizeMake(20, 50);
-        CGSize newSize = CGSizeMake(sliderSize.height, sliderSize.height);
-        
-        UIImage *image = [UIImage imageNamed:imageName];
-        UIGraphicsBeginImageContext(newSize);
-        [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-        UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        return newImage;
-    }
+{
+    CGSize sliderSize = CGSizeMake(20, 50);
+    CGSize newSize = CGSizeMake(sliderSize.height, sliderSize.height);
     
+    UIImage *image = [UIImage imageNamed:imageName];
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
 - (void)initialiseScrollBar {
     self.scrollBarSlider.scrollBarSliderDelegate = self;
     
@@ -320,8 +319,8 @@
     }
     [self refreshStateOfEnhancementsWithSlideValue:0];
 }
-    
-    //ScrollBarSlider delegate method
+
+//ScrollBarSlider delegate method
 - (void)refreshSliderStateWithCurrentSelectionState {
     if (self.scrollBarSlider.selected) {
         [self play];
@@ -329,7 +328,7 @@
         [self pause];
     }
 }
-    
+
 - (void)play {
     if (_isDrawing) {
         // disable scrollbar in drawing mode. To keep track of the drawing PenObject time delay property
@@ -337,7 +336,7 @@
     }
     scrollBarTimer = [NSTimer scheduledTimerWithTimeInterval:discreteValueOfSeconds target:self selector:@selector(scrollBarTimer:) userInfo:nil repeats:YES];
 }
-    
+
 - (void)pause {
     //    [self.playPauseButton setTitle:@"Play" forState:UIControlStateNormal];
     [self stopTimer];
@@ -346,7 +345,7 @@
         [self setImageOnTimerImageView:timerImageView withCurrentSliderValue:self.scrollBarSlider.value];
     }
 }
-    
+
 - (void)scrollBarTimer:(NSTimer *)timer {
     self.scrollBarSlider.value = discreteCount*(discreteValueOfSeconds);
     //    self.currentTimeLabel.text = [NSString stringWithFormat:@"%.2f",self.scrollBarSlider.value];
@@ -360,7 +359,7 @@
         //        self.playPauseButton.selected = !self.playPauseButton.selected;
     }
 }
-    
+
 - (void)refreshStateOfEnhancementsWithSlideValue:(CGFloat)value {
     
     if (value == 0) {
@@ -376,12 +375,12 @@
         [self refreshStateOfTimerImageView:timerImageView withSliderValue:value];
     }
 }
-    
+
 - (void)stopTimer {
     [scrollBarTimer invalidate];
     scrollBarTimer = nil;
 }
-    
+
 - (IBAction)slideChanged:(UISlider *)slider {
     //    NSLog(@"Slider value actual: %f",slider.value);
     slider.value = ((NSInteger)(slider.value / discreteValueOfSeconds)) * discreteValueOfSeconds;
@@ -401,7 +400,7 @@
     [self setFrameOfGifsToPercentOfFrameToShow:(slider.value/slider.maximumValue)];
     //    self.currentTimeLabel.text = [NSString stringWithFormat:@"%.2f",self.scrollBarSlider.value];
 }
-    
+
 - (void)setFrameOfGifsToPercentOfFrameToShow:(float)percent {
     
     NSLog(@"%ld",(long)percent);
@@ -413,7 +412,7 @@
         
     }
 }
-    
+
 - (UIImageView *)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag {
     CGImageSourceRef srcImage = CGImageSourceCreateWithData(toCF data, nil);
     if (!srcImage) {
@@ -464,12 +463,12 @@
     return imgView;
     
 }
-    
+
 - (void)setImageOnTimerImageView:(TimerImageViewStruct *)timerImageView withCurrentSliderValue:(CGFloat)currentSliderValue {
-//    if (currentSliderValue > 0 && self.shouldContinueGif == false && timerImageView.objType == ObjectAnimateGIF) {
-//        [timerImageView.imageView stopAnimating];
-//        return;
-//    }
+    //    if (currentSliderValue > 0 && self.shouldContinueGif == false && timerImageView.objType == ObjectAnimateGIF) {
+    //        [timerImageView.imageView stopAnimating];
+    //        return;
+    //    }
     
     timerImageView.imageView.hidden = currentSliderValue < timerImageView.delayTimeOfImageView;
     timerImageView.view.hidden = currentSliderValue < timerImageView.delayTimeOfImageView;
@@ -491,23 +490,23 @@
         CGFloat fullLoopsTotalDuration = timerImageView.imageView.animationDuration * ((NSInteger)((modifiedActionValue)/timerImageView.imageView.animationDuration));
         NSInteger actualPercent = (NSInteger)(((modifiedActionValue - fullLoopsTotalDuration) / timerImageView.imageView.animationDuration) * 100);
         NSLog(@"...Actual percent: %lu,,,,,hidden: %d", actualPercent, timerImageView.imageView.hidden);
-
-//        if (actualPercent == 99 && timerImageView.objType == ObjectAnimateGIF)  {
-//            self.shouldContinueGif = false;
-//            [timerImageView.imageView stopAnimating];
-//            return;
-//        } else if (actualPercent == 0 && timerImageView.objType == ObjectAnimateGIF) {
-//            if (self.shouldContinueGif == false) {
-//                [timerImageView.imageView startAnimating];
-//            }
-//            self.shouldContinueGif = true;
-//        }
+        
+        //        if (actualPercent == 99 && timerImageView.objType == ObjectAnimateGIF)  {
+        //            self.shouldContinueGif = false;
+        //            [timerImageView.imageView stopAnimating];
+        //            return;
+        //        } else if (actualPercent == 0 && timerImageView.objType == ObjectAnimateGIF) {
+        //            if (self.shouldContinueGif == false) {
+        //                [timerImageView.imageView startAnimating];
+        //            }
+        //            self.shouldContinueGif = true;
+        //        }
         
         UIImage *img = [timerImageView.imageView.animationImages objectAtIndex:((NSInteger)[timerImageView.imageView.animationImages count] * actualPercent/100)];
         timerImageView.imageView.image = img;
     }
 }
-    
+
 - (void)refreshStateOfTimerImageView:(TimerImageViewStruct *)timerImageView withSliderValue:(CGFloat)currentSliderValue {
     timerImageView.imageView.hidden = currentSliderValue < timerImageView.delayTimeOfImageView;
     
@@ -522,24 +521,24 @@
         }
     }
 }
-    
+
 - (UIView *)getScrollBarIconWithTag:(NSInteger)iconTag {
     UIButton *iconButton = [[self.scrollBarSlider superview]viewWithTag:iconTag];
     return iconButton;
 }
-    
+
 #pragma mark -
-    
+
 - (void)setAlpha:(BOOL)alpha {
     //self.btnToolAnimateGIF.alpha = self.btnToolBubble.alpha = self.btnToolSticker.alpha = self.btnToolText.alpha = self.btnToolPen.alpha = alpha;
     [self setToolButtonAlpah:alpha];
 }
-    
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-    
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (_isKeyboardVisible) {
         [self.view endEditing:YES];
@@ -629,7 +628,7 @@
     [_drawingColorArray addObject:_drawingColor];
     [_drawingBrushSizeArray addObject:@(_brush)];
 }
-    
+
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (!_isDrawing) {
 #warning temporarily disabled old glide implementation
@@ -708,7 +707,7 @@
     [_drawingImageViewStackArray removeLastObject];
     [_drawingImageViewStackArray addObject:currentDrawingImageView];
 }
-    
+
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (!_isDrawing) {
         UIView *touchView = [touches anyObject].view;
@@ -781,7 +780,7 @@
     [_drawingImageViewStackArray removeLastObject];
     [_drawingImageViewStackArray addObject:currentDrawingImageView];
 }
-    
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -819,7 +818,7 @@
         self.sliderContainerView.hidden = self.sliderBlackView.hidden = YES;
     }
 }
-    
+
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
@@ -830,7 +829,7 @@
     }
     
 }
-    
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
@@ -853,16 +852,16 @@
     }
     //>> Add icons after slider layout------
 }
-    
+
 - (UIView *)viewForZoomTransition:(BOOL)isSource {
     NSLog(@"zzzzzzzzzzzzzzzzzz..............................xx %@",shrinkingView != nil ? shrinkingView : backgroundView);
     return shrinkingView != nil ? shrinkingView : backgroundView;
 }
-    
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
-    
+
 - (void)setupPenColorsContainerView {
     for (int i = 0; i < _penColorStackView.arrangedSubviews.count; i++) {
         UITapGestureRecognizer *colorPinTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -873,14 +872,14 @@
     [_penColorStackView setHidden:NO];
     _penColorStackView.alpha = 0.0;
 }
-    
+
 - (void)changePenToolImageWithColor:(UIColor *)color {
     _penToolImageView.image = [_penToolImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [_penToolImageView setTintColor:color];
 }
-    
-    // MARK: - public initialize methods
-    
+
+// MARK: - public initialize methods
+
 - (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect andSubviewArray:(NSMutableArray *)arrSubviews isTall:(BOOL)isTall index:(NSInteger)index {
     BkImageObject *obj = [[BkImageObject alloc] initWithURL:url isTall:isTall];
     obj.frame = rect;
@@ -903,8 +902,8 @@
     
     [ComicObjectSerialize setSavedIndex:index];
 }
-    
-    // MARK: - button action implementations
+
+// MARK: - button action implementations
 - (IBAction)btnPlayTapped:(id)sender {
     [backgroundView playAnimate];
     
@@ -914,8 +913,8 @@
         }
     }
 }
-    
-    
+
+
 - (IBAction)btnToolAnimateGifTapped:(id)sender {
     UIView *toolView = [self createToolView:ObjectAnimateGIF];
     toolView.frame = CGRectOffset(toolView.frame, self.baseLayerView.frame.size.width, 0);
@@ -935,8 +934,8 @@
         
     }];
 }
-    
-    
+
+
 - (IBAction)btnToolBubbleTapped:(id)sender {
     BubbleObject *bubbleObject = [[BubbleObject alloc] initWithText:@""
                                                            bubbleID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 1]
@@ -970,8 +969,8 @@
                                                 andBaseObjectType:bubbleObject.objType
                                                    andSliderValue:timeDelay];
 }
-    
-    
+
+
 - (IBAction)btnToolStickerTapped:(id)sender {
     UIView *toolView = [self createToolView:ObjectSticker];
     toolView.frame = CGRectOffset(toolView.frame, self.baseLayerView.frame.size.width, 0);
@@ -988,8 +987,8 @@
         
     }];
 }
-    
-    
+
+
 - (IBAction)btnToolTextTapped:(id)sender {
     CGRect screenBounds = [UIScreen mainScreen].bounds;
     CaptionObject *captionObject = [[CaptionObject alloc] initWithText:@""
@@ -1015,7 +1014,7 @@
     
     [viewModel saveObject];
 }
-    
+
 - (IBAction)buttonPenUndoTapped:(id)sender {
     if (!_isDrawing) {
         return;
@@ -1035,7 +1034,7 @@
     [_drawingCoordinateArray removeLastObject];
     [_drawingBrushSizeArray removeLastObject];
 }
-    
+
 - (IBAction)btnToolPenTapped:(id)sender {
     // Swift drawing mode status
     _isDrawing = !_isDrawing;
@@ -1161,8 +1160,8 @@
                                                        andSliderValue:self.scrollBarSlider.value];
     }
 }
-    
-    
+
+
 - (IBAction)btnNextTapped:(id)sender {
     [viewModel saveObject];
     
@@ -1236,7 +1235,7 @@
     [content writeToFile:baseSlide atomically:YES];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"xxxDataFromComicing" object:nil];
 }
-    
+
 - (IBAction)btnToolCloseTapped:(id)sender {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Warrning"
                                                                    message:@" are you sure you want to delete this slide?"
@@ -1245,14 +1244,14 @@
         // ALSO SHOULD DELETE EVERYTHING
         shrinkingView = nil;
         
-//        CATransition *transition = [CATransition animation];
-//        transition.duration = 0.3;
-//        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-//        transition.type = kCATransitionFade;
-//        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-//        [self.navigationController popViewControllerAnimated:NO];
+        //        CATransition *transition = [CATransition animation];
+        //        transition.duration = 0.3;
+        //        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        //        transition.type = kCATransitionFade;
+        //        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+        //        [self.navigationController popViewControllerAnimated:NO];
         
-//        [self deleteSlideFromLocalDirectory];
+        //        [self deleteSlideFromLocalDirectory];
         // c0mrade: Fix For Line 720
         if (!self.isFromCamera) {
             [Global global].haveAccessToOpenCameraScreen = true;
@@ -1270,9 +1269,9 @@
     [alert addAction:otherAction];
     [self presentViewController:alert animated:YES completion:nil];
 }
-    
-    
-    // MARK: - gesture handler
+
+
+// MARK: - gesture handler
 - (void)tapGestureHandlerForToolContainerView:(UITapGestureRecognizer *)gesture {
     [UIView animateWithDuration:0.5 animations:^{
         //		if (gesture.view.tag == ObjectAnimateGIF) {
@@ -1302,7 +1301,7 @@
         _collectionViewTapGestureRecognizer = nil;
     }];
 }
-    
+
 - (void)handleColorPinGestureTap:(UITapGestureRecognizer *)gestureRecognizer {
     if (!_isDrawing) {
         return;
@@ -1344,18 +1343,18 @@
     // Change color of the pen icon based on selected color
     [self changePenToolImageWithColor:_drawingColor];
 }
-    
-    // MARK: - notification handlers
-    
+
+// MARK: - notification handlers
+
 - (void)keyboardDidShowWithNotification:(NSNotification *)notification {
     _isKeyboardVisible = YES;
 }
-    
+
 - (void)keyboardDidHideWithNotification:(NSNotification *)notification {
     _isKeyboardVisible = NO;
 }
-    
-    // MARK: - private methods
+
+// MARK: - private methods
 - (BaseObject *)createComicObject:(ComicObjectType)type index:(NSInteger)index category:(NSInteger)category delayTimeInSeconds:(CGFloat)delayTime {
     BaseObject *obj;
     NSString *rcID;
@@ -1379,7 +1378,7 @@
     
     return obj;
 }
-    
+
 - (void)createComicViews {
     if (!viewModel || !viewModel.arrayObjects || !viewModel.arrayObjects.count) {
         NSLog(@"There is nothing comic objects");
@@ -1414,7 +1413,7 @@
     }
     //>>Set tags---------
 }
-    
+
 - (void)createComicViewWith:(BaseObject *)obj {
     [viewModel addObject:obj];
     
@@ -1446,13 +1445,13 @@
     
     [self addIconToScrollBarAfterAdditionOfComicObjectViewWithTag:comicView.tag andBaseObjectType:obj.objType andSliderValue:self.scrollBarSlider.value];
 }
-    
+
 - (void)comicObjectView:(ComicObjectView *)comicObjectView didFinishRenderingWithDelayTime:(CGFloat)delayTime andBaseObject:(BaseObject *)baseObject {
     [self.timerImageViews addObjectsFromArray:comicObjectView.timerImageViews];
     [self refreshStateOfEnhancementsWithSlideValue:self.scrollBarSlider.value];
     comicObjectView.hidden = NO;
 }
-    
+
 - (void)addIconToScrollBarAfterAdditionOfComicObjectViewWithTag:(NSInteger)tag andBaseObjectType:(ComicObjectType)type andSliderValue:(CGFloat)sliderValue {
     UIButton *iconButton = [[UIButton alloc] initWithFrame:[self.scrollBarSlider getCurrentRectForScollBarIconWithSliderValue:sliderValue]];
     iconButton.tag = tag;
@@ -1466,7 +1465,7 @@
     [[self.scrollBarSlider superview] addSubview:iconButton];
     [iconButton addTarget:self action:@selector(iconTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
-    
+
 - (void)iconTapped:(UIButton *)iconButton {
     [self stopTimer];
     [self pause];
@@ -1483,7 +1482,7 @@
                                                            userInfo:@{@"SliderValueToSet":[NSNumber numberWithFloat:scrollToThisDelayTime]}
                                                             repeats:YES];
 }
-    
+
 - (void)scrollSliderWithTimer:(NSTimer *)timer {
     CGFloat scrollToThisDelayTime = [[timer.userInfo valueForKey:@"SliderValueToSet"] floatValue];
     if (autoScrollSliderDeltaValue < 0 && (self.scrollBarSlider.value + autoScrollSliderDeltaValue < scrollToThisDelayTime)) {
@@ -1498,7 +1497,7 @@
     self.scrollBarSlider.value+=autoScrollSliderDeltaValue;
     [self refreshStateOfEnhancementsWithSlideValue:self.scrollBarSlider.value];
 }
-    
+
 - (UIView *)createToolView:(ComicObjectType)type {
     nCategory = 1;
     
@@ -1572,7 +1571,7 @@
     
     return toolContainerView;
 }
-    
+
 - (void)setToolButtonAlpah:(CGFloat)alpha {
     self.btnToolAnimateGIF.alpha = alpha;
     self.btnToolPen.alpha = alpha;
@@ -1585,9 +1584,9 @@
     self.buttonToolStickerImageView.alpha = alpha;
     self.penToolImageView.alpha = alpha;
 }
-    
-    
-    // MARK: - UIGesture delegate impelementation
+
+
+// MARK: - UIGesture delegate impelementation
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     //	CGPoint translation = [touch locationInView:gestureRecognizer.view];
     //	BOOL flag = NO;
@@ -1624,9 +1623,9 @@
     
     return shouldReceiveTouch;
 }
-    
-    
-    float scale = 1;
+
+
+float scale = 1;
 - (void)didReceivePinchGesture:(UIPinchGestureRecognizer *)gestureRecognizer {
     static CGFloat scaleStart;
     //    NSLog(@"CMC4: receive pinch gesture with state %ld", (long)gestureRecognizer.state);
@@ -1642,14 +1641,14 @@
         scale = 1;
     }
 }
-    
-    // MARK: - UICollectionView delegate & data source implementation
-    
-    //- (CGPoint)collectionView:(UICollectionView *)collectionView targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset {
-    //
-    //    return proposedContentOffset;
-    //}
-    
+
+// MARK: - UICollectionView delegate & data source implementation
+
+//- (CGPoint)collectionView:(UICollectionView *)collectionView targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset {
+//
+//    return proposedContentOffset;
+//}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     //	if (collectionView == collectionCategoryView) { // for category view
     //		return COUNT_CATEGORY;
@@ -1670,16 +1669,16 @@
     
     return 0;
 }
-    
+
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     //COUNT_CATEGORY
     return 1;
 }
-    
+
 - (void)collectionView:(UICollectionView *)collectionView firstItemDidSelectedWithIndexPath:(NSIndexPath *)indexPath {
     [self collectionView:collectionView didSelectItemAtIndexPath:indexPath];
 }
-    
+
 - (void)collectionView:(CMCExpandableCollectionView *)collectionView didExpandItemAtIndexPath:(NSIndexPath *)indexPath {
     //    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     //    cell.hidden = YES;
@@ -1714,7 +1713,7 @@
         //        footer.subviews.firstObject.center = CGPointMake(footer.subviews.firstObject.center.x - newWidth/2, footer.subviews.firstObject.center.y);
     }];
 }
-    
+
 - (void)collectionView:(CMCExpandableCollectionView *)collectionView didCollapseItemAtIndexPath:(NSIndexPath *)indexPath {
     //    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     //    cell.hidden = NO;
@@ -1760,7 +1759,7 @@
         //        footer.subviews.firstObject.center = CGPointMake(footer.subviews.firstObject.center.x - newWidth/2, footer.subviews.firstObject.center.y);
     }];
 }
-    
+
 - (__kindof UICollectionViewCell *)collectionView:(CMCExpandableCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     // for category view
     /*
@@ -1915,7 +1914,7 @@
      */
     return cell;
 }
-    
+
 - (UICollectionReusableView *)collectionView:(CMCExpandableCollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"CMC3: new supplementaryv view for kind %@ at indexPath %@", kind, indexPath);
@@ -1974,20 +1973,20 @@
     
     return footer;
 }
-    
+
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return 0.0;
 }
-    
+
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     //    return 7.0;
     return 7.0 * scale;
 }
-    
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
     return CGSizeMake(1, 1);
 }
-    
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     //	if (collectionView == collectionCategoryView) { // for category colleciton view
     //		if (nCategory == indexPath.row) {
@@ -2036,7 +2035,7 @@
         [viewModel saveObject];
     }
 }
-    
+
 - (CGSize)collectionView:(CMCExpandableCollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     //	if (collectionView == collectionCategoryView) {
     //		return CGSizeMake(40, 40);
@@ -2054,7 +2053,7 @@
     
     return CGSizeMake(80.1, 80.172);
 }
-    
+
 - (UIEdgeInsets)collectionView:(CMCExpandableCollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     //	if (collectionView == collectionCategoryView) {
     //		return UIEdgeInsetsMake(3, 10, 3, 10);
@@ -2067,13 +2066,13 @@
         return UIEdgeInsetsMake(3, 15, 3, 8);
     }
 }
-    
-    
-    // MARK: - ComicObjectView delegate implementations
+
+
+// MARK: - ComicObjectView delegate implementations
 - (void)saveObject {
     [viewModel saveObject];
 }
-    
+
 - (void)removeObject:(ComicObjectView *)view {
     [viewModel.arrayObjects removeObject:view.comicObject];
     UIView *icon = [self getScrollBarIconWithTag:view.tag];
@@ -2088,7 +2087,7 @@
         [self saveObject];
     }];
 }
-    
+
 - (void) addSubviewsOnImageWithSubviews:(NSMutableArray *)arrSubviews {
     //Handle top layer that is sticker gif
     int i=0;
@@ -2113,9 +2112,9 @@
         }
     }
 }
-    
+
 #pragma mark - CMCCaptionView Delegate Methods
-    
+
 - (void)captionTypeSubiconDidClickWithSelectedCaptionType:(CaptionObjectType)type
                                            andCurrentText:(NSString *)text
                                     forCurrentCaptionView:(CMCCaptionView *)sender
@@ -2137,14 +2136,17 @@
     
     // c0mrade
     newCaptionObject.frame = fr;
-    comicObjectView.comicObject = newCaptionObject;
+    [UIView animateWithDuration:0.5 animations:^{
+        comicObjectView.comicObject = newCaptionObject;
+    }];
+    
     
     [viewModel addObject:newCaptionObject];
     [viewModel saveObject];
 }
-    
+
 #pragma mark - CMCBubbleView Delegate Methods
-    
+
 - (void)bubbleTypeSubiconDidClickWithSelectedBubbleType:(BubbleObjectType)bubbleType
                                          andCurrentText:(NSString *)bubbleText
                                    forCurrentBubbleView:(CMCBubbleView *)bubbleView
@@ -2162,28 +2164,28 @@
     int bubbleTypeIndex;
     switch(bubbleType) {
         case BubbleTypeStar:
-        bubbleTypeIndex = 0;
-        break;
-        
+            bubbleTypeIndex = 0;
+            break;
+            
         case BubbleTypeSleep:
-        bubbleTypeIndex = 4;
-        break;
-        
+            bubbleTypeIndex = 4;
+            break;
+            
         case BubbleTypeThink:
-        bubbleTypeIndex = 1;
-        break;
-        
+            bubbleTypeIndex = 1;
+            break;
+            
         case BubbleTypeScary:
-        bubbleTypeIndex = 5;
-        break;
-        
+            bubbleTypeIndex = 5;
+            break;
+            
         case BubbleTypeHeart:
-        bubbleTypeIndex = 3;
-        break;
-        
+            bubbleTypeIndex = 3;
+            break;
+            
         case BubbleTypeAngry:
-        bubbleTypeIndex = 2;
-        break;
+            bubbleTypeIndex = 2;
+            break;
     }
     [newBubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", bubbleTypeIndex, 0]
                       forDirection:BubbleDirectionBottomRight];
@@ -2202,5 +2204,5 @@
     [viewModel addObject:newBubbleObject];
     [viewModel saveObject];
 }
-    
-    @end
+
+@end
