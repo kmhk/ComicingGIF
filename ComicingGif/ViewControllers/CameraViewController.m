@@ -422,8 +422,8 @@
     vc.indexSaved = _indexOfSlide;
 
     __weak typeof(self) wSelf = self;
-    self.captureHolder.translatesAutoresizingMaskIntoConstraints = true;
-    self.topBar.translatesAutoresizingMaskIntoConstraints = true;
+//    self.captureHolder.translatesAutoresizingMaskIntoConstraints = true;
+//    self.topBar.translatesAutoresizingMaskIntoConstraints = true;
     
     CGRect tempFrame = self.captureHolder.frame;
     tempFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
@@ -431,22 +431,38 @@
     CGRect tempTopBar = self.closeView.frame;
     tempTopBar.origin.y = 0 - self.topBar.frame.size.height;
     
-    [UIView animateWithDuration:0.5 animations:^{
-        wSelf.captureHolder.frame = tempFrame;
-        wSelf.topBar.frame = tempTopBar;
-        wSelf.viewProgressContainer.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        [wSelf resetRecord];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [wSelf setupDefaultsValuesForTopAndBottomAnimatedViews];
-        });
-        [vc initWithBaseImage:url frame:wSelf.cameraPreview.frame andSubviewArray:nil isTall:!wSelf.isVerticalCamera index:_indexOfSlide];
+    CGRect fr = self.cameraPreview.frame;
+    fr.size.height -= 72;
+    
+    [UIView animateWithDuration:0.7 animations:^{
+        self.cameraPreview.transform = CGAffineTransformMakeScale(0.97, 0.87);
+        self.cameraPreview.frame = fr;
         
-        [UIView transitionWithView:self.navigationController.view duration:0.75
-                           options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-                               [wSelf.navigationController pushViewController:vc animated:NO];
-                           } completion:nil];
+    } completion:^(BOOL finished) {
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            wSelf.captureHolder.frame = tempFrame;
+            wSelf.topBar.frame = tempTopBar;
+            wSelf.viewProgressContainer.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [wSelf resetRecord];
+            [vc initWithBaseImage:url frame:wSelf.cameraPreview.frame andSubviewArray:nil isTall:!wSelf.isVerticalCamera index:_indexOfSlide];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [wSelf setupDefaultsValuesForTopAndBottomAnimatedViews];
+            });
+            
+            [UIView transitionWithView:self.navigationController.view duration:0.75
+                               options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                                   [wSelf.navigationController pushViewController:vc animated:NO];
+                               } completion:nil];
+            
+        }];
     }];
+    
+    
+    
+
     
     
     
@@ -459,6 +475,7 @@
     self.topBar.translatesAutoresizingMaskIntoConstraints = NO;
     self.viewProgressContainer.alpha = 1.0;
     self.viewProgressContainer.hidden = YES;
+    self.cameraPreview.transform = CGAffineTransformIdentity;
 }
 
 
