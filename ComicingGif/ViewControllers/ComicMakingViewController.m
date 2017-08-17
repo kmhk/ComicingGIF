@@ -1213,7 +1213,29 @@
         self.btnToolPen.alpha = 0;
     }];
 }
+
+- (void) deleteSlideFromLocalDirectory {
+    // Get Slide Plist
+    NSURL *docDir = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    NSString *baseSlide = [[docDir path] stringByAppendingString:@"/slides.plist"];
     
+    // Create Mutable Array With Slides
+    NSMutableArray *content = [[[NSArray alloc] initWithContentsOfFile:baseSlide] mutableCopy];
+    
+    // Find And Remove Data From Slides
+    for (int i = 0; i < content.count; i++) {
+        NSMutableArray *arrObj = [content objectAtIndex:i];
+        for (NSDictionary *item in arrObj) { // iterate inside slide content
+            NSURL *file = [NSURL URLWithString:[item valueForKey:@"url"]];
+            if ([[file path] isEqualToString:[self.urlOfSlide path]]) {
+                [content removeObjectAtIndex:i];
+                break;
+            }
+        }
+    }
+    [content writeToFile:baseSlide atomically:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"xxxDataFromComicing" object:nil];
+}
     
 - (IBAction)btnToolCloseTapped:(id)sender {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Warrning"
@@ -1230,6 +1252,7 @@
 //        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
 //        [self.navigationController popViewControllerAnimated:NO];
         
+//        [self deleteSlideFromLocalDirectory];
         // c0mrade: Fix For Line 720
         if (!self.isFromCamera) {
             [Global global].haveAccessToOpenCameraScreen = true;
@@ -2105,7 +2128,7 @@
     
     CGRect fr = oldCaptionObject.frame;
     if (type == CaptionTypeYellowBox) {
-        fr = CGRectMake(self.view.frame.size.width - (281 + 20), 20, 281, 125);
+        fr = CGRectMake(self.view.frame.size.width - 281, 0, 281, 125);
     } else {
         CGFloat width = self.view.frame.size.width - 20;
         fr = CGRectMake((self.view.frame.size.width - width)/2, 200, width, 100);

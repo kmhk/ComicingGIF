@@ -141,32 +141,39 @@
             arrayItemCounter++;
         }
         
+        CGSize def = CGSizeMake(72*1.5, 22*2);
+        CGSize midd = CGSizeMake(34*1.5, 35*2);
+        CGSize last = CGSizeMake(34*1.5, 33*1.5);
+        
+        _captionDefaultTypeImageView.frame = CGRectMake(0, 0, def.width, def.width);
+        _captionWithoutBackgroundTypeImageView.frame = CGRectMake(0, 0, midd.width, midd.height);
+        _captionYellowBoxTypeImageView.frame = CGRectMake(0, 0, last.width, last.height);
+        
         CGFloat sumCalc = _captionDefaultTypeImageView.frame.size.width +
         _captionWithoutBackgroundTypeImageView.frame.size.width +
         _captionYellowBoxTypeImageView.frame.size.width;
         
-        CGRect fr = CGRectMake((self.frame.size.width - (sumCalc + 20))/2,
+        CGRect fr = CGRectMake((self.frame.size.width - sumCalc)/2,
                                _captionDefaultTypeImageView.frame.origin.y,
                                _captionDefaultTypeImageView.frame.size.width, 55);
         
         _captionDefaultTypeImageView.frame = CGRectMake(fr.origin.x,
                                                         fr.origin.y + 5,
-                                                        75,
-                                                        40);
+                                                        def.width,
+                                                        def.height);
         
-        CGFloat padding = 20;
+        CGFloat padding = 15;
         CGFloat viewW = self.captionDefaultTypeImageView.frame.size.width + padding;
         _captionWithoutBackgroundTypeImageView.frame = CGRectMake(fr.origin.x + viewW,
-                                                                  fr.origin.y - 10,
-                                                                  31,
-                                                                  73);
+                                                                  fr.origin.y - 5,
+                                                                  midd.width,
+                                                                  midd.height);
         
         CGFloat xPos = fr.origin.x + viewW + _captionYellowBoxTypeImageView.frame.size.width + padding;
-        
         _captionYellowBoxTypeImageView.frame = CGRectMake(xPos,
                                                           fr.origin.y + 2,
-                                                          45,
-                                                          45);
+                                                          last.width,
+                                                          last.height);
         
         if (self.currentCaptionType == CaptionTypeYellowBox) {
             CGRect fr = _captionDefaultTypeImageView.frame;
