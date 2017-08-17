@@ -53,12 +53,13 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 @property (strong, nonatomic) NSMutableArray *dirtySubviews;
 @property (strong, nonatomic) NSMutableArray *dirtysubviewData;
 @property (assign, nonatomic) NSInteger selectedIndexForAddOrEdit;
+@property (nonatomic) int selectedIndex;
 @end
 
 @implementation CBComicPreviewVC
 
 - (void) loadDataFromComicingScreen {
-    [self prepareView];
+
 }
 
 - (void)viewDidLoad {
@@ -499,8 +500,15 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
     vcCameraViewController.indexOfSlide = -1;
+    
+//    if (indexOfSlide == -1 && self.dataArray.count == 0) {
+//        [self addEmptySlide:isTall completionBlock:^(BOOL isCompleted) {
+//            completionBlock(YES);
+//        }];
+//    }
+    
     vcCameraViewController.isVerticalCamera = NO;
-    [self.navigationController pushViewController:vcCameraViewController animated:YES];
+    [self.navigationController pushViewController:vcCameraViewController animated:false];
 //    if ([Global global].haveAccessToOpenCameraScreen == true && self.dataArray.count == 0) {
 //        [self deleteLastCell];
 //        [self refreshSlideAtIndex:0 isTall:false completionBlock:nil];
@@ -583,7 +591,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 }
 
 - (void)didTapOnComicItemWithIndex:(NSInteger)index {
-    CBComicItemModel *itemModel = ((CBComicItemModel *)[self.dataArray objectAtIndex:index]);
+//    CBComicItemModel *itemModel = ((CBComicItemModel *)[self.dataArray objectAtIndex:index]);
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kComicMakingStoryboard bundle:nil];
     
     ComicMakingViewController *vc = [storyboard instantiateViewControllerWithIdentifier:ComicMakingViewControllerIdentifier];
@@ -600,7 +608,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     vc.indexSaved = index;
     vc.urlOfSlide = [NSURL URLWithString:baseURLString];
     [vc initWithBaseImage:[NSURL URLWithString:baseURLString] frame:slideRect andSubviewArray:arrTemp isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:@"isTall"] boolValue] index:index];
-    
+    self.selectedIndex = index;
     self.transitionView = [_comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]].contentView;
     
     [self.navigationController pushViewController:vc animated:YES];

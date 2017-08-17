@@ -1253,14 +1253,26 @@ TitleFontDelegate>
         //        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
         //        [self.navigationController popViewControllerAnimated:NO];
         
-        //        [self deleteSlideFromLocalDirectory];
+        
         // c0mrade: Fix For Line 720
         //        if (!self.isFromCamera) {
-        [Global global].haveAccessToOpenCameraScreen = true;
-        [self.navigationController popToRootViewControllerAnimated:true];
+
+//        [self.navigationController popToRootViewControllerAnimated:true];
         //        } else {
         //            [self.navigationController popToRootViewControllerAnimated:true];
         //        }
+        
+//        [self deleteSlideFromLocalDirectory];
+        [Global global].haveAccessToOpenCameraScreen = true;
+//        CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
+//        vc.indexForSlideToRefresh = _indexSaved;
+//        [vc refreshSlideAtIndex:_indexSaved-1 isTall:self.isTall completionBlock:^(BOOL isComplete) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                vc.transitionView.hidden = NO;
+                [self.navigationController popToRootViewControllerAnimated:YES];
+//            });
+//        }];
+        
         
     }];
     UIAlertAction *otherAction = [UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
@@ -1421,7 +1433,7 @@ TitleFontDelegate>
     
     // c0mrade: calculate sticker frame dynamically
     StickerObject *stk = (StickerObject *)obj;
-    UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:stk.stickerURL]];
+//    UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:stk.stickerURL]];
     
     
     ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
