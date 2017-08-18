@@ -1263,12 +1263,13 @@ TitleFontDelegate>
         //        }
         
 //        [self deleteSlideFromLocalDirectory];
-        [Global global].haveAccessToOpenCameraScreen = true;
+        
 //        CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
 //        vc.indexForSlideToRefresh = _indexSaved;
 //        [vc refreshSlideAtIndex:_indexSaved-1 isTall:self.isTall completionBlock:^(BOOL isComplete) {
 //            dispatch_async(dispatch_get_main_queue(), ^{
 //                vc.transitionView.hidden = NO;
+        [Global global].haveAccessToOpenCameraScreen = true;
                 [self.navigationController popToRootViewControllerAnimated:YES];
 //            });
 //        }];

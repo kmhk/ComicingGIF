@@ -476,6 +476,9 @@
     self.viewProgressContainer.alpha = 1.0;
     self.viewProgressContainer.hidden = YES;
     self.cameraPreview.transform = CGAffineTransformIdentity;
+    CGRect fr = self.cameraPreview.frame;
+    fr.size.height += 72;
+    self.cameraPreview.frame = fr;
 }
 
 
