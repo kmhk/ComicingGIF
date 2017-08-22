@@ -61,7 +61,7 @@
 - (void)setupSections{
     self.sectionArray= [NSMutableArray new];
     CBComicImageSection* section= [CBComicImageSection new];
-    section.dataArray= self.dataArray;
+    section.dataArray = self.dataArray;
     [self.sectionArray addObject:section];
     //    [self.collectionView reloadData];
 }
@@ -91,7 +91,7 @@
             if([section isKindOfClass:[CBComicImageSection class]]){
                 self.selectedIndexPath= indexPath;
                 // Show alert view
-                //                [self showDeleteAlertForIndexPath:indexPath];
+                                [self showDeleteAlertForIndexPath:indexPath];
             }
         }
     }
@@ -157,20 +157,16 @@
         return;
     }
     if(!self.dataArray){
-        self.dataArray= [NSMutableArray new];
+        self.dataArray = [NSMutableArray new];
     }
     [self.dataArray addObject:comicItem];
     if(self.sectionArray.count == 0){
         [self setupSections];
     }
+    
     [self refreshImageOrientation];
-    
-    if (self.dataArray.count == 1) {
-        [self.collectionView reloadData];
-    } else {
-        [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:self.dataArray.count - 1 inSection:0]]];
-    }
-    
+//    [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:(self.dataArray.count -1) inSection:0]]];
+    [self.collectionView reloadData];
     
     completion(YES, comicItem);
 }
@@ -183,11 +179,8 @@
     if(self.sectionArray.count == 0){
         [self setupSections];
     }
-    [self refreshImageOrientation];
     
-    //    if (self.collectionView != nil) {
-    //        [self.collectionView reloadData];
-    //    }
+    [self refreshImageOrientation];
     [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexOfComicItem inSection:0]]];
     
     completion(YES, comicItem);
@@ -201,12 +194,8 @@
     if(self.sectionArray.count == 0){
         [self setupSections];
     }
+    
     [self refreshImageOrientation];
-    
-    //    if (self.collectionView != nil) {
-    //        [self.collectionView reloadData];
-    //    }
-    
     [self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]]];
 }
 

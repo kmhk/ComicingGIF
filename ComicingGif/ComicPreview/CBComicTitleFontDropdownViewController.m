@@ -25,17 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _fontNames = [NSMutableArray arrayWithObjects:@"BLACKHAWK Italic",
-                  @"BLACKHAWK Swash",
-                  @"BLACKHAWK",
-                  @"Candyhouse Alt",
-                  @"Candyhouse Caps",
-                  @"Candyhouse Doodles",
-                  @"Candyhouse",
-                  @"Justlove-Italic",
-                  @"Justlove-Regular",
-                  @"Littlemorning",
-                  @"Luckiest Softie Pro Extra Bold PS",nil];
+    _fontNames = [NSMutableArray arrayWithObjects:@"Be Bright", @"BLACKHAWK", @"Centuma", @"Auther Typeface", @"Edinburgh-Regular", @"Sweet Sucker Punch", @"The Sweetest Thing", nil];
     _viewTopConstraint.constant = IS_IPHONE_5?84: (IS_IPHONE_6?94: (IS_IPHONE_6P?104: 114));;
 }
 

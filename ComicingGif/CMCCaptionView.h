@@ -38,9 +38,9 @@
 - (void)showCaptionTypeIcons;
 - (void)activateTextField;
 - (void)deactivateTextField;
+
 - (void)hidePlusIcon;
 - (void)hideCaptionSubicons;
 - (void)stopShowingCaptionTypeIcons;
 
 @end
-

@@ -10,7 +10,7 @@
 #import "ComicMakingViewModel.h"
 #import "./../Objects/ObjectHeader.h"
 #import "./../CustomizedUI/ComicObjectView.h"
-
+#import "Global.h"
 #import <Messages/Messages.h>
 #import <MessageUI/MFMailComposeViewController.h>
 #import "ComicItem.h"
@@ -23,6 +23,7 @@
 #import "CMCExpandableCollectionView.h"
 #import "CMCExpandableCollectionViewFlowLayout.h"
 #import "CBComicTitleFontDropdownViewController.h"
+
 #define TOOLCELLID	@"ToolCollectionViewCell"
 #define CATEGORYCELLID	@"CategoryCollectionViewCell"
 
@@ -81,7 +82,7 @@ TitleFontDelegate>
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *footerConstraint; // - .size.height
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *gifAnimateConstraint; // - 50
 
-
+@property (nonatomic) BOOL shouldContinueGif;
 @property (weak, nonatomic) IBOutlet UIButton *btnPlay;
 @property (weak, nonatomic) IBOutlet UIView *penView;
 @property (weak, nonatomic) IBOutlet UIView *textView;
@@ -89,7 +90,7 @@ TitleFontDelegate>
 @property (weak, nonatomic) IBOutlet UIView *lockView;
 @property (weak, nonatomic) IBOutlet UIView *playView;
 @property (weak, nonatomic) IBOutlet UIView *closeView;
-@property (strong, nonatomic) UIImageView *simpleReference;
+
 @property (weak, nonatomic) IBOutlet UIButton *btnToolAnimateGIF;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolBubble;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolSticker;
@@ -161,114 +162,85 @@ TitleFontDelegate>
 @implementation ComicMakingViewController
 
 - (void) animateAppereance {
-    if (!self.isFromCamera) {
-        return;
-    }
+    //    if (!self.isFromCamera) {
+    //        return;
+    //    }
     
-    // c0mrade: Should Be Refactored
+    //     c0mrade: Should Be Refactored
     
-    // store real positions
-    //    CGRect oldBottomFr = self.sliderContainerView.frame;
-    //    CGRect oldAnimGifFr = self.btnToolAnimateGIF.frame;
-    //    CGRect oldBubbleFr = self.btnToolBubble.frame;
-    //    CGRect oldStickerFr = self.stickerView.frame;
-    //    CGRect oldPenFr = self.penView.frame;
-    //    CGRect oldTextFr = self.textView.frame;
-    //    CGRect oldCloseFr = self.closeView.frame;
-    //    CGRect oldLockFr = self.lockView.frame;
-    //    CGRect oldPlayFr = self.playView.frame;
+    //     store real positions
+    CGRect oldBottomFr = self.sliderContainerView.frame;
+    CGRect oldAnimGifFr = self.btnToolAnimateGIF.frame;
+    CGRect oldBubbleFr = self.btnToolBubble.frame;
+    CGRect oldStickerFr = self.stickerView.frame;
+    CGRect oldPenFr = self.penView.frame;
+    CGRect oldTextFr = self.textView.frame;
+    CGRect oldCloseFr = self.closeView.frame;
+    CGRect oldLockFr = self.lockView.frame;
+    CGRect oldPlayFr = self.playView.frame;
     
-    // temp frame
-    //    CGRect tempFr = self.sliderContainerView.frame;
-    //    tempFr.origin.y = [UIScreen mainScreen].bounds.size.height;
+    //     temp frame
+    CGRect tempFr = self.sliderContainerView.frame;
+    tempFr.origin.y = [UIScreen mainScreen].bounds.size.height;
     
-    // unlock autolayout from current objects
-    //    self.sliderContainerView.translatesAutoresizingMaskIntoConstraints = true;
-    //    self.btnToolAnimateGIF.translatesAutoresizingMaskIntoConstraints = true;
-    //    self.btnToolBubble.translatesAutoresizingMaskIntoConstraints = true;
-    //    self.stickerView.translatesAutoresizingMaskIntoConstraints = true;
-    //    self.textView.translatesAutoresizingMaskIntoConstraints = true;
-    //    self.penView.translatesAutoresizingMaskIntoConstraints = true;
+    //     unlock autolayout from current objects
+    self.sliderContainerView.translatesAutoresizingMaskIntoConstraints = true;
+    self.btnToolAnimateGIF.translatesAutoresizingMaskIntoConstraints = true;
+    self.btnToolBubble.translatesAutoresizingMaskIntoConstraints = true;
+    self.stickerView.translatesAutoresizingMaskIntoConstraints = true;
+    self.textView.translatesAutoresizingMaskIntoConstraints = true;
+    self.penView.translatesAutoresizingMaskIntoConstraints = true;
     
-    // hide objects outside of superview bounds
-    //    self.sliderContainerView.frame = CGRectOffset(self.sliderContainerView.frame, 0, 100); // footer view
-    //    self.btnToolAnimateGIF.frame = tempFr; // heart button footer
-    //    self.btnToolBubble.frame = tempFr; // bubble button footer
-    //    self.stickerView.frame = tempFr; // sticker view footer
-    //    self.closeView.frame = tempFr;
-    //    self.playView.frame = tempFr;
-    //    self.lockView.frame = tempFr;
-    //    self.textView.frame = tempFr; // textview footer
-    //    self.penView.frame = tempFr; // penview footer
+    //     hide objects outside of superview bounds
+    self.sliderContainerView.frame = CGRectOffset(self.sliderContainerView.frame, 0, 100); // footer view
+    self.btnToolAnimateGIF.frame = CGRectOffset(self.btnToolAnimateGIF.frame, 0, 100); // heart button footer
+    self.btnToolBubble.frame = CGRectOffset(self.btnToolBubble.frame, 0, 100); // bubble button footer
+    self.stickerView.frame = CGRectOffset(self.stickerView.frame, 0, 100); // sticker view footer
+    self.textView.frame = CGRectOffset(self.textView.frame, 0, 150); // textview footer
+    self.penView.frame = CGRectOffset(self.penView.frame, 0, 100); // penview footer
     
     
-    //    [self.view layoutIfNeeded];
-    //    self.footerConstraint.constant = -(self.sliderContainerView.frame.size.height);
-    //    self.gifAnimateConstraint.constant = -(self.btnToolAnimateGIF.frame.size.height);
-    
-    // animate appereance of objects
-    //    __weak typeof(self) wSelf = self;
-    //
-    //
-    //    [self.view layoutIfNeeded];
-    //    [UIView animateWithDuration: 5.0 animations:^{
-    //        self.footerConstraint.constant = 0;
-    //        self.gifAnimateConstraint.constant = 0;
-    //        [self.view layoutIfNeeded];
-    //
-    //
-    
-    //        wSelf.sliderContainerView.frame = oldBottomFr;
-    //        wSelf.btnToolAnimateGIF.frame = oldAnimGifFr;
-    //        wSelf.btnToolBubble.frame = oldBubbleFr;
-    //        wSelf.stickerView.frame = oldStickerFr;
-    //        wSelf.textView.frame = oldPenFr;
-    //        wSelf.penView.frame = oldTextFr;
-    //        wSelf.closeView.frame = oldCloseFr;
-    //        wSelf.playView.frame = oldPlayFr;
-    //        wSelf.lockView.frame = oldLockFr;
-    //    } completion:^(BOOL finished) {
-    //
-    //    }];
-    
-}
-
--(void)getSelectedFontName:(NSString *)fontName andTitle:(NSString *)title {
-    
-}
-
-// c0mrade: Open Fonts
-- (void) openDropDownMenu: (NSNotification *) data {
-    UIStoryboard *mainPageStoryBoard = [UIStoryboard storyboardWithName:@"Main_MainPage" bundle:nil];
-    CBComicTitleFontDropdownViewController *vc = [mainPageStoryBoard instantiateViewControllerWithIdentifier:@"CBComicTitleFontDropdownViewController"];
+    self.closeView.frame = CGRectOffset(self.closeView.frame, 0, -100);
+    self.playView.frame = CGRectOffset(self.playView.frame, 0, -100);
+    self.lockView.frame = CGRectOffset(self.lockView.frame, 0, -100);
     
     
-    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    vc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    vc.delegate = self;
+    [self.view layoutIfNeeded];
+    self.footerConstraint.constant = -(self.sliderContainerView.frame.size.height);
+    self.gifAnimateConstraint.constant = -(self.btnToolAnimateGIF.frame.size.height);
     
-    NSString *str = (NSString *)[data object];
-    if ([str length] > 0) {
-        vc.titleText = str;
-    } else {
-        vc.titleText = @"You Test Title";
-    }
+    //     animate appereance of objects
+    __weak typeof(self) wSelf = self;
     
-    [self presentViewController:vc animated:NO completion:nil];
+    
+    [self.view layoutIfNeeded];
+    [UIView animateWithDuration: 1.0 animations:^{
+        self.footerConstraint.constant = 0;
+        self.gifAnimateConstraint.constant = 0;
+        [self.view layoutIfNeeded];
+        
+        
+        
+        wSelf.sliderContainerView.frame = oldBottomFr;
+        wSelf.btnToolAnimateGIF.frame = oldAnimGifFr;
+        wSelf.btnToolBubble.frame = oldBubbleFr;
+        wSelf.stickerView.frame = oldStickerFr;
+        wSelf.textView.frame = oldPenFr;
+        wSelf.penView.frame = oldTextFr;
+        wSelf.closeView.frame = oldCloseFr;
+        wSelf.playView.frame = oldPlayFr;
+        wSelf.lockView.frame = oldLockFr;
+    } completion:^(BOOL finished) {
+        
+    }];
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // c0mrade: Dropdown Fonts
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(openDropDownMenu:)
-                                                 name:@"openFontsView"
-                                               object:nil];
-    
-    
     // Do any additional setup after loading the view.
-    //    [self animateAppereance];
+    [self animateAppereance];
+    [Global global].haveAccessToOpenCameraScreen = false; // c0mrade: access for listview, to open camera screen
     nCategory = 1;
     
     _ratioDecreasing = 1;
@@ -291,10 +263,37 @@ TitleFontDelegate>
                                                  name:UIKeyboardDidShowNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(openDropDownMenu:)
+                                                 name:@"openFontsView"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardDidHideWithNotification:)
                                                  name:UIKeyboardDidHideNotification
                                                object:nil];
 }
+
+-(void)getSelectedFontName:(NSString *)fontName andTitle:(NSString *)title {
+    NSLog(@"%@, %@",fontName,title);
+}
+
+- (void) openDropDownMenu: (NSNotification *) data {
+    UIStoryboard *mainPageStoryBoard = [UIStoryboard storyboardWithName:@"Main_MainPage" bundle:nil];
+    CBComicTitleFontDropdownViewController *vc = [mainPageStoryBoard instantiateViewControllerWithIdentifier:@"CBComicTitleFontDropdownViewController"];
+    
+    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    vc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    vc.delegate = self;
+    
+    NSString *str = (NSString *)[data object];
+    if ([str length] > 0) {
+        vc.titleText = str;
+    } else {
+        vc.titleText = @"You Test Title";
+    }
+    
+    [self presentViewController:vc animated:NO completion:nil];
+}
+
 #pragma mark - Slider methods
 - (UIImage *)getSliderPlayOrPauseButtonWithImageName:(NSString *)imageName
 {
@@ -385,9 +384,9 @@ TitleFontDelegate>
 }
 
 - (IBAction)slideChanged:(UISlider *)slider {
-    NSLog(@"Slider value actual: %f",slider.value);
+    //    NSLog(@"Slider value actual: %f",slider.value);
     slider.value = ((NSInteger)(slider.value / discreteValueOfSeconds)) * discreteValueOfSeconds;
-    NSLog(@"Slider value: %f",slider.value);
+    //    NSLog(@"Slider value: %f",slider.value);
     discreteCount = slider.value / discreteValueOfSeconds;
     
     if (slider.value == 0) {
@@ -452,7 +451,7 @@ TitleFontDelegate>
     }
     
     CFRelease(srcImage);
-    //gw: -ts
+    
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:rect];
     imgView.image = arrayImages.firstObject;
     imgView.autoresizingMask = 0B11111;
@@ -468,16 +467,21 @@ TitleFontDelegate>
 }
 
 - (void)setImageOnTimerImageView:(TimerImageViewStruct *)timerImageView withCurrentSliderValue:(CGFloat)currentSliderValue {
+    //    if (currentSliderValue > 0 && self.shouldContinueGif == false && timerImageView.objType == ObjectAnimateGIF) {
+    //        [timerImageView.imageView stopAnimating];
+    //        return;
+    //    }
+    
     timerImageView.imageView.hidden = currentSliderValue < timerImageView.delayTimeOfImageView;
-    
     timerImageView.view.hidden = currentSliderValue < timerImageView.delayTimeOfImageView;
-    [timerImageView adjustViewAppearanceWithDelay:currentSliderValue];
     
+    [timerImageView adjustViewAppearanceWithDelay:currentSliderValue];
     if (timerImageView.imageView.animationImages.count > 1) { // This will only execute for GIFs not images
         if (timerImageView.imageView.hidden && timerImageView.imageView.isAnimating) {
             [timerImageView.imageView stopAnimating];
             return;
         }
+        
         if (timerImageView.imageView.hidden) {
             return;
         }
@@ -488,7 +492,20 @@ TitleFontDelegate>
         CGFloat fullLoopsTotalDuration = timerImageView.imageView.animationDuration * ((NSInteger)((modifiedActionValue)/timerImageView.imageView.animationDuration));
         NSInteger actualPercent = (NSInteger)(((modifiedActionValue - fullLoopsTotalDuration) / timerImageView.imageView.animationDuration) * 100);
         NSLog(@"...Actual percent: %lu,,,,,hidden: %d", actualPercent, timerImageView.imageView.hidden);
-        timerImageView.imageView.image = [timerImageView.imageView.animationImages objectAtIndex:((NSInteger)[timerImageView.imageView.animationImages count] * actualPercent/100)];
+        
+        //        if (actualPercent == 99 && timerImageView.objType == ObjectAnimateGIF)  {
+        //            self.shouldContinueGif = false;
+        //            [timerImageView.imageView stopAnimating];
+        //            return;
+        //        } else if (actualPercent == 0 && timerImageView.objType == ObjectAnimateGIF) {
+        //            if (self.shouldContinueGif == false) {
+        //                [timerImageView.imageView startAnimating];
+        //            }
+        //            self.shouldContinueGif = true;
+        //        }
+        
+        UIImage *img = [timerImageView.imageView.animationImages objectAtIndex:((NSInteger)[timerImageView.imageView.animationImages count] * actualPercent/100)];
+        timerImageView.imageView.image = img;
     }
 }
 
@@ -1229,20 +1246,34 @@ TitleFontDelegate>
         // ALSO SHOULD DELETE EVERYTHING
         shrinkingView = nil;
         
-        CATransition *transition = [CATransition animation];
-        transition.duration = 0.3;
-        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        transition.type = kCATransitionFade;
-        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+        //        CATransition *transition = [CATransition animation];
+        //        transition.duration = 0.3;
+        //        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        //        transition.type = kCATransitionFade;
+        //        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+        //        [self.navigationController popViewControllerAnimated:NO];
         
         
-        // Delete Data From List
-        [self deleteSlideFromLocalDirectory];
-        if (!self.isFromCamera) {
-            [self.navigationController popViewControllerAnimated:true];
-        } else {
-            [self.navigationController popToRootViewControllerAnimated:true];
-        }
+        // c0mrade: Fix For Line 720
+        //        if (!self.isFromCamera) {
+
+//        [self.navigationController popToRootViewControllerAnimated:true];
+        //        } else {
+        //            [self.navigationController popToRootViewControllerAnimated:true];
+        //        }
+        
+//        [self deleteSlideFromLocalDirectory];
+        [Global global].haveAccessToOpenCameraScreen = true;
+//        CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
+//        vc.indexForSlideToRefresh = _indexSaved;
+//        [vc refreshSlideAtIndex:_indexSaved-1 isTall:self.isTall completionBlock:^(BOOL isComplete) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                vc.transitionView.hidden = NO;
+                [self.navigationController popToRootViewControllerAnimated:YES];
+//            });
+//        }];
+        
+        
     }];
     UIAlertAction *otherAction = [UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
         [alert dismissViewControllerAnimated:true completion:nil];
@@ -1349,7 +1380,6 @@ TitleFontDelegate>
     } else if (type == ObjectAnimateGIF) {
         rcID = [NSString stringWithFormat:@"theme_GIF%ld_%ld.gif", (long)category, (long)index];
         obj = [BaseObject comicObjectWith:ObjectAnimateGIF userInfo:rcID];
-        
         self.btnPlay.hidden = false;
     }
     
@@ -1400,6 +1430,11 @@ TitleFontDelegate>
 
 - (void)createComicViewWith:(BaseObject *)obj {
     [viewModel addObject:obj];
+    
+    // c0mrade: calculate sticker frame dynamically
+    StickerObject *stk = (StickerObject *)obj;
+//    UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:stk.stickerURL]];
+    
     
     ComicObjectView *comicView = [[ComicObjectView alloc] initWithComicObject:obj];
     comicView.parentView = backgroundView;
@@ -1646,7 +1681,7 @@ float scale = 1;
 // MARK: - UICollectionView delegate & data source implementation
 
 //- (CGPoint)collectionView:(UICollectionView *)collectionView targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset {
-//    
+//
 //    return proposedContentOffset;
 //}
 
@@ -1693,14 +1728,6 @@ float scale = 1;
     //groupBackgroundImageView.center = CGPointMake(groupBackgroundImageView.center.x + 10, groupBackgroundImageView.center.y);
     groupBackgroundImageView.hidden = NO;
     groupBackgroundImageView.alpha = 1;
-    
-    
-    // 101, 80
-    CGRect fr = cell.frame;
-    fr.size.width = 80;
-    fr.size.height = 101;
-    cell.frame = fr;
-    
     [UIView animateWithDuration:0.1
                           delay:0.0
          usingSpringWithDamping:1.0
@@ -1930,6 +1957,7 @@ float scale = 1;
     UICollectionReusableView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                           withReuseIdentifier:@"FooterIndetifyer"
                                                                                  forIndexPath:indexPath];
+    
     if (kind == UICollectionElementKindSectionFooter) {
         UILabel *label = [footer viewWithTag:0x010];
         if (!label) {
@@ -2059,7 +2087,7 @@ float scale = 1;
     
     //	return CGSizeMake(60, 60);
     
-    return CGSizeMake(80, 80);
+    return CGSizeMake(80.1, 80.172);
 }
 
 - (UIEdgeInsets)collectionView:(CMCExpandableCollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
@@ -2132,10 +2160,22 @@ float scale = 1;
     CaptionObject *oldCaptionObject = (CaptionObject *) comicObjectView.comicObject;
     CaptionObject *newCaptionObject = [[CaptionObject alloc] initWithText:text captionType:type];
     
+    
+    CGRect fr = oldCaptionObject.frame;
+    if (type == CaptionTypeYellowBox) {
+        fr = CGRectMake(self.view.frame.size.width - 281, 0, 281, 125);
+    } else {
+        CGFloat width = self.view.frame.size.width - 20;
+        fr = CGRectMake((self.view.frame.size.width - width)/2, 200, width, 100);
+    }
     newCaptionObject.delayTimeInSeconds = oldCaptionObject.delayTimeInSeconds;
     
-    newCaptionObject.frame = oldCaptionObject.frame;
-    comicObjectView.comicObject = newCaptionObject;
+    // c0mrade
+    newCaptionObject.frame = fr;
+    [UIView animateWithDuration:0.5 animations:^{
+        comicObjectView.comicObject = newCaptionObject;
+    }];
+    
     
     [viewModel addObject:newCaptionObject];
     [viewModel saveObject];

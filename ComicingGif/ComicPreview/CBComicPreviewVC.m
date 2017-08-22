@@ -53,17 +53,19 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 @property (strong, nonatomic) NSMutableArray *dirtySubviews;
 @property (strong, nonatomic) NSMutableArray *dirtysubviewData;
 @property (assign, nonatomic) NSInteger selectedIndexForAddOrEdit;
+@property (nonatomic) int selectedIndex;
 @end
 
 @implementation CBComicPreviewVC
 
 - (void) loadDataFromComicingScreen {
-    [self prepareView];
+
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.transition = [[ZoomInteractiveTransition alloc] initWithNavigationController:self.navigationController];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDataFromComicingScreen) name:@"xxxDataFromComicing" object:nil];
     self.transition.handleEdgePanBackGesture = NO;
     self.transition.transitionDuration = 0.4;
     
@@ -72,7 +74,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     self.tableView.separatorStyle= UITableViewCellSeparatorStyleNone;
     self.dataArray= [NSMutableArray new];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDataFromComicingScreen) name:@"xxxDataFromComicing" object:nil];
+    
     //Added By ramesh-> for handle slide type
     if(self.comicType == ReplyComic && self.replyType == FriendReply) {
         self.fileNameToSave = [NSString stringWithFormat:@"ComicSlide_F%@", self.friendOrGroupId];
@@ -140,7 +142,11 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self startPlayingOneByOne];
+    // c0mrade: avoid unsued recursion while list is empty and avoid crash.
+    if (self.dataArray.count > 0) {
+        [self startPlayingOneByOne];
+    }
+    
 }
 
 - (void)refreshSlideAtIndex:(NSInteger)indexOfSlide isTall:(BOOL)isTall completionBlock:(void (^)(BOOL))completionBlock {
@@ -172,6 +178,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         if(finished){
             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 1)];
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self prepareView];
                 [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
                 completionBlock(YES);
             });
@@ -186,6 +193,10 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         [self prepareView];
     }
     _shouldFetchAndReload = NO;
+    
+    if ([Global global].haveAccessToOpenCameraScreen == true) {
+        [self openVerticalCamera:false];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -288,7 +299,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         [((CBComicItemModel *)self.dataArray[index]) replaceWithNewModel:model];
         //        self.previewVC.dataArray = self.dataArray;
         
-        //        [((CBComicPageCollectionVC *)[[self.previewVC viewControllers] firstObject]) refreshDataArray:self.dataArray];
+//                [((CBComicPageCollectionVC *)[[self.previewVC viewControllers] firstObject]) refreshDataArray:self.dataArray];
         
         [self.tableView reloadData];
     }
@@ -315,7 +326,6 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     NSInteger numberOfSlides = [self.comicPageCollectionVC.collectionView numberOfItemsInSection:0];
     if (index >= numberOfSlides) {
         //There are no more slides left
-        
         //Restart play one by one
         [self slideDidFinishPlayingOnceWithIndex:0];
         return;
@@ -403,8 +413,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 }
 
 #pragma mark- 
-
-- (void)didTapHorizontalButton{
+- (void) openCameraWithHorizontalView {
     if (self.dataArray.count == 4) {
         return;
     }
@@ -415,9 +424,12 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     vcCameraViewController.isVerticalCamera = YES;
     [self.navigationController pushViewController:vcCameraViewController animated:YES];
     
-    [self addEmptySlide:NO completionBlock:^(BOOL isCompleted) {
-        
-    }];
+    [self addEmptySlide:NO completionBlock:^(BOOL isCompleted) {}];
+}
+
+
+- (void)didTapHorizontalButton{
+    [self openCameraWithHorizontalView];
     
     //    if (self.dataArray.count == 8) {
     //        return;
@@ -480,7 +492,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     [self.comicPageCollectionVC removeComicItemAtIndex:self.dataArray.count];
 }
 
-- (void)didTapVerticalButton{
+- (void) openVerticalCamera :(BOOL) withSlide {
     if (self.dataArray.count == 4) {
         return;
     }
@@ -488,12 +500,27 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
     vcCameraViewController.indexOfSlide = -1;
-    vcCameraViewController.isVerticalCamera = NO;
-    [self.navigationController pushViewController:vcCameraViewController animated:YES];
     
-    [self addEmptySlide:YES completionBlock:^(BOOL isCompleted) {
-        
-    }];
+//    if (indexOfSlide == -1 && self.dataArray.count == 0) {
+//        [self addEmptySlide:isTall completionBlock:^(BOOL isCompleted) {
+//            completionBlock(YES);
+//        }];
+//    }
+    
+    vcCameraViewController.isVerticalCamera = NO;
+    [self.navigationController pushViewController:vcCameraViewController animated:false];
+//    if ([Global global].haveAccessToOpenCameraScreen == true && self.dataArray.count == 0) {
+//        [self deleteLastCell];
+//        [self refreshSlideAtIndex:0 isTall:false completionBlock:nil];
+//    } else {
+//        [self addEmptySlide:withSlide completionBlock:nil];
+//    }
+}
+
+- (void)didTapVerticalButton{
+    [self openVerticalCamera:true];
+    
+    
     
     //    if (self.dataArray.count == 8) {
     //        return;
@@ -564,7 +591,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 }
 
 - (void)didTapOnComicItemWithIndex:(NSInteger)index {
-    CBComicItemModel *itemModel = ((CBComicItemModel *)[self.dataArray objectAtIndex:index]);
+//    CBComicItemModel *itemModel = ((CBComicItemModel *)[self.dataArray objectAtIndex:index]);
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kComicMakingStoryboard bundle:nil];
     
     ComicMakingViewController *vc = [storyboard instantiateViewControllerWithIdentifier:ComicMakingViewControllerIdentifier];
@@ -577,14 +604,11 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     NSString *baseURLString = [[[self.comicSlides objectAtIndex:index] objectAtIndex:0]objectForKey:@"url"];
     CGRect slideRect = CGRectFromString([[[[self.comicSlides objectAtIndex:index] objectAtIndex:0] valueForKey:@"baseInfo"] valueForKey:@"frame"]);
     
+    
     vc.indexSaved = index;
     vc.urlOfSlide = [NSURL URLWithString:baseURLString];
-    [vc initWithBaseImage:vc.urlOfSlide
-                    frame:slideRect
-          andSubviewArray:arrTemp
-                   isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:@"isTall"] boolValue]
-                    index:index];
-    
+    [vc initWithBaseImage:[NSURL URLWithString:baseURLString] frame:slideRect andSubviewArray:arrTemp isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:@"isTall"] boolValue] index:index];
+    self.selectedIndex = index;
     self.transitionView = [_comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]].contentView;
     
     [self.navigationController pushViewController:vc animated:YES];

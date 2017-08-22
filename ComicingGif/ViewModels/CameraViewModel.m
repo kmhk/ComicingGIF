@@ -103,7 +103,6 @@
 }
 
 - (void)capturePhotoWithCGRect:(CGRect)rect completionHandler:(void(^)(NSError *))completionHandler {
-    // c0mrade: Flip Fix
     [self switchCameraCaptureMode:CameraCaptureModePhoto];
     [self.recorder capturePhoto:^(NSError * _Nullable error, UIImage * _Nullable image) {
         if (!error && image != nil) {

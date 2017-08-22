@@ -2,12 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "yellow-box.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "yellow-box-1.png",
+      "filename" : "yellow-box-375-x-668.png",
       "scale" : "2x"
     },
     {

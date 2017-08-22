@@ -2018,7 +2018,7 @@
                                 </connections>
                             </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RuD-D9-jo1">
-                                <rect key="frame" x="33" y="104" width="315" height="0.0"/>
+                                <rect key="frame" x="27" y="104" width="315" height="0.0"/>
                                 <subviews>
                                     <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mHL-f5-v91" userLabel="GradientView">
                                         <rect key="frame" x="0.0" y="0.0" width="315" height="0.0"/>
@@ -2080,8 +2080,8 @@
                             <constraint firstItem="ofk-O7-2ND" firstAttribute="top" secondItem="FQD-SF-7tP" secondAttribute="bottom" id="Mib-iY-OMi"/>
                             <constraint firstItem="FQD-SF-7tP" firstAttribute="leading" secondItem="U7z-Dx-E3x" secondAttribute="leading" id="aYK-bc-TY9"/>
                             <constraint firstAttribute="trailing" secondItem="FQD-SF-7tP" secondAttribute="trailing" id="hLV-zS-mHJ"/>
-                            <constraint firstItem="RuD-D9-jo1" firstAttribute="leading" secondItem="U7z-Dx-E3x" secondAttribute="leading" constant="33" id="oBb-PE-jLd"/>
-                            <constraint firstAttribute="trailing" secondItem="RuD-D9-jo1" secondAttribute="trailing" constant="27" id="sIV-Ki-aUS"/>
+                            <constraint firstItem="RuD-D9-jo1" firstAttribute="leading" secondItem="U7z-Dx-E3x" secondAttribute="leading" constant="27" id="oBb-PE-jLd"/>
+                            <constraint firstAttribute="trailing" secondItem="RuD-D9-jo1" secondAttribute="trailing" constant="33" id="sIV-Ki-aUS"/>
                         </constraints>
                     </view>
                     <connections>
