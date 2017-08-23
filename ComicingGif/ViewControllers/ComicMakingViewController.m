@@ -1287,6 +1287,10 @@ TitleFontDelegate>
 
 // MARK: - gesture handler
 - (void)tapGestureHandlerForToolContainerView:(UITapGestureRecognizer *)gesture {
+	if (collectionToolView == nil) {
+		return;
+	}
+	
     [UIView animateWithDuration:0.5 animations:^{
         //		if (gesture.view.tag == ObjectAnimateGIF) {
         //			gesture.view.frame = CGRectOffset(gesture.view.frame, self.baseLayerView.frame.size.width, 0);
@@ -1311,6 +1315,7 @@ TitleFontDelegate>
         
     } completion:^(BOOL finished) {
         [[collectionToolView superview] removeFromSuperview];
+		collectionToolView = nil;
         [backgroundView removeGestureRecognizer:_collectionViewTapGestureRecognizer];
         _collectionViewTapGestureRecognizer = nil;
     }];
@@ -1631,6 +1636,11 @@ TitleFontDelegate>
         }
         if (CGRectContainsPoint(comicObjectView.frame, tapPoint)) {
             shouldReceiveTouch = NO;
+			
+			if (collectionToolView != nil) {
+				[self tapGestureHandlerForToolContainerView:gestureRecognizer];
+			}
+			
             break;
         }
     }

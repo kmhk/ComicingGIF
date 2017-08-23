@@ -227,9 +227,9 @@
 }
 
 - (void)stopRecord {
+	[self.viewModel stopRecord];
+	
     [self setRecordingProgress:NO];
-    
-    [self.viewModel stopRecord];
 }
 
 
