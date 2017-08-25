@@ -3398,6 +3398,7 @@
 				TargetAttributes = {
 					F36BE3A31E830E22007F6CE7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = PV7F3V653B;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -4011,7 +4012,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -4052,7 +4053,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -4064,9 +4065,9 @@
 			baseConfigurationReference = AE19661F1E1C934A23192074 /* Pods-ComicingGif.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Leonard Bensonoff (AXMJ9J8EV9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonard Bensonoff (AXMJ9J8EV9)";
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Providence Education Inc. (PV7F3V653B)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Providence Education Inc. (PV7F3V653B)";
+				DEVELOPMENT_TEAM = PV7F3V653B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -4083,8 +4084,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.TheCustomerFactor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d698db5e-b022-48d3-9064-2dfdaeb82e5d";
-				PROVISIONING_PROFILE_SPECIFIER = "Dev Provision";
+				PROVISIONING_PROFILE = "167191aa-454b-4c2b-9ebf-227a8c5d5656";
+				PROVISIONING_PROFILE_SPECIFIER = "XC iOS Ad Hoc: *";
 			};
 			name = Debug;
 		};
@@ -4093,9 +4094,9 @@
 			baseConfigurationReference = 5C6CB3F124F1DC1C548C2BE5 /* Pods-ComicingGif.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Leonard Bensonoff (AXMJ9J8EV9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonard Bensonoff (AXMJ9J8EV9)";
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Providence Education Inc. (PV7F3V653B)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Providence Education Inc. (PV7F3V653B)";
+				DEVELOPMENT_TEAM = PV7F3V653B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -4112,8 +4113,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.TheCustomerFactor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d698db5e-b022-48d3-9064-2dfdaeb82e5d";
-				PROVISIONING_PROFILE_SPECIFIER = "Dev Provision";
+				PROVISIONING_PROFILE = "167191aa-454b-4c2b-9ebf-227a8c5d5656";
+				PROVISIONING_PROFILE_SPECIFIER = "XC iOS Ad Hoc: *";
 			};
 			name = Release;
 		};
