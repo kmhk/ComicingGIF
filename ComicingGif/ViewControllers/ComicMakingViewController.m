@@ -1638,7 +1638,7 @@ TitleFontDelegate>
     }
     
     int subviewIndex;
-    for (subviewIndex = 0; subviewIndex < backgroundView.subviews.count; subviewIndex++) {
+    for (subviewIndex = 0; subviewIndex < backgroundView.subviews.count-1; subviewIndex++) {
         id subview = backgroundView.subviews[subviewIndex];
         if (![subview isKindOfClass:[ComicObjectView class]]) {
             continue;
