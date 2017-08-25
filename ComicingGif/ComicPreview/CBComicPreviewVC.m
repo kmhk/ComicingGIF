@@ -608,7 +608,8 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     vc.indexSaved = index;
     vc.urlOfSlide = [NSURL URLWithString:baseURLString];
     [vc initWithBaseImage:[NSURL URLWithString:baseURLString] frame:slideRect andSubviewArray:arrTemp isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:@"isTall"] boolValue] index:index];
-    self.selectedIndex = index;
+    
+    self.selectedIndex = (int) index;
     self.transitionView = [_comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]].contentView;
     
     [self.navigationController pushViewController:vc animated:YES];
