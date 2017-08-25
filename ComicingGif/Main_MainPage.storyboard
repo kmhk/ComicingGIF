@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13178.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="XO4-2R-B3p">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="XO4-2R-B3p">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13156.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -1124,19 +1123,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ziB-vF-xY7">
-                                                    <rect key="frame" x="15" y="-4" width="33" height="33"/>
+                                                    <rect key="frame" x="7" y="4" width="49" height="49"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="ziB-vF-xY7" secondAttribute="height" multiplier="1:1" id="Im4-RQ-O9h"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="by Stephen" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XT3-5y-mzR">
-                                                    <rect key="frame" x="15" y="27" width="33" height="45"/>
+                                                    <rect key="frame" x="7" y="51" width="49" height="13"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="9"/>
                                                     <color key="textColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ad5-0A-f0Z">
-                                                    <rect key="frame" x="15" y="0.0" width="33" height="33"/>
+                                                    <rect key="frame" x="7" y="0.0" width="49" height="49"/>
                                                     <connections>
                                                         <action selector="tappedGroupPic:" destination="rzs-T7-yJa" eventType="touchUpInside" id="Fsh-dd-M3F"/>
                                                     </connections>
@@ -1207,7 +1206,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2N0-DO-vC9">
-                                                    <rect key="frame" x="0.0" y="0.0" width="14" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="22" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="12" id="Se7-9J-Kcc"/>
                                                         <constraint firstAttribute="width" constant="12" id="aBK-2i-1SH"/>
@@ -1279,7 +1278,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UO5-Ne-kgQ">
-                                                    <rect key="frame" x="10" y="-8" width="12" height="12"/>
+                                                    <rect key="frame" x="2" y="0.0" width="28" height="28"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="UO5-Ne-kgQ" secondAttribute="height" multiplier="1:1" id="sC1-WU-JiB"/>
                                                     </constraints>
@@ -1292,7 +1291,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="John" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uOC-Ub-3Z8">
-                                                    <rect key="frame" x="8" y="4" width="16" height="40"/>
+                                                    <rect key="frame" x="0.0" y="28" width="32" height="8"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="uOC-Ub-3Z8" secondAttribute="height" multiplier="53:15" id="RkW-DX-zC5"/>
                                                     </constraints>
@@ -1849,7 +1848,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ea-Sm-iwJ">
-                                                            <rect key="frame" x="8" y="12" width="14" height="26"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <state key="normal">
                                                                 <color key="titleShadowColor" red="0.42467421293258667" green="0.42466151714324951" blue="0.42466866970062256" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

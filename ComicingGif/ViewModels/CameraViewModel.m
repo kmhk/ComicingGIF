@@ -197,7 +197,7 @@
 	self.recorder.videoConfiguration.size = [[UIScreen mainScreen] bounds].size;
 	self.recorder.videoConfiguration.scalingMode = AVVideoScalingModeResizeAspectFill;
 	self.recorder.videoConfiguration.timeScale = 1.0;
-//	self.recorder.videoConfiguration.maxFrameRate = 30;
+//	self.recorder.videoConfiguration.maxFrameRate = 25;
 	
 	self.recorder.session = [[SCRecordSession alloc] init];
 	self.recorder.session.fileType = AVFileTypeQuickTimeMovie;
@@ -234,6 +234,7 @@
 	exportSession.videoConfiguration.scalingMode = AVVideoScalingModeResizeAspectFill;
 	exportSession.videoConfiguration.timeScale = 1.0;
 	exportSession.videoConfiguration.sizeAsSquare = false;
+//	exportSession.videoConfiguration.maxFrameRate = 25;
 	
 	exportSession.audioConfiguration.preset = SCPresetHighestQuality;
 	exportSession.outputUrl = self.recorder.session.outputUrl;
@@ -250,7 +251,7 @@
 		}
 		
 		NSLog(@"exporting video finished and generating gif now");
-//		[self saveToPhotoLibraryWith:exportSession.outputUrl];
+//		[self saveVideoToPhotoLibraryWith:exportSession.outputUrl];
 		
 		// generate GIF from exported video
 		[GIFGenerator generateGIF:exportSession.outputUrl frameCount:0 delayTime:0 progress:^(double progress) {

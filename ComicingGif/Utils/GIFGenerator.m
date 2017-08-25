@@ -77,10 +77,10 @@
 		delayPerFrame = delay;
 		
 		asset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
-		duration = asset.duration.value / asset.duration.timescale;
+		duration = (double)asset.duration.value / (double)asset.duration.timescale;
 		
 		if (count < 1) {
-			frameCount = duration * 25;
+			frameCount = duration * 30;
 		} else {
 			frameCount = count;
 		}
