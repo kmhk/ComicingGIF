@@ -270,6 +270,10 @@ TitleFontDelegate>
                                              selector:@selector(keyboardDidHideWithNotification:)
                                                  name:UIKeyboardDidHideNotification
                                                object:nil];
+	
+	UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGestureHandler:)];
+	pinchGesture.delegate = self;
+	[self.view addGestureRecognizer:pinchGesture];
 }
 
 -(void)getSelectedFontName:(NSString *)fontName andTitle:(NSString *)title {
@@ -297,7 +301,7 @@ TitleFontDelegate>
 #pragma mark - Slider methods
 - (UIImage *)getSliderPlayOrPauseButtonWithImageName:(NSString *)imageName
 {
-    CGSize sliderSize = CGSizeMake(20, 50);
+    CGSize sliderSize = CGSizeMake(30, 60);
     CGSize newSize = CGSizeMake(sliderSize.height, sliderSize.height);
     
     UIImage *image = [UIImage imageNamed:imageName];
@@ -1363,6 +1367,12 @@ TitleFontDelegate>
     [self changePenToolImageWithColor:_drawingColor];
 }
 
+- (void)pinchGestureHandler:(UIPinchGestureRecognizer *)gesture {
+	
+	[self btnNextTapped:nil];
+}
+
+
 // MARK: - notification handlers
 
 - (void)keyboardDidShowWithNotification:(NSNotification *)notification {
@@ -1425,7 +1435,7 @@ TitleFontDelegate>
             if (comicObjectView.comicObject.objType == ObjectAnimateGIF) {
                 comicObjectView.hidden = YES;
             }
-            
+			
             //Setting the tag here helps in further calculation of frame of icons
             comicObjectView.tag = (enhancementsBaseTag) + enhancementsBaseTagCount++;
         }
@@ -1642,6 +1652,11 @@ TitleFontDelegate>
         if (![subview isKindOfClass:[ComicObjectView class]]) {
             continue;
         }
+		
+		if (subviewIndex >= self.timerImageViews.count) {
+			break;
+		}
+		
         TimerImageViewStruct *timerStruct = self.timerImageViews[subviewIndex];
         if (timerStruct.imageView) {
             if (timerStruct.imageView.hidden) {
@@ -1659,14 +1674,14 @@ TitleFontDelegate>
         if (CGRectContainsPoint(comicObjectView.frame, tapPoint)) {
             shouldReceiveTouch = NO;
 			
-			if (collectionToolView != nil) {
-				[self tapGestureHandlerForToolContainerView:gestureRecognizer];
-			}
-			
             break;
         }
     }
-    
+	
+	if (collectionToolView != nil) {
+		[self tapGestureHandlerForToolContainerView:gestureRecognizer];
+	}
+	
     return shouldReceiveTouch;
 }
 

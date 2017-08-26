@@ -27,6 +27,14 @@
 
 #define W_H 45
 
+
+@interface CBComicImageCell ()
+{
+	NSTimeInterval			bkGifDuration;
+}
+@end
+
+
 @implementation CBComicImageCell
 
 - (void)awakeFromNib{
@@ -38,6 +46,8 @@
     if (_maxTimeOfFullAnimation < 3) {
         _maxTimeOfFullAnimation = 3;
     }
+	
+	bkGifDuration = 0;
 }
 
 - (void)createUIForCell:(CBComicImageCell *)cell withIndex:(NSInteger)index andFrame : (CGRect ) rect {
@@ -111,6 +121,7 @@
                 i ++;
                 
                 CGFloat timerDelay = [[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue];
+				CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"] floatValue];
                 [self createImageViewWith:gifData
                                     frame:rectOfGif
                                  bAnimate:YES
@@ -118,7 +129,8 @@
                              isBackground:NO
                       backgroundSuperview:nil
                              topLayerView:cell.topLayerView
-                                withDelay:timerDelay];
+                                withDelay:timerDelay
+								withAngle:rotationAngle];
             }
             
             //18 is for static stickers
@@ -155,7 +167,7 @@
                 UIImageView *stickerImageView = [[UIImageView alloc]initWithFrame:rectOfGif];
                 stickerImageView.image = [UIImage imageWithData:gifData];
                 
-                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
+                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"] floatValue];
                 stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
                 stickerImageView.hidden = YES;
                 [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
@@ -319,7 +331,7 @@
                 
                 
                 //                    dispatch_async(dispatch_get_main_queue(), ^{
-                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
+                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"] floatValue];
                 stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
                 [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
                 [cell.topLayerView addSubview:stickerImageView];
@@ -366,7 +378,7 @@
                 UIImageView *stickerImageView = [[UIImageView alloc]initWithFrame:rectOfGif];
                 stickerImageView.image = [UIImage imageWithData:gifData];
                 
-                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"]intValue];
+                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"] floatValue];
                 stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
                 [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
                 [cell.topLayerView addSubview:stickerImageView];
@@ -394,7 +406,8 @@
                isBackground:(BOOL)isBackground
         backgroundSuperview:(__weak UIImageView *)backgroundSuperview
                topLayerView:(__weak UIView *)topLayerView
-                  withDelay:(CGFloat)delay {
+                  withDelay:(CGFloat)delay
+				  withAngle:(CGFloat)angle{
     
     dispatch_queue_t const preloadQueue = dispatch_queue_create("preload-queue", DISPATCH_QUEUE_SERIAL);
     __weak CBComicImageCell *weakSelf = self;
@@ -415,8 +428,10 @@
             resultImageView.userInteractionEnabled = YES;
             if (isBackground) {
                 [backgroundSuperview insertSubview:resultImageView atIndex:0];
+				resultImageView.transform = CGAffineTransformMakeRotation(angle);
             } else {
                 [topLayerView addSubview:resultImageView];
+				resultImageView.transform = CGAffineTransformMakeRotation(angle);
             }
         });
         
@@ -443,6 +458,10 @@
             }
             totalDuration += frameDuration.floatValue * 2;
             CGImageRelease(cgImg);
+			
+			if (delay + totalDuration >= bkGifDuration) {
+				break;
+			}
         }
         
         if (srcImage != nil) {
@@ -530,6 +549,7 @@
     
     imgView.animationImages = arrayImages;
     imgView.animationDuration = totalDuration;
+	bkGifDuration = totalDuration;
     imgView.animationRepeatCount = (flag == YES? 0 : 1);
     if (shouldAnimate) {
         [imgView startAnimating];

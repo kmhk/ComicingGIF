@@ -472,6 +472,7 @@
     // MARK: - private methods
 - (void)addGestures {
     panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureHandler:)];
+	panGesture.delegate = self;
     [self addGestureRecognizer:panGesture];
     
     if (self.comicObject.objType == ObjectCaption) {
@@ -480,6 +481,7 @@
     }
     
     pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGestureHandler:)];
+	pinchGesture.delegate = self;
     [self addGestureRecognizer:pinchGesture];
     
     if (self.comicObject.objType == ObjectBubble) {
@@ -489,6 +491,7 @@
     }
     
     rotateGesture = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotateGestureHandler:)];
+	rotateGesture.delegate = self;
     [self addGestureRecognizer:rotateGesture];
 }
     
@@ -956,6 +959,22 @@
 }
     
     // MARK: - gesture handler implementations
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+	if (self.timerImageViews != nil && self.timerImageViews.count > 0) {
+		TimerImageViewStruct *st = self.timerImageViews[0];
+		if (st.imageView != nil && st.imageView.isHidden == YES) {
+			return false;
+		}
+		
+		if (st.view != nil && st.view.isHidden == YES) {
+			return false;
+		}
+	}
+	
+	return true;
+}
+
 - (void)panGestureHandler:(UIPanGestureRecognizer *)gesture {
     UIGestureRecognizerState state = [gesture state];
     CGPoint point = [gesture locationInView:self.parentView];

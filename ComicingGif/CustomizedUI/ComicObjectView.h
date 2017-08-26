@@ -30,6 +30,9 @@
 
 // MARK: -
 @interface ComicObjectView : UIView
+<
+UIGestureRecognizerDelegate
+>
 
 @property (nonatomic) BaseObject *comicObject;
 
