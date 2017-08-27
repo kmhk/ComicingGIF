@@ -239,7 +239,7 @@ TitleFontDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self animateAppereance];
+//    [self animateAppereance];
     [Global global].haveAccessToOpenCameraScreen = false; // c0mrade: access for listview, to open camera screen
     nCategory = 1;
     
