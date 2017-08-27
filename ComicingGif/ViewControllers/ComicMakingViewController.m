@@ -1207,9 +1207,8 @@ TitleFontDelegate>
                 [self.navigationController popToRootViewControllerAnimated:YES];
             });
         }];
-        
     }
-    
+	
     [UIView animateWithDuration:0.2f animations:^{
         self.btnToolAnimateGIF.alpha = 0;
         self.btnToolBubble.alpha = 0;
@@ -1678,9 +1677,9 @@ TitleFontDelegate>
         }
     }
 	
-	if (collectionToolView != nil) {
-		[self tapGestureHandlerForToolContainerView:gestureRecognizer];
-	}
+//	if (collectionToolView != nil) {
+//		[self tapGestureHandlerForToolContainerView:gestureRecognizer];
+//	}
 	
     return shouldReceiveTouch;
 }
