@@ -119,22 +119,30 @@
 }
 
 - (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size {
+	UIImage *newImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(size, NO, 1);
     CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), kCGInterpolationNone);
     [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return newImage;
 }
 
 - (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size withInterpolationQuality:(CGInterpolationQuality)interpolation {
+	UIImage *newImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(size, NO, 1);
     CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), interpolation);
     [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return newImage;
 }
 

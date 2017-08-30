@@ -496,11 +496,15 @@
 }
     
 - (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size {
+	UIImage *newImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
     [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return newImage;
 }
     
@@ -513,7 +517,8 @@
     ComicObjectView *firstComicObjectView = penObjectsViewArray.firstObject;
     
     UIImageView *finalDrawingImageView = [[UIImageView alloc] initWithFrame:firstComicObjectView.frame];
-    
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(finalDrawingImageView.frame.size);
     [finalDrawingImageView.image drawInRect:CGRectMake(0, 0,
                                                        finalDrawingImageView.frame.size.width,
@@ -537,6 +542,8 @@
     }
     finalDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+	}
+	
     [penObjectsViewArray removeAllObjects];
     
     return finalDrawingImageView;
@@ -551,7 +558,8 @@
     ComicObjectView *firstComicObjectView = penObjectsViewArray.firstObject;
     
     UIImageView *finalDrawingImageView = [[UIImageView alloc] initWithFrame:firstComicObjectView.frame];
-    
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(finalDrawingImageView.frame.size);
     [finalDrawingImageView.image drawInRect:CGRectMake(0, 0,
                                                        finalDrawingImageView.frame.size.width,
@@ -575,6 +583,8 @@
     }
     finalDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+	}
+	
     [penObjectsViewArray removeAllObjects];
     
     
@@ -617,7 +627,8 @@
     
     for (int i = 1; i < coordinates.count; i++) {
         CGPoint currentPoint = [coordinates[i] CGPointValue];
-        
+		
+		@autoreleasepool {
         UIGraphicsBeginImageContext(drawingImageView.frame.size);
         [drawingImageView.image drawInRect:CGRectMake(0, 0, drawingImageView.frame.size.width, drawingImageView.frame.size.height)];
         
@@ -633,10 +644,12 @@
         drawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
         [drawingImageView setAlpha:1.0];
         UIGraphicsEndImageContext();
-        
+		}
+		
         lastPoint = currentPoint;
     }
-    
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(drawingImageView.frame.size);
     
     [drawingImageView.image drawInRect:CGRectMake(0, 0, drawingImageView.frame.size.width, drawingImageView.frame.size.height)
@@ -645,7 +658,8 @@
     drawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
     
     UIGraphicsEndImageContext();
-    
+	}
+	
     return drawingImageView;
 }
     

@@ -142,13 +142,17 @@
 }
 
 -(UIImage*)imageWithView:(UIView *)view{
+	UIImage *img;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, 1);
     [view.layer renderInContext:UIGraphicsGetCurrentContext()];
     
-    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
+    img = UIGraphicsGetImageFromCurrentImageContext();
     
     UIGraphicsEndImageContext();
-    
+	}
+	
     return img;
 }
 

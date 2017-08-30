@@ -17,6 +17,9 @@ static CGColorSpaceRef __rgbColorSpace = NULL;
 
 - (UIImage *)tintedImageWithColor:(UIColor *)tintColor;
 {
+	UIImage *coloredImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(self.size, NO, [[UIScreen mainScreen] scale]);
     CGContextRef context = UIGraphicsGetCurrentContext();
     
@@ -36,9 +39,10 @@ static CGColorSpaceRef __rgbColorSpace = NULL;
     
     CGContextFillRect(context, rect);
     
-    UIImage *coloredImage = UIGraphicsGetImageFromCurrentImageContext();
+    coloredImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return coloredImage;
 }
 
@@ -141,11 +145,15 @@ CGColorSpaceRef NYXGetRGBColorSpace(void)
     
     // Resize the image
     CGSize newSize = CGSizeMake(newWidth, newHeight);
+	UIImage *newImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(newSize);
     [self drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     // Set maximun compression in order to decrease file size and enable faster uploads & downloads
     NSData *imageData = UIImageJPEGRepresentation(newImage, 0.0f);
     UIImage *processedImage = [UIImage imageWithData:imageData];

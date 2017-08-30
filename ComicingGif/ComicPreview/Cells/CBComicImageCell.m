@@ -390,11 +390,15 @@
 }
 
 - (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size {
+	UIImage *newImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
     [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return newImage;
 }
 

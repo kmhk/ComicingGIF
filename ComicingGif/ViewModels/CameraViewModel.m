@@ -161,7 +161,8 @@
             }
         }
     }
-    
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(targetSize); // this will crop
     
     CGRect thumbnailRect = CGRectZero;
@@ -180,7 +181,8 @@
     
     //pop the context to get back to the default
     UIGraphicsEndImageContext();
-    
+	}
+	
     return newImage;
 }
 // MARK: - private methods
@@ -292,6 +294,9 @@
 }
 
 - (UIImage *)fixOrientation:(UIImage *)src {
+	UIImage *image;
+	
+	@autoreleasepool {
 	UIImageOrientation orientation = src.imageOrientation;
 	UIGraphicsBeginImageContext(src.size);
 	
@@ -307,8 +312,11 @@
 	} else if (orientation == UIImageOrientationUp) {
 		CGContextRotateCTM (context, 0);
 	}
+		
+	image = UIGraphicsGetImageFromCurrentImageContext();
+	}
 	
-	return UIGraphicsGetImageFromCurrentImageContext();
+	return image;
 }
 
 

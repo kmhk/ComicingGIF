@@ -631,7 +631,9 @@ MZCroppableViewDelegate>
 }
 - (UIImage*)scaleDown:(UIImage*)image withSize:(CGSize)newSize
 {
-    
+	UIImage* scaledImage;
+	
+	@autoreleasepool {
     //We prepare a bitmap with the new size
     UIGraphicsBeginImageContextWithOptions(newSize, YES, 0.0);
     
@@ -639,9 +641,10 @@ MZCroppableViewDelegate>
     [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
     
     //We set the scaled image from the context
-    UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return scaledImage;
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -1174,7 +1177,10 @@ UIImageOrientation mirroredImageOrientation(UIImageOrientation orientation) {
     
     CGContextRelease(bitmapContext);
     CGImageRelease(finalMaskImage);
-    
+	
+	UIImage *coloredImg;
+	
+	@autoreleasepool {
     // begin a new image context, to draw our colored image onto
     UIGraphicsBeginImageContext(result.size);
     
@@ -1199,9 +1205,10 @@ UIImageOrientation mirroredImageOrientation(UIImageOrientation orientation) {
     CGContextDrawPath(context,kCGPathFill);
     
     // generate a new UIImage from the graphics context we drew onto
-    UIImage *coloredImg = UIGraphicsGetImageFromCurrentImageContext();
+    coloredImg = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     //return the color-burned image
     return coloredImg;
     
@@ -1288,7 +1295,10 @@ UIImageOrientation mirroredImageOrientation(UIImageOrientation orientation) {
     
     // build merged size
     CGSize mergedSize = CGSizeMake(offsetwt,offsetht);
-    
+	
+	UIImage *newImage;
+	
+	@autoreleasepool {
     // capture image context ref
     UIGraphicsBeginImageContext(mergedSize);
     
@@ -1297,11 +1307,12 @@ UIImageOrientation mirroredImageOrientation(UIImageOrientation orientation) {
     [second drawInRect:CGRectMake(offset/2, offset/2, secondWidth, secondHeight) blendMode:kCGBlendModeNormal alpha:1.0];
     
     // assign context to new UIImage
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     
     // end context
     UIGraphicsEndImageContext();
-    
+	}
+	
     return  newImage;
 }
 
@@ -1323,11 +1334,16 @@ UIImageOrientation mirroredImageOrientation(UIImageOrientation orientation) {
     
     float newHeight = sourceImage.size.height * scaleFactor;
     float newWidth = oldWidth * scaleFactor;
-    
+	
+	UIImage *newImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight));
     [sourceImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+	}
+	
     return newImage;
 }
 
@@ -1366,12 +1382,17 @@ UIImageOrientation mirroredImageOrientation(UIImageOrientation orientation) {
     
     NSLog(@"Actual height : %f and Width : %f",actualHeight,actualWidth);
     CGRect rect = CGRectMake(0.0, 0.0, actualWidth, actualHeight);
-    UIGraphicsBeginImageContext(rect.size);
+	
+	NSData *imageData;
+	
+	@autoreleasepool {
+	UIGraphicsBeginImageContext(rect.size);
     [image drawInRect:rect];
     UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
-    NSData *imageData = UIImageJPEGRepresentation(img, compressionQuality);
+    imageData = UIImageJPEGRepresentation(img, compressionQuality);
     UIGraphicsEndImageContext();
-    
+	}
+	
     return [UIImage imageWithData:imageData];
 }
 -(UIImage*)rotateUIImage:(UIImage*)src {
