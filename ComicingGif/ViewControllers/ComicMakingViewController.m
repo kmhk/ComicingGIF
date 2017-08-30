@@ -72,6 +72,8 @@ TitleFontDelegate>
     CGFloat autoScrollSliderDeltaValue;
     
     BOOL haveAddedIconsOnce;
+	
+	BOOL havePinchedOnComicMaking;
     
     UIImageView *shrinkingView;
     CGPoint previousTouchPoint;
@@ -274,6 +276,8 @@ TitleFontDelegate>
 	UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGestureHandler:)];
 	pinchGesture.delegate = self;
 	[self.view addGestureRecognizer:pinchGesture];
+	
+	havePinchedOnComicMaking = false;
 }
 
 -(void)getSelectedFontName:(NSString *)fontName andTitle:(NSString *)title {
@@ -1384,8 +1388,12 @@ TitleFontDelegate>
 }
 
 - (void)pinchGestureHandler:(UIPinchGestureRecognizer *)gesture {
-	
-	[self btnNextTapped:nil];
+	if (!havePinchedOnComicMaking) {
+		NSLog(@"called pinch gesture to close comic making");
+		[self btnNextTapped:nil];
+		
+		havePinchedOnComicMaking = true;
+	}
 }
 
 
