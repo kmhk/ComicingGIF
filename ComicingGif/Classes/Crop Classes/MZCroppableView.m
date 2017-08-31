@@ -139,13 +139,15 @@
 {
    // UIImage * img =[UIImage imageWithData:[NSData dataWithContentsOfFile:[[[NSBundle mainBundle ] resourcePath ] stringByAppendingPathComponent:@"AliasImage.png" ] ] ];
     CGRect imageRect = CGRectMake( 0 , 0 , img.size.width + 4 , img.size.height + 4 );
-    
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext( imageRect.size );
     [img drawInRect:CGRectMake( imageRect.origin.x + 2 , imageRect.origin.y + 2 , imageRect.size.width - 4 , imageRect.size.height - 4 ) ];
     CGContextSetInterpolationQuality( UIGraphicsGetCurrentContext() , kCGInterpolationHigh );
     img = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return img;
 }
 
@@ -286,7 +288,10 @@ bool lineSegmentsIntersect(CGPoint L1P1, CGPoint L1P2, CGPoint L2P1, CGPoint L2P
     NSLog(@"==3");
     aPath = [self smoothedPathWithGranularity:50 withPath:aPath];
     [aPath addClip];
-    
+	
+	UIImage *mask;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(rect.size, YES, 0.0);
     {
         [[UIColor blackColor] setFill];
@@ -298,11 +303,16 @@ bool lineSegmentsIntersect(CGPoint L1P1, CGPoint L1P2, CGPoint L2P1, CGPoint L2P
         [aPath closePath];
         [aPath fill];
     }
-    UIImage *mask = UIGraphicsGetImageFromCurrentImageContext();
+    mask = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     
     NSLog(@"==4");
+	
+	UIImage *maskedImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0);
     
     {
@@ -310,9 +320,10 @@ bool lineSegmentsIntersect(CGPoint L1P1, CGPoint L1P2, CGPoint L2P1, CGPoint L2P
         [image.image drawAtPoint:CGPointZero];
     }
     
-    UIImage *maskedImage = UIGraphicsGetImageFromCurrentImageContext();
+    maskedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     NSLog(@"==5");
     CGRect croppedRect = aPath.bounds;
     
@@ -396,7 +407,10 @@ bool lineSegmentsIntersect(CGPoint L1P1, CGPoint L1P2, CGPoint L2P1, CGPoint L2P
 
     
     NSLog(@"==9");
-    
+	
+	UIImage *mask;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(rect.size, YES, 0.0);
     {
         [[UIColor blackColor] setFill];
@@ -409,11 +423,15 @@ bool lineSegmentsIntersect(CGPoint L1P1, CGPoint L1P2, CGPoint L2P1, CGPoint L2P
         [aPath fill];
     }
     
-    UIImage *mask = UIGraphicsGetImageFromCurrentImageContext();
+    mask = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+	}
+	
     NSLog(@"==10");
     
-    
+	UIImage *maskedImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0);
     
     {
@@ -423,8 +441,10 @@ bool lineSegmentsIntersect(CGPoint L1P1, CGPoint L1P2, CGPoint L2P1, CGPoint L2P
         [image.image drawAtPoint:CGPointZero];
     }
     
-    UIImage *maskedImage = UIGraphicsGetImageFromCurrentImageContext();
+    maskedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+	}
+	
     NSLog(@"==11");
     maskedImage = [self transparentBorderImage:1 withImage:maskedImage];
     
@@ -444,7 +464,10 @@ bool lineSegmentsIntersect(CGPoint L1P1, CGPoint L1P2, CGPoint L2P1, CGPoint L2P
     {
         lineWidth = 10;
     }
-    
+	
+	UIImage *borderImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0);
     {
         CGContextSetInterpolationQuality( UIGraphicsGetCurrentContext() , kCGInterpolationHigh );
@@ -457,10 +480,15 @@ bool lineSegmentsIntersect(CGPoint L1P1, CGPoint L1P2, CGPoint L2P1, CGPoint L2P
         [aPath stroke];
     }
     
-    UIImage *borderImage = UIGraphicsGetImageFromCurrentImageContext();
+    borderImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     NSLog(@"==12");
+	
+	UIImage *whiteImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0);
     {
         CGContextSetInterpolationQuality( UIGraphicsGetCurrentContext() , kCGInterpolationHigh );
@@ -469,17 +497,25 @@ bool lineSegmentsIntersect(CGPoint L1P1, CGPoint L1P2, CGPoint L2P1, CGPoint L2P
         UIRectFill(rect);
     }
     
-    UIImage *whiteImage = UIGraphicsGetImageFromCurrentImageContext();
+    whiteImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+	}
+	
     NSLog(@"==13");
+	
+	UIImage *whiteflippedImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0);
     {
         CGContextClipToMask(UIGraphicsGetCurrentContext(), rect, borderImage.CGImage);
         [whiteImage drawAtPoint:CGPointZero];
     }
     
-    UIImage *whiteflippedImage = UIGraphicsGetImageFromCurrentImageContext();
+    whiteflippedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+	}
+	
     NSLog(@"==14");
     whiteflippedImage = [self transparentBorderImage:1 withImage:whiteflippedImage];
     
@@ -1025,15 +1061,19 @@ bool lineSegmentsIntersect(CGPoint L1P1, CGPoint L1P2, CGPoint L2P1, CGPoint L2P
 
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)size
 {
+	UIImage *newImage;
+	
+	@autoreleasepool {
     if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
         UIGraphicsBeginImageContextWithOptions(size, NO, [[UIScreen mainScreen] scale]);
     } else {
         UIGraphicsBeginImageContext(size);
     }
     [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return newImage;
 }
 void getPointsFromBezier1(void *info, const CGPathElement *element)

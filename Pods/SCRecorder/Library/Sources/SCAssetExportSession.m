@@ -515,13 +515,17 @@ static CGContextRef SCCreateContextFromPixelBuffer(CVPixelBufferRef pixelBuffer)
                 break;
         }
 
+		UIImage *generatedWatermarkImage;
+		
+		@autoreleasepool {
         UIGraphicsBeginImageContextWithOptions(videoSize, NO, 1);
 
         [watermarkImage drawInRect:watermarkFrame];
 
-        UIImage *generatedWatermarkImage = UIGraphicsGetImageFromCurrentImageContext();
+        generatedWatermarkImage = UIGraphicsGetImageFromCurrentImageContext();
 
         UIGraphicsEndImageContext();
+		}
 
         CIImage *watermarkCIImage = [CIImage imageWithCGImage:generatedWatermarkImage.CGImage];
         return [SCFilter filterWithCIImage:watermarkCIImage];

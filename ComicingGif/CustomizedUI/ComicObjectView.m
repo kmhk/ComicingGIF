@@ -62,7 +62,7 @@
         
     } else if (obj.objType == ObjectSticker) {
         UIImageView *imageView = [self createStickerView];
-        [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:imageView delayTime:self.delayTimeInSeconds andObjectType:obj.objType]];
+//        [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:imageView delayTime:self.delayTimeInSeconds andObjectType:obj.objType]];
         [self addGestures];
         
     } else if (obj.objType == ObjectBubble) {
