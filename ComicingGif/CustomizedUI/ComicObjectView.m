@@ -843,7 +843,7 @@
             resultImageView.image = arrayImages.firstObject;
             resultImageView.animationImages = arrayImagesL;
             resultImageView.animationDuration = totalDuration;
-            resultImageView.animationRepeatCount = (flag == YES? 0 : 1);
+            resultImageView.animationRepeatCount = (flag == YES? 1 : 1);
             if (shouldAnimate) {
                 [resultImageView startAnimating];
             }
@@ -905,7 +905,7 @@
     
     imgView.animationImages = arrayImages;
     imgView.animationDuration = totalDuration;
-    imgView.animationRepeatCount = (flag == YES? 0 : 1);
+    imgView.animationRepeatCount = (flag == YES? 1 : 1);
     [imgView startAnimating];
     
     return imgView;

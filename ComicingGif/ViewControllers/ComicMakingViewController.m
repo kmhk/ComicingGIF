@@ -504,7 +504,11 @@ TitleFontDelegate>
         CGFloat fullLoopsTotalDuration = timerImageView.imageView.animationDuration * ((NSInteger)((modifiedActionValue)/timerImageView.imageView.animationDuration));
         NSInteger actualPercent = (NSInteger)(((modifiedActionValue - fullLoopsTotalDuration) / timerImageView.imageView.animationDuration) * 100);
         NSLog(@"...Actual percent: %lu,,,,,hidden: %d", actualPercent, timerImageView.imageView.hidden);
-        
+		
+		if (modifiedActionValue > timerImageView.imageView.animationDuration) {
+			return;
+		}
+		
         //        if (actualPercent == 99 && timerImageView.objType == ObjectAnimateGIF)  {
         //            self.shouldContinueGif = false;
         //            [timerImageView.imageView stopAnimating];
