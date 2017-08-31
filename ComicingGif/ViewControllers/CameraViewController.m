@@ -12,10 +12,13 @@
 #import "ComicObjectSerialize.h"
 #import "CBComicPreviewVC.h"
 #import "Constants.h"
+#import "ASAnyCurlController.h"
+#import "UIImage+Image.h"
 
 #define TOPBADDING		0.0
 #define BOTTOMPADDING	0.0
 
+const NSTimeInterval kDelayBeforeTransition = 2.0f;
 
 @interface CameraViewController ()
 {
@@ -38,7 +41,7 @@
 @property (weak, nonatomic) IBOutlet UIView *animView;
 @property (weak, nonatomic) IBOutlet UIImageView *imgSelected;
 @property (weak, nonatomic) IBOutlet UIView *closeView;
-
+@property (strong, nonatomic) NSDate *tapOnCaptureTime;
 @end
 
 @implementation CameraViewController
@@ -253,6 +256,8 @@
         return;
     }
     
+    self.tapOnCaptureTime = [NSDate new];
+    
     [self.viewModel capturePhotoWithCGRect:self.cameraPreview.bounds completionHandler:^(NSError *error) {
         if (error) {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
@@ -431,43 +436,58 @@
     CGRect tempTopBar = self.closeView.frame;
     tempTopBar.origin.y = 0 - self.topBar.frame.size.height;
     
-//    CGRect fr = self.cameraPreview.frame;
-//    fr.size.height -= 72;
-//    
-//    [UIView animateWithDuration:0.7 animations:^{
-//        self.cameraPreview.transform = CGAffineTransformMakeScale(0.97, 0.87);
-//        self.cameraPreview.frame = fr;
-//        
-//    } completion:^(BOOL finished) {
-//        
-//
-//    }];
+    [self resetRecord];
+    [vc initWithBaseImage:url frame:wSelf.cameraPreview.frame andSubviewArray:nil isTall:!wSelf.isVerticalCamera index:_indexOfSlide];
     
-    
-    [UIView animateWithDuration:0.5 animations:^{
-        wSelf.captureHolder.frame = tempFrame;
-        wSelf.topBar.frame = tempTopBar;
-        wSelf.viewProgressContainer.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        [wSelf resetRecord];
-        [vc initWithBaseImage:url frame:wSelf.cameraPreview.frame andSubviewArray:nil isTall:!wSelf.isVerticalCamera index:_indexOfSlide];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [wSelf setupDefaultsValuesForTopAndBottomAnimatedViews];
+    // Photo should be transit to other view after 2 seconds delay, video will be transited imidiatly after progress is finished
+    // Check time after last tap on record button and transit
+    NSTimeInterval timeAfterTapOnRecord = [[NSDate date] timeIntervalSinceDate:self.tapOnCaptureTime];
+    if (timeAfterTapOnRecord > kDelayBeforeTransition) {
+        [self curlTransitionToViewController:vc with:url];
+    } else {
+        NSTimeInterval performAfterTime = kDelayBeforeTransition - timeAfterTapOnRecord;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(performAfterTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self curlTransitionToViewController:vc with:url];
         });
-        
-        [UIView transitionWithView:self.navigationController.view duration:0.75
-                           options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-                               [wSelf.navigationController pushViewController:vc animated:NO];
-                           } completion:nil];
-        
-    }];
-
-    
-    
+    }
+    self.tapOnCaptureTime = nil;
     
     // ComicMakingViewController
+}
+
+- (void)curlTransitionToViewController:(UIViewController *)vc with:(NSURL *)url
+{
+    UIView *sourceView = self.view;
+    UIView *destinationView = vc.view;
     
+    self.viewProgressContainer.alpha = 0.0f;
+    
+    // Create preview from camera using captured image
+    UIImage *fileImage = [UIImage imageWithContentsOfFile:url.path];
+    UIImageView *filePreviewImageView = [[UIImageView alloc] initWithFrame:_cameraPreview.frame];
+    filePreviewImageView.image = fileImage;
+    
+    [sourceView insertSubview:filePreviewImageView aboveSubview:_cameraPreview];
+    
+    UIImage *sourceImg  = [UIImage imageWithView:sourceView paque:NO];
+    
+    UIImageView *sourceImgView = [[UIImageView alloc] initWithFrame:sourceView.bounds];
+    sourceImgView.image = sourceImg;
+    UIView *destView = [[UIView alloc] init];
+    
+    [destinationView addSubview:sourceImgView];
+    
+    [self.navigationController pushViewController:vc animated:NO];
+    
+    [ASAnyCurlController animateTransitionUpFromView:sourceImgView
+                                              toView:destView
+                                            duration:1.5f
+                                             options:ASAnyCurlOptionVertical | ASAnyCurlOptionBottomLeft
+                                          completion:^{
+                                              [sourceImgView removeFromSuperview];
+                                              [destView removeFromSuperview];
+                                              [filePreviewImageView removeFromSuperview];
+                                          }];
 }
 
 - (void) setupDefaultsValuesForTopAndBottomAnimatedViews {
