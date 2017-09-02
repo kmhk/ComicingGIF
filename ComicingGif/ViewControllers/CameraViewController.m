@@ -460,7 +460,6 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     UIView *sourceView = self.view;
     UIView *destinationView = vc.view;
     
-    self.viewProgressContainer.alpha = 0.0f;
     
     // Create preview from camera using captured image
     UIImage *fileImage = [UIImage imageWithContentsOfFile:url.path];
@@ -469,6 +468,7 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     
     [sourceView insertSubview:filePreviewImageView aboveSubview:_cameraPreview];
     
+    self.viewProgressContainer.alpha = 0.0f;
     UIImage *sourceImg  = [UIImage imageWithView:sourceView paque:NO];
     
     UIImageView *sourceImgView = [[UIImageView alloc] initWithFrame:sourceView.bounds];
