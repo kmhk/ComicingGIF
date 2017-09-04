@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <SCRecorder/SCRecorder.h>
+#import "SCRecorder.h"
 
 
 #define MAXDURATION		7.0 // 7 seconds video maxim

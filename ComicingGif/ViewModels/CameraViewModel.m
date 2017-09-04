@@ -37,10 +37,11 @@
 - (void)setupRecorderWith:(UIView *)view {
     __weak id weakSelf = self;
     
+    self.recorder.keepMirroringOnWrite = YES;
 	self.recorder.delegate = weakSelf;
 	self.recorder.videoConfiguration.size = view.frame.size;
     self.recorder.videoConfiguration.scalingMode = AVVideoScalingModeResize;
-	self.recorder.previewView = view;
+    self.recorder.previewView = view;
 	exportSize = view.frame.size;
     
 }

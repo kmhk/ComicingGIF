@@ -2,22 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-    <array>
-        <string>BLACKHAWK Italic.ttf</string>
-        <string>BLACKHAWK Swash.otf</string>
-        <string>BLACKHAWK.ttf</string>
-        <string>Candyhouse Alt.ttf</string>
-        <string>Candyhouse Caps.ttf</string>
-        <string>Candyhouse Doodles.ttf</string>
-        <string>Candyhouse.ttf</string>
-        <string>Justlove-Italic.ttf</string>
-        <string>Justlove-Regular.ttf</string>
-        <string>Littlemorning.ttf</string>
-        <string>Luckiest Softie Pro Extra Bold PS.ttf</string>
-        <string>arial-mt-std-medium.otf</string>
-        <string>arial-rounded-mt-bold.ttf</string>
-    </array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -42,6 +26,22 @@
 	<string>record a video</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>save video</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>BLACKHAWK Italic.ttf</string>
+		<string>BLACKHAWK Swash.otf</string>
+		<string>BLACKHAWK.ttf</string>
+		<string>Candyhouse Alt.ttf</string>
+		<string>Candyhouse Caps.ttf</string>
+		<string>Candyhouse Doodles.ttf</string>
+		<string>Candyhouse.ttf</string>
+		<string>Justlove-Italic.ttf</string>
+		<string>Justlove-Regular.ttf</string>
+		<string>Littlemorning.ttf</string>
+		<string>Luckiest Softie Pro Extra Bold PS.ttf</string>
+		<string>arial-mt-std-medium.otf</string>
+		<string>arial-rounded-mt-bold.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
