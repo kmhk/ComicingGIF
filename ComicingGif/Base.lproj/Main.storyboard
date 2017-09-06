@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13178.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Djk-yA-53O">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Djk-yA-53O">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13156.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -25,7 +24,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rt2-6m-Nn3">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <rect key="frame" x="0.0" y="18.333333333333314" width="414" height="699.33333333333326"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hnG-Df-0CZ" customClass="RoundCapProgressView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="13"/>
@@ -39,6 +38,7 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="hnG-Df-0CZ" secondAttribute="trailing" id="75I-MU-Bg9"/>
                                     <constraint firstItem="hnG-Df-0CZ" firstAttribute="top" secondItem="Rt2-6m-Nn3" secondAttribute="top" id="C1d-Yf-BaX"/>
+                                    <constraint firstAttribute="width" secondItem="Rt2-6m-Nn3" secondAttribute="height" multiplier="1:1.69" id="ND0-FT-Xyd"/>
                                     <constraint firstItem="hnG-Df-0CZ" firstAttribute="leading" secondItem="Rt2-6m-Nn3" secondAttribute="leading" id="RgR-rP-oZ5"/>
                                 </constraints>
                             </view>
@@ -210,24 +210,24 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.15294117647058825" green="0.14117647058823529" blue="0.14509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="qLD-GF-jop" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="33" id="6cb-Vu-y4a"/>
                             <constraint firstItem="tHT-WI-mxq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7mr-xA-QIo"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="phv-vJ-uod" secondAttribute="bottom" id="8jh-hE-0J8"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="J7P-Ip-KfG" secondAttribute="bottom" id="B8S-n1-qqC"/>
-                            <constraint firstItem="Rt2-6m-Nn3" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="LB5-lY-MaJ"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Rt2-6m-Nn3" secondAttribute="trailing" constant="-20" id="OE3-Q9-vTJ"/>
+                            <constraint firstItem="Rt2-6m-Nn3" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="HRQ-aY-XeU"/>
+                            <constraint firstItem="Rt2-6m-Nn3" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" priority="999" constant="-20" id="LB5-lY-MaJ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Rt2-6m-Nn3" secondAttribute="trailing" priority="999" constant="-20" id="OE3-Q9-vTJ"/>
+                            <constraint firstItem="Rt2-6m-Nn3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="RSa-u5-grM"/>
                             <constraint firstAttribute="trailing" secondItem="qLD-GF-jop" secondAttribute="trailing" id="Rho-RF-Ggm"/>
                             <constraint firstItem="qLD-GF-jop" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Wx0-vq-EmF"/>
                             <constraint firstItem="phv-vJ-uod" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="Zpe-mU-HeS"/>
                             <constraint firstItem="phv-vJ-uod" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="aKa-f2-gKl"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Rt2-6m-Nn3" secondAttribute="bottom" id="aNE-wk-6KZ"/>
                             <constraint firstAttribute="bottom" secondItem="tHT-WI-mxq" secondAttribute="bottom" constant="59" id="jnV-MO-Cz9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="phv-vJ-uod" secondAttribute="trailing" constant="-20" id="nu1-By-Yc9"/>
                             <constraint firstItem="shT-Rx-kUK" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.0001" id="rhY-kt-cFA"/>
                             <constraint firstItem="J7P-Ip-KfG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tFa-I7-CEd"/>
-                            <constraint firstItem="Rt2-6m-Nn3" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="u7C-y3-qxL"/>
                             <constraint firstItem="J7P-Ip-KfG" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.08" id="wA4-r2-dW1"/>
                         </constraints>
                     </view>
@@ -267,6 +267,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Djk-yA-53O" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="9Qr-dm-a8g">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

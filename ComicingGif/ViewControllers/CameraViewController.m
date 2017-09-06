@@ -106,15 +106,6 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     self.animView.layer.cornerRadius = 35;
     self.animView.layer.masksToBounds = true;
     
-    CGFloat height, y;
-    if (self.isVerticalCamera) {
-        height = self.cameraPreview.frame.size.width / 1.78;
-        y = (self.view.frame.size.height - height) / 2;
-    } else {
-        height = self.view.frame.size.height - TOPBADDING - BOTTOMPADDING;
-        y = 20;
-    }
-    self.cameraPreview.frame = CGRectMake(self.cameraPreview.frame.origin.x, y, self.cameraPreview.frame.size.width, height);
     [self.viewModel setupRecorderWith:self.cameraPreview];
 }
 - (void)didReceiveMemoryWarning {
