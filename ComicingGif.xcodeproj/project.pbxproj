@@ -383,6 +383,7 @@
 		3053FC021F5D98CD0010CE7F /* SCWeakSelectorTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3053FBE41F5D98CD0010CE7F /* SCWeakSelectorTarget.m */; };
 		3053FC031F5D98CD0010CE7F /* UIImage+SCSaveToCameraRoll.m in Sources */ = {isa = PBXBuildFile; fileRef = 3053FBE61F5D98CD0010CE7F /* UIImage+SCSaveToCameraRoll.m */; };
 		306699731F61939B00F4E1C3 /* UINavigationController+Transition.m in Sources */ = {isa = PBXBuildFile; fileRef = 306699721F61939B00F4E1C3 /* UINavigationController+Transition.m */; };
+		306699751F61B61100F4E1C3 /* theme_sticker0_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 306699741F61B61100F4E1C3 /* theme_sticker0_3.png */; };
 		308E75B11F6158BD00127FB1 /* theme_GIF0_0.gif in Resources */ = {isa = PBXBuildFile; fileRef = 308E75AB1F6158BD00127FB1 /* theme_GIF0_0.gif */; };
 		308E75B21F6158BD00127FB1 /* theme_GIF0_1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 308E75AC1F6158BD00127FB1 /* theme_GIF0_1.gif */; };
 		308E75B31F6158BD00127FB1 /* theme_GIF0_2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 308E75AD1F6158BD00127FB1 /* theme_GIF0_2.gif */; };
@@ -1207,6 +1208,7 @@
 		3053FBE61F5D98CD0010CE7F /* UIImage+SCSaveToCameraRoll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+SCSaveToCameraRoll.m"; path = "SCRecorder/Library/Sources/UIImage+SCSaveToCameraRoll.m"; sourceTree = "<group>"; };
 		306699711F61939B00F4E1C3 /* UINavigationController+Transition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+Transition.h"; path = "Utils/UINavigationController+Transition.h"; sourceTree = "<group>"; };
 		306699721F61939B00F4E1C3 /* UINavigationController+Transition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+Transition.m"; path = "Utils/UINavigationController+Transition.m"; sourceTree = "<group>"; };
+		306699741F61B61100F4E1C3 /* theme_sticker0_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = theme_sticker0_3.png; path = Resources/staticSticker/theme_sticker0_3.png; sourceTree = "<group>"; };
 		308E75AB1F6158BD00127FB1 /* theme_GIF0_0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_0.gif; path = Resources/animationGIF/theme_GIF0_0.gif; sourceTree = "<group>"; };
 		308E75AC1F6158BD00127FB1 /* theme_GIF0_1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_1.gif; path = Resources/animationGIF/theme_GIF0_1.gif; sourceTree = "<group>"; };
 		308E75AD1F6158BD00127FB1 /* theme_GIF0_2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_2.gif; path = Resources/animationGIF/theme_GIF0_2.gif; sourceTree = "<group>"; };
@@ -3032,6 +3034,7 @@
 				CE12CC051EB87C2100EA0E40 /* theme_sticker0_0.png */,
 				CE12CC061EB87C2100EA0E40 /* theme_sticker0_1.png */,
 				CE12CC071EB87C2100EA0E40 /* theme_sticker0_2.png */,
+				306699741F61B61100F4E1C3 /* theme_sticker0_3.png */,
 				CE12CC081EB87C2100EA0E40 /* theme_sticker1_0.png */,
 				CE12CC091EB87C2100EA0E40 /* theme_sticker1_1.png */,
 				CE12CC0A1EB87C2100EA0E40 /* theme_sticker1_2.png */,
@@ -3616,6 +3619,7 @@
 				CE91CE291EB9D9B800637AD7 /* category6.png in Resources */,
 				0C43F6731E9F452F00AB71F9 /* FindFriendsTableCell.xib in Resources */,
 				308E75B61F6158BD00127FB1 /* theme_GIF0_5.gif in Resources */,
+				306699751F61B61100F4E1C3 /* theme_sticker0_3.png in Resources */,
 				CE12CC1E1EB87C2100EA0E40 /* theme_sticker1_0.png in Resources */,
 				CE12CC221EB87C2100EA0E40 /* theme_sticker2_1.png in Resources */,
 				E2583E231EE9CECD005772E7 /* theme_bubble_1_0.png in Resources */,
