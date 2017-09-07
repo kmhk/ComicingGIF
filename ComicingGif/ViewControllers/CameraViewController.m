@@ -40,7 +40,6 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
 @property (weak, nonatomic) IBOutlet UIView *captureHolder;
 @property (weak, nonatomic) IBOutlet UIView *animView;
 @property (weak, nonatomic) IBOutlet UIImageView *imgSelected;
-@property (weak, nonatomic) IBOutlet UIView *closeView;
 @property (strong, nonatomic) NSDate *tapOnCaptureTime;
 @end
 
@@ -113,10 +112,9 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     // Dispose of any resources that can be recreated.
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
-
 
 #pragma mark - Navigation
 
@@ -423,9 +421,6 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     
     CGRect tempFrame = self.captureHolder.frame;
     tempFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
-    
-    CGRect tempTopBar = self.closeView.frame;
-    tempTopBar.origin.y = 0 - self.topBar.frame.size.height;
     
     [self resetRecord];
     [vc initWithBaseImage:url frame:wSelf.cameraPreview.frame andSubviewArray:nil isTall:!wSelf.isVerticalCamera index:_indexOfSlide];

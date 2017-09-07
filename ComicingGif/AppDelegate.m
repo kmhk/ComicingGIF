@@ -18,38 +18,28 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
-
-        // Override point for customization after application launch.
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kMainStoryboard bundle:nil];
-
     NSArray *arr = [ComicObjectSerialize loadComicSlide];
-    if (arr) {
-
-        CBComicPreviewVC *vcCBComicPreviewVC = [storyboard instantiateViewControllerWithIdentifier:CBComicPreviewVCIdentifier];
-        vcCBComicPreviewVC.comicSlides = [arr mutableCopy];
-        self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:vcCBComicPreviewVC];
-
-    } else {
-        CBComicPreviewVC *vcCBComicPreviewVC = [storyboard instantiateViewControllerWithIdentifier:CBComicPreviewVCIdentifier];
-        vcCBComicPreviewVC.comicSlides = [arr mutableCopy];
-        
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kMainStoryboard bundle:nil];
+    
+    CBComicPreviewVC *vcCBComicPreviewVC = [storyboard instantiateViewControllerWithIdentifier:CBComicPreviewVCIdentifier];
+    vcCBComicPreviewVC.comicSlides = [arr mutableCopy];
+    
+    UINavigationController *navC = [[UINavigationController alloc] initWithRootViewController:vcCBComicPreviewVC];
+    
+    if (arr.count == 0) {
         CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
         vcCameraViewController.isVerticalCamera = NO;
         vcCameraViewController.indexOfSlide = -1;
         
-        NSArray *controllers = [NSArray arrayWithObjects:vcCBComicPreviewVC, vcCameraViewController, nil];
-        UINavigationController *navC = [[UINavigationController alloc] initWithRootViewController:vcCameraViewController];
+        NSArray *controllers = @[vcCBComicPreviewVC, vcCameraViewController];
         [navC setViewControllers:controllers];
-        self.window.rootViewController = navC;
-        
-
     }
-        [self.window makeKeyAndVisible];
-        return YES;
-
+    
+    self.window.rootViewController = navC;
+    
 	return YES;
 }
 

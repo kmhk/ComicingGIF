@@ -1273,7 +1273,7 @@ TitleFontDelegate>
 //            dispatch_async(dispatch_get_main_queue(), ^{
 //                vc.transitionView.hidden = NO;
         [Global global].haveAccessToOpenCameraScreen = true;
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                [self.navigationController popToRootViewControllerAnimated:NO];
 //            });
 //        }];
         
@@ -2079,12 +2079,8 @@ float scale = 1;
         
     } else {
         type = collectionView.tag;
-        index = indexPath.item == 0 ? 9 : indexPath.item + 2;
-        
-        if (((ComicObjectType)type) == ObjectSticker) {
-            index = indexPath.item;
-        }
-        
+        index = indexPath.item;
+
         //		category = nCategory - 1;
         category = indexPath.section;//indexPath.item;
     }
