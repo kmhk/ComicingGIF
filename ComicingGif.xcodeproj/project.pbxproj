@@ -382,6 +382,7 @@
 		3053FC011F5D98CD0010CE7F /* SCVideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3053FBE21F5D98CD0010CE7F /* SCVideoPlayerView.m */; };
 		3053FC021F5D98CD0010CE7F /* SCWeakSelectorTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 3053FBE41F5D98CD0010CE7F /* SCWeakSelectorTarget.m */; };
 		3053FC031F5D98CD0010CE7F /* UIImage+SCSaveToCameraRoll.m in Sources */ = {isa = PBXBuildFile; fileRef = 3053FBE61F5D98CD0010CE7F /* UIImage+SCSaveToCameraRoll.m */; };
+		306699731F61939B00F4E1C3 /* UINavigationController+Transition.m in Sources */ = {isa = PBXBuildFile; fileRef = 306699721F61939B00F4E1C3 /* UINavigationController+Transition.m */; };
 		308E75B11F6158BD00127FB1 /* theme_GIF0_0.gif in Resources */ = {isa = PBXBuildFile; fileRef = 308E75AB1F6158BD00127FB1 /* theme_GIF0_0.gif */; };
 		308E75B21F6158BD00127FB1 /* theme_GIF0_1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 308E75AC1F6158BD00127FB1 /* theme_GIF0_1.gif */; };
 		308E75B31F6158BD00127FB1 /* theme_GIF0_2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 308E75AD1F6158BD00127FB1 /* theme_GIF0_2.gif */; };
@@ -1204,6 +1205,8 @@
 		3053FBE41F5D98CD0010CE7F /* SCWeakSelectorTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCWeakSelectorTarget.m; path = SCRecorder/Library/Sources/SCWeakSelectorTarget.m; sourceTree = "<group>"; };
 		3053FBE51F5D98CD0010CE7F /* UIImage+SCSaveToCameraRoll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+SCSaveToCameraRoll.h"; path = "SCRecorder/Library/Sources/UIImage+SCSaveToCameraRoll.h"; sourceTree = "<group>"; };
 		3053FBE61F5D98CD0010CE7F /* UIImage+SCSaveToCameraRoll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+SCSaveToCameraRoll.m"; path = "SCRecorder/Library/Sources/UIImage+SCSaveToCameraRoll.m"; sourceTree = "<group>"; };
+		306699711F61939B00F4E1C3 /* UINavigationController+Transition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+Transition.h"; path = "Utils/UINavigationController+Transition.h"; sourceTree = "<group>"; };
+		306699721F61939B00F4E1C3 /* UINavigationController+Transition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+Transition.m"; path = "Utils/UINavigationController+Transition.m"; sourceTree = "<group>"; };
 		308E75AB1F6158BD00127FB1 /* theme_GIF0_0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_0.gif; path = Resources/animationGIF/theme_GIF0_0.gif; sourceTree = "<group>"; };
 		308E75AC1F6158BD00127FB1 /* theme_GIF0_1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_1.gif; path = Resources/animationGIF/theme_GIF0_1.gif; sourceTree = "<group>"; };
 		308E75AD1F6158BD00127FB1 /* theme_GIF0_2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_2.gif; path = Resources/animationGIF/theme_GIF0_2.gif; sourceTree = "<group>"; };
@@ -3209,6 +3212,8 @@
 				0C43F3431E9F36D500AB71F9 /* Constants */,
 				F3FB2CA51E931CAE0087BD9C /* ComicObjectSerialize */,
 				F3FB2CA61E931CC60087BD9C /* GIFGenerator */,
+				306699711F61939B00F4E1C3 /* UINavigationController+Transition.h */,
+				306699721F61939B00F4E1C3 /* UINavigationController+Transition.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -3994,6 +3999,7 @@
 				0C43F6A41E9F471600AB71F9 /* MZCroppableView.m in Sources */,
 				0C43F39B1E9F384B00AB71F9 /* UIImage+GIF.m in Sources */,
 				0C43F6DB1E9F48C300AB71F9 /* MyEmojiCategory.m in Sources */,
+				306699731F61939B00F4E1C3 /* UINavigationController+Transition.m in Sources */,
 				0C43F5A51E9F417300AB71F9 /* BAVPlistNode.m in Sources */,
 				0C43F5A31E9F417300AB71F9 /* STTwitterOSRequest.m in Sources */,
 				0C43F5CA1E9F42FD00AB71F9 /* PrivateConversationViewController.m in Sources */,

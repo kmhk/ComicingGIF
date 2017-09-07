@@ -48,7 +48,6 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [Global global].haveAccessToOpenCameraScreen = false;
     self.viewModel = [[CameraViewModel alloc] init];
     self.viewModel.delegate = self;
     

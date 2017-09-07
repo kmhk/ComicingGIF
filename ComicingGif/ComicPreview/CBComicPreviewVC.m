@@ -30,6 +30,7 @@
 #import <Photos/Photos.h>
 #import "CBComicPageCollectionVC.h"
 #import "CBComicImageCell.h"
+#import "UINavigationController+Transition.h"
 
 #define kPreviewViewTag 12001
 
@@ -193,10 +194,6 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         [self prepareView];
     }
     _shouldFetchAndReload = NO;
-    
-    if ([Global global].haveAccessToOpenCameraScreen == true) {
-        [self openVerticalCamera:false];
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -417,14 +414,9 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     if (self.dataArray.count == 4) {
         return;
     }
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
-    vcCameraViewController.indexOfSlide = -1;
-    vcCameraViewController.isVerticalCamera = YES;
-    [self.navigationController pushViewController:vcCameraViewController animated:YES];
-    
-    [self addEmptySlide:NO completionBlock:^(BOOL isCompleted) {}];
+    [self.navigationController presentCameraViewWithMode:YES completion:^{
+        [self addEmptySlide:NO completionBlock:^(BOOL isCompleted) {}];
+    }];
 }
 
 
@@ -497,9 +489,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         return;
     }
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
-    vcCameraViewController.indexOfSlide = -1;
+    [self.navigationController presentCameraViewWithMode:NO completion:nil];
     
 //    if (indexOfSlide == -1 && self.dataArray.count == 0) {
 //        [self addEmptySlide:isTall completionBlock:^(BOOL isCompleted) {
@@ -507,8 +497,6 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 //        }];
 //    }
     
-    vcCameraViewController.isVerticalCamera = NO;
-    [self.navigationController pushViewController:vcCameraViewController animated:false];
 //    if ([Global global].haveAccessToOpenCameraScreen == true && self.dataArray.count == 0) {
 //        [self deleteLastCell];
 //        [self refreshSlideAtIndex:0 isTall:false completionBlock:nil];

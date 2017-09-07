@@ -23,6 +23,7 @@
 #import "CMCExpandableCollectionView.h"
 #import "CMCExpandableCollectionViewFlowLayout.h"
 #import "CBComicTitleFontDropdownViewController.h"
+#import "UINavigationController+Transition.h"
 
 #define TOOLCELLID	@"ToolCollectionViewCell"
 #define CATEGORYCELLID	@"CategoryCollectionViewCell"
@@ -240,7 +241,6 @@ TitleFontDelegate>
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 //    [self animateAppereance];
-    [Global global].haveAccessToOpenCameraScreen = false; // c0mrade: access for listview, to open camera screen
     nCategory = 1;
     
     _ratioDecreasing = 1;
@@ -1272,8 +1272,7 @@ TitleFontDelegate>
 //        [vc refreshSlideAtIndex:_indexSaved-1 isTall:self.isTall completionBlock:^(BOOL isComplete) {
 //            dispatch_async(dispatch_get_main_queue(), ^{
 //                vc.transitionView.hidden = NO;
-        [Global global].haveAccessToOpenCameraScreen = true;
-                [self.navigationController popToRootViewControllerAnimated:NO];
+        [self.navigationController presentCameraViewWithMode:NO completion:nil];
 //            });
 //        }];
         

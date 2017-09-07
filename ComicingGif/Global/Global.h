@@ -40,7 +40,6 @@ typedef enum {
 + (UIImage *)getImageForColorCode:(ComicBookColorCode)comicBookColorCode andDirection:(Direction)direction;
     
     @property ScreenSizeType deviceType;
-    @property BOOL haveAccessToOpenCameraScreen;
     @property (strong, nonatomic) NSMutableArray *slides;
     
     @property (strong, nonatomic) UIImage *placeholder_comic;
