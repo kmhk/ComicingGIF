@@ -11,5 +11,6 @@
 @interface PenIndicatorView : UIView
 
 @property (nonatomic, readwrite) CGFloat size;
+@property (nonatomic, strong) UIColor *color;
 
 @end

@@ -26,11 +26,20 @@
 
 - (void)setSize:(CGFloat)size{
     _sizeConstraint.constant = size;
+    self.layer.cornerRadius = size / 2;
     [self setNeedsLayout];
 }
 
 - (CGFloat)size{
     return _sizeConstraint.constant;
+}
+
+- (void)setColor:(UIColor *)color{
+    self.backgroundColor = color;
+}
+
+- (UIColor *)color{
+    return self.backgroundColor;
 }
 
 @end

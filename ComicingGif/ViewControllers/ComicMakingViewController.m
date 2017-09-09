@@ -118,7 +118,6 @@ ColorWheelDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *bookViewButton;
 @property (weak, nonatomic) IBOutlet UIView *penUndoView;
 @property (weak, nonatomic) IBOutlet UIImageView *penUndoImageView;
-@property (weak, nonatomic) IBOutlet UIStackView *penColorStackView;
 @property (weak, nonatomic) IBOutlet UIImageView *penToolImageView;
 @property (weak, nonatomic) IBOutlet ColorWheelView *colorWheel;
 
@@ -872,14 +871,6 @@ ColorWheelDelegate>
 }
 
 - (void)setupPenColorsContainerView {
-    for (int i = 0; i < _penColorStackView.arrangedSubviews.count; i++) {
-        UITapGestureRecognizer *colorPinTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                                       action:@selector(handleColorPinGestureTap:)];
-        [_penColorStackView.arrangedSubviews[i] addGestureRecognizer:colorPinTapGestureRecognizer];
-    }
-    // Change alpha to 0 to hide color stack view because appearance animation based on alpha value of color stack view.
-    [_penColorStackView setHidden:NO];
-    _penColorStackView.alpha = 0.0;
     _colorWheel.alpha = 0;
     _colorWheel.delegate = self;
 }
@@ -1063,7 +1054,6 @@ ColorWheelDelegate>
     [_penUndoImageView setHidden:!_isDrawing];
     
     [UIView animateWithDuration:0.15 animations:^{
-        _penColorStackView.alpha = _penColorStackView.alpha == 1.0 ? 0.0 : 1.0;
         _colorWheel.alpha = _colorWheel.alpha == 1.0 ? 0.0 : 1.0;
     }];
     
@@ -1170,6 +1160,9 @@ ColorWheelDelegate>
         [self addIconToScrollBarAfterAdditionOfComicObjectViewWithTag:drawingComicObject.tag
                                                     andBaseObjectType:firstPenObject.objType
                                                        andSliderValue:self.scrollBarSlider.value];
+//        [self.view sendSubviewToBack:_colorWheel];
+    }else{
+//        [self.view bringSubviewToFront:_colorWheel];
     }
 }
 
@@ -1329,49 +1322,7 @@ ColorWheelDelegate>
         [backgroundView removeGestureRecognizer:_collectionViewTapGestureRecognizer];
         _collectionViewTapGestureRecognizer = nil;
     }];
-}
-
-- (void)handleColorPinGestureTap:(UITapGestureRecognizer *)gestureRecognizer {
-    if (!_isDrawing) {
-        return;
-    }
-    
-    UIView *currentView = gestureRecognizer.view;
-    CGFloat defaultViewWidth = 15;
-    CGAffineTransform scaleTransformation = CGAffineTransformMakeScale(1, 1);
-    
-    if (CGColorEqualToColor(_drawingColor.CGColor, currentView.backgroundColor.CGColor)
-        && currentView.frame.size.width == defaultViewWidth) {
-        scaleTransformation = CGAffineTransformMakeScale(2, 2);
-        _brush = DRAWING_BIG_BRUSH;
-    } else if (CGColorEqualToColor(_drawingColor.CGColor, currentView.backgroundColor.CGColor)
-               && currentView.frame.size.width > defaultViewWidth) {
-        _brush = DRAWING_DEFAULT_BRUSH;
-    }
-    
-    [UIView animateWithDuration:0.1 animations:^{
-        gestureRecognizer.view.transform = scaleTransformation;
-    }];
-    
-    // Reset transformation for all other unselected color pins. Just like radio button should work.
-    if (!CGColorEqualToColor(_drawingColor.CGColor, currentView.backgroundColor.CGColor)) {
-        _brush = DRAWING_DEFAULT_BRUSH;
-        for (int i = 0; i < _penColorStackView.arrangedSubviews.count; i++) {
-            if (_penColorStackView.arrangedSubviews[i].frame.size.width == defaultViewWidth) {
-                // We don't need to scale down already scaled element. So we just continue in that case.
-                continue;
-            }
-            [UIView animateWithDuration:0.1 animations:^{
-                _penColorStackView.arrangedSubviews[i].transform = CGAffineTransformMakeScale(1, 1);
-            }];
-        }
-    }
-    // Change selected drawing color based on background color of the color pin view
-    _drawingColor = gestureRecognizer.view.backgroundColor;
-    
-    // Change color of the pen icon based on selected color
-    [self changePenToolImageWithColor:_drawingColor];
-}
+} 
 
 - (void)pinchGestureHandler:(UIPinchGestureRecognizer *)gesture {
 	
@@ -2274,8 +2225,17 @@ float scale = 1;
 
 #pragma mark - Color Wheel Delegate
 
-- (void)colorWheelDidChangeColor:(UIColor *)color{
+- (void)colorWheelDidChangeColor:(ColorWheelView *)colorWheel withColor:(UIColor*)color{
     _drawingColor = color;
+    [self changePenToolImageWithColor:_drawingColor];
+}
+
+- (void)colorWheelDidChangePenSize:(ColorWheelView *)colorWheel size:(CGFloat)size{
+    _brush = size;
+}
+
+- (void)hideColorWheel:(ColorWheelView *)colorWheel{
+    [self btnToolPenTapped:nil];
 }
 
 @end

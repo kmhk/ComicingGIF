@@ -9,15 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "PenIndicatorView.h"
 
+@class ColorWheelView;
+
 @protocol ColorWheelDelegate <NSObject>
-//@required
-- (void)colorWheelDidChangeColor:(UIColor*)color;
+@optional
+- (void)colorWheelDidChangeColor:(ColorWheelView *)colorWheel withColor:(UIColor*)color;
+- (void)colorWheelDidChangePenSize:(ColorWheelView *)colorWheel size:(CGFloat)size;
+- (void)hideColorWheel:(ColorWheelView *)colorWheel;
 @end
 
 @interface ColorWheelView : UIView
 
 @property(nonatomic, weak) IBOutlet id <ColorWheelDelegate> delegate;
-@property(nonatomic, weak) IBOutlet PenIndicatorView* penIndicator;
+@property(nonatomic, weak) IBOutlet PenIndicatorView *penIndicator;
 
 
 @end
+
+
