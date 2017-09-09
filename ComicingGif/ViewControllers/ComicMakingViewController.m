@@ -238,6 +238,34 @@ TitleFontDelegate>
 //    
 //}
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+	[super viewWillDisappear:animated];
+	
+	for (UIView *view in backgroundView.subviews) {
+		[view removeFromSuperview];
+	}
+	
+	for (TimerImageViewStruct *t in _timerImageViews) {
+		if (t.imageView) {
+			[t.imageView removeFromSuperview];
+		}
+		
+		if (t.view) {
+			[t.view removeFromSuperview];
+		}
+	}
+	[_timerImageViews removeAllObjects];
+	
+	for (UIView *view in self.drawingImageViewStackArray) {
+		[view removeFromSuperview];
+	}
+	[self.drawingImageViewStackArray removeAllObjects];
+	
+	[viewModel.arrayObjects removeAllObjects];
+	[viewModel.arrayRecents removeAllObjects];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -1223,8 +1251,9 @@ TitleFontDelegate>
         //        [self.navigationController pushViewController:vc animated:YES];
     } else {
         CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
-        //        vc.shouldntRefreshAfterDidLayoutSubviews = _indexSaved == -1? NO:YES;
+//                vc.shouldntRefreshAfterDidLayoutSubviews = _indexSaved == -1? NO:YES;
         vc.indexForSlideToRefresh = _indexSaved;
+		vc.shouldFetchAndReload = YES;
         [vc refreshSlideAtIndex:_indexSaved isTall:self.isTall completionBlock:^(BOOL isComplete) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 vc.transitionView.hidden = NO;

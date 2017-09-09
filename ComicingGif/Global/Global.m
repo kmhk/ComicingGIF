@@ -13,16 +13,13 @@
 
 @synthesize isTakePhoto,deviceType,isBlackBoardOpen,placeholder_comic;
 
+static Global *global = nil;
+
 + (Global *)global
 {
-    static Global *global = nil;
-    
-    static dispatch_once_t onceToken;
-    
-    dispatch_once(&onceToken, ^
-                  {
-                      global = [[self alloc] init];
-                  });
+	if (global == nil) {
+		global = [[self alloc] init];
+	}
     
     return global;
 }
@@ -119,31 +116,91 @@
 }
 
 - (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size {
-	UIImage *newImage;
-	
-	@autoreleasepool {
-    UIGraphicsBeginImageContextWithOptions(size, NO, 1);
-    CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), kCGInterpolationNone);
-    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+#if 1
+	if (!image) {
+		return nil;
 	}
 	
+	UIImage *newImage;
+	
+    UIGraphicsBeginImageContextWithOptions(size, NO, 1);
+	
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
+	CGContextSaveGState(ctx);
+	
+//    CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), kCGInterpolationNone);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+	
+	CGContextRestoreGState(ctx);
+	
+    UIGraphicsEndImageContext();
+	
     return newImage;
+#else
+	
+	// mix video image and screen image
+	CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+	CGContextRef contextRef = CGBitmapContextCreate(NULL /*pxData.mutableBytes*/,
+													image.size.width, image.size.height,
+													8,
+													0 /*targetSize.width * 4*/,
+													rgbColorSpace,
+													kCGImageAlphaNoneSkipFirst);
+	CGContextDrawImage(contextRef, CGRectMake(0, 0, size.width, size.height), image.CGImage);
+	
+	CGImageRef imgRef1 = CGBitmapContextCreateImage(contextRef);
+	UIImage *result = [UIImage imageWithCGImage:imgRef1];
+	
+	CGImageRelease(imgRef1);
+	CGContextRelease(contextRef);
+	CGColorSpaceRelease(rgbColorSpace);
+	
+	return result;
+#endif
 }
 
 - (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size withInterpolationQuality:(CGInterpolationQuality)interpolation {
-	UIImage *newImage;
-	
-	@autoreleasepool {
-    UIGraphicsBeginImageContextWithOptions(size, NO, 1);
-    CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), interpolation);
-    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+#if 1
+	if (!image) {
+		return nil;
 	}
 	
+	UIImage *newImage;
+	
+	UIGraphicsBeginImageContextWithOptions(size, NO, 1);
+	
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
+	CGContextSaveGState(ctx);
+	
+//    CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), /*interpolation*/kCGInterpolationNone);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+	
+	CGContextRestoreGState(ctx);
+	
+	UIGraphicsEndImageContext();
+	
     return newImage;
+#else
+	CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+	CGContextRef contextRef = CGBitmapContextCreate(NULL /*pxData.mutableBytes*/,
+													image.size.width, image.size.height,
+													8,
+													0 /*targetSize.width * 4*/,
+													rgbColorSpace,
+													kCGImageAlphaNoneSkipFirst);
+	CGContextDrawImage(contextRef, CGRectMake(0, 0, size.width, size.height), image.CGImage);
+	
+	CGImageRef imgRef1 = CGBitmapContextCreateImage(contextRef);
+	UIImage *result = [UIImage imageWithCGImage:imgRef1];
+	
+	CGImageRelease(imgRef1);
+	CGContextRelease(contextRef);
+	CGColorSpaceRelease(rgbColorSpace);
+	
+	return result;
+#endif
 }
 
 + (double)positive:(double)number {

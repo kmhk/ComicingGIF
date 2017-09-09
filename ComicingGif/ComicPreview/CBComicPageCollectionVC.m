@@ -181,9 +181,13 @@
     }
     
     [self refreshImageOrientation];
-    [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexOfComicItem inSection:0]]];
-    
+//    [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:indexOfComicItem inSection:0]]];
+	
     completion(YES, comicItem);
+}
+
+- (void) reloadColletionViewAtIndex:(NSInteger) index {
+	[self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]]];
 }
 
 - (void)removeComicItemAtIndex:(NSInteger)index {

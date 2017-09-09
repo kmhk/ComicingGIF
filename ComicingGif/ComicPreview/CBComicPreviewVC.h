@@ -15,6 +15,7 @@
 #import "InstructionView.h"
 #import "ComicPage.h"
 
+@class CBComicPageCollectionVC;
 @interface CBComicPreviewVC : CBBaseTableViewController
 
 
@@ -30,6 +31,7 @@
 @property (nonatomic, assign) BOOL shouldntRefreshAfterDidLayoutSubviews;
 @property (nonatomic, assign) NSInteger indexForSlideToRefresh;
 @property (strong, nonatomic) UIView *transitionView;
+@property (nonatomic, strong) CBComicPageCollectionVC* comicPageCollectionVC;
 
 - (void)prepareView;
 - (void)refreshSlideAtIndex:(NSInteger)indexOfSlide isTall:(BOOL)isTall completionBlock:(void (^)(BOOL isComplete))completionBlock;

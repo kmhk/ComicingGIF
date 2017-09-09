@@ -47,7 +47,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     BOOL createComicCollectionOnce;
 }
 //@property (nonatomic, strong) CBComicPageViewController* previewVC;
-@property (nonatomic, strong) CBComicPageCollectionVC* comicPageCollectionVC;
+
 @property (nonatomic, strong) ZoomInteractiveTransition * transition;
 @property (strong, nonatomic) NSString *fileNameToSave;
 @property (strong, nonatomic) NSMutableArray *dirtySubviews;
@@ -59,7 +59,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 @implementation CBComicPreviewVC
 
 - (void) loadDataFromComicingScreen {
-
+	
 }
 
 - (void)viewDidLoad {
@@ -84,8 +84,9 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         self.fileNameToSave = @"ComicSlide";
     }
     
-    
-    
+	self.indexForSlideToRefresh = -1;
+	_shouldFetchAndReload = NO;
+	
     //    [self.tableView reloadData];
     
     self.navigationController.navigationBar.hidden = YES;
@@ -178,8 +179,8 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         if(finished){
             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 1)];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self prepareView];
-                [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
+//                [self prepareView];
+//                [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
                 completionBlock(YES);
             });
         }
@@ -188,13 +189,21 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+	
     if (_shouldFetchAndReload) {
-        [self prepareView];
+////		[self.comicPageCollectionVC reloadCollectionView:self.indexForSlideToRefresh];
+//        [self prepareView];
+		[self.comicPageCollectionVC reloadColletionViewAtIndex:self.indexForSlideToRefresh];
+		
+		self.indexForSlideToRefresh = -1;
+		_shouldFetchAndReload = NO;
+//		[self refreshSlideAtIndex:self.indexForSlideToRefresh isTall:TRUE completionBlock:^(BOOL isComplete) {
+//		
+//		}];
+		
     }
-    _shouldFetchAndReload = NO;
-    
-    if ([Global global].haveAccessToOpenCameraScreen == true) {
+
+	if ([Global global].haveAccessToOpenCameraScreen == true) {
         [self openVerticalCamera:false];
     }
 }
