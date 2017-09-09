@@ -1218,68 +1218,19 @@ TitleFontDelegate>
     }];
 }
 
-- (void) deleteSlideFromLocalDirectory {
-    // Get Slide Plist
-    NSURL *docDir = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-    NSString *baseSlide = [[docDir path] stringByAppendingString:@"/slides.plist"];
-    
-    // Create Mutable Array With Slides
-    NSMutableArray *content = [[[NSArray alloc] initWithContentsOfFile:baseSlide] mutableCopy];
-    
-    // Find And Remove Data From Slides
-    for (int i = 0; i < content.count; i++) {
-        NSMutableArray *arrObj = [content objectAtIndex:i];
-        for (NSDictionary *item in arrObj) { // iterate inside slide content
-            NSURL *file = [NSURL URLWithString:[item valueForKey:kURLKey]];
-            if ([[file path] isEqualToString:[self.urlOfSlide path]]) {
-                [content removeObjectAtIndex:i];
-                break;
-            }
-        }
-    }
-    [content writeToFile:baseSlide atomically:YES];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"xxxDataFromComicing" object:nil];
-}
-
 - (IBAction)btnToolCloseTapped:(id)sender {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Warrning"
                                                                    message:@" are you sure you want to delete this slide?"
                                                             preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action){
-        // ALSO SHOULD DELETE EVERYTHING
         shrinkingView = nil;
         
-        //        CATransition *transition = [CATransition animation];
-        //        transition.duration = 0.3;
-        //        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        //        transition.type = kCATransitionFade;
-        //        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-        //        [self.navigationController popViewControllerAnimated:NO];
-        
-        
-        // c0mrade: Fix For Line 720
-        //        if (!self.isFromCamera) {
-
-//        [self.navigationController popToRootViewControllerAnimated:true];
-        //        } else {
-        //            [self.navigationController popToRootViewControllerAnimated:true];
-        //        }
-        
-//        [self deleteSlideFromLocalDirectory];
-        
-//        CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
-//        vc.indexForSlideToRefresh = _indexSaved;
-//        [vc refreshSlideAtIndex:_indexSaved-1 isTall:self.isTall completionBlock:^(BOOL isComplete) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                vc.transitionView.hidden = NO;
+        [ComicObjectSerialize deleteObjectAtIndex:self.indexSaved];
         [self.navigationController presentCameraViewWithMode:NO
-                                                indexOfSlide:_indexSaved
+                                                indexOfSlide:self.indexSaved
                                                   completion:nil];
-//            });
-//        }];
-        
-        
     }];
+    
     UIAlertAction *otherAction = [UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
         [alert dismissViewControllerAnimated:true completion:nil];
     }];
