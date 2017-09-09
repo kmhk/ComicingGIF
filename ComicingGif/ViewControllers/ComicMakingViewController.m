@@ -23,6 +23,7 @@
 #import "CMCExpandableCollectionView.h"
 #import "CMCExpandableCollectionViewFlowLayout.h"
 #import "CBComicTitleFontDropdownViewController.h"
+#import "ColorWheelView.h"
 
 #define TOOLCELLID	@"ToolCollectionViewCell"
 #define CATEGORYCELLID	@"CategoryCollectionViewCell"
@@ -45,7 +46,8 @@ ScrollBarSliderDelegate,
 CMCExpandableCollectionViewDelegate,
 UICollectionViewDelegateFlowLayout,
 ComicObjectViewAnimatedStickerStateDelegate,
-TitleFontDelegate>
+TitleFontDelegate,
+ColorWheelDelegate>
 {
     ComicMakingViewModel *viewModel;
     ComicObjectView *backgroundView;
@@ -118,6 +120,7 @@ TitleFontDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *penUndoImageView;
 @property (weak, nonatomic) IBOutlet UIStackView *penColorStackView;
 @property (weak, nonatomic) IBOutlet UIImageView *penToolImageView;
+@property (weak, nonatomic) IBOutlet ColorWheelView *colorWheel;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderContainerViewBottomConstraint;
 @property (weak, nonatomic) IBOutlet UIView *sliderContainerView;
@@ -877,6 +880,8 @@ TitleFontDelegate>
     // Change alpha to 0 to hide color stack view because appearance animation based on alpha value of color stack view.
     [_penColorStackView setHidden:NO];
     _penColorStackView.alpha = 0.0;
+    _colorWheel.alpha = 0;
+    _colorWheel.delegate = self;
 }
 
 - (void)changePenToolImageWithColor:(UIColor *)color {
@@ -1059,6 +1064,7 @@ TitleFontDelegate>
     
     [UIView animateWithDuration:0.15 animations:^{
         _penColorStackView.alpha = _penColorStackView.alpha == 1.0 ? 0.0 : 1.0;
+        _colorWheel.alpha = _colorWheel.alpha == 1.0 ? 0.0 : 1.0;
     }];
     
     // Change pen tool icon color back to white
@@ -2264,6 +2270,12 @@ float scale = 1;
     
     [viewModel addObject:newBubbleObject];
     [viewModel saveObject];
+}
+
+#pragma mark - Color Wheel Delegate
+
+- (void)colorWheelDidChangeColor:(UIColor *)color{
+    _drawingColor = color;
 }
 
 @end

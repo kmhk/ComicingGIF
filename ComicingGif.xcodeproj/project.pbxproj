@@ -352,6 +352,9 @@
 		0C43F74A1E9F4EC100AB71F9 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C43F7481E9F4EC100AB71F9 /* libsqlite3.0.tbd */; };
 		0C43F74B1E9F4EC100AB71F9 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C43F7491E9F4EC100AB71F9 /* libsqlite3.tbd */; };
 		0C43F74E1E9F649400AB71F9 /* Main_MainPage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C43F74D1E9F649400AB71F9 /* Main_MainPage.storyboard */; };
+		2141FAA11F635C1200F2FFC9 /* ColorWheelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2141FAA01F635C1200F2FFC9 /* ColorWheelView.m */; };
+		2141FAA41F635D2100F2FFC9 /* ISColorWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2141FAA31F635D2100F2FFC9 /* ISColorWheel.m */; };
+		2141FAA71F6368E200F2FFC9 /* PenIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2141FAA61F6368E200F2FFC9 /* PenIndicatorView.m */; };
 		3032DAEC1F58BC19001285D1 /* ASAnyCurlController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3032DAEB1F58BC19001285D1 /* ASAnyCurlController.m */; };
 		3053FBE71F5D98CD0010CE7F /* NSURL+SCSaveToCameraRoll.m in Sources */ = {isa = PBXBuildFile; fileRef = 3053FBAA1F5D98CD0010CE7F /* NSURL+SCSaveToCameraRoll.m */; };
 		3053FBE81F5D98CD0010CE7F /* SCAssetExportSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 3053FBAC1F5D98CD0010CE7F /* SCAssetExportSession.m */; };
@@ -1152,6 +1155,12 @@
 		0C43F7481E9F4EC100AB71F9 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		0C43F7491E9F4EC100AB71F9 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		0C43F74D1E9F649400AB71F9 /* Main_MainPage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_MainPage.storyboard; sourceTree = "<group>"; };
+		2141FA9F1F635C1200F2FFC9 /* ColorWheelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorWheelView.h; sourceTree = "<group>"; };
+		2141FAA01F635C1200F2FFC9 /* ColorWheelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorWheelView.m; sourceTree = "<group>"; };
+		2141FAA21F635D2100F2FFC9 /* ISColorWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISColorWheel.h; sourceTree = "<group>"; };
+		2141FAA31F635D2100F2FFC9 /* ISColorWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISColorWheel.m; sourceTree = "<group>"; };
+		2141FAA51F6368E200F2FFC9 /* PenIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PenIndicatorView.h; sourceTree = "<group>"; };
+		2141FAA61F6368E200F2FFC9 /* PenIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PenIndicatorView.m; sourceTree = "<group>"; };
 		3032DAEA1F58BC19001285D1 /* ASAnyCurlController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASAnyCurlController.h; sourceTree = "<group>"; };
 		3032DAEB1F58BC19001285D1 /* ASAnyCurlController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASAnyCurlController.m; sourceTree = "<group>"; };
 		3053FBA91F5D98CD0010CE7F /* NSURL+SCSaveToCameraRoll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+SCSaveToCameraRoll.h"; path = "SCRecorder/Library/Sources/NSURL+SCSaveToCameraRoll.h"; sourceTree = "<group>"; };
@@ -1492,6 +1501,7 @@
 		0C43F30D1E9F36B600AB71F9 /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				2141FA8A1F635B5300F2FFC9 /* ColorWheel */,
 				3053FBA81F5D98AA0010CE7F /* SCRecorder */,
 				3032DAE91F58BC19001285D1 /* ASAnyCurlController */,
 				0C43F7231E9F4D5F00AB71F9 /* SVPullToRefresh */,
@@ -2956,6 +2966,27 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2141FA8A1F635B5300F2FFC9 /* ColorWheel */ = {
+			isa = PBXGroup;
+			children = (
+				2141FAA21F635D2100F2FFC9 /* ISColorWheel.h */,
+				2141FAA31F635D2100F2FFC9 /* ISColorWheel.m */,
+			);
+			path = ColorWheel;
+			sourceTree = "<group>";
+		};
+		2141FA9E1F635C0100F2FFC9 /* ColorWheelView */ = {
+			isa = PBXGroup;
+			children = (
+				2141FA9F1F635C1200F2FFC9 /* ColorWheelView.h */,
+				2141FAA01F635C1200F2FFC9 /* ColorWheelView.m */,
+				2141FAA51F6368E200F2FFC9 /* PenIndicatorView.h */,
+				2141FAA61F6368E200F2FFC9 /* PenIndicatorView.m */,
+			);
+			name = ColorWheelView;
+			path = Views/ColorWheelView;
+			sourceTree = "<group>";
+		};
 		3032DAE91F58BC19001285D1 /* ASAnyCurlController */ = {
 			isa = PBXGroup;
 			children = (
@@ -3277,6 +3308,7 @@
 		F323D45A1E8E459100B41659 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2141FA9E1F635C0100F2FFC9 /* ColorWheelView */,
 				E2C155841F2E2C08005F95AB /* PassthroughBackgroundView */,
 				E28C57741F1F356300E5A930 /* ExpandableCollectionView */,
 				E26C41601EFEF4B000D37798 /* CMCCaptionView */,
@@ -3555,8 +3587,8 @@
 				TargetAttributes = {
 					F36BE3A31E830E22007F6CE7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = PV7F3V653B;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 6SQLX52W6T;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -3867,6 +3899,7 @@
 				0C43F3BE1E9F396100AB71F9 /* CustomTextView.m in Sources */,
 				0C43F45B1E9F3B8600AB71F9 /* ComicItem.m in Sources */,
 				0C43F4431E9F3B4500AB71F9 /* CBComicPreviewSection.m in Sources */,
+				2141FAA11F635C1200F2FFC9 /* ColorWheelView.m in Sources */,
 				0C43F5781E9F415D00AB71F9 /* DateLabel.m in Sources */,
 				0C43F4571E9F3B7400AB71F9 /* CBBaseCollectionViewSection.m in Sources */,
 				0C43F4831E9F3C7200AB71F9 /* RKDropdownAlert.m in Sources */,
@@ -4056,6 +4089,7 @@
 				3053FBF51F5D98CD0010CE7F /* SCPlayer.m in Sources */,
 				0C43F5151E9F3E0E00AB71F9 /* InstagramHelper.m in Sources */,
 				0C43F59D1E9F417300AB71F9 /* STHTTPRequest+STTwitter.m in Sources */,
+				2141FAA41F635D2100F2FFC9 /* ISColorWheel.m in Sources */,
 				0C43F4EF1E9F3DCB00AB71F9 /* RecentAnimation.m in Sources */,
 				0C43F55A1E9F3E5400AB71F9 /* AFHTTPRequestOperation.m in Sources */,
 				0C43F4091E9F3AFD00AB71F9 /* JSONModelError.m in Sources */,
@@ -4066,6 +4100,7 @@
 				CE91B3E81ECCEBE400E767A1 /* ComicSharingViewController.m in Sources */,
 				0C43F5C71E9F42F200AB71F9 /* MainPageGroupViewController.m in Sources */,
 				0C43F5431E9F3E4000AB71F9 /* MeAPIManager.m in Sources */,
+				2141FAA71F6368E200F2FFC9 /* PenIndicatorView.m in Sources */,
 				0C43F44B1E9F3B5E00AB71F9 /* CBPageViewController.m in Sources */,
 				0C43F6481E9F44E000AB71F9 /* searchFriendView.m in Sources */,
 				0C43F7171E9F4CF600AB71F9 /* CMCComic.m in Sources */,
@@ -4206,7 +4241,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Providence Education Inc. (PV7F3V653B)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6SQLX52W6T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -4223,8 +4258,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.TheCustomerFactor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "f359eaed-b7d5-45c3-bba8-6d5d27667b25";
+				PROVISIONING_PROFILE_SPECIFIER = AnyAppBeroDev;
 			};
 			name = Debug;
 		};
@@ -4233,9 +4268,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Providence Education Inc. (PV7F3V653B)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 6SQLX52W6T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -4252,8 +4287,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.TheCustomerFactor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "3bd7f285-623b-4dbc-9daf-d9a3d6221f4d";
+				PROVISIONING_PROFILE_SPECIFIER = AnyAppBeroAdHoc;
 			};
 			name = Release;
 		};
