@@ -448,7 +448,7 @@ NSTimer* timerObject;
         [cmSlide setObject:[urlSlides valueForKeyPath:@"url.slide_image"] forKey:@"slide_image"];
         [cmSlide setObject:[urlSlides valueForKeyPath:@"url.slide_thumb"] forKey:@"slide_thumb"];
         [cmSlide setObject:@"" forKey:@"slide_text"];
-        [cmSlide setObject:@"url" forKey:@"slide_image_type"];
+        [cmSlide setObject:kURLKey forKey:@"slide_image_type"];
         
         NSMutableArray* enhancements = [[NSMutableArray alloc] init];
         //Check is AUD is avalilabe

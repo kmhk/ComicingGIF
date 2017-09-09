@@ -8,6 +8,7 @@
 
 #import "BkImageObject.h"
 
+NSString * const kIsTallKey = @"isTall";
 
 @interface BkImageObject()
 
@@ -69,23 +70,23 @@
 - (NSDictionary *)dictForObject {
 	NSDictionary *dict = [super dictForObject];
 	
-	return @{@"baseInfo": dict,
-			 @"url"		: self.fileURL.absoluteString,
-             @"isTall"  : [NSNumber numberWithBool:self.isTall]
+	return @{kBaseInfoKey: dict,
+			 kURLKey		: self.fileURL.absoluteString,
+             kIsTallKey  : [NSNumber numberWithBool:self.isTall]
 			 };
 }
 
 - (BaseObject *)initFromDict:(NSDictionary *)dict {
 	self = [super init];
 	if (self) {
-		NSDictionary *baseDict = (NSDictionary *)dict[@"baseInfo"];
+		NSDictionary *baseDict = (NSDictionary *)dict[kBaseInfoKey];
 		
-		self.objType = (ComicObjectType)[baseDict[@"type"] integerValue];
-		self.fileURL = [NSURL URLWithString:dict[@"url"]];
-        self.isTall = [dict[@"isTall"] boolValue];
-		self.frame = CGRectFromString(baseDict[@"frame"]);
-		self.angle = [baseDict[@"angle"] floatValue];
-		self.scale = [baseDict[@"scale"] floatValue];
+		self.objType = (ComicObjectType)[baseDict[kTypeKey] integerValue];
+		self.fileURL = [NSURL URLWithString:dict[kURLKey]];
+        self.isTall = [dict[kIsTallKey] boolValue];
+		self.frame = CGRectFromString(baseDict[kFrameKey]);
+		self.angle = [baseDict[kAngleKey] floatValue];
+		self.scale = [baseDict[kScaleKey] floatValue];
 	}
 	
 	return self;

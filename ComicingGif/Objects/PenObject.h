@@ -8,6 +8,16 @@
 
 #import "BaseObject.h"
 
+extern NSString * const kBrushSizeKey;
+extern NSString * const kColorKey;
+extern NSString * const kCoordinatesKey;
+extern NSString * const kRedKey;
+extern NSString * const kGreenKey;
+extern NSString * const kBlueKey;
+extern NSString * const kAlphaKey;
+extern NSString * const kXCoordinateKey;
+extern NSString * const kYCoordinatekey;
+
 @interface PenObject : BaseObject
 
 /**

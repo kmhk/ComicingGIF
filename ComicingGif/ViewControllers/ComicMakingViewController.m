@@ -1230,7 +1230,7 @@ TitleFontDelegate>
     for (int i = 0; i < content.count; i++) {
         NSMutableArray *arrObj = [content objectAtIndex:i];
         for (NSDictionary *item in arrObj) { // iterate inside slide content
-            NSURL *file = [NSURL URLWithString:[item valueForKey:@"url"]];
+            NSURL *file = [NSURL URLWithString:[item valueForKey:kURLKey]];
             if ([[file path] isEqualToString:[self.urlOfSlide path]]) {
                 [content removeObjectAtIndex:i];
                 break;
@@ -1272,7 +1272,9 @@ TitleFontDelegate>
 //        [vc refreshSlideAtIndex:_indexSaved-1 isTall:self.isTall completionBlock:^(BOOL isComplete) {
 //            dispatch_async(dispatch_get_main_queue(), ^{
 //                vc.transitionView.hidden = NO;
-        [self.navigationController presentCameraViewWithMode:NO completion:nil];
+        [self.navigationController presentCameraViewWithMode:NO
+                                                indexOfSlide:_indexSaved
+                                                  completion:nil];
 //            });
 //        }];
         
@@ -1399,10 +1401,10 @@ TitleFontDelegate>
     
     obj.delayTimeInSeconds = delayTime;
     
-    [viewModel addRecentObject:@{@"type":        @(type),
+    [viewModel addRecentObject:@{kTypeKey:        @(type),
                                  @"id":            @(index),
                                  @"category":    @(category),
-                                 @"delayTime":   @(delayTime)}];
+                                 kDelayTimeKey:   @(delayTime)}];
     
     return obj;
 }
@@ -1875,7 +1877,7 @@ float scale = 1;
     // for recent section
     if (nCategory == 0) {
         NSDictionary *dict = [viewModel getRecentObjects:(ComicObjectType)collectionView.tag][indexPath.row];
-        type = [dict[@"type"] integerValue];
+        type = [dict[kTypeKey] integerValue];
         index = [dict[@"id"] integerValue];
         category = [dict[@"category"] integerValue];
         
@@ -2072,7 +2074,7 @@ float scale = 1;
     
     if (nCategory == 0) { // for recent object
         NSDictionary *dict = [viewModel getRecentObjects:(ComicObjectType)collectionView.tag][indexPath.row];
-        type = [dict[@"type"] integerValue];
+        type = [dict[kTypeKey] integerValue];
         index = [dict[@"id"] integerValue];
         category = [dict[@"category"] integerValue];
         
@@ -2148,13 +2150,13 @@ float scale = 1;
     //Handle top layer that is sticker gif
     int i=0;
     for (NSDictionary* subview in arrSubviews) {
-        if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue]==17) {
+        if ([[[subview objectForKey:kBaseInfoKey] objectForKey:kTypeKey]intValue]==17) {
             ComicItemAnimatedSticker *sticker = [ComicItemAnimatedSticker new];
-            sticker.objFrame = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
-            sticker.combineAnimationFileName = [subview objectForKey:@"url"];
+            sticker.objFrame = CGRectFromString([[subview objectForKey:kBaseInfoKey] objectForKey:kFrameKey]);
+            sticker.combineAnimationFileName = [subview objectForKey:kURLKey];
             
             NSBundle *bundle = [NSBundle mainBundle] ;
-            NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
+            NSString *strFileName = [[subview objectForKey:kURLKey] lastPathComponent];
             NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".gif" withString:@""] ofType:@"gif"];
             NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
             

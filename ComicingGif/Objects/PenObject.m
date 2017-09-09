@@ -8,6 +8,16 @@
 
 #import "PenObject.h"
 
+NSString * const kBrushSizeKey      = @"brush-size";
+NSString * const kColorKey          = @"color";
+NSString * const kCoordinatesKey    = @"coordinates";
+NSString * const kRedKey            = @"red";
+NSString * const kGreenKey          = @"green";
+NSString * const kBlueKey           = @"blue";
+NSString * const kAlphaKey          = @"alpha";
+NSString * const kXCoordinateKey    = @"x";
+NSString * const kYCoordinatekey    = @"y";
+
 @implementation PenObject
 
 - (id)initWithDrawingCoordintaes:(NSMutableArray *)coordinates
@@ -33,16 +43,16 @@
         return nil;
     }
     
-    NSDictionary *baseDict = (NSDictionary *)dict[@"baseInfo"];
-    self.objType = (ComicObjectType)[baseDict[@"type"] integerValue];
-    self.frame = CGRectFromString(baseDict[@"frame"]);
-    self.angle = [baseDict[@"angle"] floatValue];
-    self.scale = [baseDict[@"scale"] floatValue];
-    self.delayTimeInSeconds = [baseDict[@"delayTime"] floatValue];
+    NSDictionary *baseDict = (NSDictionary *)dict[kBaseInfoKey];
+    self.objType = (ComicObjectType)[baseDict[kTypeKey] integerValue];
+    self.frame = CGRectFromString(baseDict[kFrameKey]);
+    self.angle = [baseDict[kAngleKey] floatValue];
+    self.scale = [baseDict[kScaleKey] floatValue];
+    self.delayTimeInSeconds = [baseDict[kDelayTimeKey] floatValue];
     
-    _brushSize = [dict[@"brush-size"] floatValue];
-    _color = [self colorFromDictionary:dict[@"color"]];
-    _coordinates = [self coordinatesFromCoordinatesArray:dict[@"coordinates"]];
+    _brushSize = [dict[kBrushSizeKey] floatValue];
+    _color = [self colorFromDictionary:dict[kColorKey]];
+    _coordinates = [self coordinatesFromCoordinatesArray:dict[kCoordinatesKey]];
     
     return self;
 }
@@ -53,10 +63,10 @@
     NSMutableArray<NSDictionary *> *coordinatesStringArray = [self arrayForCoordinates:_coordinates];
 
     return @{
-             @"baseInfo": dict,
-             @"brush-size": @(_brushSize),
-             @"color": colorDictionary,
-             @"coordinates": coordinatesStringArray
+             kBaseInfoKey: dict,
+             kBrushSizeKey: @(_brushSize),
+             kColorKey: colorDictionary,
+             kCoordinatesKey: coordinatesStringArray
              };
 }
 
@@ -70,10 +80,10 @@
     [color getRed:&red green:&green blue:&blue alpha:&alpha];
     
     return @{
-             @"red": @(red),
-             @"green": @(green),
-             @"blue": @(blue),
-             @"alpha": @(alpha)
+             kRedKey: @(red),
+             kGreenKey: @(green),
+             kBlueKey: @(blue),
+             kAlphaKey: @(alpha)
              };
 }
 
@@ -83,10 +93,10 @@
         return [UIColor redColor];
     }
     
-    CGFloat red = [colorDictionary[@"red"] floatValue];
-    CGFloat green = [colorDictionary[@"green"] floatValue];
-    CGFloat blue = [colorDictionary[@"blue"] floatValue];
-    CGFloat alpha = [colorDictionary[@"alpha"] floatValue];
+    CGFloat red = [colorDictionary[kRedKey] floatValue];
+    CGFloat green = [colorDictionary[kGreenKey] floatValue];
+    CGFloat blue = [colorDictionary[kBlueKey] floatValue];
+    CGFloat alpha = [colorDictionary[kAlphaKey] floatValue];
     
     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
 }
@@ -95,7 +105,7 @@
     NSMutableArray<NSDictionary *> *coordinatesArray = [NSMutableArray new];
     for (NSValue *valuePoint in coordinates) {
         CGPoint point = [valuePoint CGPointValue];
-        NSDictionary *pointDictionary = @{@"x": @(point.x), @"y": @(point.y)};
+        NSDictionary *pointDictionary = @{kXCoordinateKey: @(point.x), kYCoordinatekey: @(point.y)};
         [coordinatesArray addObject:pointDictionary];
     }
     return coordinatesArray;
@@ -104,8 +114,8 @@
 - (NSMutableArray<NSValue *> *)coordinatesFromCoordinatesArray:(NSMutableArray<NSDictionary *> *)coordinatesArray {
     NSMutableArray<NSValue *> *coordinatesValueArray = [NSMutableArray new];
     for (NSDictionary *pointDictionary in coordinatesArray) {
-        CGFloat x = [pointDictionary[@"x"] floatValue];
-        CGFloat y = [pointDictionary[@"y"] floatValue];
+        CGFloat x = [pointDictionary[kXCoordinateKey] floatValue];
+        CGFloat y = [pointDictionary[kYCoordinatekey] floatValue];
         NSValue *pointValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
         [coordinatesValueArray addObject:pointValue];
     }

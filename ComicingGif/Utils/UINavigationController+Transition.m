@@ -14,11 +14,12 @@
 @implementation UINavigationController (Transition)
 
 - (void)presentCameraViewWithMode:(BOOL)isVerticalMode
+                     indexOfSlide:(NSInteger)index
                        completion:(void(^)())completion
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     CameraViewController *vcCameraViewController = [storyboard instantiateViewControllerWithIdentifier:CAMERA_VIEW];
-    vcCameraViewController.indexOfSlide = -1;
+    vcCameraViewController.indexOfSlide = index;
     vcCameraViewController.isVerticalCamera = isVerticalMode;
     
     [self curlDownTransitionToViewController:vcCameraViewController

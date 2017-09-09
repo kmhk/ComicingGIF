@@ -48,12 +48,35 @@ static ComicObjectSerialize *gComicObjectSerializeObj;
 		[ComicObjectSerialize setSavedIndex:arrayAllSides.count - 1];
 		
 	} else {
-		[arrayAllSides replaceObjectAtIndex:gComicObjectSerializeObj.indexSaved withObject:arrayDict];
-	}
+        NSArray *oldSlideArray = arrayAllSides[gComicObjectSerializeObj.indexSaved];
+        [self deleteOldSlideArrayData:oldSlideArray basedOnSlideArray:arrayDict];
+        [arrayAllSides replaceObjectAtIndex:gComicObjectSerializeObj.indexSaved withObject:arrayDict];
+}
 	
 	[arrayAllSides writeToFile:filePath atomically:NO];
 }
 
++ (void)deleteOldSlideArrayData:(NSArray *)oldSlideArray basedOnSlideArray:(NSArray *)newSlideArray {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.baseInfo.type == %@", @(ObjectBaseImage)];
+    
+    NSDictionary *baseSlideDictOld = [[oldSlideArray filteredArrayUsingPredicate:predicate] firstObject];
+    NSDictionary *baseSlideDictNew = [[newSlideArray filteredArrayUsingPredicate:predicate] firstObject];
+    
+    if (baseSlideDictOld) {
+        NSString *gifPathOld = baseSlideDictOld[kURLKey];
+        NSString *gifPathNew = baseSlideDictNew[kURLKey];
+        // Delete old slide base GIF file from local storage if new one is different
+        if (gifPathOld && ![gifPathOld isEqualToString:gifPathNew]) {
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            NSError *error;
+            [fileManager removeItemAtURL:[NSURL URLWithString:gifPathOld]
+                                   error:&error];
+            if (error) {
+                NSLog(@"Error deleting slide gif: %@", [error localizedDescription]);
+            }
+        }
+    }
+}
 
 + (NSArray *)loadComicSlide {
     

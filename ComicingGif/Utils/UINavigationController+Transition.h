@@ -12,6 +12,7 @@
 
 // Present camera view controller from root with curl down transition
 - (void)presentCameraViewWithMode:(BOOL)isVerticalMode
+                     indexOfSlide:(NSInteger)index
                        completion:(void(^)())completion;
 
 

@@ -26,6 +26,7 @@
 #import "CameraViewController.h"
 #import "ComicMakingViewController.h"
 #import "ComicObjectSerialize.h"
+#import "BkImageObject.h"
 #import "ComicPreviewModel.h"
 #import <Photos/Photos.h>
 #import "CBComicPageCollectionVC.h"
@@ -167,7 +168,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     _comicSlides = [[ComicObjectSerialize loadComicSlide] mutableCopy];
     
     ComicPage *comicPage = [[ComicPage alloc]init];
-    [comicPage initWithgif:[[[self.comicSlides objectAtIndex:indexOfSlide] objectAtIndex:0]objectForKey:@"url"] andSubViewArray:[self.comicSlides objectAtIndex:indexOfSlide]];
+    [comicPage initWithgif:[[[self.comicSlides objectAtIndex:indexOfSlide] objectAtIndex:0]objectForKey:kURLKey] andSubViewArray:[self.comicSlides objectAtIndex:indexOfSlide]];
     
     CBComicItemModel* model= [[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] comicPage:comicPage];
     
@@ -219,7 +220,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     for (int i=0; i<self.comicSlides.count; i++) {
         ComicPage *comicPage = [[ComicPage alloc]init];
         
-        [comicPage initWithgif:[[[self.comicSlides objectAtIndex:i] objectAtIndex:0]objectForKey:@"url"] andSubViewArray:[self.comicSlides objectAtIndex:i]];
+        [comicPage initWithgif:[[[self.comicSlides objectAtIndex:i] objectAtIndex:0]objectForKey:kURLKey] andSubViewArray:[self.comicSlides objectAtIndex:i]];
         CBComicItemModel* model= [[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] comicPage:comicPage];
         [self.dataArray addObject:model];
         NSLog(@"\n.............ADD FETCHED CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
@@ -414,7 +415,9 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     if (self.dataArray.count == 4) {
         return;
     }
-    [self.navigationController presentCameraViewWithMode:YES completion:^{
+    [self.navigationController presentCameraViewWithMode:YES
+                                            indexOfSlide:-1
+                                              completion:^{
         [self addEmptySlide:NO completionBlock:^(BOOL isCompleted) {}];
     }];
 }
@@ -449,7 +452,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     }
     ComicPage *comicPage = [[ComicPage alloc]init];
     NSMutableArray *subviews = [NSMutableArray array];
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:isTall], @"isTall", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:isTall], kIsTallKey, nil];
     [subviews addObject:dict];
     
     [comicPage initWithgif:@"" andSubViewArray:subviews];
@@ -489,7 +492,9 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         return;
     }
     
-    [self.navigationController presentCameraViewWithMode:NO completion:nil];
+    [self.navigationController presentCameraViewWithMode:NO
+                                            indexOfSlide:-1
+                                              completion:nil];
     
 //    if (indexOfSlide == -1 && self.dataArray.count == 0) {
 //        [self addEmptySlide:isTall completionBlock:^(BOOL isCompleted) {
@@ -589,13 +594,13 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     [arrTemp removeObjectAtIndex:0];
     
     
-    NSString *baseURLString = [[[self.comicSlides objectAtIndex:index] objectAtIndex:0]objectForKey:@"url"];
-    CGRect slideRect = CGRectFromString([[[[self.comicSlides objectAtIndex:index] objectAtIndex:0] valueForKey:@"baseInfo"] valueForKey:@"frame"]);
+    NSString *baseURLString = [[[self.comicSlides objectAtIndex:index] objectAtIndex:0]objectForKey:kURLKey];
+    CGRect slideRect = CGRectFromString([[[[self.comicSlides objectAtIndex:index] objectAtIndex:0] valueForKey:kBaseInfoKey] valueForKey:kFrameKey]);
     
     
     vc.indexSaved = index;
     vc.urlOfSlide = [NSURL URLWithString:baseURLString];
-    [vc initWithBaseImage:[NSURL URLWithString:baseURLString] frame:slideRect andSubviewArray:arrTemp isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:@"isTall"] boolValue] index:index];
+    [vc initWithBaseImage:[NSURL URLWithString:baseURLString] frame:slideRect andSubviewArray:arrTemp isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:kIsTallKey] boolValue] index:index];
     
     self.selectedIndex = (int) index;
     self.transitionView = [_comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]].contentView;

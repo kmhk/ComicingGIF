@@ -9,6 +9,7 @@
 #import "ComicPreviewModel.h"
 #import "ComicObjectSerialize.h"
 #import "BaseObject.h"
+#import "BkImageObject.h"
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <ImageIO/ImageIO.h>
@@ -85,7 +86,7 @@
 		// draw background image
 		NSDictionary *dict = arraySlide[0];
 		CGRect rt = CGRectFromString(arrayFrames[i+1]);
-		NSURL *url = [NSURL URLWithString:dict[@"url"]];
+		NSURL *url = [NSURL URLWithString:dict[kURLKey]];
 		NSString *fileName1 = [NSString stringWithFormat:@"%@",[url lastPathComponent]];
 		NSURL *fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fileName1]];
 		CALayer *bkLayer = [self createGifLayer:parentLayer rect:rt
@@ -98,7 +99,7 @@
 			[self createComicObjectLayer:slide
 							   baseLayer:bkLayer
 								   delay:duration
-								  rtRule:CGRectFromString([dict[@"baseInfo"] objectForKey:@"frame"])
+								  rtRule:CGRectFromString([dict[kBaseInfoKey] objectForKey:kFrameKey])
 								rtActual:CGRectFromString(arrayFrames[i+1])];
 		}
 		
@@ -201,16 +202,16 @@
 
 
 - (CFTimeInterval)createComicObjectLayer:(NSDictionary *)dict baseLayer:(CALayer *)baseLayer delay:(CFTimeInterval)delay rtRule:(CGRect)rtRule rtActual:(CGRect)rtActual {
-	CGRect rt = [self getBound:CGRectFromString([dict[@"baseInfo"] objectForKey:@"frame"]) ruleRT:rtRule actualRT:rtActual];
+	CGRect rt = [self getBound:CGRectFromString([dict[kBaseInfoKey] objectForKey:kFrameKey]) ruleRT:rtRule actualRT:rtActual];
 	
-	if ([[dict[@"baseInfo"] objectForKey:@"type"] integerValue] == ObjectAnimateGIF) {
-		NSURL *url = [NSURL URLWithString:dict[@"url"]];
+	if ([[dict[kBaseInfoKey] objectForKey:kTypeKey] integerValue] == ObjectAnimateGIF) {
+		NSURL *url = [NSURL URLWithString:dict[kURLKey]];
 		NSString *fileName = [NSString stringWithFormat:@"%@",[url lastPathComponent]];
 		NSURL *fileURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:fileName ofType:@""]];
 		[self createGifLayer:baseLayer rect:rt url:fileURL delay:delay flag:NO];
 		
-	} else if ([[dict[@"baseInfo"] objectForKey:@"type"] integerValue] == ObjectSticker) {
-		NSURL *url = [NSURL URLWithString:dict[@"url"]];
+	} else if ([[dict[kBaseInfoKey] objectForKey:kTypeKey] integerValue] == ObjectSticker) {
+		NSURL *url = [NSURL URLWithString:dict[kURLKey]];
 		NSString *fileName = [NSString stringWithFormat:@"%@",[url lastPathComponent]];
 		[self createImageLayer:baseLayer rect:rt name:fileName];
 	}
@@ -394,7 +395,7 @@
 	NSInteger tag = 0;
 	for (int i = 0; i < arraySlides.count; i ++) {
 		NSArray *slide = arraySlides[i];
-		if ([[slide[0] objectForKey:@"isTall"] boolValue] == YES) {
+		if ([[slide[0] objectForKey:kIsTallKey] boolValue] == YES) {
 			tag = tag * 10 + 1;
 		} else {
 			tag = tag * 10 + 2;

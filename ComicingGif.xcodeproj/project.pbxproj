@@ -619,7 +619,7 @@
 		0C43F3A31E9F386E00AB71F9 /* Slides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slides.h; sourceTree = "<group>"; };
 		0C43F3A41E9F386E00AB71F9 /* Slides.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slides.m; sourceTree = "<group>"; };
 		0C43F3A71E9F388F00AB71F9 /* Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Global.h; sourceTree = "<group>"; };
-		0C43F3A81E9F388F00AB71F9 /* Global.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Global.m; sourceTree = "<group>"; };
+		0C43F3A81E9F388F00AB71F9 /* Global.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Global.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F3AA1E9F38DA00AB71F9 /* SubIndexpageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubIndexpageCell.h; sourceTree = "<group>"; };
 		0C43F3AB1E9F38DA00AB71F9 /* SubIndexpageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubIndexpageCell.m; sourceTree = "<group>"; };
 		0C43F3AF1E9F392400AB71F9 /* ComicCellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicCellViewController.h; sourceTree = "<group>"; };
@@ -655,7 +655,7 @@
 		0C43F3E21E9F3AE400AB71F9 /* ComicMaking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicMaking.h; sourceTree = "<group>"; };
 		0C43F3E31E9F3AE400AB71F9 /* ComicMaking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComicMaking.m; sourceTree = "<group>"; };
 		0C43F3E41E9F3AE400AB71F9 /* ComicPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicPage.h; sourceTree = "<group>"; };
-		0C43F3E51E9F3AE400AB71F9 /* ComicPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComicPage.m; sourceTree = "<group>"; };
+		0C43F3E51E9F3AE400AB71F9 /* ComicPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ComicPage.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F3E61E9F3AE400AB71F9 /* ComicSlides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicSlides.h; sourceTree = "<group>"; };
 		0C43F3E71E9F3AE400AB71F9 /* ComicSlides.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComicSlides.m; sourceTree = "<group>"; };
 		0C43F3EE1E9F3AFD00AB71F9 /* JSONModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONModel.h; sourceTree = "<group>"; };
@@ -688,11 +688,11 @@
 		0C43F4191E9F3B4500AB71F9 /* CBComicPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBComicPageViewController.m; sourceTree = "<group>"; };
 		0C43F41A1E9F3B4500AB71F9 /* CBComicPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CBComicPageViewController.xib; sourceTree = "<group>"; };
 		0C43F41B1E9F3B4500AB71F9 /* CBComicPreviewVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBComicPreviewVC.h; sourceTree = "<group>"; };
-		0C43F41C1E9F3B4500AB71F9 /* CBComicPreviewVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBComicPreviewVC.m; sourceTree = "<group>"; };
+		0C43F41C1E9F3B4500AB71F9 /* CBComicPreviewVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CBComicPreviewVC.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F41D1E9F3B4500AB71F9 /* CBComicTitleFontDropdownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBComicTitleFontDropdownViewController.h; sourceTree = "<group>"; };
 		0C43F41E1E9F3B4500AB71F9 /* CBComicTitleFontDropdownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBComicTitleFontDropdownViewController.m; sourceTree = "<group>"; };
 		0C43F4201E9F3B4500AB71F9 /* CBComicImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBComicImageCell.h; sourceTree = "<group>"; };
-		0C43F4211E9F3B4500AB71F9 /* CBComicImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBComicImageCell.m; sourceTree = "<group>"; };
+		0C43F4211E9F3B4500AB71F9 /* CBComicImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CBComicImageCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F4221E9F3B4500AB71F9 /* CBComicImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CBComicImageCell.xib; sourceTree = "<group>"; };
 		0C43F4231E9F3B4500AB71F9 /* CBComicPreviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBComicPreviewCell.h; sourceTree = "<group>"; };
 		0C43F4241E9F3B4500AB71F9 /* CBComicPreviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBComicPreviewCell.m; sourceTree = "<group>"; };
@@ -701,7 +701,7 @@
 		0C43F4271E9F3B4500AB71F9 /* CBPreviewHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBPreviewHeaderCell.m; sourceTree = "<group>"; };
 		0C43F4281E9F3B4500AB71F9 /* CBPreviewHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CBPreviewHeaderCell.xib; sourceTree = "<group>"; };
 		0C43F4291E9F3B4500AB71F9 /* ComicBookColorCBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicBookColorCBViewController.h; sourceTree = "<group>"; };
-		0C43F42A1E9F3B4500AB71F9 /* ComicBookColorCBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComicBookColorCBViewController.m; sourceTree = "<group>"; };
+		0C43F42A1E9F3B4500AB71F9 /* ComicBookColorCBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ComicBookColorCBViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F42B1E9F3B4500AB71F9 /* ComicTagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicTagViewController.h; sourceTree = "<group>"; };
 		0C43F42C1E9F3B4500AB71F9 /* ComicTagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComicTagViewController.m; sourceTree = "<group>"; };
 		0C43F42E1E9F3B4500AB71F9 /* CBComicImageSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBComicImageSection.h; sourceTree = "<group>"; };
@@ -837,7 +837,7 @@
 		0C43F5201E9F3E4000AB71F9 /* BaseAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseAPIManager.h; sourceTree = "<group>"; };
 		0C43F5211E9F3E4000AB71F9 /* BaseAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseAPIManager.m; sourceTree = "<group>"; };
 		0C43F5231E9F3E4000AB71F9 /* ComicMakingAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicMakingAPIManager.h; sourceTree = "<group>"; };
-		0C43F5241E9F3E4000AB71F9 /* ComicMakingAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComicMakingAPIManager.m; sourceTree = "<group>"; };
+		0C43F5241E9F3E4000AB71F9 /* ComicMakingAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ComicMakingAPIManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F5261E9F3E4000AB71F9 /* ComicsAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicsAPIManager.h; sourceTree = "<group>"; };
 		0C43F5271E9F3E4000AB71F9 /* ComicsAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComicsAPIManager.m; sourceTree = "<group>"; };
 		0C43F5291E9F3E4000AB71F9 /* CommentsAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsAPIManager.h; sourceTree = "<group>"; };
@@ -895,7 +895,7 @@
 		0C43F5811E9F417300AB71F9 /* STHTTPRequest+STTwitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "STHTTPRequest+STTwitter.m"; sourceTree = "<group>"; };
 		0C43F5821E9F417300AB71F9 /* STTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTwitter.h; sourceTree = "<group>"; };
 		0C43F5831E9F417300AB71F9 /* STTwitterAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTwitterAPI.h; sourceTree = "<group>"; };
-		0C43F5841E9F417300AB71F9 /* STTwitterAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTwitterAPI.m; sourceTree = "<group>"; };
+		0C43F5841E9F417300AB71F9 /* STTwitterAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = STTwitterAPI.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F5851E9F417300AB71F9 /* STTwitterAppOnly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTwitterAppOnly.h; sourceTree = "<group>"; };
 		0C43F5861E9F417300AB71F9 /* STTwitterAppOnly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTwitterAppOnly.m; sourceTree = "<group>"; };
 		0C43F5871E9F417300AB71F9 /* STTwitterHTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTwitterHTML.h; sourceTree = "<group>"; };
@@ -909,7 +909,7 @@
 		0C43F58F1E9F417300AB71F9 /* STTwitterProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTwitterProtocol.h; sourceTree = "<group>"; };
 		0C43F5901E9F417300AB71F9 /* STTwitterRequestProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTwitterRequestProtocol.h; sourceTree = "<group>"; };
 		0C43F5911E9F417300AB71F9 /* STTwitterStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STTwitterStreamParser.h; sourceTree = "<group>"; };
-		0C43F5921E9F417300AB71F9 /* STTwitterStreamParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STTwitterStreamParser.m; sourceTree = "<group>"; };
+		0C43F5921E9F417300AB71F9 /* STTwitterStreamParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = STTwitterStreamParser.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F5941E9F417300AB71F9 /* BAVPlistNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BAVPlistNode.h; sourceTree = "<group>"; };
 		0C43F5951E9F417300AB71F9 /* BAVPlistNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BAVPlistNode.m; sourceTree = "<group>"; };
 		0C43F5961E9F417300AB71F9 /* JSONSyntaxHighlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONSyntaxHighlight.h; sourceTree = "<group>"; };
@@ -933,9 +933,9 @@
 		0C43F5C21E9F42DF00AB71F9 /* MePageVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MePageVC.h; sourceTree = "<group>"; };
 		0C43F5C31E9F42E500AB71F9 /* MePageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MePageVC.m; sourceTree = "<group>"; };
 		0C43F5C51E9F42F200AB71F9 /* MainPageGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainPageGroupViewController.h; sourceTree = "<group>"; };
-		0C43F5C61E9F42F200AB71F9 /* MainPageGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainPageGroupViewController.m; sourceTree = "<group>"; };
+		0C43F5C61E9F42F200AB71F9 /* MainPageGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MainPageGroupViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F5C81E9F42FD00AB71F9 /* PrivateConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateConversationViewController.h; sourceTree = "<group>"; };
-		0C43F5C91E9F42FD00AB71F9 /* PrivateConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivateConversationViewController.m; sourceTree = "<group>"; };
+		0C43F5C91E9F42FD00AB71F9 /* PrivateConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PrivateConversationViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F5CC1E9F431B00AB71F9 /* ComicShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicShareView.h; sourceTree = "<group>"; };
 		0C43F5CD1E9F431B00AB71F9 /* ComicShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComicShareView.m; sourceTree = "<group>"; };
 		0C43F5CE1E9F431B00AB71F9 /* ComicShareView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ComicShareView.xib; sourceTree = "<group>"; };
@@ -974,7 +974,7 @@
 		0C43F60E1E9F442000AB71F9 /* FriendsListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsListTableViewCell.m; sourceTree = "<group>"; };
 		0C43F60F1E9F442000AB71F9 /* FriendsListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendsListTableViewCell.xib; sourceTree = "<group>"; };
 		0C43F6101E9F442000AB71F9 /* FriendsListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsListView.h; sourceTree = "<group>"; };
-		0C43F6111E9F442000AB71F9 /* FriendsListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsListView.m; sourceTree = "<group>"; };
+		0C43F6111E9F442000AB71F9 /* FriendsListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FriendsListView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F6121E9F442000AB71F9 /* FriendsListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendsListView.xib; sourceTree = "<group>"; };
 		0C43F6191E9F447700AB71F9 /* GroupsMembersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsMembersCell.h; sourceTree = "<group>"; };
 		0C43F61A1E9F447700AB71F9 /* GroupsMembersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsMembersCell.m; sourceTree = "<group>"; };
@@ -1009,9 +1009,9 @@
 		0C43F6521E9F452F00AB71F9 /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
 		0C43F6531E9F452F00AB71F9 /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
 		0C43F6541E9F452F00AB71F9 /* CBDrawingColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBDrawingColor.h; sourceTree = "<group>"; };
-		0C43F6551E9F452F00AB71F9 /* CBDrawingColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBDrawingColor.m; sourceTree = "<group>"; };
+		0C43F6551E9F452F00AB71F9 /* CBDrawingColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CBDrawingColor.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F6561E9F452F00AB71F9 /* CBR2ScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBR2ScreenViewController.h; sourceTree = "<group>"; };
-		0C43F6571E9F452F00AB71F9 /* CBR2ScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBR2ScreenViewController.m; sourceTree = "<group>"; };
+		0C43F6571E9F452F00AB71F9 /* CBR2ScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CBR2ScreenViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F6581E9F452F00AB71F9 /* CBR3SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBR3SignUpViewController.h; sourceTree = "<group>"; };
 		0C43F6591E9F452F00AB71F9 /* CBR3SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBR3SignUpViewController.m; sourceTree = "<group>"; };
 		0C43F65A1E9F452F00AB71F9 /* CBSelfiRegistrationPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBSelfiRegistrationPageViewController.h; sourceTree = "<group>"; };
@@ -1037,7 +1037,7 @@
 		0C43F67E1E9F456500AB71F9 /* FooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FooterView.m; sourceTree = "<group>"; };
 		0C43F67F1E9F456500AB71F9 /* FooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FooterView.xib; sourceTree = "<group>"; };
 		0C43F6851E9F458900AB71F9 /* GlideScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlideScrollViewController.h; sourceTree = "<group>"; };
-		0C43F6861E9F458900AB71F9 /* GlideScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlideScrollViewController.m; sourceTree = "<group>"; };
+		0C43F6861E9F458900AB71F9 /* GlideScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GlideScrollViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F6871E9F458900AB71F9 /* GlideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlideViewController.h; sourceTree = "<group>"; };
 		0C43F6881E9F458900AB71F9 /* GlideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlideViewController.m; sourceTree = "<group>"; };
 		0C43F68D1E9F45B900AB71F9 /* GlideCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlideCell.h; sourceTree = "<group>"; };
@@ -1123,7 +1123,7 @@
 		0C43F7251E9F4D5F00AB71F9 /* UIScrollView+SVInfiniteScrolling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVInfiniteScrolling.h"; sourceTree = "<group>"; };
 		0C43F7261E9F4D5F00AB71F9 /* UIScrollView+SVInfiniteScrolling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVInfiniteScrolling.m"; sourceTree = "<group>"; };
 		0C43F7271E9F4D5F00AB71F9 /* UIScrollView+SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVPullToRefresh.h"; sourceTree = "<group>"; };
-		0C43F7281E9F4D5F00AB71F9 /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; };
+		0C43F7281E9F4D5F00AB71F9 /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C43F72C1E9F4D8300AB71F9 /* PrivateConversationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateConversationCell.h; sourceTree = "<group>"; };
 		0C43F72D1E9F4D8300AB71F9 /* PrivateConversationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivateConversationCell.m; sourceTree = "<group>"; };
 		0C43F72E1E9F4D8300AB71F9 /* PrivateConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PrivateConversationCell.xib; sourceTree = "<group>"; };
@@ -1252,7 +1252,7 @@
 		CE12CC3B1EB87C3C00EA0E40 /* theme_GIF6_0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF6_0.gif; path = Resources/animationGIF/theme_GIF6_0.gif; sourceTree = "<group>"; };
 		CE1D4E0A1EC2F72F009D8321 /* layoutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = layoutView.xib; path = LayoutViews/layoutView.xib; sourceTree = "<group>"; };
 		CE1D4E0D1EC3120C009D8321 /* ComicPreviewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComicPreviewModel.h; path = ViewModels/ComicPreviewModel.h; sourceTree = "<group>"; };
-		CE1D4E0E1EC3120C009D8321 /* ComicPreviewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComicPreviewModel.m; path = ViewModels/ComicPreviewModel.m; sourceTree = "<group>"; };
+		CE1D4E0E1EC3120C009D8321 /* ComicPreviewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ComicPreviewModel.m; path = ViewModels/ComicPreviewModel.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		CE1D4E131EC335DB009D8321 /* blackLayerImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blackLayerImage.png; path = Resources/LayerImages/blackLayerImage.png; sourceTree = "<group>"; };
 		CE1D4E171EC40FCF009D8321 /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = video.mp4; path = Resources/LayerImages/video.mp4; sourceTree = "<group>"; };
 		CE2F59411EC57D6100D7CB68 /* bkLayerImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bkLayerImage.png; path = Resources/LayerImages/bkLayerImage.png; sourceTree = "<group>"; };
@@ -1312,21 +1312,21 @@
 		F323D4521E8BCF7E00B41659 /* RoundCapProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoundCapProgressView.m; path = CustomizedUI/RoundCapProgressView.m; sourceTree = "<group>"; };
 		F323D4581E8E448800B41659 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ComicMaking.storyboard; sourceTree = "<group>"; };
 		F323D4731E8E6CBD00B41659 /* ComicMakingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComicMakingViewController.h; path = ViewControllers/ComicMakingViewController.h; sourceTree = "<group>"; };
-		F323D4741E8E6CBD00B41659 /* ComicMakingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComicMakingViewController.m; path = ViewControllers/ComicMakingViewController.m; sourceTree = "<group>"; };
+		F323D4741E8E6CBD00B41659 /* ComicMakingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ComicMakingViewController.m; path = ViewControllers/ComicMakingViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F323D47D1E8E752200B41659 /* BaseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseObject.h; path = Objects/BaseObject.h; sourceTree = "<group>"; };
-		F323D47E1E8E752200B41659 /* BaseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseObject.m; path = Objects/BaseObject.m; sourceTree = "<group>"; };
+		F323D47E1E8E752200B41659 /* BaseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = BaseObject.m; path = Objects/BaseObject.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F323D4831E8E767500B41659 /* StickerObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StickerObject.h; path = Objects/StickerObject.h; sourceTree = "<group>"; };
-		F323D4841E8E767500B41659 /* StickerObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StickerObject.m; path = Objects/StickerObject.m; sourceTree = "<group>"; };
+		F323D4841E8E767500B41659 /* StickerObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = StickerObject.m; path = Objects/StickerObject.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F323D4861E8E769E00B41659 /* BubbleObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BubbleObject.h; path = Objects/BubbleObject.h; sourceTree = "<group>"; };
-		F323D4871E8E769E00B41659 /* BubbleObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BubbleObject.m; path = Objects/BubbleObject.m; sourceTree = "<group>"; };
+		F323D4871E8E769E00B41659 /* BubbleObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = BubbleObject.m; path = Objects/BubbleObject.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F323D4891E8E76C100B41659 /* CaptionObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CaptionObject.h; path = Objects/CaptionObject.h; sourceTree = "<group>"; };
-		F323D48A1E8E76C100B41659 /* CaptionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CaptionObject.m; path = Objects/CaptionObject.m; sourceTree = "<group>"; };
+		F323D48A1E8E76C100B41659 /* CaptionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = CaptionObject.m; path = Objects/CaptionObject.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F323D48C1E8E770400B41659 /* PenObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PenObject.h; path = Objects/PenObject.h; sourceTree = "<group>"; };
-		F323D48D1E8E770400B41659 /* PenObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PenObject.m; path = Objects/PenObject.m; sourceTree = "<group>"; };
+		F323D48D1E8E770400B41659 /* PenObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = PenObject.m; path = Objects/PenObject.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F323D48F1E8E77A100B41659 /* ComicMakingViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComicMakingViewModel.h; path = ViewModels/ComicMakingViewModel.h; sourceTree = "<group>"; };
-		F323D4901E8E77A100B41659 /* ComicMakingViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComicMakingViewModel.m; path = ViewModels/ComicMakingViewModel.m; sourceTree = "<group>"; };
+		F323D4901E8E77A100B41659 /* ComicMakingViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ComicMakingViewModel.m; path = ViewModels/ComicMakingViewModel.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F323D4971E8F035200B41659 /* BkImageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BkImageObject.h; path = Objects/BkImageObject.h; sourceTree = "<group>"; };
-		F323D4981E8F035200B41659 /* BkImageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BkImageObject.m; path = Objects/BkImageObject.m; sourceTree = "<group>"; };
+		F323D4981E8F035200B41659 /* BkImageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = BkImageObject.m; path = Objects/BkImageObject.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F323D49A1E8F18BF00B41659 /* ObjectHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ObjectHeader.h; path = Objects/ObjectHeader.h; sourceTree = "<group>"; };
 		F323D49B1E8F1BBE00B41659 /* ComicObjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComicObjectView.h; path = CustomizedUI/ComicObjectView.h; sourceTree = "<group>"; };
 		F323D49C1E8F1BBE00B41659 /* ComicObjectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComicObjectView.m; path = CustomizedUI/ComicObjectView.m; sourceTree = "<group>"; };
@@ -1343,7 +1343,7 @@
 		F36BE3C41E83367B007F6CE7 /* CameraViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraViewModel.h; path = ViewModels/CameraViewModel.h; sourceTree = "<group>"; };
 		F36BE3C51E83367B007F6CE7 /* CameraViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CameraViewModel.m; path = ViewModels/CameraViewModel.m; sourceTree = "<group>"; };
 		F3FB2CA71E931CEA0087BD9C /* ComicObjectSerialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComicObjectSerialize.h; path = Utils/ComicObjectSerialize.h; sourceTree = "<group>"; };
-		F3FB2CA81E931CEA0087BD9C /* ComicObjectSerialize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComicObjectSerialize.m; path = Utils/ComicObjectSerialize.m; sourceTree = "<group>"; };
+		F3FB2CA81E931CEA0087BD9C /* ComicObjectSerialize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ComicObjectSerialize.m; path = Utils/ComicObjectSerialize.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FCEAB9E6CD9B129793D59342 /* libPods-ComicingGif.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ComicingGif.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
