@@ -389,7 +389,6 @@
 		308E75B31F6158BD00127FB1 /* theme_GIF0_2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 308E75AD1F6158BD00127FB1 /* theme_GIF0_2.gif */; };
 		308E75B41F6158BD00127FB1 /* theme_GIF0_3.gif in Resources */ = {isa = PBXBuildFile; fileRef = 308E75AE1F6158BD00127FB1 /* theme_GIF0_3.gif */; };
 		308E75B51F6158BD00127FB1 /* theme_GIF0_4.gif in Resources */ = {isa = PBXBuildFile; fileRef = 308E75AF1F6158BD00127FB1 /* theme_GIF0_4.gif */; };
-		308E75B61F6158BD00127FB1 /* theme_GIF0_5.gif in Resources */ = {isa = PBXBuildFile; fileRef = 308E75B01F6158BD00127FB1 /* theme_GIF0_5.gif */; };
 		6DE9A6FC1EE011590017C979 /* ScrollBarSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE9A6FB1EE011590017C979 /* ScrollBarSlider.m */; };
 		6DE9A7051EE062750017C979 /* TimerImageViewStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE9A7041EE062750017C979 /* TimerImageViewStruct.m */; };
 		CE12CC1B1EB87C2100EA0E40 /* theme_sticker0_0.png in Resources */ = {isa = PBXBuildFile; fileRef = CE12CC051EB87C2100EA0E40 /* theme_sticker0_0.png */; };
@@ -1214,7 +1213,6 @@
 		308E75AD1F6158BD00127FB1 /* theme_GIF0_2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_2.gif; path = Resources/animationGIF/theme_GIF0_2.gif; sourceTree = "<group>"; };
 		308E75AE1F6158BD00127FB1 /* theme_GIF0_3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_3.gif; path = Resources/animationGIF/theme_GIF0_3.gif; sourceTree = "<group>"; };
 		308E75AF1F6158BD00127FB1 /* theme_GIF0_4.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_4.gif; path = Resources/animationGIF/theme_GIF0_4.gif; sourceTree = "<group>"; };
-		308E75B01F6158BD00127FB1 /* theme_GIF0_5.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_5.gif; path = Resources/animationGIF/theme_GIF0_5.gif; sourceTree = "<group>"; };
 		6DA21AED1EF7D9B50086C140 /* ComicingGifPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicingGifPrefixHeader.pch; sourceTree = "<group>"; };
 		6DE9A6FA1EE011590017C979 /* ScrollBarSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollBarSlider.h; sourceTree = "<group>"; };
 		6DE9A6FB1EE011590017C979 /* ScrollBarSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollBarSlider.m; sourceTree = "<group>"; };
@@ -3311,7 +3309,6 @@
 				308E75AD1F6158BD00127FB1 /* theme_GIF0_2.gif */,
 				308E75AE1F6158BD00127FB1 /* theme_GIF0_3.gif */,
 				308E75AF1F6158BD00127FB1 /* theme_GIF0_4.gif */,
-				308E75B01F6158BD00127FB1 /* theme_GIF0_5.gif */,
 				CE12CC341EB87C3C00EA0E40 /* theme_GIF1_0.gif */,
 				CE12CC351EB87C3C00EA0E40 /* theme_GIF1_1.gif */,
 				CE12CC361EB87C3C00EA0E40 /* theme_GIF2_0.gif */,
@@ -3618,7 +3615,6 @@
 				CE12CC441EB87C3C00EA0E40 /* theme_GIF4_0.gif in Resources */,
 				CE91CE291EB9D9B800637AD7 /* category6.png in Resources */,
 				0C43F6731E9F452F00AB71F9 /* FindFriendsTableCell.xib in Resources */,
-				308E75B61F6158BD00127FB1 /* theme_GIF0_5.gif in Resources */,
 				306699751F61B61100F4E1C3 /* theme_sticker0_3.png in Resources */,
 				CE12CC1E1EB87C2100EA0E40 /* theme_sticker1_0.png in Resources */,
 				CE12CC221EB87C2100EA0E40 /* theme_sticker2_1.png in Resources */,

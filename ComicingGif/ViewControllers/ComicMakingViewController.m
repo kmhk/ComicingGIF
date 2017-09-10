@@ -1681,12 +1681,9 @@ float scale = 1;
         return [viewModel getRecentObjects:(ComicObjectType)collectionView.tag].count;
     }
     
-    // for sticker tool view
-    if (collectionView.tag == ObjectSticker) {
-        return [COUNT_STICKERS[nCategory - 1] integerValue];
-        
-    } else if (collectionView.tag == ObjectAnimateGIF) {
-        return [COUNT_GIFS[nCategory - 1] integerValue];
+     if (collectionView.tag == ObjectAnimateGIF) {
+         NSInteger count = [COUNT_GIFS[nCategory - 1] integerValue] + [COUNT_STICKERS[nCategory - 1] integerValue];
+        return count;
     }
     
     return 0;
@@ -2042,8 +2039,13 @@ float scale = 1;
         type = collectionView.tag;
         index = indexPath.item;
 
-        //		category = nCategory - 1;
-        category = indexPath.section;//indexPath.item;
+        category = indexPath.section;
+        
+        const NSInteger animatedStickersCount = [COUNT_GIFS[nCategory - 1] integerValue];
+        if (index >= animatedStickersCount) {
+            index = index - animatedStickersCount;
+            type = ObjectSticker;
+        }
     }
     
     BaseObject *obj = [self createComicObject:(ComicObjectType)type index:index category:category delayTimeInSeconds:self.scrollBarSlider.value];
