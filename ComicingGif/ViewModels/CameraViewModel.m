@@ -39,11 +39,21 @@
     
     self.recorder.keepMirroringOnWrite = YES;
 	self.recorder.delegate = weakSelf;
-	self.recorder.videoConfiguration.size = view.frame.size;
-    self.recorder.videoConfiguration.scalingMode = AVVideoScalingModeResize;
+	self.recorder.videoConfiguration.scalingMode = AVVideoScalingModeResize;
     self.recorder.previewView = view;
-	exportSize = view.frame.size;
+	exportSize = [self sizeFromViewSize:view.frame.size];
+    self.recorder.videoConfiguration.size = exportSize;
+}
+
+- (CGSize)sizeFromViewSize:(CGSize)viewSize {
     
+    CGFloat width = viewSize.width;
+    CGFloat height = viewSize.height;
+    
+    width = ceil(width / 16) * 16;
+    height = ceil(height / 16) * 16;
+    
+    return CGSizeMake(width, height);
 }
 
 - (void)releaseCamera {
@@ -239,7 +249,7 @@
 	
 	exportSession.audioConfiguration.preset = SCPresetHighestQuality;
 	exportSession.outputUrl = self.recorder.session.outputUrl;
-	exportSession.outputFileType = AVFileTypeMPEG4;
+    exportSession.outputFileType = AVFileTypeQuickTimeMovie;
 	exportSession.delegate = self;
 	exportSession.contextType = SCContextTypeAuto;
 	

@@ -82,6 +82,8 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     
     [self setCaptureImageWithDefaultPosition];
     [self showProgress:YES progress:0];
+
+    [self.viewModel setupRecorderWith:self.cameraPreview];
 }
 
 - (void) setCaptureImageWithDefaultPosition {
@@ -103,9 +105,8 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     
     self.animView.layer.cornerRadius = 35;
     self.animView.layer.masksToBounds = true;
-    
-    [self.viewModel setupRecorderWith:self.cameraPreview];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -213,7 +214,7 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
 
 - (void)startRecord {
     [self setRecordingProgress:YES];
-    
+    [self.viewModel setupRecorderWith:self.cameraPreview];
     [self.viewModel startRecord];
 }
 
@@ -246,6 +247,7 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     
     self.tapOnCaptureTime = [NSDate new];
     
+    [self.viewModel setupRecorderWith:self.cameraPreview];
     [self.viewModel capturePhotoWithCGRect:self.cameraPreview.bounds completionHandler:^(NSError *error) {
         if (error) {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
