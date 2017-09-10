@@ -276,6 +276,11 @@ TitleFontDelegate>
 	[self.view addGestureRecognizer:pinchGesture];
 }
 
+- (void)dealloc
+{
+    [self pause];
+}
+
 -(void)getSelectedFontName:(NSString *)fontName andTitle:(NSString *)title {
     NSLog(@"%@, %@",fontName,title);
 }
@@ -340,6 +345,11 @@ TitleFontDelegate>
         // disable scrollbar in drawing mode. To keep track of the drawing PenObject time delay property
         return;
     }
+    
+    if (scrollBarTimer) {
+        return;
+    }
+    
     scrollBarTimer = [NSTimer scheduledTimerWithTimeInterval:discreteValueOfSeconds target:self selector:@selector(scrollBarTimer:) userInfo:nil repeats:YES];
 }
 
@@ -360,9 +370,8 @@ TitleFontDelegate>
     //    backgroundView.currentTimerValue = self.scrollBarSlider.value;
     
     discreteCount++;
-    if (self.scrollBarSlider.value >= maxSeconds) {
+    if (fabs(self.scrollBarSlider.value - maxSeconds) < 0.0001f ) {
         [self pause];
-        //        self.playPauseButton.selected = !self.playPauseButton.selected;
     }
 }
 
