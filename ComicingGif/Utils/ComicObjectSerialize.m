@@ -13,6 +13,15 @@ static ComicObjectSerialize *gComicObjectSerializeObj;
 
 @implementation ComicObjectSerialize
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.indexDeleted = NSNotFound;
+    }
+    return self;
+}
+
 + (void)setSavedIndex:(NSInteger)index {
 	if (gComicObjectSerializeObj == nil) {
 		gComicObjectSerializeObj = [[ComicObjectSerialize alloc] init];
