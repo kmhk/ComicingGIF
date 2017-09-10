@@ -816,12 +816,12 @@ TitleFontDelegate>
         
         //                [self.scrollBarSlider setThumbImage:[self getSliderPlayOrPauseButtonWithImageName:@"SliderImage"] forState:UIControlStateSelected];
         
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self.scrollBarSlider action:@selector(sliderTapGesture:)];
-        [self.scrollBarSlider addGestureRecognizer:tapGesture];
+        [self.scrollBarSlider enableTapOnSlider:YES];
     } else {
         //        self.sliderContainerViewBottomConstraint.constant = -self.sliderContainerView.frame.size.height;
         //        self.sliderBlackViewBottomConstraint.constant = -self.sliderBlackView.frame.size.height;
         self.sliderContainerView.hidden = self.sliderBlackView.hidden = YES;
+        [self.scrollBarSlider enableTapOnSlider:NO];
     }
 }
 

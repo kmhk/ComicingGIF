@@ -22,5 +22,6 @@
 - (UIImage *)getSliderBackView;
 - (CGRect)getCurrentRectForScollBarIconWithSliderValue:(CGFloat)value;
 - (CGFloat)getValueOfSliderFromIconRect:(CGRect)iconFrame;
+- (void)enableTapOnSlider:(BOOL)isEnabled;
 
 @end
