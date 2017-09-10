@@ -16,6 +16,7 @@
 - (void)colorWheelDidChangeColor:(ColorWheelView *)colorWheel withColor:(UIColor*)color;
 - (void)colorWheelDidChangePenSize:(ColorWheelView *)colorWheel size:(CGFloat)size;
 - (void)hideColorWheel:(ColorWheelView *)colorWheel;
+- (void)undoLastStepColorWheel:(ColorWheelView *)colorWheel;
 @end
 
 @interface ColorWheelView : UIView

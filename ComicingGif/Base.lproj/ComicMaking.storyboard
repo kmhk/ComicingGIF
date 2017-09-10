@@ -342,19 +342,17 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QDP-ko-zba" customClass="ColorWheelView">
-                                <rect key="frame" x="147" y="505" width="80" height="80"/>
+                                <rect key="frame" x="149.5" y="510" width="75" height="75"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="QDP-ko-zba" secondAttribute="height" multiplier="1:1" id="VB8-Fs-fJ8"/>
-                                    <constraint firstAttribute="width" constant="80" id="dK8-xM-vsf"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="penIndicator" destination="tlC-hq-u9z" id="kK5-v7-KYL"/>
-                                    <outlet property="widthConstraint" destination="dK8-xM-vsf" id="WFk-k9-9K5"/>
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tlC-hq-u9z" customClass="PenIndicatorView">
-                                <rect key="frame" x="227" y="495" width="20" height="20"/>
+                                <rect key="frame" x="224.5" y="500" width="20" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="47b-gd-Z6R"/>
@@ -399,6 +397,7 @@
                             <constraint firstItem="LVZ-gX-itn" firstAttribute="height" secondItem="E1K-aC-wim" secondAttribute="height" multiplier="0.014" id="LgQ-vP-1tm"/>
                             <constraint firstAttribute="trailing" secondItem="8Uz-xx-gip" secondAttribute="trailing" id="Nzy-Tr-HeC"/>
                             <constraint firstItem="REU-We-EzD" firstAttribute="height" secondItem="E1K-aC-wim" secondAttribute="height" multiplier="0.012" id="OjX-gt-u0i"/>
+                            <constraint firstItem="QDP-ko-zba" firstAttribute="width" secondItem="E1K-aC-wim" secondAttribute="width" multiplier="0.2" id="Ov4-J9-hEB"/>
                             <constraint firstItem="HNj-VK-M8O" firstAttribute="centerY" secondItem="eEi-dp-dcP" secondAttribute="centerY" id="R8F-vV-IVH"/>
                             <constraint firstItem="Eeq-KU-otG" firstAttribute="width" secondItem="E1K-aC-wim" secondAttribute="width" multiplier="0.1" id="RRY-S2-IpV"/>
                             <constraint firstItem="alB-Zp-twt" firstAttribute="width" secondItem="E1K-aC-wim" secondAttribute="width" multiplier="0.1" id="RSb-QP-IW9"/>

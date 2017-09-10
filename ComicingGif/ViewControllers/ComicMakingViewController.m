@@ -547,6 +547,13 @@ ColorWheelDelegate>
     // Dispose of any resources that can be recreated.
 }
 
+- (void)bringPaletteToFront{
+    if (_isDrawing){
+        [self.view bringSubviewToFront:_colorWheel];
+        [self.view bringSubviewToFront:_colorWheel.penIndicator];
+    }
+}
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (_isKeyboardVisible) {
         [self.view endEditing:YES];
@@ -635,6 +642,8 @@ ColorWheelDelegate>
     // Add selected color and brush size to appropriate arrays
     [_drawingColorArray addObject:_drawingColor];
     [_drawingBrushSizeArray addObject:@(_brush)];
+    
+    [self bringPaletteToFront];
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -714,6 +723,8 @@ ColorWheelDelegate>
     _lastPoint = currentPoint;
     [_drawingImageViewStackArray removeLastObject];
     [_drawingImageViewStackArray addObject:currentDrawingImageView];
+    
+    [self bringPaletteToFront];
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -1057,11 +1068,16 @@ ColorWheelDelegate>
         _colorWheel.alpha = _colorWheel.alpha == 1.0 ? 0.0 : 1.0;
     }];
     
+    _colorWheel.penIndicator.size = _brush;
+    _colorWheel.penIndicator.color = _drawingColor;
+    
     // Change pen tool icon color back to white
     [self changePenToolImageWithColor:[UIColor whiteColor]];
     
     // If drawing mode is no longer active – save all drawing from all ImageViews from stack onto single image layer
     if (!_isDrawing) {
+        _penView.hidden = NO;
+        
         if (!_drawingImageViewStackArray || _drawingImageViewStackArray.count == 0) {
             return;
         }
@@ -1160,9 +1176,8 @@ ColorWheelDelegate>
         [self addIconToScrollBarAfterAdditionOfComicObjectViewWithTag:drawingComicObject.tag
                                                     andBaseObjectType:firstPenObject.objType
                                                        andSliderValue:self.scrollBarSlider.value];
-//        [self.view sendSubviewToBack:_colorWheel];
     }else{
-//        [self.view bringSubviewToFront:_colorWheel];
+        _penView.hidden = YES;
     }
 }
 
@@ -2227,7 +2242,6 @@ float scale = 1;
 
 - (void)colorWheelDidChangeColor:(ColorWheelView *)colorWheel withColor:(UIColor*)color{
     _drawingColor = color;
-    [self changePenToolImageWithColor:_drawingColor];
 }
 
 - (void)colorWheelDidChangePenSize:(ColorWheelView *)colorWheel size:(CGFloat)size{
@@ -2236,6 +2250,10 @@ float scale = 1;
 
 - (void)hideColorWheel:(ColorWheelView *)colorWheel{
     [self btnToolPenTapped:nil];
+}
+
+- (void)undoLastStepColorWheel:(ColorWheelView *)colorWheel{
+    [self buttonPenUndoTapped:nil];
 }
 
 @end
