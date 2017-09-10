@@ -20,17 +20,26 @@
 	float scaleFactor = rectAr > imgAr ? (size.width / image.size.width) : (size.height / image.size.height);
 	CGSize scaledSize = CGSizeMake(image.size.width*scaleFactor, image.size.height*scaleFactor);
     float xpos = (size.width-scaledSize.width)/2;
+	
+	UIImage *scaledImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(size); 
     [image drawInRect:CGRectMake(xpos, 0, scaledSize.width, scaledSize.height )];
-    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext(); 
-    UIGraphicsEndImageContext(); 
-    return scaledImage; 
+    scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+	}
+	
+    return scaledImage;
 }
 
 + (UIImage *)resizeImage:(UIImage*)image newSize:(CGSize)newSize {
     CGRect newRect = CGRectIntegral(CGRectMake(0, 0, newSize.width, newSize.height));
     CGImageRef imageRef = image.CGImage;
-    
+	
+	UIImage *newImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(newSize, NO, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
     
@@ -44,12 +53,13 @@
     
     // Get the resized image from the context and a UIImage
     CGImageRef newImageRef = CGBitmapContextCreateImage(context);
-    UIImage *newImage = [UIImage imageWithCGImage:newImageRef];
+    newImage = [UIImage imageWithCGImage:newImageRef];
     
     CGImageRelease(newImageRef);
 //    CGContextRelease(context);
     UIGraphicsEndImageContext();
-    
+	}
+	
     return newImage;
 }
 
@@ -63,13 +73,18 @@
     
     float ypos = (size.height-scaledSize.height)/2;
     float xpos = (size.width-scaledSize.width)/2;
-    
+	
+	UIImage *scaledImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(size);
     [image drawInRect:CGRectMake(xpos,ypos, scaledSize.width, scaledSize.height )];
     
-    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     
     UIGraphicsEndImageContext();
+	}
+	
     return scaledImage;
 }
 
@@ -98,11 +113,16 @@
     
     // Resize the image
     CGSize newSize = CGSizeMake(newWidth, newHeight);
+	
+	UIImage *newImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(newSize);
     [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     // Set maximun compression in order to decrease file size and enable faster uploads & downloads
 //    NSData *imageData = UIImageJPEGRepresentation(newImage, 0.0f);
 //    UIImage *processedImage = [UIImage imageWithData:imageData];

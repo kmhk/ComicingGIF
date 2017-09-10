@@ -141,6 +141,7 @@
 
     NSMutableArray *scaledImages = [NSMutableArray array];
 
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
 
     for (UIImage *image in self.images) {
@@ -151,6 +152,7 @@
     }
 
     UIGraphicsEndImageContext();
+	}
 
     return [UIImage animatedImageWithImages:scaledImages duration:self.duration];
 }

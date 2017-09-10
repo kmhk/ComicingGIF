@@ -402,13 +402,19 @@ const static CGFloat kTitleFontSize = 21.0;
 }
 
 - (UIImage *)jt_imageWithColor:(UIColor *)color size:(CGSize)size {
+	
+	UIImage *createdImage;
+	
+	@autoreleasepool {
     CGRect rect = CGRectMake(0.0f, 0.0f, size.width, size.height);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(context, [color CGColor]);
     CGContextFillRect(context, rect);
-    UIImage *createdImage = UIGraphicsGetImageFromCurrentImageContext();
+    createdImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+	}
+	
     return createdImage;
 }
 

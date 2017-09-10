@@ -70,7 +70,9 @@
 
 + (UIImage*)scaleDown:(UIImage*)image withSize:(CGSize)newSize
 {
-    
+	UIImage *scaledImage;
+	
+	@autoreleasepool {
     //We prepare a bitmap with the new size
     UIGraphicsBeginImageContextWithOptions(newSize, YES, 0.0);
     
@@ -78,9 +80,10 @@
     [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
     
     //We set the scaled image from the context
-    UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return scaledImage;
 }
 @end

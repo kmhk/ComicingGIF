@@ -72,6 +72,8 @@ TitleFontDelegate>
     CGFloat autoScrollSliderDeltaValue;
     
     BOOL haveAddedIconsOnce;
+	
+	BOOL havePinchedOnComicMaking;
     
     UIImageView *shrinkingView;
     CGPoint previousTouchPoint;
@@ -236,6 +238,34 @@ TitleFontDelegate>
 //    
 //}
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+	[super viewWillDisappear:animated];
+	
+	for (UIView *view in backgroundView.subviews) {
+		[view removeFromSuperview];
+	}
+	
+	for (TimerImageViewStruct *t in _timerImageViews) {
+		if (t.imageView) {
+			[t.imageView removeFromSuperview];
+		}
+		
+		if (t.view) {
+			[t.view removeFromSuperview];
+		}
+	}
+	[_timerImageViews removeAllObjects];
+	
+	for (UIView *view in self.drawingImageViewStackArray) {
+		[view removeFromSuperview];
+	}
+	[self.drawingImageViewStackArray removeAllObjects];
+	
+	[viewModel.arrayObjects removeAllObjects];
+	[viewModel.arrayRecents removeAllObjects];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -274,6 +304,8 @@ TitleFontDelegate>
 	UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGestureHandler:)];
 	pinchGesture.delegate = self;
 	[self.view addGestureRecognizer:pinchGesture];
+	
+	havePinchedOnComicMaking = false;
 }
 
 -(void)getSelectedFontName:(NSString *)fontName andTitle:(NSString *)title {
@@ -301,15 +333,19 @@ TitleFontDelegate>
 #pragma mark - Slider methods
 - (UIImage *)getSliderPlayOrPauseButtonWithImageName:(NSString *)imageName
 {
+	UIImage* newImage;
+	
+	@autoreleasepool {
     CGSize sliderSize = CGSizeMake(30, 60);
     CGSize newSize = CGSizeMake(sliderSize.height, sliderSize.height);
     
     UIImage *image = [UIImage imageNamed:imageName];
     UIGraphicsBeginImageContext(newSize);
     [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return newImage;
 }
 
@@ -496,7 +532,11 @@ TitleFontDelegate>
         CGFloat fullLoopsTotalDuration = timerImageView.imageView.animationDuration * ((NSInteger)((modifiedActionValue)/timerImageView.imageView.animationDuration));
         NSInteger actualPercent = (NSInteger)(((modifiedActionValue - fullLoopsTotalDuration) / timerImageView.imageView.animationDuration) * 100);
         NSLog(@"...Actual percent: %lu,,,,,hidden: %d", actualPercent, timerImageView.imageView.hidden);
-        
+		
+		if (modifiedActionValue > timerImageView.imageView.animationDuration) {
+			return;
+		}
+		
         //        if (actualPercent == 99 && timerImageView.objType == ObjectAnimateGIF)  {
         //            self.shouldContinueGif = false;
         //            [timerImageView.imageView stopAnimating];
@@ -555,7 +595,7 @@ TitleFontDelegate>
         return;
     }
     
-    if (!_isDrawing) {
+    /*if (!_isDrawing) { // nothing using, removed by KMHK
         UIView *touchView = [touches anyObject].view;
         if ([touchView.superview.superview isEqual:self.baseLayerView]) {
             _ratioDecreasing = 1;
@@ -604,7 +644,7 @@ TitleFontDelegate>
             self.ratioMinimumValue = size.width/_baseLayerView.frame.size.width;
         }
         return;
-    }
+    }*/
     
     _mouseSwiped = NO;
     UITouch *touch = [touches anyObject];
@@ -694,7 +734,8 @@ TitleFontDelegate>
     [currentCoordinatesArray addObject:[NSValue valueWithCGPoint:currentPoint]];
     [_drawingCoordinateArray removeLastObject];
     [_drawingCoordinateArray addObject:currentCoordinatesArray];
-    
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(currentDrawingImageView.frame.size);
     [currentDrawingImageView.image drawInRect:CGRectMake(0, 0,
                                                          currentDrawingImageView.frame.size.width,
@@ -709,13 +750,14 @@ TitleFontDelegate>
     currentDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
     [currentDrawingImageView setAlpha:1.0];
     UIGraphicsEndImageContext();
+	}
     _lastPoint = currentPoint;
     [_drawingImageViewStackArray removeLastObject];
     [_drawingImageViewStackArray addObject:currentDrawingImageView];
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    if (!_isDrawing) {
+    /*if (!_isDrawing) { // removed by KMHK
         UIView *touchView = [touches anyObject].view;
         if ([touchView.superview.superview isEqual:self.baseLayerView] || [touchView isEqual:self.view]) {
             if (_ratioDecreasing >= _ratioMinimumValue){
@@ -741,7 +783,7 @@ TitleFontDelegate>
             }
         }
         return;
-    }
+    }*/
     
     // if imageView stack is empty – return from drawing
     if (_drawingImageViewStackArray.count == 0) {
@@ -761,6 +803,8 @@ TitleFontDelegate>
         [_drawingCoordinateArray addObject:currentCoordinatesArray];
         CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha = 0.0;
         [_drawingColor getRed:&red green:&green blue:&blue alpha:&alpha];
+		
+		@autoreleasepool {
         UIGraphicsBeginImageContext(currentDrawingImageView.frame.size);
         [currentDrawingImageView.image drawInRect:CGRectMake(0, 0,
                                                              currentDrawingImageView.frame.size.width,
@@ -774,7 +818,10 @@ TitleFontDelegate>
         CGContextFlush(UIGraphicsGetCurrentContext());
         currentDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
+		}
     }
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(currentDrawingImageView.frame.size);
     [currentDrawingImageView.image drawInRect:CGRectMake(0, 0,
                                                          currentDrawingImageView.frame.size.width,
@@ -783,6 +830,8 @@ TitleFontDelegate>
                                         alpha:1.0];
     currentDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+	}
+	
     [_drawingImageViewStackArray removeLastObject];
     [_drawingImageViewStackArray addObject:currentDrawingImageView];
 }
@@ -1073,7 +1122,8 @@ TitleFontDelegate>
         // suppose to be _drawingImageView before scrollbar drawing support
         //        UIImageView *mainDrawingImageView = [[UIImageView alloc] initWithFrame:_drawingImageView.frame];
         UIImageView *mainDrawingImageView = _drawingImageView;
-        
+		
+		@autoreleasepool {
         UIGraphicsBeginImageContext(self.view.frame.size);
         if (mainDrawingImageView.image) {
             [mainDrawingImageView.image drawInRect:CGRectMake(0, 0,
@@ -1092,6 +1142,8 @@ TitleFontDelegate>
         }
         mainDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
+		}
+		
         [_drawingImageViewStackArray removeAllObjects];
         
         if (_drawingCoordinateArray.count != _drawingColorArray.count ||
@@ -1368,8 +1420,12 @@ TitleFontDelegate>
 }
 
 - (void)pinchGestureHandler:(UIPinchGestureRecognizer *)gesture {
-	
-	[self btnNextTapped:nil];
+	if (!havePinchedOnComicMaking) {
+		NSLog(@"called pinch gesture to close comic making");
+		[self btnNextTapped:nil];
+		
+		havePinchedOnComicMaking = true;
+	}
 }
 
 
