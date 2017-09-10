@@ -267,13 +267,18 @@
 //		[self saveVideoToPhotoLibraryWith:exportSession.outputUrl];
 		
 		// generate GIF from exported video
-		[GIFGenerator generateGIF:exportSession.outputUrl frameCount:0 delayTime:0 progress:^(double progress) {
+		[GIFGenerator generateGIF:exportSession.outputUrl
+                       frameCount:0
+                        delayTime:0
+                         progress:^(double progress) {
 			if ([self.delegate respondsToSelector:@selector(videoProgressingWith:)]) {
 				[self.delegate videoProgressingWith:(progress / 2 + 0.5)];
 			}
 		} completed:^(NSError *error, NSURL *url) {
 			if ([self.delegate respondsToSelector:@selector(finishedGifProcessingWith:gifURL:)]) {
-				[self.delegate finishedGifProcessingWith:error gifURL:url];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.delegate finishedGifProcessingWith:error gifURL:url];
+                });
 			}
 		}];
 		
