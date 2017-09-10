@@ -43,12 +43,16 @@
     UIView *superView = [[UIView alloc] initWithFrame:view.frame];
     superView.backgroundColor = [UIColor blackColor];
     [superView addSubview:view];
-    
+	
+	UIImage *img;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(superView.bounds.size, superView.opaque, 0.0);
     [superView.layer renderInContext:UIGraphicsGetCurrentContext()];
     
-    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
+    img = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+	}
     img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(1, 25, 1, 25)];
     return img;
 }

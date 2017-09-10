@@ -17,6 +17,9 @@ static CGColorSpaceRef __rgbColorSpace = NULL;
 
 - (UIImage *)tintedImageWithColor:(UIColor *)tintColor;
 {
+	UIImage *coloredImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(self.size, NO, [[UIScreen mainScreen] scale]);
     CGContextRef context = UIGraphicsGetCurrentContext();
     
@@ -36,9 +39,10 @@ static CGColorSpaceRef __rgbColorSpace = NULL;
     
     CGContextFillRect(context, rect);
     
-    UIImage *coloredImage = UIGraphicsGetImageFromCurrentImageContext();
+    coloredImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return coloredImage;
 }
 
@@ -141,11 +145,15 @@ CGColorSpaceRef NYXGetRGBColorSpace(void)
     
     // Resize the image
     CGSize newSize = CGSizeMake(newWidth, newHeight);
+	UIImage *newImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(newSize);
     [self drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     // Set maximun compression in order to decrease file size and enable faster uploads & downloads
     NSData *imageData = UIImageJPEGRepresentation(newImage, 0.0f);
     UIImage *processedImage = [UIImage imageWithData:imageData];
@@ -155,13 +163,15 @@ CGColorSpaceRef NYXGetRGBColorSpace(void)
 
 - (UIImage *)compressWithMaxSize:(CGSize)maxSize andQuality:(CGFloat)quality
 {
-    
+	UIImage *newImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(maxSize);
     [self drawInRect:CGRectMake(0,0,maxSize.width,maxSize.height)];
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
-    
+	}
+	
 //    CGFloat actualHeight = self.size.height;
 //    CGFloat actualWidth  = self.size.width;
 //    
@@ -210,7 +220,10 @@ CGColorSpaceRef NYXGetRGBColorSpace(void)
 - (UIImage *) cropedImagewithCropRect:(CGRect)cropRect
 {
     CGSize size = self.size;
-    
+	
+	UIImage *croppedImage;
+	
+	@autoreleasepool {
     // create a graphics context of the correct size
     UIGraphicsBeginImageContext(cropRect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -261,10 +274,11 @@ CGColorSpaceRef NYXGetRGBColorSpace(void)
     CGContextDrawImage(context, CGRectMake(0,0, size.width, size.height), self.CGImage);
     
     // and pull out the cropped image
-    UIImage *croppedImage = UIGraphicsGetImageFromCurrentImageContext();
+    croppedImage = UIGraphicsGetImageFromCurrentImageContext();
     
     UIGraphicsEndImageContext();
-    
+	}
+	
     return croppedImage;
 }
 
@@ -272,6 +286,9 @@ CGColorSpaceRef NYXGetRGBColorSpace(void)
                scaledToSize:(CGSize)newSize
                      inRect:(CGRect)rect
 {
+	UIImage *newImage;
+	
+	@autoreleasepool {
     //Determine whether the screen is retina
     if ([[UIScreen mainScreen] scale] == 2.0) {
         UIGraphicsBeginImageContextWithOptions(newSize, YES, 2.0);
@@ -283,11 +300,12 @@ CGColorSpaceRef NYXGetRGBColorSpace(void)
     
     //Draw image in provided rect
     [image drawInRect:rect];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     
     //Pop this context
     UIGraphicsEndImageContext();
-    
+	}
+	
     return newImage;
 }
 
@@ -301,13 +319,18 @@ CGColorSpaceRef NYXGetRGBColorSpace(void)
     
     float ypos = (size.height-scaledSize.height)/2;
     float xpos = (size.width-scaledSize.width)/2;
-    
+	
+	UIImage *scaledImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(size);
     [image drawInRect:CGRectMake(xpos,ypos, scaledSize.width, scaledSize.height )];
     
-    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     
     UIGraphicsEndImageContext();
+	}
+	
     return scaledImage;
 }
 
@@ -341,12 +364,17 @@ CGColorSpaceRef NYXGetRGBColorSpace(void)
     }
     NSLog(@"Actual height : %f and Width : %f",actualHeight,actualWidth);
     CGRect rect = CGRectMake(0.0, 0.0, actualWidth, actualHeight);
+	
+	NSData *imageData;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(rect.size);
     [image drawInRect:rect];
     UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
-    NSData *imageData = UIImageJPEGRepresentation(img, compressionQuality);
+    imageData = UIImageJPEGRepresentation(img, compressionQuality);
     UIGraphicsEndImageContext();
-    
+	}
+	
     return [UIImage imageWithData:imageData];
 }
 
@@ -462,7 +490,10 @@ CGColorSpaceRef NYXGetRGBColorSpace(void)
             [NSException raise:NSInternalInconsistencyException format:@"Invalid image orientation"];
             
     }
-    
+	
+	UIImage *imageCopy;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(bounds.size);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -479,22 +510,27 @@ CGColorSpaceRef NYXGetRGBColorSpace(void)
     CGContextConcatCTM(context, transform);
     
     CGContextDrawImage(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, width, height), imgRef);
-    UIImage *imageCopy = UIGraphicsGetImageFromCurrentImageContext();
+    imageCopy = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return imageCopy;
 }
 
 + (UIImage *) imageWithView:(UIView *)view paque:(BOOL)isOpaque
 {
+	UIImage *img;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(view.bounds.size, isOpaque, 1);
     [[UIColor clearColor] set];
     [view.layer renderInContext:UIGraphicsGetCurrentContext()];
     
-    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
+    img = UIGraphicsGetImageFromCurrentImageContext();
     
     UIGraphicsEndImageContext();
-    
+	}
+	
     return img;
 }
 
@@ -507,12 +543,16 @@ CGColorSpaceRef NYXGetRGBColorSpace(void)
     
     imageLayer.masksToBounds = YES;
     imageLayer.cornerRadius = radius;
-    
+	
+	UIImage *roundedImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(image.size);
     [imageLayer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
+    roundedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return roundedImage;
 }
 

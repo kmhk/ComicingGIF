@@ -11,7 +11,7 @@
 #import "CBPreviewHeaderSection.h"
 #import "CBComicPreviewCell.h"
 #import "CBPreviewHeaderCell.h"
-//#import "CBComicPageViewController.h"
+#import "CBComicPageViewController.h"
 #import "UIView+CBConstraints.h"
 #import "ZoomInteractiveTransition.h"
 #import "ZoomTransitionProtocol.h"
