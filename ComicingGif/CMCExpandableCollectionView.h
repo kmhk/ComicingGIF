@@ -19,7 +19,7 @@
 
 @interface CMCExpandableCollectionView : UICollectionView
 
-@property (nonatomic, assign) id <CMCExpandableCollectionViewDelegate> delegate;
+@property (nonatomic, weak) id <CMCExpandableCollectionViewDelegate> delegate;
 @property (nonatomic, assign) BOOL allowsMultipleExpandedSections;
 
 - (BOOL)isExpandedSection:(NSInteger)section;

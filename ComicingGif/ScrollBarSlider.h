@@ -16,7 +16,7 @@
 
 @interface ScrollBarSlider : UISlider
 
-@property(assign, nonatomic) id<ScrollBarSliderDelegate> scrollBarSliderDelegate;
+@property(weak, nonatomic) id<ScrollBarSliderDelegate> scrollBarSliderDelegate;
 
 - (void)sliderTapGesture:(UITapGestureRecognizer *)gesture;
 - (UIImage *)getSliderBackView;

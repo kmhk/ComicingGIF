@@ -29,8 +29,8 @@
 
 @property (nonatomic) BubbleObjectType currentBubbleType;
 @property (nonatomic) BubbleObjectDirection currentBubbleDirection;
-@property (nonatomic) id<CMCBubbleViewDelegate> bubbleDelegate;
-@property (nonatomic) id<CMCBubbleTextViewDelegate> bubbleTextDelegate;
+@property (weak, nonatomic) id<CMCBubbleViewDelegate> bubbleDelegate;
+@property (weak, nonatomic) id<CMCBubbleTextViewDelegate> bubbleTextDelegate;
 
 - (instancetype)initWithFrame:(CGRect)frame
            andBubbleDirection:(BubbleObjectDirection)bubbleDirection;

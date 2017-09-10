@@ -27,7 +27,7 @@
 @interface CMCCaptionView : UIView
 
 @property (nonatomic) CaptionObjectType currentCaptionType;
-@property (nonatomic) id<CMCCaptionViewDelegate> captionDelegate;
+@property (weak, nonatomic) id<CMCCaptionViewDelegate> captionDelegate;
 @property (nonatomic) id<CMCCaptionTextViewDelegate> captionTextDelegate;
 
 - (instancetype)initWithFrame:(CGRect)frame
