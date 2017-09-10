@@ -355,6 +355,7 @@ TitleFontDelegate>
 
 - (void)pause {
     //    [self.playPauseButton setTitle:@"Play" forState:UIControlStateNormal];
+    self.scrollBarSlider.selected = NO;
     [self stopTimer];
     for (TimerImageViewStruct *timerImageView in self.timerImageViews) {
         [timerImageView.imageView stopAnimating];
