@@ -24,7 +24,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *rainbowColorCircleButton;
 - (void)addComicItem:(CBComicItemModel*)comicItem completion:(void (^)(BOOL, CBComicItemModel *))completion;
 - (void)replaceComicItemAtIndex:(NSInteger)indexOfComicItem withComicItem:(CBComicItemModel*)comicItem completion:(void (^)(BOOL, CBComicItemModel *))completion;
-- (void) reloadColletionViewAtIndex:(NSInteger) index;
 - (void)removeComicItemAtIndex:(NSInteger)index;
 - (CGFloat)contentHeight;
 - (void)refreshDataArray:(NSMutableArray*)dataArray;

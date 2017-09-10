@@ -1251,9 +1251,8 @@ TitleFontDelegate>
         //        [self.navigationController pushViewController:vc animated:YES];
     } else {
         CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
-//                vc.shouldntRefreshAfterDidLayoutSubviews = _indexSaved == -1? NO:YES;
+        //        vc.shouldntRefreshAfterDidLayoutSubviews = _indexSaved == -1? NO:YES;
         vc.indexForSlideToRefresh = _indexSaved;
-		vc.shouldFetchAndReload = YES;
         [vc refreshSlideAtIndex:_indexSaved isTall:self.isTall completionBlock:^(BOOL isComplete) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 vc.transitionView.hidden = NO;
