@@ -24,6 +24,8 @@
 @property(nonatomic, weak) IBOutlet id <ColorWheelDelegate> delegate;
 @property(nonatomic, weak) IBOutlet PenIndicatorView *penIndicator;
 
+@property(nonatomic, readwrite) BOOL gesturesEnabled;
+
 
 @end
 

@@ -1178,6 +1178,7 @@ ColorWheelDelegate>
                                                        andSliderValue:self.scrollBarSlider.value];
     }else{
         _penView.hidden = YES;
+        _colorWheel.gesturesEnabled = YES;
     }
 }
 
@@ -1340,7 +1341,9 @@ ColorWheelDelegate>
 } 
 
 - (void)pinchGestureHandler:(UIPinchGestureRecognizer *)gesture {
-	
+    if (_isDrawing){
+        return;
+    }
 	[self btnNextTapped:nil];
 }
 

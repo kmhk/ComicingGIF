@@ -69,7 +69,7 @@
     _pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGesturePerformed:)];
     _longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGesturePerformed:)];
 
-    self.gestureRecognizers = @[_pinchGesture, _longPressGesture];
+//    self.gestureRecognizers = @[_pinchGesture, _longPressGesture];
     
     width = frame.size.width;
 }
@@ -96,6 +96,15 @@
     }];
 }
 
+
+- (void)setGesturesEnabled:(BOOL)gesturesEnabled{
+    _gesturesEnabled = gesturesEnabled;
+    if (gesturesEnabled){
+        self.gestureRecognizers = @[_pinchGesture, _longPressGesture];
+    }else{
+        self.gestureRecognizers = @[];
+    }
+}
 
 #pragma mark - Delegate
 - (void)colorWheelDidChangeColor:(ISColorWheel*)colorWheel{
@@ -170,6 +179,7 @@
         if (([self isPointNearTheBorder:point] == true)){
             //            remove view
             if (_delegate && [_delegate respondsToSelector:@selector(hideColorWheel:)]){
+                [self setGesturesEnabled:NO];
                 [_delegate hideColorWheel:self];
                 [self performSelector:@selector(movePaletteBackWithAnimation) withObject:nil afterDelay:MovementAnimationDuration];
             }
