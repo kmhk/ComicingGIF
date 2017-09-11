@@ -44,7 +44,7 @@
 
 - (void)addRecentObject:(NSDictionary *)dict {
 	for (NSDictionary *item in self.arrayRecents) {
-		if ([dict[@"type"] integerValue] == [item[@"type"] integerValue] && [dict[@"id"] integerValue] == [item[@"id"] integerValue]) {
+		if ([dict[kTypeKey] integerValue] == [item[kTypeKey] integerValue] && [dict[@"id"] integerValue] == [item[@"id"] integerValue]) {
 			[self.arrayRecents removeObject:item];
 			[self.arrayRecents insertObject:dict atIndex:0];
 			return;

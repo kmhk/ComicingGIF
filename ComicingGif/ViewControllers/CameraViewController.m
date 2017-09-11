@@ -40,7 +40,6 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
 @property (weak, nonatomic) IBOutlet UIView *captureHolder;
 @property (weak, nonatomic) IBOutlet UIView *animView;
 @property (weak, nonatomic) IBOutlet UIImageView *imgSelected;
-@property (weak, nonatomic) IBOutlet UIView *closeView;
 @property (strong, nonatomic) NSDate *tapOnCaptureTime;
 @end
 
@@ -49,7 +48,6 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [Global global].haveAccessToOpenCameraScreen = false;
     self.viewModel = [[CameraViewModel alloc] init];
     self.viewModel.delegate = self;
     
@@ -84,6 +82,8 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     
     [self setCaptureImageWithDefaultPosition];
     [self showProgress:YES progress:0];
+
+    [self.viewModel setupRecorderWith:self.cameraPreview];
 }
 
 - (void) setCaptureImageWithDefaultPosition {
@@ -105,27 +105,16 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     
     self.animView.layer.cornerRadius = 35;
     self.animView.layer.masksToBounds = true;
-    
-    CGFloat height, y;
-    if (self.isVerticalCamera) {
-        height = self.cameraPreview.frame.size.width / 1.78;
-        y = (self.view.frame.size.height - height) / 2;
-    } else {
-        height = self.view.frame.size.height - TOPBADDING - BOTTOMPADDING;
-        y = 20;
-    }
-    self.cameraPreview.frame = CGRectMake(self.cameraPreview.frame.origin.x, y, self.cameraPreview.frame.size.width, height);
-    [self.viewModel setupRecorderWith:self.cameraPreview];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
-
 
 #pragma mark - Navigation
 
@@ -225,7 +214,7 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
 
 - (void)startRecord {
     [self setRecordingProgress:YES];
-    
+    [self.viewModel setupRecorderWith:self.cameraPreview];
     [self.viewModel startRecord];
 }
 
@@ -258,6 +247,7 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     
     self.tapOnCaptureTime = [NSDate new];
     
+    [self.viewModel setupRecorderWith:self.cameraPreview];
     [self.viewModel capturePhotoWithCGRect:self.cameraPreview.bounds completionHandler:^(NSError *error) {
         if (error) {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
@@ -432,9 +422,6 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     
     CGRect tempFrame = self.captureHolder.frame;
     tempFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
-    
-    CGRect tempTopBar = self.closeView.frame;
-    tempTopBar.origin.y = 0 - self.topBar.frame.size.height;
     
     [self resetRecord];
     [vc initWithBaseImage:url frame:wSelf.cameraPreview.frame andSubviewArray:nil isTall:!wSelf.isVerticalCamera index:_indexOfSlide];

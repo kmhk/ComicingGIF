@@ -68,26 +68,26 @@
 - (NSDictionary *)dictForObject {
 	NSDictionary *dict = [super dictForObject];
 	
-	return @{@"baseInfo": dict,
-			 @"url"		: self.stickerURL.absoluteString
+	return @{kBaseInfoKey: dict,
+			 kURLKey		: self.stickerURL.absoluteString
 			 };
 }
 
 - (BaseObject *)initFromDict:(NSDictionary *)dict {
 	self = [super init];
 	if (self) {
-		NSDictionary *baseDict = (NSDictionary *)dict[@"baseInfo"];
+		NSDictionary *baseDict = (NSDictionary *)dict[kBaseInfoKey];
 		
-		self.objType = (ComicObjectType)[baseDict[@"type"] integerValue];
-		self.frame = CGRectFromString(baseDict[@"frame"]);
+		self.objType = (ComicObjectType)[baseDict[kTypeKey] integerValue];
+		self.frame = CGRectFromString(baseDict[kFrameKey]);
 		
 		NSBundle *bundle = [NSBundle mainBundle] ;
-		NSString *strFileName = [[dict objectForKey:@"url"] lastPathComponent];
+		NSString *strFileName = [[dict objectForKey:kURLKey] lastPathComponent];
 		self.stickerURL = [bundle URLForResource:strFileName withExtension:@""];
 		
-		self.angle = [baseDict[@"angle"] floatValue];
-		self.scale = [baseDict[@"scale"] floatValue];
-        self.delayTimeInSeconds = [baseDict[@"delayTime"] floatValue];
+		self.angle = [baseDict[kAngleKey] floatValue];
+		self.scale = [baseDict[kScaleKey] floatValue];
+        self.delayTimeInSeconds = [baseDict[kDelayTimeKey] floatValue];
 	}
 	
 	return self;

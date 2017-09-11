@@ -8,10 +8,17 @@
 
 #import "BubbleObject.h"
 
+NSString * const kBubbleURLKey              = @"bubbleURL";
+NSString * const kBubbleUpperLeftURLKey     = @"bubbleUpperLeftURL";
+NSString * const kBubbleUpperRightURLKey    = @"bubbleUpperRightURL";
+NSString * const kBubbleBottomLeftURLKey    = @"bubbleBottomLeftURL";
+NSString * const kBubbleBottomRightURLKey   = @"bubbleBottomRightURL";
+NSString * const kBubbleSnapshotImageURLKey = @"bubbleSnapshotImageURL";
+NSString * const kBubbleTypeKey             = @"bubbleType";
+NSString * const kBubbleDirectionKey        = @"bubbleDirection";
 
 @interface BubbleObject()
 @end
-
 
 // MARK: -
 @implementation BubbleObject
@@ -42,19 +49,19 @@
     if (!self) {
         return nil;
     }
-    NSDictionary *baseDict = (NSDictionary *)dict[@"baseInfo"];
-    self.objType = (ComicObjectType)[baseDict[@"type"] integerValue];
-    self.angle = [baseDict[@"angle"] floatValue];
-    self.scale = [baseDict[@"scale"] floatValue];
-    self.delayTimeInSeconds = [baseDict[@"delayTime"] floatValue];
+    NSDictionary *baseDict = (NSDictionary *)dict[kBaseInfoKey];
+    self.objType = (ComicObjectType)[baseDict[kTypeKey] integerValue];
+    self.angle = [baseDict[kAngleKey] floatValue];
+    self.scale = [baseDict[kScaleKey] floatValue];
+    self.delayTimeInSeconds = [baseDict[kDelayTimeKey] floatValue];
     
-    _text = dict[@"text"];
+    _text = dict[kTextKey];
     
-    NSString *bubbleImageFileName = [[dict objectForKey:@"bubbleURL"] lastPathComponent];
-    NSString *bubbleUpperLeftFileName = [[dict objectForKey:@"bubbleUpperLeftURL"] lastPathComponent];
-    NSString *bubbleUpperRightFileName = [[dict objectForKey:@"bubbleUpperRightURL"] lastPathComponent];
-    NSString *bubbleBottomLeftFileName = [[dict objectForKey:@"bubbleBottomLeftURL"] lastPathComponent];
-    NSString *bubbleBottomRightFileName = [[dict objectForKey:@"bubbleBottomRightURL"] lastPathComponent];
+    NSString *bubbleImageFileName = [[dict objectForKey:kBubbleURLKey] lastPathComponent];
+    NSString *bubbleUpperLeftFileName = [[dict objectForKey:kBubbleUpperLeftURLKey] lastPathComponent];
+    NSString *bubbleUpperRightFileName = [[dict objectForKey:kBubbleUpperRightURLKey] lastPathComponent];
+    NSString *bubbleBottomLeftFileName = [[dict objectForKey:kBubbleBottomLeftURLKey] lastPathComponent];
+    NSString *bubbleBottomRightFileName = [[dict objectForKey:kBubbleBottomRightURLKey] lastPathComponent];
     
     NSBundle *bundle = [NSBundle mainBundle];
     _bubbleURL = [bundle URLForResource:bubbleImageFileName withExtension:@""];
@@ -62,17 +69,17 @@
     _bubbleUpperRightURL = [bundle URLForResource:bubbleUpperRightFileName withExtension:@""];
     _bubbleBottomLeftURL = [bundle URLForResource:bubbleBottomLeftFileName withExtension:@""];
     _bubbleBottomRightURL = [bundle URLForResource:bubbleBottomRightFileName withExtension:@""];    
-    _bubbleSnapshotImageURL = [NSURL fileURLWithPath:dict[@"bubbleSnapshotImageURL"]];
+    _bubbleSnapshotImageURL = [NSURL fileURLWithPath:dict[kBubbleSnapshotImageURLKey]];
     if (!_bubbleSnapshotImageURL) {
         _bubbleSnapshotImageURL = [NSURL new];
     }
     
-    _currentType = (BubbleObjectType) [dict[@"bubbleType"] integerValue];
-    _currentDirection = (BubbleObjectDirection) [dict[@"bubbleDirection"] integerValue];
+    _currentType = (BubbleObjectType) [dict[kBubbleTypeKey] integerValue];
+    _currentDirection = (BubbleObjectDirection) [dict[kBubbleDirectionKey] integerValue];
     
-    //    self.frame = CGRectFromString(baseDict[@"frame"]);
+    //    self.frame = CGRectFromString(baseDict[kFrameKey]);
     CGRect rectWithOriginalImageSize = [self restoreFrameSizeFromURL:self.bubbleURL];
-    CGRect savedFrameWithCorrectOrigins = CGRectFromString(baseDict[@"frame"]);
+    CGRect savedFrameWithCorrectOrigins = CGRectFromString(baseDict[kFrameKey]);
     self.frame = CGRectMake(savedFrameWithCorrectOrigins.origin.x,
                             savedFrameWithCorrectOrigins.origin.y,
                             rectWithOriginalImageSize.size.width,
@@ -84,16 +91,16 @@
 - (NSDictionary *)dictForObject {
     NSDictionary *dict = [super dictForObject];
     return @{
-             @"baseInfo": dict,
-             @"text": _text,
-             @"bubbleURL": self.bubbleURL.absoluteString,
-             @"bubbleUpperLeftURL": self.bubbleUpperLeftURL.absoluteString,
-             @"bubbleUpperRightURL": self.bubbleUpperRightURL.absoluteString,
-             @"bubbleBottomLeftURL": self.bubbleBottomLeftURL.absoluteString,
-             @"bubbleBottomRightURL": self.bubbleBottomRightURL.absoluteString,
-             @"bubbleSnapshotImageURL": self.bubbleSnapshotImageURL.absoluteString,
-             @"bubbleType": @(_currentType),
-             @"bubbleDirection": @(_currentDirection)
+             kBaseInfoKey: dict,
+             kTextKey: _text,
+             kBubbleURLKey: self.bubbleURL.absoluteString,
+             kBubbleUpperLeftURLKey: self.bubbleUpperLeftURL.absoluteString,
+             kBubbleUpperRightURLKey: self.bubbleUpperRightURL.absoluteString,
+             kBubbleBottomLeftURLKey: self.bubbleBottomLeftURL.absoluteString,
+             kBubbleBottomRightURLKey: self.bubbleBottomRightURL.absoluteString,
+             kBubbleSnapshotImageURLKey: self.bubbleSnapshotImageURL.absoluteString,
+             kBubbleTypeKey: @(_currentType),
+             kBubbleDirectionKey: @(_currentDirection)
              };
 }
 

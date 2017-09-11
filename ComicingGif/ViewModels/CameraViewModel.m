@@ -39,11 +39,21 @@
     
     self.recorder.keepMirroringOnWrite = YES;
 	self.recorder.delegate = weakSelf;
-	self.recorder.videoConfiguration.size = view.frame.size;
-    self.recorder.videoConfiguration.scalingMode = AVVideoScalingModeResize;
+	self.recorder.videoConfiguration.scalingMode = AVVideoScalingModeResize;
     self.recorder.previewView = view;
-	exportSize = view.frame.size;
+	exportSize = [self sizeFromViewSize:view.frame.size];
+    self.recorder.videoConfiguration.size = exportSize;
+}
+
+- (CGSize)sizeFromViewSize:(CGSize)viewSize {
     
+    CGFloat width = viewSize.width;
+    CGFloat height = viewSize.height;
+    
+    width = ceil(width / 16) * 16;
+    height = ceil(height / 16) * 16;
+    
+    return CGSizeMake(width, height);
 }
 
 - (void)releaseCamera {
@@ -162,7 +172,8 @@
             }
         }
     }
-    
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(targetSize); // this will crop
     
     CGRect thumbnailRect = CGRectZero;
@@ -181,7 +192,8 @@
     
     //pop the context to get back to the default
     UIGraphicsEndImageContext();
-    
+	}
+	
     return newImage;
 }
 // MARK: - private methods
@@ -239,7 +251,7 @@
 	
 	exportSession.audioConfiguration.preset = SCPresetHighestQuality;
 	exportSession.outputUrl = self.recorder.session.outputUrl;
-	exportSession.outputFileType = AVFileTypeMPEG4;
+    exportSession.outputFileType = AVFileTypeQuickTimeMovie;
 	exportSession.delegate = self;
 	exportSession.contextType = SCContextTypeAuto;
 	
@@ -255,13 +267,18 @@
 //		[self saveVideoToPhotoLibraryWith:exportSession.outputUrl];
 		
 		// generate GIF from exported video
-		[GIFGenerator generateGIF:exportSession.outputUrl frameCount:0 delayTime:0 progress:^(double progress) {
+		[GIFGenerator generateGIF:exportSession.outputUrl
+                       frameCount:0
+                        delayTime:0
+                         progress:^(double progress) {
 			if ([self.delegate respondsToSelector:@selector(videoProgressingWith:)]) {
 				[self.delegate videoProgressingWith:(progress / 2 + 0.5)];
 			}
 		} completed:^(NSError *error, NSURL *url) {
 			if ([self.delegate respondsToSelector:@selector(finishedGifProcessingWith:gifURL:)]) {
-				[self.delegate finishedGifProcessingWith:error gifURL:url];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.delegate finishedGifProcessingWith:error gifURL:url];
+                });
 			}
 		}];
 		
@@ -293,6 +310,9 @@
 }
 
 - (UIImage *)fixOrientation:(UIImage *)src {
+	UIImage *image;
+	
+	@autoreleasepool {
 	UIImageOrientation orientation = src.imageOrientation;
 	UIGraphicsBeginImageContext(src.size);
 	
@@ -308,8 +328,11 @@
 	} else if (orientation == UIImageOrientationUp) {
 		CGContextRotateCTM (context, 0);
 	}
+		
+	image = UIGraphicsGetImageFromCurrentImageContext();
+	}
 	
-	return UIGraphicsGetImageFromCurrentImageContext();
+	return image;
 }
 
 

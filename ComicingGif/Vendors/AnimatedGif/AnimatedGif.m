@@ -113,6 +113,7 @@ static CGContextRef CreateARGBBitmapContext(CGSize size)
  * Downloads GIF from network, and caches it, if possible. NSURLCache may be removed
  */
 - (void) downloadGif {
+#if 0
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSURLCache *URLCache = [[NSURLCache alloc] initWithMemoryCapacity:5 * 1024 * 1024
@@ -135,6 +136,9 @@ static CGContextRef CreateARGBBitmapContext(CGSize size)
             _didLoadBlock(self);
         }
     });
+#else
+	NSLog(@"--------------  marked for testing by KMHK !!!!!!!!!!");
+#endif
 }
 #pragma mark - NSURLConnectionDataDelegate methods
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {

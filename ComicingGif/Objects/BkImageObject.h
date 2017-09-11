@@ -8,6 +8,8 @@
 
 #import "BaseObject.h"
 
+extern NSString * const kIsTallKey;
+
 @interface BkImageObject : BaseObject
 
 @property (nonatomic) NSURL *fileURL;

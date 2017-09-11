@@ -24,7 +24,15 @@ typedef enum {
 #define W_PADDING			40
 #define H_PADDING			40
 
-
+extern NSString * const kTypeKey;
+extern NSString * const kFrameKey;
+extern NSString * const kAngleKey;
+extern NSString * const kScaleKey;
+extern NSString * const kDelayTimeKey;
+extern NSString * const kBaseInfoKey;
+extern NSString * const kURLKey;
+extern NSString * const kTextKey;
+extern NSString * const kCaptionTypeKey;
 
 // MARK: -
 @interface BaseObject : NSObject

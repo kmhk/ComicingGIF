@@ -115,6 +115,7 @@
 
 - (void)updateCacheImage:(BOOL)redraw
 {
+	@autoreleasepool {
     // init a context
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0.0);
     
@@ -147,6 +148,7 @@
     // store the image
     self.image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+	}
 }
 
 - (void)finishDrawing

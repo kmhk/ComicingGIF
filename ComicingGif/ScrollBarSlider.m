@@ -8,6 +8,10 @@
 
 #import "ScrollBarSlider.h"
 
+@interface ScrollBarSlider() <UIGestureRecognizerDelegate>
+@property (strong, nonatomic) UITapGestureRecognizer *tapGesture;
+@end
+
 @implementation ScrollBarSlider
 
 
@@ -19,20 +23,6 @@
 //
 //    self.frame = fr;
     self.minimumTrackTintColor = [UIColor colorWithRed:255/255.0 green:242/255.0 blue:0/255.0 alpha:1.0];
-}
-
-- (void)sliderTapGesture:(UITapGestureRecognizer *)gesture {
-    CGPoint tapPoint = [gesture locationInView:self];
-    CGFloat tapPercent = tapPoint.x * 100/ self.frame.size.width;
-    CGFloat valuePercent = self.value * 100 / (self.maximumValue - self.minimumValue);
-    
-    if ([self positiveValue:tapPercent - valuePercent] <= 10) { //10% of distance accepted
-        self.selected = !self.selected;
-        
-        if ([self.scrollBarSliderDelegate conformsToProtocol:@protocol(ScrollBarSliderDelegate)] && [self.scrollBarSliderDelegate respondsToSelector:@selector(refreshSliderStateWithCurrentSelectionState)]) {
-            [self.scrollBarSliderDelegate refreshSliderStateWithCurrentSelectionState];
-        }
-    }
 }
 
 - (CGFloat)positiveValue:(CGFloat)value {
@@ -53,12 +43,16 @@
     UIView *superView = [[UIView alloc] initWithFrame:view.frame];
     superView.backgroundColor = [UIColor blackColor];
     [superView addSubview:view];
-    
+	
+	UIImage *img;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(superView.bounds.size, superView.opaque, 0.0);
     [superView.layer renderInContext:UIGraphicsGetCurrentContext()];
     
-    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
+    img = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+	}
     img = [img resizableImageWithCapInsets:UIEdgeInsetsMake(1, 25, 1, 25)];
     return img;
 }
@@ -82,6 +76,41 @@
 
 - (CGFloat)getValueOfSliderFromIconRect:(CGRect)iconFrame {
     return (iconFrame.origin.x - self.frame.origin.x) * self.maximumValue / self.frame.size.width;
+}
+
+- (void)enableTapOnSlider:(BOOL)isEnabled
+{
+    if (isEnabled) {
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self
+                                                                                    action:@selector(sliderTapGesture:)];
+        tapGesture.delegate = self;
+        [self addGestureRecognizer:tapGesture];
+        self.tapGesture = tapGesture;
+    } else if (self.tapGesture) {
+        [self removeGestureRecognizer:self.tapGesture];
+        self.tapGesture = nil;
+    }
+}
+
+// MARK: - Tap getsture recognizer
+
+- (void)sliderTapGesture:(UITapGestureRecognizer *)gesture {
+    CGPoint tapPoint = [gesture locationInView:self];
+    CGFloat tapPercent = tapPoint.x * 100/ self.frame.size.width;
+    CGFloat valuePercent = self.value * 100 / (self.maximumValue - self.minimumValue);
+    
+    if ([self positiveValue:tapPercent - valuePercent] <= 15) { //10% of distance accepted
+        self.selected = !self.selected;
+        
+        if ([self.scrollBarSliderDelegate conformsToProtocol:@protocol(ScrollBarSliderDelegate)] && [self.scrollBarSliderDelegate respondsToSelector:@selector(refreshSliderStateWithCurrentSelectionState)]) {
+            [self.scrollBarSliderDelegate refreshSliderStateWithCurrentSelectionState];
+        }
+    }
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
 }
 
 @end

@@ -85,15 +85,15 @@
         for (NSDictionary* subview in _comicItemModel.comicPage.subviews) {
             
             NSLog(@"Subviews - %@",subview);
-            if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue]==17) {
+            if ([[[subview objectForKey:kBaseInfoKey] objectForKey:kTypeKey]intValue]==17) {
                 //Handle top layer that is sticker gif
                 //                                ComicItemAnimatedSticker *sticker = [ComicItemAnimatedSticker new];
-                CGRect frameOfObject = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
+                CGRect frameOfObject = CGRectFromString([[subview objectForKey:kBaseInfoKey] objectForKey:kFrameKey]);
                 
-                //                sticker.combineAnimationFileName = [subview objectForKey:@"url"];
+                //                sticker.combineAnimationFileName = [subview objectForKey:kURLKey];
                 
                 NSBundle *bundle = [NSBundle mainBundle] ;
-                NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
+                NSString *strFileName = [[subview objectForKey:kURLKey] lastPathComponent];
                 NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".gif" withString:@""] ofType:@"gif"];;
                 NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
                 CGRect rectOfGif;
@@ -120,8 +120,8 @@
                 }
                 i ++;
                 
-                CGFloat timerDelay = [[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue];
-				CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"] floatValue];
+                CGFloat timerDelay = [[[subview objectForKey:kBaseInfoKey] objectForKey:kDelayTimeKey] floatValue];
+				CGFloat rotationAngle = [[[subview objectForKey:kBaseInfoKey] objectForKey:kAngleKey] floatValue];
                 [self createImageViewWith:gifData
                                     frame:rectOfGif
                                  bAnimate:YES
@@ -134,11 +134,11 @@
             }
             
             //18 is for static stickers
-            if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue] == 18) {
-                CGRect frameOfObject = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
+            if ([[[subview objectForKey:kBaseInfoKey] objectForKey:kTypeKey]intValue] == 18) {
+                CGRect frameOfObject = CGRectFromString([[subview objectForKey:kBaseInfoKey] objectForKey:kFrameKey]);
                 
                 NSBundle *bundle = [NSBundle mainBundle] ;
-                NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
+                NSString *strFileName = [[subview objectForKey:kURLKey] lastPathComponent];
                 NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".png" withString:@""] ofType:@"png"];
                 NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
                 CGRect rectOfGif;
@@ -167,16 +167,16 @@
                 UIImageView *stickerImageView = [[UIImageView alloc]initWithFrame:rectOfGif];
                 stickerImageView.image = [UIImage imageWithData:gifData];
                 
-                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"] floatValue];
+                CGFloat rotationAngle = [[[subview objectForKey:kBaseInfoKey] objectForKey:kAngleKey] floatValue];
                 stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
                 stickerImageView.hidden = YES;
                 [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
                 [cell.topLayerView addSubview:stickerImageView];
                 
-                [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:stickerImageView delayTime:[[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue] andObjectType:ObjectSticker]];
+                [self.timerImageViews addObject:[[TimerImageViewStruct alloc]initWithImageView:stickerImageView delayTime:[[[subview objectForKey:kBaseInfoKey] objectForKey:kDelayTimeKey] floatValue] andObjectType:ObjectSticker]];
             }
             
-            int objectTypeIndex = [[[subview objectForKey:@"baseInfo"] objectForKey:@"type"] intValue];
+            int objectTypeIndex = [[[subview objectForKey:kBaseInfoKey] objectForKey:kTypeKey] intValue];
 
             if (objectTypeIndex == ObjectBubble) {
                 BubbleObject *bubbleObject = [[BubbleObject alloc] initFromDict:subview];
@@ -199,7 +199,7 @@
                 [cell.topLayerView addSubview:bubbleObjectView];
                 
                 TimerImageViewStruct *timerViewStruct = [[TimerImageViewStruct alloc]initWithImageView:nil
-                                                                                             delayTime:[[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue]
+                                                                                             delayTime:[[[subview objectForKey:kBaseInfoKey] objectForKey:kDelayTimeKey] floatValue]
                                                                                          andObjectType:ObjectBubble];
                 timerViewStruct.view = bubbleObjectView;
                 [self.timerImageViews addObject:timerViewStruct];
@@ -235,7 +235,7 @@
                 [cell.topLayerView addSubview:captionObjectView];
                 
                 TimerImageViewStruct *timerViewStruct = [[TimerImageViewStruct alloc]initWithImageView:nil
-                                                                                             delayTime:[[[subview objectForKey:@"baseInfo"] objectForKey:@"delayTime"] floatValue]
+                                                                                             delayTime:[[[subview objectForKey:kBaseInfoKey] objectForKey:kDelayTimeKey] floatValue]
                                                                                          andObjectType:ObjectCaption];
                 timerViewStruct.view = captionObjectView;
                 [self.timerImageViews addObject:timerViewStruct];
@@ -290,15 +290,15 @@
         int i = 0;
         for (id subview in _comicItemModel.comicPage.subviews) {
             NSLog(@"Subviews - %@",subview);
-            if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue]==17) {
+            if ([[[subview objectForKey:kBaseInfoKey] objectForKey:kTypeKey]intValue]==17) {
                 //Handle top layer that is sticker gif
                 //                                ComicItemAnimatedSticker *sticker = [ComicItemAnimatedSticker new];
-                CGRect frameOfObject = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
+                CGRect frameOfObject = CGRectFromString([[subview objectForKey:kBaseInfoKey] objectForKey:kFrameKey]);
                 
-                //                sticker.combineAnimationFileName = [subview objectForKey:@"url"];
+                //                sticker.combineAnimationFileName = [subview objectForKey:kURLKey];
                 
                 NSBundle *bundle = [NSBundle mainBundle] ;
-                NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
+                NSString *strFileName = [[subview objectForKey:kURLKey] lastPathComponent];
                 NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".gif" withString:@""] ofType:@"gif"];
                 NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
                 CGRect rectOfGif;
@@ -331,7 +331,7 @@
                 
                 
                 //                    dispatch_async(dispatch_get_main_queue(), ^{
-                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"] floatValue];
+                CGFloat rotationAngle = [[[subview objectForKey:kBaseInfoKey] objectForKey:kAngleKey] floatValue];
                 stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
                 [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
                 [cell.topLayerView addSubview:stickerImageView];
@@ -345,11 +345,11 @@
             }
             
             //18 is for static stickers
-            if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue] == 18) {
-                CGRect frameOfObject = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
+            if ([[[subview objectForKey:kBaseInfoKey] objectForKey:kTypeKey]intValue] == 18) {
+                CGRect frameOfObject = CGRectFromString([[subview objectForKey:kBaseInfoKey] objectForKey:kFrameKey]);
                 
                 NSBundle *bundle = [NSBundle mainBundle] ;
-                NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
+                NSString *strFileName = [[subview objectForKey:kURLKey] lastPathComponent];
                 NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".png" withString:@""] ofType:@"png"];
                 NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
                 CGRect rectOfGif;
@@ -378,7 +378,7 @@
                 UIImageView *stickerImageView = [[UIImageView alloc]initWithFrame:rectOfGif];
                 stickerImageView.image = [UIImage imageWithData:gifData];
                 
-                CGFloat rotationAngle = [[[subview objectForKey:@"baseInfo"] objectForKey:@"angle"] floatValue];
+                CGFloat rotationAngle = [[[subview objectForKey:kBaseInfoKey] objectForKey:kAngleKey] floatValue];
                 stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
                 [cell.topLayerView setFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
                 [cell.topLayerView addSubview:stickerImageView];
@@ -390,11 +390,15 @@
 }
 
 - (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size {
+	UIImage *newImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
     [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return newImage;
 }
 

@@ -39,6 +39,8 @@ static AppHelper *_appHelper = nil;
     int randomNumber = 0 + rand() % ([ImagePlaceHolder_COLOUR count] -0);
     UIColor *color = [UIColor colorWithHexStr:[ImagePlaceHolder_COLOUR objectAtIndex: randomNumber]];
     UIImage *image = [UIImage alloc];
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     [color setFill];
@@ -48,6 +50,8 @@ static AppHelper *_appHelper = nil;
     CGContextFillRect(context, CGRectMake(0, 0, image.size.width, image.size.height));
     
     UIGraphicsEndImageContext();
+	}
+	
     return image;
 }
 +(NSString*) addParameterstoURL:(NSString*)URLString parameters:(NSDictionary*)dictParams {
@@ -108,10 +112,15 @@ static AppHelper *_appHelper = nil;
     //UIGraphicsBeginImageContext(newSize);
     // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
     // Pass 1.0 to force exact pixel size.
+	UIImage *newImage;
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
     [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+	}
+	
     return newImage;
 }
 +(NSString *)encodeToBase64String:(UIImage *)image {

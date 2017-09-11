@@ -14,10 +14,19 @@
 #import "PenObject.h"
 
 
+NSString * const kTypeKey = @"type";
+NSString * const kFrameKey = @"frame";
+NSString * const kAngleKey = @"angle";
+NSString * const kScaleKey = @"scale";
+NSString * const kDelayTimeKey = @"delayTime";
+NSString * const kBaseInfoKey = @"baseInfo";
+NSString * const kURLKey = @"url";
+NSString * const kTextKey = @"text";
+NSString * const kCaptionTypeKey = @"captionType";
+
 @interface BaseObject()
 
 @end
-
 
 // MKAR: -
 @implementation BaseObject
@@ -46,7 +55,7 @@
 		return obj;
 		
 	} else if (type == ObjectBubble) {
-		BubbleObject *obj = [[BubbleObject alloc] initWithText:sender[@"text"] bubbleID:sender[@"bubble"]];
+		BubbleObject *obj = [[BubbleObject alloc] initWithText:sender[kTextKey] bubbleID:sender[@"bubble"]];
 		return obj;
 		
 	} else if (type == ObjectPen) {
@@ -54,8 +63,8 @@
 		return obj;
 		
 	} else if (type == ObjectCaption) {
-        CaptionObject *obj = [[CaptionObject alloc] initWithText:sender[@"text"]
-                                                     captionType:[sender[@"captionType"] integerValue]];
+        CaptionObject *obj = [[CaptionObject alloc] initWithText:sender[kTextKey]
+                                                     captionType:[sender[kCaptionTypeKey] integerValue]];
 		return obj;
 	}
 	
@@ -63,16 +72,16 @@
 }
 
 - (NSDictionary *)dictForObject {
-	return @{@"type"	: @(self.objType),
-			 @"frame"	: NSStringFromCGRect(self.frame),
-			 @"angle"	: @(self.angle),
-			 @"scale"	: @(self.scale),
-             @"delayTime":@(self.delayTimeInSeconds)
+	return @{kTypeKey      : @(self.objType),
+			 kFrameKey     : NSStringFromCGRect(self.frame),
+			 kAngleKey     : @(self.angle),
+			 kScaleKey     : @(self.scale),
+             kDelayTimeKey : @(self.delayTimeInSeconds)
 			 };
 }
 
 - (BaseObject *)initFromDict:(NSDictionary *)dict {
-	ComicObjectType type = (ComicObjectType)[[dict[@"baseInfo"] objectForKey:@"type"] integerValue];
+	ComicObjectType type = (ComicObjectType)[[dict[kBaseInfoKey] objectForKey:kTypeKey] integerValue];
 	
 	if (type == ObjectBaseImage) {
 		BkImageObject *obj = [[BkImageObject alloc] initFromDict:dict];

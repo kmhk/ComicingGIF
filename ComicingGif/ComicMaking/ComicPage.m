@@ -9,6 +9,8 @@
 #import "ComicPage.h"
 #import "ComicItem.h"
 
+#import "BkImageObject.h"
+
 NSString* const slideTypeWide = @"wide";
 NSString* const slideTypeTall = @"tall";
 
@@ -61,7 +63,7 @@ NSString* const slideTypeTall = @"tall";
     subviews = arrTemp;
     slideType = @"tall";
     if (arrSubviews.count>0) {
-        slideType = [[[arrSubviews objectAtIndex:0] valueForKey:@"isTall"] boolValue]?@"tall":@"wide";
+        slideType = [[[arrSubviews objectAtIndex:0] valueForKey:kIsTallKey] boolValue]?@"tall":@"wide";
     }
 }
 

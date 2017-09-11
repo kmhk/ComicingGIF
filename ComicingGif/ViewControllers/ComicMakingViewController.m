@@ -74,6 +74,8 @@ ColorWheelDelegate>
     CGFloat autoScrollSliderDeltaValue;
     
     BOOL haveAddedIconsOnce;
+	
+	BOOL havePinchedOnComicMaking;
     
     UIImageView *shrinkingView;
     CGPoint previousTouchPoint;
@@ -238,11 +240,38 @@ ColorWheelDelegate>
 //    
 //}
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+	[super viewWillDisappear:animated];
+	
+	for (UIView *view in backgroundView.subviews) {
+		[view removeFromSuperview];
+	}
+	
+	for (TimerImageViewStruct *t in _timerImageViews) {
+		if (t.imageView) {
+			[t.imageView removeFromSuperview];
+		}
+		
+		if (t.view) {
+			[t.view removeFromSuperview];
+		}
+	}
+	[_timerImageViews removeAllObjects];
+	
+	for (UIView *view in self.drawingImageViewStackArray) {
+		[view removeFromSuperview];
+	}
+	[self.drawingImageViewStackArray removeAllObjects];
+	
+	[viewModel.arrayObjects removeAllObjects];
+	[viewModel.arrayRecents removeAllObjects];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 //    [self animateAppereance];
-    [Global global].haveAccessToOpenCameraScreen = false; // c0mrade: access for listview, to open camera screen
     nCategory = 1;
     
     _ratioDecreasing = 1;
@@ -276,6 +305,13 @@ ColorWheelDelegate>
 	UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGestureHandler:)];
 	pinchGesture.delegate = self;
 	[self.view addGestureRecognizer:pinchGesture];
+	
+	havePinchedOnComicMaking = false;
+}
+
+- (void)dealloc
+{
+    [self pause];
 }
 
 -(void)getSelectedFontName:(NSString *)fontName andTitle:(NSString *)title {
@@ -303,15 +339,19 @@ ColorWheelDelegate>
 #pragma mark - Slider methods
 - (UIImage *)getSliderPlayOrPauseButtonWithImageName:(NSString *)imageName
 {
+	UIImage* newImage;
+	
+	@autoreleasepool {
     CGSize sliderSize = CGSizeMake(30, 60);
     CGSize newSize = CGSizeMake(sliderSize.height, sliderSize.height);
     
     UIImage *image = [UIImage imageNamed:imageName];
     UIGraphicsBeginImageContext(newSize);
     [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
+	
     return newImage;
 }
 
@@ -342,11 +382,17 @@ ColorWheelDelegate>
         // disable scrollbar in drawing mode. To keep track of the drawing PenObject time delay property
         return;
     }
+    
+    if (scrollBarTimer) {
+        return;
+    }
+    
     scrollBarTimer = [NSTimer scheduledTimerWithTimeInterval:discreteValueOfSeconds target:self selector:@selector(scrollBarTimer:) userInfo:nil repeats:YES];
 }
 
 - (void)pause {
     //    [self.playPauseButton setTitle:@"Play" forState:UIControlStateNormal];
+    self.scrollBarSlider.selected = NO;
     [self stopTimer];
     for (TimerImageViewStruct *timerImageView in self.timerImageViews) {
         [timerImageView.imageView stopAnimating];
@@ -362,9 +408,8 @@ ColorWheelDelegate>
     //    backgroundView.currentTimerValue = self.scrollBarSlider.value;
     
     discreteCount++;
-    if (self.scrollBarSlider.value >= maxSeconds) {
+    if (fabs(self.scrollBarSlider.value - maxSeconds) < 0.0001f ) {
         [self pause];
-        //        self.playPauseButton.selected = !self.playPauseButton.selected;
     }
 }
 
@@ -498,7 +543,11 @@ ColorWheelDelegate>
         CGFloat fullLoopsTotalDuration = timerImageView.imageView.animationDuration * ((NSInteger)((modifiedActionValue)/timerImageView.imageView.animationDuration));
         NSInteger actualPercent = (NSInteger)(((modifiedActionValue - fullLoopsTotalDuration) / timerImageView.imageView.animationDuration) * 100);
         NSLog(@"...Actual percent: %lu,,,,,hidden: %d", actualPercent, timerImageView.imageView.hidden);
-        
+		
+		if (modifiedActionValue > timerImageView.imageView.animationDuration) {
+			return;
+		}
+		
         //        if (actualPercent == 99 && timerImageView.objType == ObjectAnimateGIF)  {
         //            self.shouldContinueGif = false;
         //            [timerImageView.imageView stopAnimating];
@@ -564,7 +613,7 @@ ColorWheelDelegate>
         return;
     }
     
-    if (!_isDrawing) {
+    /*if (!_isDrawing) { // nothing using, removed by KMHK
         UIView *touchView = [touches anyObject].view;
         if ([touchView.superview.superview isEqual:self.baseLayerView]) {
             _ratioDecreasing = 1;
@@ -613,7 +662,7 @@ ColorWheelDelegate>
             self.ratioMinimumValue = size.width/_baseLayerView.frame.size.width;
         }
         return;
-    }
+    }*/
     
     _mouseSwiped = NO;
     UITouch *touch = [touches anyObject];
@@ -705,7 +754,8 @@ ColorWheelDelegate>
     [currentCoordinatesArray addObject:[NSValue valueWithCGPoint:currentPoint]];
     [_drawingCoordinateArray removeLastObject];
     [_drawingCoordinateArray addObject:currentCoordinatesArray];
-    
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(currentDrawingImageView.frame.size);
     [currentDrawingImageView.image drawInRect:CGRectMake(0, 0,
                                                          currentDrawingImageView.frame.size.width,
@@ -720,6 +770,7 @@ ColorWheelDelegate>
     currentDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
     [currentDrawingImageView setAlpha:1.0];
     UIGraphicsEndImageContext();
+	}
     _lastPoint = currentPoint;
     [_drawingImageViewStackArray removeLastObject];
     [_drawingImageViewStackArray addObject:currentDrawingImageView];
@@ -728,7 +779,7 @@ ColorWheelDelegate>
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    if (!_isDrawing) {
+    /*if (!_isDrawing) { // removed by KMHK
         UIView *touchView = [touches anyObject].view;
         if ([touchView.superview.superview isEqual:self.baseLayerView] || [touchView isEqual:self.view]) {
             if (_ratioDecreasing >= _ratioMinimumValue){
@@ -754,7 +805,7 @@ ColorWheelDelegate>
             }
         }
         return;
-    }
+    }*/
     
     // if imageView stack is empty – return from drawing
     if (_drawingImageViewStackArray.count == 0) {
@@ -774,6 +825,8 @@ ColorWheelDelegate>
         [_drawingCoordinateArray addObject:currentCoordinatesArray];
         CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha = 0.0;
         [_drawingColor getRed:&red green:&green blue:&blue alpha:&alpha];
+		
+		@autoreleasepool {
         UIGraphicsBeginImageContext(currentDrawingImageView.frame.size);
         [currentDrawingImageView.image drawInRect:CGRectMake(0, 0,
                                                              currentDrawingImageView.frame.size.width,
@@ -787,7 +840,10 @@ ColorWheelDelegate>
         CGContextFlush(UIGraphicsGetCurrentContext());
         currentDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
+		}
     }
+	
+	@autoreleasepool {
     UIGraphicsBeginImageContext(currentDrawingImageView.frame.size);
     [currentDrawingImageView.image drawInRect:CGRectMake(0, 0,
                                                          currentDrawingImageView.frame.size.width,
@@ -796,6 +852,8 @@ ColorWheelDelegate>
                                         alpha:1.0];
     currentDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+	}
+	
     [_drawingImageViewStackArray removeLastObject];
     [_drawingImageViewStackArray addObject:currentDrawingImageView];
 }
@@ -829,12 +887,12 @@ ColorWheelDelegate>
         
         //                [self.scrollBarSlider setThumbImage:[self getSliderPlayOrPauseButtonWithImageName:@"SliderImage"] forState:UIControlStateSelected];
         
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self.scrollBarSlider action:@selector(sliderTapGesture:)];
-        [self.scrollBarSlider addGestureRecognizer:tapGesture];
+        [self.scrollBarSlider enableTapOnSlider:YES];
     } else {
         //        self.sliderContainerViewBottomConstraint.constant = -self.sliderContainerView.frame.size.height;
         //        self.sliderBlackViewBottomConstraint.constant = -self.sliderBlackView.frame.size.height;
         self.sliderContainerView.hidden = self.sliderBlackView.hidden = YES;
+        [self.scrollBarSlider enableTapOnSlider:NO];
     }
 }
 
@@ -1085,7 +1143,8 @@ ColorWheelDelegate>
         // suppose to be _drawingImageView before scrollbar drawing support
         //        UIImageView *mainDrawingImageView = [[UIImageView alloc] initWithFrame:_drawingImageView.frame];
         UIImageView *mainDrawingImageView = _drawingImageView;
-        
+		
+		@autoreleasepool {
         UIGraphicsBeginImageContext(self.view.frame.size);
         if (mainDrawingImageView.image) {
             [mainDrawingImageView.image drawInRect:CGRectMake(0, 0,
@@ -1104,6 +1163,8 @@ ColorWheelDelegate>
         }
         mainDrawingImageView.image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
+		}
+		
         [_drawingImageViewStackArray removeAllObjects];
         
         if (_drawingCoordinateArray.count != _drawingColorArray.count ||
@@ -1233,67 +1294,19 @@ ColorWheelDelegate>
     }];
 }
 
-- (void) deleteSlideFromLocalDirectory {
-    // Get Slide Plist
-    NSURL *docDir = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-    NSString *baseSlide = [[docDir path] stringByAppendingString:@"/slides.plist"];
-    
-    // Create Mutable Array With Slides
-    NSMutableArray *content = [[[NSArray alloc] initWithContentsOfFile:baseSlide] mutableCopy];
-    
-    // Find And Remove Data From Slides
-    for (int i = 0; i < content.count; i++) {
-        NSMutableArray *arrObj = [content objectAtIndex:i];
-        for (NSDictionary *item in arrObj) { // iterate inside slide content
-            NSURL *file = [NSURL URLWithString:[item valueForKey:@"url"]];
-            if ([[file path] isEqualToString:[self.urlOfSlide path]]) {
-                [content removeObjectAtIndex:i];
-                break;
-            }
-        }
-    }
-    [content writeToFile:baseSlide atomically:YES];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"xxxDataFromComicing" object:nil];
-}
-
 - (IBAction)btnToolCloseTapped:(id)sender {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Warrning"
                                                                    message:@" are you sure you want to delete this slide?"
                                                             preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Delete" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action){
-        // ALSO SHOULD DELETE EVERYTHING
         shrinkingView = nil;
         
-        //        CATransition *transition = [CATransition animation];
-        //        transition.duration = 0.3;
-        //        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        //        transition.type = kCATransitionFade;
-        //        [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-        //        [self.navigationController popViewControllerAnimated:NO];
-        
-        
-        // c0mrade: Fix For Line 720
-        //        if (!self.isFromCamera) {
-
-//        [self.navigationController popToRootViewControllerAnimated:true];
-        //        } else {
-        //            [self.navigationController popToRootViewControllerAnimated:true];
-        //        }
-        
-//        [self deleteSlideFromLocalDirectory];
-        
-//        CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
-//        vc.indexForSlideToRefresh = _indexSaved;
-//        [vc refreshSlideAtIndex:_indexSaved-1 isTall:self.isTall completionBlock:^(BOOL isComplete) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                vc.transitionView.hidden = NO;
-        [Global global].haveAccessToOpenCameraScreen = true;
-                [self.navigationController popToRootViewControllerAnimated:YES];
-//            });
-//        }];
-        
-        
+        [ComicObjectSerialize deleteObjectAtIndex:self.indexSaved];
+        [self.navigationController presentCameraViewWithMode:NO
+                                                indexOfSlide:self.indexSaved
+                                                  completion:nil];
     }];
+    
     UIAlertAction *otherAction = [UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
         [alert dismissViewControllerAnimated:true completion:nil];
     }];
@@ -1375,10 +1388,10 @@ ColorWheelDelegate>
     
     obj.delayTimeInSeconds = delayTime;
     
-    [viewModel addRecentObject:@{@"type":        @(type),
+    [viewModel addRecentObject:@{kTypeKey:        @(type),
                                  @"id":            @(index),
                                  @"category":    @(category),
-                                 @"delayTime":   @(delayTime)}];
+                                 kDelayTimeKey:   @(delayTime)}];
     
     return obj;
 }
@@ -1695,12 +1708,9 @@ float scale = 1;
         return [viewModel getRecentObjects:(ComicObjectType)collectionView.tag].count;
     }
     
-    // for sticker tool view
-    if (collectionView.tag == ObjectSticker) {
-        return [COUNT_STICKERS[nCategory - 1] integerValue];
-        
-    } else if (collectionView.tag == ObjectAnimateGIF) {
-        return [COUNT_GIFS[nCategory - 1] integerValue];
+     if (collectionView.tag == ObjectAnimateGIF) {
+         NSInteger count = [COUNT_GIFS[nCategory - 1] integerValue] + [COUNT_STICKERS[nCategory - 1] integerValue];
+        return count;
     }
     
     return 0;
@@ -1851,7 +1861,7 @@ float scale = 1;
     // for recent section
     if (nCategory == 0) {
         NSDictionary *dict = [viewModel getRecentObjects:(ComicObjectType)collectionView.tag][indexPath.row];
-        type = [dict[@"type"] integerValue];
+        type = [dict[kTypeKey] integerValue];
         index = [dict[@"id"] integerValue];
         category = [dict[@"category"] integerValue];
         
@@ -2048,20 +2058,21 @@ float scale = 1;
     
     if (nCategory == 0) { // for recent object
         NSDictionary *dict = [viewModel getRecentObjects:(ComicObjectType)collectionView.tag][indexPath.row];
-        type = [dict[@"type"] integerValue];
+        type = [dict[kTypeKey] integerValue];
         index = [dict[@"id"] integerValue];
         category = [dict[@"category"] integerValue];
         
     } else {
         type = collectionView.tag;
-        index = indexPath.item == 0 ? 9 : indexPath.item + 2;
+        index = indexPath.item;
+
+        category = indexPath.section;
         
-        if (((ComicObjectType)type) == ObjectSticker) {
-            index = indexPath.item;
+        const NSInteger animatedStickersCount = [COUNT_GIFS[nCategory - 1] integerValue];
+        if (index >= animatedStickersCount) {
+            index = index - animatedStickersCount;
+            type = ObjectSticker;
         }
-        
-        //		category = nCategory - 1;
-        category = indexPath.section;//indexPath.item;
     }
     
     BaseObject *obj = [self createComicObject:(ComicObjectType)type index:index category:category delayTimeInSeconds:self.scrollBarSlider.value];
@@ -2128,13 +2139,13 @@ float scale = 1;
     //Handle top layer that is sticker gif
     int i=0;
     for (NSDictionary* subview in arrSubviews) {
-        if ([[[subview objectForKey:@"baseInfo"] objectForKey:@"type"]intValue]==17) {
+        if ([[[subview objectForKey:kBaseInfoKey] objectForKey:kTypeKey]intValue]==17) {
             ComicItemAnimatedSticker *sticker = [ComicItemAnimatedSticker new];
-            sticker.objFrame = CGRectFromString([[subview objectForKey:@"baseInfo"] objectForKey:@"frame"]);
-            sticker.combineAnimationFileName = [subview objectForKey:@"url"];
+            sticker.objFrame = CGRectFromString([[subview objectForKey:kBaseInfoKey] objectForKey:kFrameKey]);
+            sticker.combineAnimationFileName = [subview objectForKey:kURLKey];
             
             NSBundle *bundle = [NSBundle mainBundle] ;
-            NSString *strFileName = [[subview objectForKey:@"url"] lastPathComponent];
+            NSString *strFileName = [[subview objectForKey:kURLKey] lastPathComponent];
             NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".gif" withString:@""] ofType:@"gif"];
             NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
             

@@ -8,6 +8,15 @@
 
 #import "BaseObject.h"
 
+extern NSString * const kBubbleURLKey;
+extern NSString * const kBubbleUpperLeftURLKey;
+extern NSString * const kBubbleUpperRightURLKey;
+extern NSString * const kBubbleBottomLeftURLKey;
+extern NSString * const kBubbleBottomRightURLKey;
+extern NSString * const kBubbleSnapshotImageURLKey;
+extern NSString * const kBubbleTypeKey;
+extern NSString * const kBubbleDirectionKey;
+
 @interface BubbleObject : BaseObject
 
 typedef NS_ENUM(NSInteger, BubbleObjectDirection) {

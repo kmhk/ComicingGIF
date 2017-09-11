@@ -232,7 +232,8 @@
 }
 
 - (void) updateDrawingBoard {
-    
+
+	@autoreleasepool {
     UIGraphicsBeginImageContext(self.croppedImageShown.bounds.size);
     [self.croppedImageShown.layer renderInContext:UIGraphicsGetCurrentContext()];
     
@@ -264,10 +265,9 @@
     }
     
     
-    UIImage *croppedImg = UIGraphicsGetImageFromCurrentImageContext();
-    self.croppedImageShown.image=croppedImg;
+    self.croppedImageShown.image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+	}
     
 }
 

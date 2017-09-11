@@ -17,7 +17,7 @@
 
 @interface CBComicTitleFontDropdownViewController : CBBaseViewController
 
-@property(assign, nonatomic) id<TitleFontDelegate> delegate;
+@property(weak, nonatomic) id<TitleFontDelegate> delegate;
 @property(strong, nonatomic) NSString *titleText;
 
 @end

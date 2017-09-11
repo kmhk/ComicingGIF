@@ -36,7 +36,7 @@ UIGestureRecognizerDelegate
 
 @property (nonatomic) BaseObject *comicObject;
 
-@property (nonatomic) id<ComicObjectViewDelegate> delegate;
+@property (weak, nonatomic) id<ComicObjectViewDelegate> delegate;
 
 @property (nonatomic,strong) NSMutableArray<TimerImageViewStruct *> *timerImageViews;
 @property (nonatomic, assign) CGFloat delayTimeInSeconds;
@@ -55,7 +55,7 @@ UIGestureRecognizerDelegate
 + (ComicObjectView *)createListViewComicCaptionObjectViewWithObject:(CaptionObject *)captionObject;
 + (UIImageView *)createListViewComicPenObjectViewsWithArray:(inout NSArray<ComicObjectView *> *)penObjectViewsArray;
 
-@property (nonatomic) id<ComicObjectViewAnimatedStickerStateDelegate> animatedStickerStateDelegate;
+@property (weak, nonatomic) id<ComicObjectViewAnimatedStickerStateDelegate> animatedStickerStateDelegate;
 
 - (void)addImageViewSubview:(UIImageView *)view withTimeDelay:(CGFloat)timeDelay;
 + (ComicObjectView *)createSingleImageViewFromDrawingsArrayofPenViews:(inout NSMutableArray<ComicObjectView *> *)penObjectsViewArray;

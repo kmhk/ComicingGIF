@@ -11,7 +11,6 @@
 @interface CaptionObject()
 @end
 
-
 // MARK: -
 @implementation CaptionObject
 
@@ -39,15 +38,15 @@
         return nil;
     }
     
-    NSDictionary *baseDict = (NSDictionary *) dict[@"baseInfo"];
-    self.objType = (ComicObjectType)[baseDict[@"type"] integerValue];
-    self.angle = [baseDict[@"angle"] floatValue];
-    self.scale = ([baseDict[@"scale"] floatValue]/100)*20 + [baseDict[@"scale"] floatValue];
-    self.frame = CGRectFromString(baseDict[@"frame"]);
-    self.delayTimeInSeconds = [baseDict[@"delayTime"] floatValue];
+    NSDictionary *baseDict = (NSDictionary *) dict[kBaseInfoKey];
+    self.objType = (ComicObjectType)[baseDict[kTypeKey] integerValue];
+    self.angle = [baseDict[kAngleKey] floatValue];
+    self.scale = ([baseDict[kScaleKey] floatValue]/100)*20 + [baseDict[kScaleKey] floatValue];
+    self.frame = CGRectFromString(baseDict[kFrameKey]);
+    self.delayTimeInSeconds = [baseDict[kDelayTimeKey] floatValue];
     
-    _text = dict[@"text"];
-    _type = (CaptionObjectType) [dict[@"captionType"] integerValue];
+    _text = dict[kTextKey];
+    _type = (CaptionObjectType) [dict[kCaptionTypeKey] integerValue];
     
     return self;
 }
@@ -55,9 +54,9 @@
 - (NSDictionary *)dictForObject {
     NSDictionary *dict = [super dictForObject];
     return @{
-             @"baseInfo": dict,
-             @"text": _text,
-             @"captionType": @(_type)
+             kBaseInfoKey: dict,
+             kTextKey: _text,
+             kCaptionTypeKey: @(_type)
              };
 }
 
