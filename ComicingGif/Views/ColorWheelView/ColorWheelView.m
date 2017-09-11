@@ -20,7 +20,6 @@
     ISColorWheel* _colorWheel;
     UIPinchGestureRecognizer *_pinchGesture;
     UILongPressGestureRecognizer *_longPressGesture;
-    CGFloat width;
 }
 
 @end
@@ -68,10 +67,6 @@
     
     _pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchGesturePerformed:)];
     _longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGesturePerformed:)];
-
-//    self.gestureRecognizers = @[_pinchGesture, _longPressGesture];
-    
-    width = frame.size.width;
 }
 
 - (void)setPenIndicator:(PenIndicatorView *)penIndicator{
