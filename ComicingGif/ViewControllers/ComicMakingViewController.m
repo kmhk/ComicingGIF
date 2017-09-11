@@ -604,6 +604,13 @@ ColorWheelDelegate>
     }
 }
 
+- (void)hidePaletteToBack{
+    if (!_isDrawing){
+        [self.view sendSubviewToBack:_colorWheel];
+        [self.view sendSubviewToBack:_colorWheel.penIndicator];
+    }
+}
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (_isKeyboardVisible) {
         [self.view endEditing:YES];
@@ -693,7 +700,9 @@ ColorWheelDelegate>
     [_drawingColorArray addObject:_drawingColor];
     [_drawingBrushSizeArray addObject:@(_brush)];
     
-    [self bringPaletteToFront];
+    if (_isDrawing){
+        [self bringPaletteToFront];
+    }
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -1125,6 +1134,10 @@ ColorWheelDelegate>
     
     [UIView animateWithDuration:0.15 animations:^{
         _colorWheel.alpha = _colorWheel.alpha == 1.0 ? 0.0 : 1.0;
+    } completion:^(BOOL finished) {
+        if (!_isDrawing){
+            [self hidePaletteToBack];
+        }
     }];
     
     _colorWheel.penIndicator.size = _brush;

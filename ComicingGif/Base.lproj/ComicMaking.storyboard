@@ -40,6 +40,27 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VNn-pP-SVb">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="605"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QDP-ko-zba" customClass="ColorWheelView">
+                                <rect key="frame" x="144" y="499" width="86" height="86"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="QDP-ko-zba" secondAttribute="height" multiplier="1:1" id="VB8-Fs-fJ8"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="penIndicator" destination="tlC-hq-u9z" id="kK5-v7-KYL"/>
+                                </connections>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tlC-hq-u9z" customClass="PenIndicatorView">
+                                <rect key="frame" x="230" y="489" width="20" height="20"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="47b-gd-Z6R"/>
+                                    <constraint firstAttribute="width" secondItem="tlC-hq-u9z" secondAttribute="height" multiplier="1:1" id="Udb-zx-GDT"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="sizeConstraint" destination="47b-gd-Z6R" id="RKj-4X-fIN"/>
+                                </connections>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eEi-dp-dcP">
                                 <rect key="frame" x="26" y="529.5" width="56" height="47.5"/>
                                 <constraints>
@@ -340,27 +361,6 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="2" id="H3o-1H-6hC"/>
                                 </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QDP-ko-zba" customClass="ColorWheelView">
-                                <rect key="frame" x="144" y="499" width="86" height="86"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="QDP-ko-zba" secondAttribute="height" multiplier="1:1" id="VB8-Fs-fJ8"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="penIndicator" destination="tlC-hq-u9z" id="kK5-v7-KYL"/>
-                                </connections>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tlC-hq-u9z" customClass="PenIndicatorView">
-                                <rect key="frame" x="230" y="489" width="20" height="20"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="20" id="47b-gd-Z6R"/>
-                                    <constraint firstAttribute="width" secondItem="tlC-hq-u9z" secondAttribute="height" multiplier="1:1" id="Udb-zx-GDT"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="sizeConstraint" destination="47b-gd-Z6R" id="RKj-4X-fIN"/>
-                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
