@@ -24,6 +24,7 @@
 #import "CMCExpandableCollectionViewFlowLayout.h"
 #import "CBComicTitleFontDropdownViewController.h"
 #import "ColorWheelView.h"
+#import "UINavigationController+Transition.h"
 
 #define TOOLCELLID	@"ToolCollectionViewCell"
 #define CATEGORYCELLID	@"CategoryCollectionViewCell"
@@ -1357,7 +1358,13 @@ ColorWheelDelegate>
     if (_isDrawing){
         return;
     }
-	[self btnNextTapped:nil];
+
+    if (!havePinchedOnComicMaking) {
+        NSLog(@"called pinch gesture to close comic making");
+        [self btnNextTapped:nil];
+        
+        havePinchedOnComicMaking = true;
+    }
 }
 
 
