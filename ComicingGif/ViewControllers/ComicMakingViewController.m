@@ -81,6 +81,7 @@ ColorWheelDelegate>
     UIImageView *shrinkingView;
     CGPoint previousTouchPoint;
     CGPoint newTouchPoint;
+    UITouch *_lastTouch;
 }
 
 // Constrait Helpers For Later Animations
@@ -612,6 +613,11 @@ ColorWheelDelegate>
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    //workaround to avoid drawing strait lines between palette and second touch
+    if (_isDrawing && _lastTouch){
+        return;
+    }
+    
     if (_isKeyboardVisible) {
         [self.view endEditing:YES];
         return;
@@ -701,11 +707,17 @@ ColorWheelDelegate>
     [_drawingBrushSizeArray addObject:@(_brush)];
     
     if (_isDrawing){
+        _lastTouch = touch;
         [self bringPaletteToFront];
     }
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    //workaround to avoid drawing strait lines between palette and second touch
+    if (_isDrawing && ![_lastTouch isEqual:[touches anyObject]]){
+        return;
+    }
+    
     if (!_isDrawing) {
 #warning temporarily disabled old glide implementation
         //        UIView *touchView = [touches anyObject].view;
@@ -789,6 +801,7 @@ ColorWheelDelegate>
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
     /*if (!_isDrawing) { // removed by KMHK
         UIView *touchView = [touches anyObject].view;
         if ([touchView.superview.superview isEqual:self.baseLayerView] || [touchView isEqual:self.view]) {
@@ -866,6 +879,12 @@ ColorWheelDelegate>
 	
     [_drawingImageViewStackArray removeLastObject];
     [_drawingImageViewStackArray addObject:currentDrawingImageView];
+    
+    _lastTouch = nil;
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    _lastTouch = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
