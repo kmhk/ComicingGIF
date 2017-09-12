@@ -3556,7 +3556,7 @@
 				TargetAttributes = {
 					F36BE3A31E830E22007F6CE7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 6SQLX52W6T;
+						DevelopmentTeam = PV7F3V653B;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -4199,7 +4199,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Providence Education Inc. (PV7F3V653B)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6SQLX52W6T;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -4214,7 +4214,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ComicingGif/Vendors/GoogleAnalytics/GoogleAnalyticsLib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.comicGifTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.TheCustomerFactor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4228,7 +4228,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Providence Education Inc. (PV7F3V653B)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6SQLX52W6T;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -4243,7 +4243,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/ComicingGif/Vendors/GoogleAnalytics/GoogleAnalyticsLib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.comicGifTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.TheCustomerFactor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
