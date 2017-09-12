@@ -714,7 +714,7 @@ ColorWheelDelegate>
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     //workaround to avoid drawing strait lines between palette and second touch
-    if (_isDrawing && ![_lastTouch isEqual:[touches anyObject]]){
+    if (_isDrawing && ![touches containsObject:_lastTouch]){
         return;
     }
     
