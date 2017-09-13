@@ -14,6 +14,7 @@
 #import "Constants.h"
 #import "ASAnyCurlController.h"
 #import "UIImage+Image.h"
+#import "UINavigationController+Transition.h"
 
 #define TOPBADDING		0.0
 #define BOTTOMPADDING	0.0
@@ -444,37 +445,12 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
 
 - (void)curlTransitionToViewController:(UIViewController *)vc with:(NSURL *)url
 {
-    UIView *sourceView = self.view;
-    UIView *destinationView = vc.view;
-    
-    
-    // Create preview from camera using captured image
-    UIImage *fileImage = [UIImage imageWithContentsOfFile:url.path];
-    UIImageView *filePreviewImageView = [[UIImageView alloc] initWithFrame:_cameraPreview.frame];
-    filePreviewImageView.image = fileImage;
-    
-    [sourceView insertSubview:filePreviewImageView aboveSubview:_cameraPreview];
-    
     self.viewProgressContainer.alpha = 0.0f;
-    UIImage *sourceImg  = [UIImage imageWithView:sourceView paque:NO];
     
-    UIImageView *sourceImgView = [[UIImageView alloc] initWithFrame:sourceView.bounds];
-    sourceImgView.image = sourceImg;
-    UIView *destView = [[UIView alloc] init];
-    
-    [destinationView addSubview:sourceImgView];
-    
-    [self.navigationController pushViewController:vc animated:NO];
-    
-    [ASAnyCurlController animateTransitionUpFromView:sourceImgView
-                                              toView:destView
-                                            duration:1.5f
-                                             options:ASAnyCurlOptionVertical | ASAnyCurlOptionBottomLeft
-                                          completion:^{
-                                              [sourceImgView removeFromSuperview];
-                                              [destView removeFromSuperview];
-                                              [filePreviewImageView removeFromSuperview];
-                                          }];
+    [self.navigationController curlUpTransitionToViewController:vc
+                                                       fromRoot:YES
+                                                     completion:^{
+                                                     }];
 }
 
 - (void) setupDefaultsValuesForTopAndBottomAnimatedViews {

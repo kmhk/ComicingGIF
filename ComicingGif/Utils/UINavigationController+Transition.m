@@ -28,36 +28,66 @@
 
 }
 
+- (void)curlUpTransitionToViewController:(UIViewController *)toVC
+                                  fromRoot:(BOOL)shouldPresentFromRoot
+                                completion:(void(^)())completion
+{
+    [self curlTransitionToViewController:toVC
+                                fromRoot:shouldPresentFromRoot
+                                 options:ASAnyCurlOptionVertical | ASAnyCurlOptionBottomLeft
+                             directionUp:YES
+                              completion:completion];
+}
+
 - (void)curlDownTransitionToViewController:(UIViewController *)toVC
                                   fromRoot:(BOOL)shouldPresentFromRoot
-                                completion:(void(^)())completion;
+                                completion:(void(^)())completion
 {
-    UIImage *fromVCImage = [UIImage imageWithView:self.view  paque:NO];
-    UIImage *toVCImage = [UIImage imageWithView:toVC.view  paque:NO];
+    [self curlTransitionToViewController:toVC
+                                fromRoot:shouldPresentFromRoot
+                                 options:ASAnyCurlOptionVertical | ASAnyCurlOptionBottomLeft
+                             directionUp:NO
+                              completion:completion];
+}
+
+- (void)curlTransitionToViewController:(UIViewController *)toVC
+                                  fromRoot:(BOOL)shouldPresentFromRoot
+                                   options:(ASAnyCurlOptions)options
+                               directionUp:(BOOL)isUP
+                                completion:(void(^)())completion
+{
+    UIView *sourceSnapshotView = [self.view snapshotViewAfterScreenUpdates:YES];
+    UIView *destinationSnapshotView = [toVC.view snapshotViewAfterScreenUpdates:YES];
     
-    UIImageView *fromImgView = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    UIImageView *toImgView =  [[UIImageView alloc] initWithFrame:self.view.bounds];
+    [self.view.window addSubview:sourceSnapshotView];
     
-    fromImgView.image = fromVCImage;
-    toImgView.image = toVCImage;
+    void(^transitionCompletionBlock)(void) = ^{
+        if (shouldPresentFromRoot) {
+            [self popToRootViewControllerAnimated:NO];
+        }
+        [self pushViewController:toVC animated:NO];
+        
+        [sourceSnapshotView removeFromSuperview];
+        [destinationSnapshotView removeFromSuperview];
+        
+        if (completion) {
+            completion();
+        }
+    };
     
-    [toVC.view addSubview:fromImgView];
-    
-    if (shouldPresentFromRoot) {
-        [self popToRootViewControllerAnimated:NO];
+    if (isUP) {
+        [ASAnyCurlController animateTransitionUpFromView:sourceSnapshotView
+                                                    toView:destinationSnapshotView
+                                                  duration:1.5f
+                                                   options:options
+                                                completion:transitionCompletionBlock];
+    } else {
+        
+        [ASAnyCurlController animateTransitionDownFromView:sourceSnapshotView
+                                                    toView:destinationSnapshotView
+                                                  duration:1.5f
+                                                   options:options
+                                                completion:transitionCompletionBlock];
     }
-    [self pushViewController:toVC animated:NO];
-    
-    [ASAnyCurlController animateTransitionDownFromView:fromImgView
-                                              toView:toImgView
-                                            duration:1.5f
-                                             options:ASAnyCurlOptionVertical | ASAnyCurlOptionBottomLeft
-                                          completion:^{
-                                              [fromImgView removeFromSuperview];
-                                              [toImgView removeFromSuperview];
-                                              if (completion) {
-                                                  completion();
-                                              }
-                                          }];
 }
 @end

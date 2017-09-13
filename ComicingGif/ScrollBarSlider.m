@@ -81,20 +81,29 @@
 - (void)enableTapOnSlider:(BOOL)isEnabled
 {
     if (isEnabled) {
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self
-                                                                                    action:@selector(sliderTapGesture:)];
+        UITapGestureRecognizer *tapGesture = self.tapGesture;
         tapGesture.delegate = self;
         [self addGestureRecognizer:tapGesture];
-        self.tapGesture = tapGesture;
     } else if (self.tapGesture) {
         [self removeGestureRecognizer:self.tapGesture];
         self.tapGesture = nil;
     }
 }
 
+- (UITapGestureRecognizer *)tapGesture {
+    if (_tapGesture == nil) {
+        _tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self
+                                                             action:@selector(sliderTapGesture:)];
+    }
+    return _tapGesture;
+}
 // MARK: - Tap getsture recognizer
 
 - (void)sliderTapGesture:(UITapGestureRecognizer *)gesture {
+    if (gesture != self.tapGesture) {
+        return;
+    }
+    
     CGPoint tapPoint = [gesture locationInView:self];
     CGFloat tapPercent = tapPoint.x * 100/ self.frame.size.width;
     CGFloat valuePercent = self.value * 100 / (self.maximumValue - self.minimumValue);

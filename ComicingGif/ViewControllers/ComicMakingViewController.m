@@ -242,11 +242,9 @@ ColorWheelDelegate>
 //    
 //}
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)removeComicViews
 {
-	[super viewWillDisappear:animated];
-	
-	for (UIView *view in backgroundView.subviews) {
+    for (UIView *view in backgroundView.subviews) {
 		[view removeFromSuperview];
 	}
 	
@@ -314,6 +312,7 @@ ColorWheelDelegate>
 - (void)dealloc
 {
     [self pause];
+    [self removeComicViews];
 }
 
 -(void)getSelectedFontName:(NSString *)fontName andTitle:(NSString *)title {
@@ -393,7 +392,6 @@ ColorWheelDelegate>
 }
 
 - (void)pause {
-    //    [self.playPauseButton setTitle:@"Play" forState:UIControlStateNormal];
     self.scrollBarSlider.selected = NO;
     [self stopTimer];
     for (TimerImageViewStruct *timerImageView in self.timerImageViews) {
@@ -890,7 +888,9 @@ ColorWheelDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self createComicViews];
+    if (self.navigationController.visibleViewController == self) {
+        [self createComicViews];
+    }
     
     if ([viewModel isContainedAnimatedSticker] == true) {
         self.btnPlay.hidden = false;
@@ -915,7 +915,7 @@ ColorWheelDelegate>
         
         
         //                [self.scrollBarSlider setThumbImage:[self getSliderPlayOrPauseButtonWithImageName:@"SliderImage"] forState:UIControlStateSelected];
-        
+        self.sliderContainerView.hidden = self.sliderBlackView.hidden = NO;
         [self.scrollBarSlider enableTapOnSlider:YES];
     } else {
         //        self.sliderContainerViewBottomConstraint.constant = -self.sliderContainerView.frame.size.height;
@@ -938,6 +938,10 @@ ColorWheelDelegate>
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    if (self.navigationController.visibleViewController != self) {
+        return;
+    }
     
     // Add icons after slider layout-------
     if (!haveAddedIconsOnce) {
