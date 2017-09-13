@@ -111,10 +111,10 @@
 
 
 #pragma mark - Touches and gestures
+
 - (void)pinchGesturePerformed:(UIPinchGestureRecognizer*)pinchGesture{
     
     if (pinchGesture.state == UIGestureRecognizerStateBegan){
-        
         //work around to avoid drawing under the pinch area when pinch started
         if (_delegate && [_delegate respondsToSelector:@selector(undoLastStepColorWheel:)]){
             [_delegate undoLastStepColorWheel:self];
@@ -170,7 +170,9 @@
         if ([self isPointNearTheBorder:point] == false) {
             self.center = point;
         }
-    }else if (state == UIGestureRecognizerStateEnded){
+    }else if (state == UIGestureRecognizerStateEnded ||
+              state == UIGestureRecognizerStateCancelled ||
+              state == UIGestureRecognizerStateFailed){
         if (([self isPointNearTheBorder:point] == true)){
             //            remove view
             if (_delegate && [_delegate respondsToSelector:@selector(hideColorWheel:)]){
@@ -192,10 +194,10 @@
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     
     //extend touch area
-    CGRect frame = CGRectInset(self.bounds,
-                               (_penIndicator.frame.origin.x + _penIndicator.frame.size.width + 30 - (self.frame.origin.x + self.frame.size.width)) * -2,
-                               (self.frame.origin.y - _penIndicator.frame.origin.y + 30) * -2);
+    CGFloat sensitivity = self.frame.size.width;
     
+    CGRect frame = CGRectMake(-sensitivity, -sensitivity * 2, sensitivity * 4, sensitivity * 3);
+
     if (CGRectContainsPoint(_colorWheel.frame, point)){
         return _colorWheel;
     }else if (CGRectContainsPoint(frame, point)){
