@@ -82,8 +82,8 @@ NSString * const kBubbleDirectionKey        = @"bubbleDirection";
     CGRect savedFrameWithCorrectOrigins = CGRectFromString(baseDict[kFrameKey]);
     self.frame = CGRectMake(savedFrameWithCorrectOrigins.origin.x,
                             savedFrameWithCorrectOrigins.origin.y,
-                            rectWithOriginalImageSize.size.width,
-                            rectWithOriginalImageSize.size.height);
+                            savedFrameWithCorrectOrigins.size.width,
+                            savedFrameWithCorrectOrigins.size.height);
     
     return self;
 }
@@ -163,7 +163,7 @@ NSString * const kBubbleDirectionKey        = @"bubbleDirection";
 - (CGRect)restoreFrameSizeFromURL:(NSURL *)bubbleURL {
     NSData *bubbdleImageData = [NSData dataWithContentsOfURL:bubbleURL];
     UIImage *bubbleImage = [UIImage imageWithData:bubbdleImageData];
-    return CGRectMake(0, 0, bubbleImage.size.width, bubbleImage.size.height);
+    return CGRectMake(0, 0, bubbleImage.size.width / 2, bubbleImage.size.height /2);
 }
 
 @end

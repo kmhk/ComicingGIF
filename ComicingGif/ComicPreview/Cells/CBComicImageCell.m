@@ -70,7 +70,7 @@
     UIImageView *baseImageView = [self createImageViewWith:gifData frame:cell.baseLayerImageView.frame bAnimate:YES withAnimation:NO];
     [self setGifPropertiesOfImageView:baseImageView toNewImageView:cell.baseLayerImageView];
     
-    if (baseImageView.animationImages.count > 1)//_comicItemModel.isBaseLayerGif)
+    if (/*baseImageView.animationImages.count > 1*/1)//_comicItemModel.isBaseLayerGif)
     {
         // NEED to handle 3 layer
         
@@ -116,7 +116,14 @@
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
                     rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
                 } else {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+//                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 ,
+//										   (frameOfObject.origin.y * ratioHeight) + 5,
+//										   (frameOfObject.size.width * ratioWidth) - W_H,
+//										   (frameOfObject.size.height * ratioHeight) - W_H);
+					rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth,
+										   frameOfObject.origin.y * ratioHeight,
+										   frameOfObject.size.width * ratioWidth,
+										   frameOfObject.size.height * ratioHeight);
                 }
                 i ++;
                 
@@ -160,7 +167,11 @@
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
                     rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
                 } else {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+//                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+					rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth,
+										   frameOfObject.origin.y * ratioHeight,
+										   frameOfObject.size.width * ratioWidth,
+										   frameOfObject.size.height * ratioHeight);
                 }
                 i ++;
                 
@@ -179,18 +190,43 @@
             int objectTypeIndex = [[[subview objectForKey:kBaseInfoKey] objectForKey:kTypeKey] intValue];
 
             if (objectTypeIndex == ObjectBubble) {
+				CGFloat ratioWidth; //ratio SlideView To ScreenSize
+				CGFloat ratioHeight; //ratio SlideView To ScreenSize
+				if (IS_IPHONE_5) {
+					ratioWidth = rect.size.width / 305;
+					ratioHeight = rect.size.height / 495.5;
+				} else if (IS_IPHONE_6) {
+					ratioWidth = rect.size.width / 358;
+					ratioHeight = rect.size.height / 585;
+				} else {
+					ratioWidth = rect.size.width / 395.333;
+					ratioHeight = rect.size.height / 648.333;
+				}
+				
                 BubbleObject *bubbleObject = [[BubbleObject alloc] initFromDict:subview];
-                ComicObjectView *bubbleObjectView = [ComicObjectView createListViewComicBubbleObjectViewWithObject:bubbleObject];
-                
-                CGPoint scaledOriginPoint = CGPointMake(bubbleObjectView.frame.origin.x * scales.width,
-                                                        bubbleObjectView.frame.origin.y * scales.height);
-                
-                bubbleObjectView.transform = CGAffineTransformScale(bubbleObjectView.transform, scales.width, scales.height);
-                
-                [bubbleObjectView setFrame:CGRectMake(scaledOriginPoint.x, scaledOriginPoint.y,
-                                                      bubbleObjectView.frame.size.width,
-                                                      bubbleObjectView.frame.size.height)];
-                
+				
+				/*bubbleObject.frame = CGRectMake(bubbleObject.frame.origin.x * ratioWidth + 5,
+												bubbleObject.frame.origin.y * ratioHeight + 5,
+												bubbleObject.frame.size.width * ratioWidth,
+												bubbleObject.frame.size.height * ratioHeight);
+				ComicObjectView *bubbleObjectView = [[ComicObjectView alloc] initWithComicObject:bubbleObject];*/
+                ComicObjectView *bubbleObjectView = [ComicObjectView createListViewComicBubbleObjectViewWithObject:bubbleObject
+													 RatioW:ratioWidth RatioH:ratioHeight];
+				
+//                CGPoint scaledOriginPoint = CGPointMake(bubbleObjectView.frame.origin.x * scales.width,
+//                                                        bubbleObjectView.frame.origin.y * scales.height);
+//                
+//                bubbleObjectView.transform = CGAffineTransformScale(bubbleObjectView.transform, scales.width, scales.height);
+//                
+//                [bubbleObjectView setFrame:CGRectMake(scaledOriginPoint.x, scaledOriginPoint.y,
+//                                                      bubbleObjectView.frame.size.width,
+//                                                      bubbleObjectView.frame.size.height)];
+				
+//				bubbleObjectView.frame = CGRectMake(bubbleObject.frame.origin.x * ratioWidth,
+//										   bubbleObject.frame.origin.y * ratioHeight,
+//										   bubbleObject.frame.size.width * ratioWidth,
+//										   bubbleObject.frame.size.height * ratioHeight);
+//
                 CMCBubbleView *bubbleView = (CMCBubbleView *)bubbleObjectView.subviews.firstObject;
                 [bubbleView deactivateTextField];
                 
@@ -205,7 +241,33 @@
                 [self.timerImageViews addObject:timerViewStruct];
                 
             } else if (objectTypeIndex == ObjectPen) {
+				CGFloat ratioWidth; //ratio SlideView To ScreenSize
+				CGFloat ratioHeight; //ratio SlideView To ScreenSize
+				if (IS_IPHONE_5) {
+					ratioWidth = rect.size.width / 305;
+					ratioHeight = rect.size.height / 495.5;
+				} else if (IS_IPHONE_6) {
+					ratioWidth = rect.size.width / 358;
+					ratioHeight = rect.size.height / 585;
+				} else {
+					ratioWidth = rect.size.width / 395.333;
+					ratioHeight = rect.size.height / 648.333;
+				}
+				
                 PenObject *penObject = [[PenObject alloc] initFromDict:subview];
+				
+//				penObject.frame = CGRectMake(penObject.frame.origin.x * ratioWidth,
+//											 penObject.frame.origin.y * ratioHeight,
+//											 penObject.frame.size.width * ratioWidth,
+//											 penObject.frame.size.height * ratioHeight);
+				
+				for (NSInteger i = 0; i < penObject.coordinates.count; i ++) {
+					CGPoint pt = penObject.coordinates[i].CGPointValue;
+					pt.x = pt.x * ratioWidth;
+					pt.y = pt.y * ratioHeight;
+					[penObject.coordinates replaceObjectAtIndex:i withObject:[NSValue valueWithCGPoint:pt]];
+				}
+				
                 ComicObjectView *drawingObjectView = [[ComicObjectView alloc] initWithComicObject:penObject];
                 [penObjectsViewsArray addObject:drawingObjectView];
                 
@@ -321,7 +383,11 @@
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
                     rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
                 } else {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+//                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+					rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth,
+										   frameOfObject.origin.y * ratioHeight,
+										   frameOfObject.size.width * ratioWidth,
+										   frameOfObject.size.height * ratioHeight);
                 }
                 i ++;
                 
@@ -371,7 +437,11 @@
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
                     rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
                 } else {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+//                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+					rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth,
+										   frameOfObject.origin.y * ratioHeight,
+										   frameOfObject.size.width * ratioWidth,
+										   frameOfObject.size.height * ratioHeight);
                 }
                 i ++;
                 

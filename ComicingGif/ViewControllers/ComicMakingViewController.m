@@ -421,8 +421,8 @@ ColorWheelDelegate>
         self.penToolImageView.alpha = 1;
         self.btnToolPen.alpha = 1;
     } else {
-        self.penToolImageView.alpha = 0;
-        self.btnToolPen.alpha = 0;
+        self.penToolImageView.alpha = 1;
+        self.btnToolPen.alpha = 1;
     }
     
     for (TimerImageViewStruct *timerImageView in self.timerImageViews) {
@@ -446,8 +446,8 @@ ColorWheelDelegate>
         self.penToolImageView.alpha = 1;
         self.btnToolPen.alpha = 1;
     } else {
-        self.penToolImageView.alpha = 0;
-        self.btnToolPen.alpha = 0;
+        self.penToolImageView.alpha = 1;
+        self.btnToolPen.alpha = 1;
     }
     
     //    backgroundView.currentTimerValue = slider.value;
