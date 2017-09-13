@@ -23,23 +23,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pKL-i6-UqL">
-                                <rect key="frame" x="8.5" y="0.0" width="358" height="605"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="pKL-i6-UqL" secondAttribute="height" multiplier="1:1.69" id="lpL-8g-AJA"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HNj-VK-M8O" userLabel="AnimatedGIF leadingView">
-                                <rect key="frame" x="0.0" y="552" width="26" height="2"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="2" id="7CT-xK-CDo"/>
-                                </constraints>
-                            </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VNn-pP-SVb">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="605"/>
-                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QDP-ko-zba" customClass="ColorWheelView">
                                 <rect key="frame" x="144" y="499" width="86" height="86"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -61,6 +44,23 @@
                                     <outlet property="sizeConstraint" destination="47b-gd-Z6R" id="RKj-4X-fIN"/>
                                 </connections>
                             </view>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pKL-i6-UqL">
+                                <rect key="frame" x="8.5" y="0.0" width="358" height="605"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="pKL-i6-UqL" secondAttribute="height" multiplier="1:1.69" id="lpL-8g-AJA"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HNj-VK-M8O" userLabel="AnimatedGIF leadingView">
+                                <rect key="frame" x="0.0" y="552" width="26" height="2"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="7CT-xK-CDo"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VNn-pP-SVb">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="605"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eEi-dp-dcP">
                                 <rect key="frame" x="26" y="529.5" width="56" height="47.5"/>
                                 <constraints>

@@ -1273,6 +1273,7 @@ ColorWheelDelegate>
     }else{
         _penView.hidden = YES;
         _colorWheel.gesturesEnabled = YES;
+        [self bringPaletteToFront];
     }
 }
 
