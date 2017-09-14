@@ -17,10 +17,9 @@
 @implementation StickerObject
 
 - (id)initWithResourceID:(NSString *)ID isGif:(BOOL)flag {
-	self = [super init];
+	self = [super initWithURL:[[NSBundle mainBundle] URLForResource:ID withExtension:@""]];
 	if (self) {
 		self.objType = (flag == YES? ObjectAnimateGIF : ObjectSticker);
-		self.stickerURL = [[NSBundle mainBundle] URLForResource:ID withExtension:@""];
 		self.frame = [self retreiveBound];
 	}
 	
@@ -29,21 +28,19 @@
 
 
 - (id)initWithURL:(NSString *)urlString isGif:(BOOL)flag {
-	self = [super init];
+	self = [super initWithURL:[NSURL fileURLWithPath:urlString]];
 	if (self) {
 		self.objType = (flag == YES? ObjectAnimateGIF : ObjectSticker);
-		self.stickerURL = [NSURL fileURLWithPath:urlString];
 		self.frame = [self retreiveBound];
 	}
 	
 	return self;
 }
 
-
 - (CGRect)retreiveBound {
 	CGRect rt;
 	
-	UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.stickerURL]];
+	UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.fileURL]];
 	
 	CGSize szScreen = [[UIScreen mainScreen] bounds].size;
 	if (img.size.width / img.size.height > szScreen.width / (szScreen.height / 4)) {
@@ -69,7 +66,7 @@
 	NSDictionary *dict = [super dictForObject];
 	
 	return @{kBaseInfoKey: dict,
-			 kURLKey		: self.stickerURL.absoluteString
+			 kURLKey		: self.fileURL.absoluteString
 			 };
 }
 
@@ -83,7 +80,7 @@
 		
 		NSBundle *bundle = [NSBundle mainBundle] ;
 		NSString *strFileName = [[dict objectForKey:kURLKey] lastPathComponent];
-		self.stickerURL = [bundle URLForResource:strFileName withExtension:@""];
+		self.fileURL = [bundle URLForResource:strFileName withExtension:@""];
 		
 		self.angle = [baseDict[kAngleKey] floatValue];
 		self.scale = [baseDict[kScaleKey] floatValue];

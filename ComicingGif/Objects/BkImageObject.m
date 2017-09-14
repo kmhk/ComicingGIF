@@ -18,11 +18,18 @@ NSString * const kIsTallKey = @"isTall";
 // MARK: -
 @implementation BkImageObject
 
-- (id)initWithURL:(NSURL *)url {
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.objType = ObjectBaseImage;
-        self.fileURL = url;
+    }
+    return  self;
+}
+
+- (id)initWithURL:(NSURL *)url {
+    self = [super initWithURL:url];
+    if (self) {
+        self.objType = ObjectBaseImage;
         self.frame = [self retreiveBound];
     }
     
@@ -30,12 +37,9 @@ NSString * const kIsTallKey = @"isTall";
 }
 
 - (id)initWithURL:(NSURL *)url isTall:(BOOL)isTall{
-    self = [super init];
+    self = [self initWithURL:url];
     if (self) {
-        self.objType = ObjectBaseImage;
-        self.fileURL = url;
         self.isTall = isTall;
-        self.frame = [self retreiveBound];
     }
     
     return self;

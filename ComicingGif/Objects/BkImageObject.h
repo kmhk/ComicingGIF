@@ -6,13 +6,11 @@
 //  Copyright © 2017 Com. All rights reserved.
 //
 
-#import "BaseObject.h"
+#import "ImageObject.h"
 
 extern NSString * const kIsTallKey;
 
-@interface BkImageObject : BaseObject
-
-@property (nonatomic) NSURL *fileURL;
+@interface BkImageObject : ImageObject
 
 @property (nonatomic) BOOL isTall;
 

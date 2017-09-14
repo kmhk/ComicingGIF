@@ -15,7 +15,7 @@
 #import "BubbleObject.h"
 #import "CaptionObject.h"
 #import "PenObject.h"
-
+#import "ImageObject.h"
 
 #define COUNT_STICKERS		@[@1, @3, @3, @4, @2, @4, @3]
 

@@ -355,6 +355,7 @@
 		2141FAA11F635C1200F2FFC9 /* ColorWheelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2141FAA01F635C1200F2FFC9 /* ColorWheelView.m */; };
 		2141FAA41F635D2100F2FFC9 /* ISColorWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2141FAA31F635D2100F2FFC9 /* ISColorWheel.m */; };
 		2141FAA71F6368E200F2FFC9 /* PenIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2141FAA61F6368E200F2FFC9 /* PenIndicatorView.m */; };
+		300840A41F6A56F6002094EF /* ImageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 300840A31F6A56F6002094EF /* ImageObject.m */; };
 		3032DAEC1F58BC19001285D1 /* ASAnyCurlController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3032DAEB1F58BC19001285D1 /* ASAnyCurlController.m */; };
 		3053FBE71F5D98CD0010CE7F /* NSURL+SCSaveToCameraRoll.m in Sources */ = {isa = PBXBuildFile; fileRef = 3053FBAA1F5D98CD0010CE7F /* NSURL+SCSaveToCameraRoll.m */; };
 		3053FBE81F5D98CD0010CE7F /* SCAssetExportSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 3053FBAC1F5D98CD0010CE7F /* SCAssetExportSession.m */; };
@@ -1150,6 +1151,8 @@
 		2141FAA31F635D2100F2FFC9 /* ISColorWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISColorWheel.m; sourceTree = "<group>"; };
 		2141FAA51F6368E200F2FFC9 /* PenIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PenIndicatorView.h; sourceTree = "<group>"; };
 		2141FAA61F6368E200F2FFC9 /* PenIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PenIndicatorView.m; sourceTree = "<group>"; };
+		300840A21F6A56F6002094EF /* ImageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageObject.h; path = Objects/ImageObject.h; sourceTree = "<group>"; };
+		300840A31F6A56F6002094EF /* ImageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageObject.m; path = Objects/ImageObject.m; sourceTree = "<group>"; };
 		3032DAEA1F58BC19001285D1 /* ASAnyCurlController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASAnyCurlController.h; sourceTree = "<group>"; };
 		3032DAEB1F58BC19001285D1 /* ASAnyCurlController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASAnyCurlController.m; sourceTree = "<group>"; };
 		3053FBA91F5D98CD0010CE7F /* NSURL+SCSaveToCameraRoll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+SCSaveToCameraRoll.h"; path = "SCRecorder/Library/Sources/NSURL+SCSaveToCameraRoll.h"; sourceTree = "<group>"; };
@@ -3390,6 +3393,8 @@
 				F323D49A1E8F18BF00B41659 /* ObjectHeader.h */,
 				F323D47D1E8E752200B41659 /* BaseObject.h */,
 				F323D47E1E8E752200B41659 /* BaseObject.m */,
+				300840A21F6A56F6002094EF /* ImageObject.h */,
+				300840A31F6A56F6002094EF /* ImageObject.m */,
 				F323D4971E8F035200B41659 /* BkImageObject.h */,
 				F323D4981E8F035200B41659 /* BkImageObject.m */,
 				F323D4831E8E767500B41659 /* StickerObject.h */,
@@ -4024,6 +4029,7 @@
 				0C43F4891E9F3C8E00AB71F9 /* UIImageView+Downloader.m in Sources */,
 				0C43F6251E9F447700AB71F9 /* GroupViewController.m in Sources */,
 				0C43F4071E9F3AFD00AB71F9 /* JSONModelArray.m in Sources */,
+				300840A41F6A56F6002094EF /* ImageObject.m in Sources */,
 				0C43F5701E9F410400AB71F9 /* ComicsModel.m in Sources */,
 				0C43F59F1E9F417300AB71F9 /* STTwitterAppOnly.m in Sources */,
 				0C43F6C11E9F484800AB71F9 /* VerifyView.m in Sources */,

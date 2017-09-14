@@ -228,61 +228,82 @@
 }
 
 - (void)exportGIFwithPhotos {
-	[GIFGenerator generateGIF:self.arrayPhotos delayTime:0.0 progress:^(double progress) {
-		if ([self.delegate respondsToSelector:@selector(videoProgressingWith:)]) {
-			[self.delegate videoProgressingWith:(progress)];
-		}
-	} completed:^(NSError *error, NSURL *url) {
-		if ([self.delegate respondsToSelector:@selector(finishedGifProcessingWith:gifURL:)]) {
-			[self.delegate finishedGifProcessingWith:error gifURL:url];
-		}
-	}];
+    [GIFGenerator generateGIF:self.arrayPhotos delayTime:0.0 progress:^(double progress) {
+        if ([self.delegate respondsToSelector:@selector(videoProgressingWith:)]) {
+            [self.delegate videoProgressingWith:(progress)];
+        }
+    }
+            firstFrameHandler:^(UIImage *image) {
+                if ([self.delegate respondsToSelector:@selector(didReceiveFirstFrame:)]) {
+                    [self.delegate didReceiveFirstFrame:image];
+                }
+            }
+                    completed:^(NSError *error, NSURL *url, NSArray<UIImage *> *frames, CFTimeInterval duration) {
+                        if ([self.delegate respondsToSelector:@selector(finishedGifProcessingWith:gifURL:frames:duration:)]) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [self.delegate finishedGifProcessingWith:error
+                                                              gifURL:url
+                                                              frames:frames
+                                                            duration:duration];
+                            });
+                        }
+                    }];
 }
 
 - (void)exportGIFwithVideo {
-//    AVAsset *tmpAsset = [AVAsset assetWithURL:[NSURL fileURLWithPath:@"/Users/Ahmed/Desktop/IMG_5047.mp4"]];
     SCAssetExportSession *exportSession = [[SCAssetExportSession alloc] initWithAsset:self.recorder.session.assetRepresentingSegments];
-	exportSession.videoConfiguration.enabled = true;
-	exportSession.videoConfiguration.size = exportSize;
-	exportSession.videoConfiguration.scalingMode = AVVideoScalingModeResizeAspectFill;
-	exportSession.videoConfiguration.timeScale = 1.0;
-	exportSession.videoConfiguration.sizeAsSquare = false;
-//	exportSession.videoConfiguration.maxFrameRate = 25;
-	
-	exportSession.audioConfiguration.preset = SCPresetHighestQuality;
-	exportSession.outputUrl = self.recorder.session.outputUrl;
+    exportSession.videoConfiguration.enabled = true;
+    exportSession.videoConfiguration.size = exportSize;
+    exportSession.videoConfiguration.scalingMode = AVVideoScalingModeResizeAspectFill;
+    exportSession.videoConfiguration.timeScale = 1.0;
+    exportSession.videoConfiguration.sizeAsSquare = false;
+    
+    exportSession.audioConfiguration.preset = SCPresetHighestQuality;
+    exportSession.outputUrl = self.recorder.session.outputUrl;
     exportSession.outputFileType = AVFileTypeQuickTimeMovie;
-	exportSession.delegate = self;
-	exportSession.contextType = SCContextTypeAuto;
-	
-	[exportSession exportAsynchronouslyWithCompletionHandler:^{
-		[self.recorder.session removeAllSegments];
-		
-		if (exportSession.error) {
-			NSLog(@"exporting video failed with %@", exportSession.error.localizedDescription);
-			return;
-		}
-		
-		NSLog(@"exporting video finished and generating gif now");
-//		[self saveVideoToPhotoLibraryWith:exportSession.outputUrl];
-		
-		// generate GIF from exported video
-		[GIFGenerator generateGIF:exportSession.outputUrl
+    exportSession.delegate = self;
+    exportSession.contextType = SCContextTypeAuto;
+    
+    [exportSession exportAsynchronouslyWithCompletionHandler:^{
+        [self.recorder.session removeAllSegments];
+        
+        if (exportSession.error) {
+            NSLog(@"exporting video failed with %@", exportSession.error.localizedDescription);
+            return;
+        }
+        
+        NSLog(@"exporting video finished and generating gif now");
+        //		[self saveVideoToPhotoLibraryWith:exportSession.outputUrl];
+        
+        // generate GIF from exported video
+        [GIFGenerator generateGIF:exportSession.outputUrl
                        frameCount:0
                         delayTime:0
                          progress:^(double progress) {
-			if ([self.delegate respondsToSelector:@selector(videoProgressingWith:)]) {
-				[self.delegate videoProgressingWith:(progress / 2 + 0.5)];
-			}
-		} completed:^(NSError *error, NSURL *url) {
-			if ([self.delegate respondsToSelector:@selector(finishedGifProcessingWith:gifURL:)]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.delegate finishedGifProcessingWith:error gifURL:url];
-                });
-			}
-		}];
-		
-	}];
+                             if ([self.delegate respondsToSelector:@selector(videoProgressingWith:)]) {
+                                 [self.delegate videoProgressingWith:(progress / 2 + 0.5)];
+                             }
+                         }
+                firstFrameHandler:^(UIImage *image) {
+                    if ([self.delegate respondsToSelector:@selector(didReceiveFirstFrame:)]) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.delegate didReceiveFirstFrame:image];
+                        });
+
+                    }
+                }
+                        completed:^(NSError *error, NSURL *url, NSArray<UIImage *> *frames, CFTimeInterval duration) {
+                            if ([self.delegate respondsToSelector:@selector(finishedGifProcessingWith:gifURL:frames:duration:)]) {
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    [self.delegate finishedGifProcessingWith:error
+                                                                      gifURL:url
+                                                                      frames:frames
+                                                                    duration:duration];
+                                });
+                            }
+                        }];
+        
+    }];
 }
 
 - (void)saveVideoToPhotoLibraryWith:(NSURL *)url {

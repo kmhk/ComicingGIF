@@ -25,6 +25,7 @@
 #import "CBComicTitleFontDropdownViewController.h"
 #import "ColorWheelView.h"
 #import "UINavigationController+Transition.h"
+#import "MBProgressHUD.h"
 
 #define TOOLCELLID	@"ToolCollectionViewCell"
 #define CATEGORYCELLID	@"CategoryCollectionViewCell"
@@ -105,6 +106,8 @@ ColorWheelDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *buttonToolTextImageView;
 @property (weak, nonatomic) IBOutlet UIButton *btnToolPen;
 @property (weak, nonatomic) IBOutlet UIImageView *drawingImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *placeholderImageView;
+@property (strong, nonatomic) UIImage *placeholderImage;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnNext;
 @property (weak, nonatomic) IBOutlet UIButton *btnClose;
@@ -888,6 +891,8 @@ ColorWheelDelegate>
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [self showPlaceHolderView];
+    
     if (self.navigationController.visibleViewController == self) {
         [self createComicViews];
     }
@@ -944,7 +949,7 @@ ColorWheelDelegate>
     }
     
     // Add icons after slider layout-------
-    if (!haveAddedIconsOnce) {
+    if (!haveAddedIconsOnce && backgroundView) {
         haveAddedIconsOnce = !haveAddedIconsOnce;
         NSArray *noBaseLayerComicObjectViews = [backgroundView subviews];
         if (noBaseLayerComicObjectViews.count >= 1) {
@@ -961,6 +966,15 @@ ColorWheelDelegate>
         }
     }
     //>> Add icons after slider layout------
+}
+
+- (void)showPlaceHolderView {
+    self.placeholderImageView.image = self.placeholderImage;
+}
+
+- (void)hidePlaceHolderView {
+    self.placeholderImage = nil;
+    [self.placeholderImageView removeFromSuperview];
 }
 
 - (UIView *)viewForZoomTransition:(BOOL)isSource {
@@ -984,18 +998,22 @@ ColorWheelDelegate>
 
 // MARK: - public initialize methods
 
-- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect andSubviewArray:(NSMutableArray *)arrSubviews isTall:(BOOL)isTall index:(NSInteger)index {
-    BkImageObject *obj = [[BkImageObject alloc] initWithURL:url isTall:isTall];
-    obj.frame = rect;
-    obj.isTall = isTall;
-    self.isTall = isTall;
+- (void)setupPlaceholderImage:(UIImage *)placeholerImage
+{
+    self.placeholderImage = placeholerImage;
+}
+
+- (void)initWithBaseComicObject:(BkImageObject *)baseComicObject
+          andSubviewArray:(NSMutableArray *)arrSubviews
+                   index:(NSInteger)index {
+    self.isTall = baseComicObject.isTall;
     
     if (!viewModel) {
         viewModel = [[ComicMakingViewModel alloc] init];
     }
     [viewModel.arrayObjects removeAllObjects];
     
-    [viewModel addObject:obj];
+    [viewModel addObject:baseComicObject];
     
     if (arrSubviews != nil) {
         for (NSDictionary *subObj in arrSubviews) {
@@ -1445,11 +1463,16 @@ ColorWheelDelegate>
         NSLog(@"There is nothing comic objects");
         return;
     }
+    
     [self.view layoutIfNeeded];
     _timerImageViews = [NSMutableArray array];
-    backgroundView = [ComicObjectView createComicViewWith:viewModel.arrayObjects delegate:self timerImageViews:_timerImageViews];
+    backgroundView = [ComicObjectView createComicViewWith:viewModel.arrayObjects
+                                                 delegate:self
+                                          timerImageViews:_timerImageViews];
     backgroundView.frame = CGRectMake(0, 20, self.baseLayerView.frame.size.width, self.baseLayerView.frame.size.height-20);
     [self.baseLayerView insertSubview:backgroundView atIndex:0];
+    
+    [self hidePlaceHolderView];
     
     //Set tags----------
     if (_timerImageViews.count != 0) {

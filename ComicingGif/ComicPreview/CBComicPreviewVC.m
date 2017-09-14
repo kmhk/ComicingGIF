@@ -584,29 +584,28 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
 }
 
 - (void)didTapOnComicItemWithIndex:(NSInteger)index {
-//    CBComicItemModel *itemModel = ((CBComicItemModel *)[self.dataArray objectAtIndex:index]);
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kComicMakingStoryboard bundle:nil];
     
     ComicMakingViewController *vc = [storyboard instantiateViewControllerWithIdentifier:ComicMakingViewControllerIdentifier];
     
     NSMutableArray *arrTemp = [NSMutableArray new];
     arrTemp = [[self.comicSlides objectAtIndex:index] mutableCopy];
-    [arrTemp removeObjectAtIndex:0];
+    NSDictionary *slideDataDict = [arrTemp firstObject];
+    if (slideDataDict) {
+        [arrTemp removeObject:slideDataDict];
+    }
     
-    
-    NSString *baseURLString = [[[self.comicSlides objectAtIndex:index] objectAtIndex:0]objectForKey:kURLKey];
-    CGRect slideRect = CGRectFromString([[[[self.comicSlides objectAtIndex:index] objectAtIndex:0] valueForKey:kBaseInfoKey] valueForKey:kFrameKey]);
-    
+    BkImageObject *baseComicObject  = [[BkImageObject alloc] initFromDict:slideDataDict];
     
     vc.indexSaved = index;
-    vc.urlOfSlide = [NSURL URLWithString:baseURLString];
-    [vc initWithBaseImage:[NSURL URLWithString:baseURLString] frame:slideRect andSubviewArray:arrTemp isTall:[[[[self.comicSlides objectAtIndex:index] firstObject] valueForKey:kIsTallKey] boolValue] index:index];
+    [vc initWithBaseComicObject:baseComicObject
+                andSubviewArray:arrTemp
+                          index:index];
     
     self.selectedIndex = (int) index;
     self.transitionView = [_comicPageCollectionVC.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]].contentView;
     
     [self.navigationController pushViewController:vc animated:YES];
-    //    [self pushAddSlideTap:!(itemModel.itemOrientation==COMIC_ITEM_ORIENTATION_PORTRAIT) ofIndex:index];
 }
 
 #pragma mark - ComicBookColorCBViewControllerDelegate method

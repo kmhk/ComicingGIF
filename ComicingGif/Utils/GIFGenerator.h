@@ -10,7 +10,8 @@
 
 
 typedef void(^ProgressHandler)(double progress);
-typedef void(^CompletionHandler)(NSError *error, NSURL *url);
+typedef void(^FirstFrameHandler)(UIImage *image);
+typedef void(^CompletionHandler)(NSError *error, NSURL *url, NSArray <UIImage *> *frames, CFTimeInterval duration);
 
 
 // MARK: - GIFGenerator definition
@@ -18,10 +19,12 @@ typedef void(^CompletionHandler)(NSError *error, NSURL *url);
 
 + (void)generateGIF:(NSURL *)videoURL frameCount:(NSInteger)count delayTime:(double)delay
 		   progress:(ProgressHandler)progressing
+  firstFrameHandler:(FirstFrameHandler)firstFrameHandler
 		  completed:(CompletionHandler)completed;
 
 + (void)generateGIF:(NSArray *)images delayTime:(double)delay
-		   progress:(ProgressHandler)progressing
+           progress:(ProgressHandler)progressing
+  firstFrameHandler:(FirstFrameHandler)firstFrameHandler
 		  completed:(CompletionHandler)completed;
 
 @end

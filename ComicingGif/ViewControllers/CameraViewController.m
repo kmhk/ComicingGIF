@@ -15,6 +15,7 @@
 #import "ASAnyCurlController.h"
 #import "UIImage+Image.h"
 #import "UINavigationController+Transition.h"
+#import "BkImageObject.h"
 
 #define TOPBADDING		0.0
 #define BOTTOMPADDING	0.0
@@ -42,6 +43,7 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
 @property (weak, nonatomic) IBOutlet UIView *animView;
 @property (weak, nonatomic) IBOutlet UIImageView *imgSelected;
 @property (strong, nonatomic) NSDate *tapOnCaptureTime;
+@property (strong, nonatomic) ComicMakingViewController *precreatedComicMakingVC;
 @end
 
 @implementation CameraViewController
@@ -85,6 +87,16 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     [self showProgress:YES progress:0];
 
     [self.viewModel setupRecorderWith:self.cameraPreview];
+}
+
+- (ComicMakingViewController *)precreatedComicMakingVC {
+    if (_precreatedComicMakingVC == nil) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ComicMaking" bundle:nil];
+        _precreatedComicMakingVC = [storyboard instantiateViewControllerWithIdentifier:@"ComicMakingViewController"];
+        _precreatedComicMakingVC.isFromCamera = true;
+        _precreatedComicMakingVC.indexSaved = _indexOfSlide;
+    }
+    return _precreatedComicMakingVC;
 }
 
 - (void) setCaptureImageWithDefaultPosition {
@@ -380,7 +392,11 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     });
 }
 
-- (void)finishedGifProcessingWith:(NSError *)error gifURL:(NSURL *)url
+- (void)didReceiveFirstFrame:(UIImage *)firstFrameImage {
+    [self.precreatedComicMakingVC setupPlaceholderImage:firstFrameImage];
+}
+
+- (void)finishedGifProcessingWith:(NSError *)error gifURL:(NSURL *)url frames:(NSArray<UIImage *> *)frameImages duration:(CFTimeInterval)duration
 {
     [self showProgress:YES progress:0];
     
@@ -391,51 +407,36 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
         
         return;
     }
-    
-    // send email GIF for the testing
-    /*if([MFMailComposeViewController canSendMail]) {
-     MFMailComposeViewController *mailCont = [[MFMailComposeViewController alloc] init];
-     mailCont.mailComposeDelegate = self;
-     
-     [mailCont setSubject:@"created GIF"];
-     [mailCont setMessageBody:@"Please take a look attached GIF file." isHTML:NO];
-     
-     NSData *data = [NSData dataWithContentsOfURL:url];
-     [mailCont addAttachmentData:data mimeType:@"GIF" fileName:@"sample.GIF"];
-     
-     [self presentViewController:mailCont animated:YES completion:nil];
-     
-     [self resetRecord];
-     }*/
-    
-    // show comic making controller
-    //    [self performSegueWithIdentifier:@"segueMaking" sender:url];
-    
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ComicMaking" bundle:nil];
-    ComicMakingViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ComicMakingViewController"];
-    vc.isFromCamera = true;
-    vc.indexSaved = _indexOfSlide;
-
+        
     __weak typeof(self) wSelf = self;
-//    self.captureHolder.translatesAutoresizingMaskIntoConstraints = true;
-//    self.topBar.translatesAutoresizingMaskIntoConstraints = true;
     
     CGRect tempFrame = self.captureHolder.frame;
     tempFrame.origin.y = [UIScreen mainScreen].bounds.size.height;
     
     [self resetRecord];
-    [vc initWithBaseImage:url frame:wSelf.cameraPreview.frame andSubviewArray:nil isTall:!wSelf.isVerticalCamera index:_indexOfSlide];
+    
+    BkImageObject *baseComicObj = [[BkImageObject alloc] init];
+    baseComicObj.fileURL = url;
+    baseComicObj.frame = self.cameraPreview.bounds;//frame;
+    baseComicObj.isTall = !wSelf.isVerticalCamera;
+    baseComicObj.duratoin = duration;
+    baseComicObj.frameImages = frameImages;
+    
+    [self.precreatedComicMakingVC initWithBaseComicObject:baseComicObj
+                                          andSubviewArray:nil
+                                                    index:_indexOfSlide];
     
     // Photo should be transit to other view after 2 seconds delay, video will be transited imidiatly after progress is finished
     // Check time after last tap on record button and transit
     NSTimeInterval timeAfterTapOnRecord = [[NSDate date] timeIntervalSinceDate:self.tapOnCaptureTime];
     if (timeAfterTapOnRecord > kDelayBeforeTransition) {
-        [self curlTransitionToViewController:vc with:url];
+        [self curlTransitionToViewController:self.precreatedComicMakingVC
+                                        with:url];
     } else {
         NSTimeInterval performAfterTime = kDelayBeforeTransition - timeAfterTapOnRecord;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(performAfterTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self curlTransitionToViewController:vc with:url];
+            [self curlTransitionToViewController:self.precreatedComicMakingVC
+                                            with:url];
         });
     }
     self.tapOnCaptureTime = nil;

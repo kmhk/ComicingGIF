@@ -17,16 +17,15 @@
 @interface GIFGenerator()
 {
     AVURLAsset *asset;
-    double duration;
+    CFTimeInterval duration;
     
-    ProgressHandler progressHandler;
-    CompletionHandler completedHandler;
-    
+    ProgressHandler _progressHandler;
+    CompletionHandler _completedHandler;
+    FirstFrameHandler _firstFrameHandler;
     NSInteger frameCount;
     double delayPerFrame;
-    
-    NSMutableArray *arrayFrames;
 }
+@property (strong, nonatomic) NSMutableArray <UIImage *> *arrayFrames;
 @end
 
 
@@ -36,6 +35,7 @@
 // MARK: - global static methods
 + (void)generateGIF:(NSURL *)videoURL frameCount:(NSInteger)count delayTime:(double)delay
            progress:(ProgressHandler)progressing
+  firstFrameHandler:(FirstFrameHandler)firstFrameHandler
           completed:(CompletionHandler)completed
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
@@ -43,6 +43,7 @@
                                                   frameCount:count
                                                    delayTime:delay
                                                     progress:progressing
+                                           firstFrameHandler:firstFrameHandler
                                                    completed:completed];
         
         [generator createGifFromVideo];
@@ -51,10 +52,14 @@
 
 + (void)generateGIF:(NSArray *)images delayTime:(double)delay
            progress:(ProgressHandler)progressing
+  firstFrameHandler:(FirstFrameHandler)firstFrameHandler
           completed:(CompletionHandler)completed
 {
-    GIFGenerator *generator = [[GIFGenerator alloc] init:images delayTime:delay
-                                                progress:progressing completed:completed];
+    GIFGenerator *generator = [[GIFGenerator alloc] init:images
+                                               delayTime:delay
+                                                progress:progressing
+                                       firstFrameHandler:firstFrameHandler
+                                               completed:completed];
     
     [generator createGifWithImages];
 }
@@ -64,19 +69,24 @@
 - (id)init {
     self = [super init];
     if (self) {
-        progressHandler = nil;
-        completedHandler = nil;
+        _progressHandler = nil;
+        _firstFrameHandler = nil;
+        _completedHandler = nil;
         
-        arrayFrames = [[NSMutableArray alloc] init];
+        _arrayFrames = [[NSMutableArray alloc] init];
     }
     
     return self;
 }
 
-- (id)init:(NSURL *)videoURL  frameCount:(NSInteger)count delayTime:(double)delay
-  progress:(ProgressHandler)progress completed:(CompletionHandler)completed
+- (id)         init:(NSURL *)videoURL
+         frameCount:(NSInteger)count
+          delayTime:(double)delay
+           progress:(ProgressHandler)progress
+  firstFrameHandler:(FirstFrameHandler)firstFrameHandler
+          completed:(CompletionHandler)completed
 {
-    self = [super init];
+    self = [self init];
     if (self) {
         frameCount = count;
         delayPerFrame = delay;
@@ -96,15 +106,18 @@
             delayPerFrame = delay;
         }
         
-        progressHandler = progress;
-        completedHandler = completed;
+        _progressHandler = progress;
+        _firstFrameHandler = firstFrameHandler;
+        _completedHandler = completed;
     }
     
     return self;
 }
 
 - (id)init:(NSArray *)images delayTime:(double)delay
-  progress:(ProgressHandler)progress completed:(CompletionHandler)completed
+  progress:(ProgressHandler)progress
+firstFrameHandler:(FirstFrameHandler)firstFrameHandler
+ completed:(CompletionHandler)completed
 {
     self = [super init];
     if (self) {
@@ -116,10 +129,11 @@
             delayPerFrame = delay;
         }
         
-        progressHandler = progress;
-        completedHandler = completed;
+        _progressHandler = progress;
+        _completedHandler = completed;
+        _firstFrameHandler = firstFrameHandler;
         
-        arrayFrames = [[NSMutableArray alloc] initWithArray:images];
+        _arrayFrames = [[NSMutableArray alloc] initWithArray:images];
     }
     
     return self;
@@ -156,9 +170,11 @@
         return;
     }
     
+    [self didReceiveFirstFrame:[self.arrayFrames firstObject]];
+    
     for (int i = 0; i < frameCount; i ++) {
         // add frame image to the gif
-        UIImage *img = arrayFrames[i];
+        UIImage *img = self.arrayFrames[i];
         CGImageDestinationAddImage(dest, img.CGImage, (__bridge CFDictionaryRef)frameProperties);
         
         [self progressing:(1.0 / frameCount * i)];
@@ -224,6 +240,7 @@
         [times addObject:[NSValue valueWithCMTime:time]];
     }
     __block NSInteger createdFrameCount = 0;
+    __weak GIFGenerator * weakSelf = self;
     [imgGenerator generateCGImagesAsynchronouslyForTimes:times
                                        completionHandler:^(CMTime requestedTime,
                                                            CGImageRef  _Nullable image,
@@ -231,13 +248,18 @@
                                                            AVAssetImageGeneratorResult result,
                                                            NSError * _Nullable error) {
                                            CGImageDestinationAddImage(dest, image, (__bridge CFDictionaryRef)frameProperties);
-                                           createdFrameCount++;
                                            [self progressing:(1.0 / frameCount * createdFrameCount)];
                                            
+                                           UIImage *frameImage = [UIImage imageWithCGImage:image];
+                                           if (frameImage) {
+                                               [weakSelf.arrayFrames addObject:[UIImage imageWithCGImage:image]];
+                                           }
                                            
                                            if (error) {
                                                [self fireError:[NSError errorWithDomain:@"finalized gif failed" code:100 userInfo:nil]];
-                                           } else if (createdFrameCount == frameCount) {
+                                           } else if (createdFrameCount == 0) {
+                                               [self didReceiveFirstFrame:[weakSelf.arrayFrames firstObject]];
+                                           } else if (createdFrameCount == frameCount - 1) {
                                                CGImageDestinationSetProperties(dest, (__bridge CFDictionaryRef)fileProperties);
                                                
                                                // finalize the gif
@@ -248,25 +270,32 @@
                                                
                                                [self finished:fileURL];
                                            }
+                                           createdFrameCount++;
                                        }];
 }
 
 // MARK: private methods
 - (void)fireError:(NSError *)error {
-    if (completedHandler) {
-        completedHandler(error, nil);
+    if (_completedHandler) {
+        _completedHandler(error, nil, self.arrayFrames, duration);
     }
 }
 
 - (void)progressing:(double)progress {
-    if (progressHandler) {
-        progressHandler(progress);
+    if (_progressHandler) {
+        _progressHandler(progress);
+    }
+}
+
+- (void)didReceiveFirstFrame:(UIImage *)firstFrame {
+    if (_firstFrameHandler) {
+        _firstFrameHandler(firstFrame);
     }
 }
 
 - (void)finished:(NSURL *)url {
-    if (completedHandler) {
-        completedHandler(nil, url);
+    if (_completedHandler) {
+        _completedHandler(nil, url, self.arrayFrames, duration);
     }
 }
 

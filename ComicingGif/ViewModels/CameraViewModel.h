@@ -24,8 +24,11 @@ typedef enum : NSUInteger {
 
 @optional
 - (void)videoProgressingWith:(CGFloat)progress;
-- (void)finishedGifProcessingWith:(NSError *)error gifURL:(NSURL *)url;
-
+- (void)didReceiveFirstFrame:(UIImage *)firstFrameImage;
+- (void)finishedGifProcessingWith:(NSError *)error
+                           gifURL:(NSURL *)url
+                           frames:(NSArray <UIImage *> *)frameImages
+                         duration:(CFTimeInterval)duration;
 @end
 
 

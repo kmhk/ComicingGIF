@@ -28,8 +28,6 @@
         UIPanGestureRecognizer *panGesture;
         UIRotationGestureRecognizer *rotateGesture;
         UIPinchGestureRecognizer *pinchGesture;
-        
-        NSMutableArray *arrayImages;
     }
     @end
 
@@ -372,13 +370,9 @@
 - (UIImageView *)createBaseImageView {
     BkImageObject *obj = (BkImageObject *)self.comicObject;
     self.frame = obj.frame;
-    
-    NSString *fileName1 = [NSString stringWithFormat:@"%@",[obj.fileURL lastPathComponent]];
-    NSURL *fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fileName1]];
-    
-    
-    NSData *data = [NSData dataWithContentsOfURL:fileURL];
-    UIImageView *imageView = [self createImageViewWith:data frame:self.bounds bAnimate:YES];
+   
+    UIImageView *imageView = [self createImageViewWithImageObject:obj
+                                                            frame:self.bounds];
     
     return imageView;
 }
@@ -387,7 +381,7 @@
     StickerObject *obj = (StickerObject *)self.comicObject;
     self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
 //    self.backgroundColor = [UIColor redColor]; // c0mrade
-    NSData *data = [NSData dataWithContentsOfURL:obj.stickerURL];
+    NSData *data = [NSData dataWithContentsOfURL:obj.fileURL];
     /*
      real inside content view's size is less (40, 40) than object view. because it needs to show tool bar of all comic objects
      */
@@ -405,11 +399,12 @@
     StickerObject *obj = (StickerObject *)self.comicObject;
     self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
     
-    NSData *data = [NSData dataWithContentsOfURL:obj.stickerURL];
+    NSData *data = [NSData dataWithContentsOfURL:obj.fileURL];
     /*
      real inside content view's size is less (40, 40) than object view. because it needs to show tool bar of all comic objects
      */
-    UIImageView *imageView = [self createImageViewWith:data frame:CGRectMake(0, 0, obj.frame.size.width - W_PADDING, obj.frame.size.height - H_PADDING) bAnimate:NO];
+    UIImageView *imageView = [self createImageViewWithImageObject:obj
+                                                            frame:CGRectMake(0, 0, obj.frame.size.width - W_PADDING, obj.frame.size.height - H_PADDING)];
     
     return imageView;
 }
@@ -840,7 +835,7 @@
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            resultImageView.image = arrayImages.firstObject;
+            resultImageView.image = arrayImagesL.firstObject;
             resultImageView.animationImages = arrayImagesL;
             resultImageView.animationDuration = totalDuration;
             resultImageView.animationRepeatCount = (flag == YES? 1 : 1);
@@ -860,52 +855,66 @@
     });
 }
     
-- (UIImageView *)createImageViewWith:(NSData *)data frame:(CGRect)rect bAnimate:(BOOL)flag {
-    CGImageSourceRef srcImage = CGImageSourceCreateWithData(toCF data, nil);
-    if (!srcImage) {
-        NSLog(@"loading image failed");
-    }
+- (UIImageView *)createImageViewWithImageObject:(ImageObject *)object frame:(CGRect)rect {
     
-    size_t imgCount = CGImageSourceGetCount(srcImage);
-    NSTimeInterval totalDuration = 0;
-    NSNumber *frameDuration;
-    
-    arrayImages = [[NSMutableArray alloc] init];
-    for (NSInteger i = 0; i < imgCount; i ++) {
-        CGImageRef cgImg = CGImageSourceCreateImageAtIndex(srcImage, i, nil);
-        if (!cgImg) {
-            NSLog(@"loading %ldth image failed from the source", (long)i);
-            continue;
+    if (!object.frameImages.count) {
+        NSTimeInterval totalDuration = 0;
+        NSURL *fileURL = object.fileURL;
+        if ([object isKindOfClass:[BkImageObject class]]) {
+            NSString *filename = object.fileURL.lastPathComponent;
+            fileURL =  [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:filename]];
+        }
+        NSData *data = [NSData dataWithContentsOfURL:fileURL];
+        
+        CGImageSourceRef srcImage = CGImageSourceCreateWithData(toCF data, nil);
+        if (!srcImage) {
+            NSLog(@"loading image failed");
         }
         
-        UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
-        [arrayImages addObject:img];
+        size_t imgCount = CGImageSourceGetCount(srcImage);
+        NSNumber *frameDuration;
         
-        NSDictionary *property = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(srcImage, i, nil));
-        NSDictionary *gifDict = property[fromCF kCGImagePropertyGIFDictionary];
-        
-        frameDuration = gifDict[fromCF kCGImagePropertyGIFUnclampedDelayTime];
-        if (!frameDuration) {
-            frameDuration = gifDict[fromCF kCGImagePropertyGIFDelayTime];
+        NSMutableArray *arrayImages = [[NSMutableArray alloc] initWithCapacity:imgCount];
+        for (NSInteger i = 0; i < imgCount; i ++) {
+            CGImageRef cgImg = CGImageSourceCreateImageAtIndex(srcImage, i, nil);
+            if (!cgImg) {
+                NSLog(@"loading %ldth image failed from the source", (long)i);
+                continue;
+            }
+            
+            UIImage *img = [[Global global] scaledImage:[UIImage imageWithCGImage:cgImg] size:rect.size];
+            [arrayImages addObject:img];
+            
+            NSDictionary *property = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(srcImage, i, nil));
+            NSDictionary *gifDict = property[fromCF kCGImagePropertyGIFDictionary];
+            
+            frameDuration = gifDict[fromCF kCGImagePropertyGIFUnclampedDelayTime];
+            if (!frameDuration) {
+                frameDuration = gifDict[fromCF kCGImagePropertyGIFDelayTime];
+            }
+            
+            totalDuration += frameDuration.floatValue;
+            
+            CGImageRelease(cgImg);
         }
         
-        totalDuration += frameDuration.floatValue;
-        
-        CGImageRelease(cgImg);
+        CFRelease(srcImage);
+        object.frameImages = arrayImages;
+        object.duratoin = totalDuration;
     }
+
     
-    CFRelease(srcImage);
     
     UIImageView *imgView = [[UIImageView alloc] initWithFrame:rect];
-    imgView.image = arrayImages.firstObject;
+    imgView.image = object.frameImages.firstObject;
     imgView.autoresizingMask = 0B11111;
     imgView.userInteractionEnabled = YES;
     imgView.tag = 0x1000;
     [self addSubview:imgView];
     
-    imgView.animationImages = arrayImages;
-    imgView.animationDuration = totalDuration;
-    imgView.animationRepeatCount = (flag == YES? 1 : 1);
+    imgView.animationImages = object.frameImages;
+    imgView.animationDuration = object.duratoin;
+    imgView.animationRepeatCount = 1;
     [imgView startAnimating];
     
     return imgView;

@@ -6,12 +6,9 @@
 //  Copyright © 2017 Com. All rights reserved.
 //
 
-#import "BaseObject.h"
+#import "ImageObject.h"
 
-@interface StickerObject : BaseObject
-
-// sticker or gif resource name
-@property (nonatomic) NSURL *stickerURL;
+@interface StickerObject : ImageObject
 
 // create sticker/animationGIF with resource ID. if flag is YES, anmation GIF. otherwise sticker.
 - (id)initWithResourceID:(NSString *)ID isGif:(BOOL)flag;

@@ -11,6 +11,7 @@
 #import "CMCBubbleView.h"
 #import "CMCCaptionView.h"
 
+@class BkImageObject;
 
 @interface ComicMakingViewController : UIViewController
 <
@@ -25,11 +26,14 @@ CMCCaptionViewDelegate
 
 // initialize comic making view controller with background GIF/Image from url
 
-@property (nonatomic) NSURL *urlOfSlide;
 @property (nonatomic) NSInteger indexSaved;
 @property (nonatomic, assign) BOOL shouldShowScrollBar;
 @property (nonatomic) BOOL isFromCamera;
 
-- (void)initWithBaseImage:(NSURL *)url frame:(CGRect)rect andSubviewArray:(NSMutableArray *)arrSubviews isTall:(BOOL)isTall index:(NSInteger)index;
+- (void)setupPlaceholderImage:(UIImage *)placeholerImage;
+
+- (void)initWithBaseComicObject:(BkImageObject *)baseComicObject
+                andSubviewArray:(NSMutableArray *)arrSubviews
+                          index:(NSInteger)index;
 
 @end
