@@ -44,7 +44,7 @@ SCAssetExportSessionDelegate
 
 @property (nonatomic) NSMutableArray *arrayPhotos;
 
-@property (nonatomic) id<CameraViewModelDelegate> delegate;
+@property (weak, nonatomic) id<CameraViewModelDelegate> delegate;
 
 
 // MARK: public methods

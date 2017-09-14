@@ -247,31 +247,47 @@ firstFrameHandler:(FirstFrameHandler)firstFrameHandler
                                                            CMTime actualTime,
                                                            AVAssetImageGeneratorResult result,
                                                            NSError * _Nullable error) {
-                                           CGImageDestinationAddImage(dest, image, (__bridge CFDictionaryRef)frameProperties);
-                                           [self progressing:(1.0 / frameCount * createdFrameCount)];
-                                           
-                                           UIImage *frameImage = [UIImage imageWithCGImage:image];
-                                           if (frameImage) {
-                                               [weakSelf.arrayFrames addObject:[UIImage imageWithCGImage:image]];
-                                           }
-                                           
-                                           if (error) {
-                                               [self fireError:[NSError errorWithDomain:@"finalized gif failed" code:100 userInfo:nil]];
-                                           } else if (createdFrameCount == 0) {
-                                               [self didReceiveFirstFrame:[weakSelf.arrayFrames firstObject]];
-                                           } else if (createdFrameCount == frameCount - 1) {
-                                               CGImageDestinationSetProperties(dest, (__bridge CFDictionaryRef)fileProperties);
+                                           @autoreleasepool {
+                                               CGImageDestinationAddImage(dest, image, (__bridge CFDictionaryRef)frameProperties);
+                                               [self progressing:(1.0 / frameCount * createdFrameCount)];
                                                
-                                               // finalize the gif
-                                               if (!CGImageDestinationFinalize(dest)) {
-                                                   [self fireError:[NSError errorWithDomain:@"finalized gif failed" code:100 userInfo:nil]];
+                                               UIImage *frameImage = [self imageWithFrameImageRef:image];
+                                               
+                                               if (frameImage) {
+                                                   [weakSelf.arrayFrames addObject:frameImage];
                                                }
-                                               CFRelease(dest);
                                                
-                                               [self finished:fileURL];
+                                               if (error) {
+                                                   [self fireError:[NSError errorWithDomain:@"finalized gif failed" code:100 userInfo:nil]];
+                                               } else if (createdFrameCount == 0) {
+                                                   [self didReceiveFirstFrame:frameImage];
+                                               } else if (createdFrameCount == frameCount - 1) {
+                                                   CGImageDestinationSetProperties(dest, (__bridge CFDictionaryRef)fileProperties);
+                                                   
+                                                   // finalize the gif
+                                                   if (!CGImageDestinationFinalize(dest)) {
+                                                       [self fireError:[NSError errorWithDomain:@"finalized gif failed" code:100 userInfo:nil]];
+                                                   }
+                                                   CFRelease(dest);
+                                                   
+                                                   [self finished:fileURL];
+                                               }
+                                               createdFrameCount++;
                                            }
-                                           createdFrameCount++;
                                        }];
+}
+
+// MARK: Helper methods
+
+- (UIImage *)imageWithFrameImageRef:(CGImageRef  _Nullable)image {
+    CFMutableDataRef newImageData = CFDataCreateMutable(NULL, 0);
+    CGImageDestinationRef destination = CGImageDestinationCreateWithData(newImageData, kUTTypeJPEG, 1, NULL);
+    CGImageDestinationAddImage(destination, image, nil);
+    if(!CGImageDestinationFinalize(destination))
+        NSLog(@"Failed to write Image");
+    NSData *newImage = (__bridge  NSData *)newImageData;
+    
+    return [UIImage imageWithData:newImage];
 }
 
 // MARK: private methods
@@ -297,6 +313,8 @@ firstFrameHandler:(FirstFrameHandler)firstFrameHandler
     if (_completedHandler) {
         _completedHandler(nil, url, self.arrayFrames, duration);
     }
+    // Clean referances to images array on comletion
+    self.arrayFrames = nil;
 }
 
 @end
