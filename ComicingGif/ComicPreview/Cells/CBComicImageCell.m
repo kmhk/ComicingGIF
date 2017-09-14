@@ -129,6 +129,7 @@
                 
                 CGFloat timerDelay = [[[subview objectForKey:kBaseInfoKey] objectForKey:kDelayTimeKey] floatValue];
 				CGFloat rotationAngle = [[[subview objectForKey:kBaseInfoKey] objectForKey:kAngleKey] floatValue];
+				CGFloat scale = [[[subview objectForKey:kBaseInfoKey] objectForKey:kScaleKey] floatValue];
                 [self createImageViewWith:gifData
                                     frame:rectOfGif
                                  bAnimate:YES
@@ -137,7 +138,8 @@
                       backgroundSuperview:nil
                              topLayerView:cell.topLayerView
                                 withDelay:timerDelay
-								withAngle:rotationAngle];
+								withAngle:rotationAngle
+								withScale:scale];
             }
             
             //18 is for static stickers
@@ -241,32 +243,8 @@
                 [self.timerImageViews addObject:timerViewStruct];
                 
             } else if (objectTypeIndex == ObjectPen) {
-				CGFloat ratioWidth; //ratio SlideView To ScreenSize
-				CGFloat ratioHeight; //ratio SlideView To ScreenSize
-				if (IS_IPHONE_5) {
-					ratioWidth = rect.size.width / 305;
-					ratioHeight = rect.size.height / 495.5;
-				} else if (IS_IPHONE_6) {
-					ratioWidth = rect.size.width / 358;
-					ratioHeight = rect.size.height / 585;
-				} else {
-					ratioWidth = rect.size.width / 395.333;
-					ratioHeight = rect.size.height / 648.333;
-				}
 				
-                PenObject *penObject = [[PenObject alloc] initFromDict:subview];
-				
-//				penObject.frame = CGRectMake(penObject.frame.origin.x * ratioWidth,
-//											 penObject.frame.origin.y * ratioHeight,
-//											 penObject.frame.size.width * ratioWidth,
-//											 penObject.frame.size.height * ratioHeight);
-				
-				for (NSInteger i = 0; i < penObject.coordinates.count; i ++) {
-					CGPoint pt = penObject.coordinates[i].CGPointValue;
-					pt.x = pt.x * ratioWidth;
-					pt.y = pt.y * ratioHeight;
-					[penObject.coordinates replaceObjectAtIndex:i withObject:[NSValue valueWithCGPoint:pt]];
-				}
+				PenObject *penObject = [[PenObject alloc] initFromDict:subview];
 				
                 ComicObjectView *drawingObjectView = [[ComicObjectView alloc] initWithComicObject:penObject];
                 [penObjectsViewsArray addObject:drawingObjectView];
@@ -309,7 +287,29 @@
                     NSMutableArray *penViewForTimeDelayArray = [multiplePenObjecsDevidedByTimeDelay objectForKey:timeDelayKey];
                     
                     ComicObjectView *drawingObjectView = [ComicObjectView createSingleImageViewFromDrawingsArrayofPenViews:penViewForTimeDelayArray];
-                    
+					
+					CGFloat ratioWidth; //ratio SlideView To ScreenSize
+					CGFloat ratioHeight; //ratio SlideView To ScreenSize
+					if (IS_IPHONE_5) {
+						ratioWidth = rect.size.width / 305;
+						ratioHeight = rect.size.height / 495.5;
+					} else if (IS_IPHONE_6) {
+						ratioWidth = rect.size.width / 358;
+						ratioHeight = rect.size.height / 585;
+					} else {
+						ratioWidth = rect.size.width / 395.333;
+						ratioHeight = rect.size.height / 648.333;
+					}
+					drawingObjectView.frame = CGRectMake(drawingObjectView.comicObject.frame.origin.x * ratioWidth,
+														 drawingObjectView.comicObject.frame.origin.y * ratioHeight,
+														 drawingObjectView.comicObject.frame.size.width * ratioWidth,
+														 drawingObjectView.comicObject.frame.size.height * ratioHeight);
+//					NSLog(@"size of pen view: %@", NSStringFromCGRect(drawingObjectView.frame));
+					for (UIView *view in drawingObjectView.subviews) {
+						view.frame = drawingObjectView.bounds;
+//						NSLog(@"\tsize of peng view: %@", NSStringFromCGRect(view.frame));
+					}
+					
                     if (cell.topLayerView.subviews.count > 0) {
                         [cell.topLayerView insertSubview:drawingObjectView atIndex:0];
                     } else {
@@ -481,7 +481,8 @@
         backgroundSuperview:(__weak UIImageView *)backgroundSuperview
                topLayerView:(__weak UIView *)topLayerView
                   withDelay:(CGFloat)delay
-				  withAngle:(CGFloat)angle{
+				  withAngle:(CGFloat)angle
+				  withScale:(CGFloat)scale{
     
     dispatch_queue_t const preloadQueue = dispatch_queue_create("preload-queue", DISPATCH_QUEUE_SERIAL);
     __weak CBComicImageCell *weakSelf = self;
@@ -497,15 +498,18 @@
         NSMutableArray *arrayImages = [NSMutableArray new];
         
         UIImageView *resultImageView = [[UIImageView alloc] initWithFrame:rect];
+		resultImageView.center = rect.origin;
         dispatch_async(dispatch_get_main_queue(), ^{
             resultImageView.autoresizingMask = 0B11111;
             resultImageView.userInteractionEnabled = YES;
             if (isBackground) {
                 [backgroundSuperview insertSubview:resultImageView atIndex:0];
 				resultImageView.transform = CGAffineTransformMakeRotation(angle);
+				resultImageView.transform = CGAffineTransformScale(resultImageView.transform, scale, scale);
             } else {
                 [topLayerView addSubview:resultImageView];
 				resultImageView.transform = CGAffineTransformMakeRotation(angle);
+				resultImageView.transform = CGAffineTransformScale(resultImageView.transform, scale, scale);
             }
         });
         

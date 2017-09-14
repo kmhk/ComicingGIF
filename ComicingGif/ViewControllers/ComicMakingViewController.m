@@ -696,7 +696,7 @@ ColorWheelDelegate>
         return;
     }
     NSMutableArray<NSValue *> *coordinatesArray = [NSMutableArray new];
-    [coordinatesArray addObject:[NSValue valueWithCGPoint:_lastPoint]];
+    [coordinatesArray addObject:[NSValue valueWithCGPoint:/*_lastPoint*/CGPointMake(_lastPoint.x - backgroundView.frame.origin.x, _lastPoint.y - backgroundView.frame.origin.y)]];
     [_drawingCoordinateArray addObject:coordinatesArray];
     
     if (!_drawingColorArray || !_drawingBrushSizeArray) {
@@ -773,7 +773,7 @@ ColorWheelDelegate>
     }
     // Get last coordinates array to add new currentPoint
     NSMutableArray<NSValue *> *currentCoordinatesArray = [_drawingCoordinateArray lastObject];
-    [currentCoordinatesArray addObject:[NSValue valueWithCGPoint:currentPoint]];
+    [currentCoordinatesArray addObject:[NSValue valueWithCGPoint:/*currentPoint*/CGPointMake(currentPoint.x - backgroundView.frame.origin.x, currentPoint.y - backgroundView.frame.origin.y)]];
     [_drawingCoordinateArray removeLastObject];
     [_drawingCoordinateArray addObject:currentCoordinatesArray];
 	
@@ -843,7 +843,7 @@ ColorWheelDelegate>
         }
         // Get last coordinates array to add new currentPoint
         NSMutableArray<NSValue *> *currentCoordinatesArray = [_drawingCoordinateArray lastObject];
-        [currentCoordinatesArray addObject:[NSValue valueWithCGPoint:_lastPoint]];
+        [currentCoordinatesArray addObject:[NSValue valueWithCGPoint:/*_lastPoint*/CGPointMake(_lastPoint.x - backgroundView.frame.origin.x, _lastPoint.y - backgroundView.frame.origin.y)]];
         [_drawingCoordinateArray removeLastObject];
         [_drawingCoordinateArray addObject:currentCoordinatesArray];
         CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha = 0.0;
@@ -1488,7 +1488,7 @@ ColorWheelDelegate>
     }
     
     //    // TODO: Remove! This is for debug only
-    [comicView setFrame:CGRectMake(100, 100, comicView.frame.size.width, comicView.frame.size.height)];
+//    [comicView setFrame:CGRectMake(100, 100, comicView.frame.size.width, comicView.frame.size.height)];
     
     [backgroundView addSubview:comicView];
     //    [backgroundView insertSubview:comicView atIndex:backgroundView.subviews.count >= 1 ? 1 : 0];

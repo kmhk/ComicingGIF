@@ -55,8 +55,8 @@
 		rt.size.width = rt.size.height * img.size.width / img.size.height;
 	}
 	
-	rt.origin.x = arc4random_uniform((szScreen.width - img.size.width) / 20) * 20 + 20;
-	rt.origin.y = arc4random_uniform((szScreen.height / 4 - img.size.height) / 10) * 10 + 20;
+	rt.origin.x = rt.size.width / 2 + arc4random_uniform((szScreen.width - rt.size.width) / 2);//arc4random_uniform((szScreen.width - rt.size.width) / 20) * 20 + 20;
+	rt.origin.y = rt.size.height / 2 + arc4random_uniform((szScreen.height - rt.size.height) / 2);//arc4random_uniform((szScreen.height / 2 - rt.size.height) / 10) * 10 + 20;
 	rt.size.width += W_PADDING; // adding W_PADDING for area of showing comic object tool
 	rt.size.height += H_PADDING; // adding H_PADDING for area of showing comic object tool
 	

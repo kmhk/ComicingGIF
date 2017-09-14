@@ -163,7 +163,10 @@ NSString * const kBubbleDirectionKey        = @"bubbleDirection";
 - (CGRect)restoreFrameSizeFromURL:(NSURL *)bubbleURL {
     NSData *bubbdleImageData = [NSData dataWithContentsOfURL:bubbleURL];
     UIImage *bubbleImage = [UIImage imageWithData:bubbdleImageData];
-    return CGRectMake(0, 0, bubbleImage.size.width / 2, bubbleImage.size.height /2);
+	return CGRectMake(bubbleImage.size.width / 4 + arc4random_uniform(bubbleImage.size.width / 4),
+					  bubbleImage.size.height / 4 + arc4random_uniform(bubbleImage.size.height / 4),
+					  bubbleImage.size.width / 2,
+					  bubbleImage.size.height /2);
 }
 
 @end

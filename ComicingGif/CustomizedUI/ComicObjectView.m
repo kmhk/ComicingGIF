@@ -133,7 +133,7 @@
     [initialBubbleObject changeBubbleTypeTo:BubbleTypeStar];*/
 	
 	bubbleObject.frame = CGRectMake(bubbleObject.frame.origin.x * ratioW + 5,
-									bubbleObject.frame.origin.y * ratioH + 5,
+									bubbleObject.frame.origin.y * ratioH + 10,
 									bubbleObject.frame.size.width * ratioW,
 									bubbleObject.frame.size.height * ratioH);
     ComicObjectView *bubbleObjectView = [[ComicObjectView alloc] initWithComicObject:/*initialBubbleObject*/bubbleObject];
@@ -391,6 +391,7 @@
 - (void)createAnimationGIFView {
     StickerObject *obj = (StickerObject *)self.comicObject;
     self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
+	self.center = obj.frame.origin;
 //    self.backgroundColor = [UIColor redColor]; // c0mrade
     NSData *data = [NSData dataWithContentsOfURL:obj.stickerURL];
     /*
@@ -409,6 +410,7 @@
 - (UIImageView *)createStickerView {
     StickerObject *obj = (StickerObject *)self.comicObject;
     self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
+	self.center = obj.frame.origin;
     
     NSData *data = [NSData dataWithContentsOfURL:obj.stickerURL];
     /*
@@ -432,6 +434,7 @@
                             bubbleWidth + bubbleInnerRootViewOffset,
                             bubbleHeight + bubbleInnerRootViewOffset);*/
 	self.frame = bubbleObject.frame;
+	self.center = bubbleObject.frame.origin;
     
     CMCBubbleView *bubbleView = [self createBubbleImageViewWithData:bubbleImageData
                                                          bubbleText:bubbleObject.text
@@ -446,6 +449,7 @@
                             captionObject.frame.origin.y - captionViewOffset,
                             captionObject.frame.size.width,
                             captionObject.frame.size.height + captionViewOffset);
+	self.center = captionObject.frame.origin;
     CMCCaptionView *captionView = [self createCaptionViewWithText:captionObject.text
                                                              type:captionObject.type
                                                          andFrame:CGRectMake(0, captionViewOffset,
@@ -465,6 +469,7 @@
                             penObject.frame.origin.y,
                             penObject.frame.size.width,
                             penObject.frame.size.height);
+//	self.center = penObject.frame.origin;
     UIColor *color = penObject.color;
     CGFloat brushSize = penObject.brushSize;
     NSArray<NSValue *> *coordinates = penObject.coordinates;
@@ -564,6 +569,7 @@
     ComicObjectView *firstComicObjectView = penObjectsViewArray.firstObject;
     
     UIImageView *finalDrawingImageView = [[UIImageView alloc] initWithFrame:firstComicObjectView.frame];
+	finalDrawingImageView.contentMode = UIViewContentModeScaleToFill;
 	
 	@autoreleasepool {
     UIGraphicsBeginImageContext(finalDrawingImageView.frame.size);
@@ -609,6 +615,7 @@
     
 - (void)addImageViewSubview:(UIImageView *)view withTimeDelay:(CGFloat)timeDelay {
     [self addSubview:view];
+	view.autoresizingMask = 1;
     self.delayTimeInSeconds = timeDelay;
     TimerImageViewStruct *timerObject = [[TimerImageViewStruct alloc]initWithImageView:view
                                                                              delayTime:self.delayTimeInSeconds
@@ -1020,7 +1027,7 @@
         
         
         
-        if (self.comicObject.objType == ObjectBubble) {
+        /*if (self.comicObject.objType == ObjectBubble) {
             self.comicObject.frame = CGRectMake(self.frame.origin.x,
                                                 self.frame.origin.y,
                                                 self.comicObject.frame.size.width,
@@ -1031,8 +1038,13 @@
                                                 self.comicObject.frame.size.width,
                                                 self.comicObject.frame.size.height);
         } else {
-            self.comicObject.frame = self.frame;
-        }
+//            self.comicObject.frame = self.frame;
+			self.comicObject.frame = self.bounds;
+        }*/
+		self.comicObject.frame = CGRectMake(self.frame.origin.x + self.frame.size.width/2,
+											self.frame.origin.y+self.frame.size.height/2,
+											self.comicObject.frame.size.width,
+											self.comicObject.frame.size.height);
         [self.delegate saveObject];
         
     } else {
@@ -1057,21 +1069,23 @@
     gesture.view.transform = CGAffineTransformScale(gesture.view.transform, gesture.scale, gesture.scale);
     [gesture setScale:1.0];
     
-//    self.comicObject.scale = gesture.view.transform.a;
-	if (self.comicObject.objType == ObjectBubble) {
+    self.comicObject.scale = gesture.view.transform.a;
+	/*if (self.comicObject.objType == ObjectBubble) {
 //		self.comicObject.frame = CGRectMake(self.frame.origin.x,
 //											self.frame.origin.y,
 //											self.comicObject.frame.size.width * gesture.view.transform.a,
 //											self.comicObject.frame.size.height * gesture.view.transform.a);
-		self.comicObject.frame = self.frame;
+//		self.comicObject.frame = self.frame;
+		self.comicObject.frame = self.bounds;
 	} else if (self.comicObject.objType == ObjectCaption) {
 		self.comicObject.frame = CGRectMake(self.frame.origin.x,
 											self.frame.origin.y,
 											self.comicObject.frame.size.width * gesture.view.transform.a,
 											self.comicObject.frame.size.height * gesture.view.transform.a);
 	} else {
-		self.comicObject.frame = self.frame;
-	}
+//		self.comicObject.frame = self.frame;
+		self.comicObject.frame = self.bounds;
+	}*/
 	
     [self.delegate saveObject];
 }
