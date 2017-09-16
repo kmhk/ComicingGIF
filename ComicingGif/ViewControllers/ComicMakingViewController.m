@@ -1020,13 +1020,13 @@ ColorWheelDelegate>
     toolView.frame = CGRectOffset(toolView.frame, self.baseLayerView.frame.size.width, 0);
     toolView.alpha = 0.0;
     [self.baseLayerView addSubview:toolView];
-    
+	
     //    [backgroundView insertSubview:toolView atIndex:backgroundView.subviews.count >= 1 ? 1 : 0];
     //    toolView.backgroundColor = [UIColor greenColor];
     
     [UIView animateWithDuration:0.5 animations:^{
         [self setToolButtonAlpah:0.0];
-        
+		
         toolView.frame = CGRectOffset(toolView.frame, -self.baseLayerView.frame.size.width, 0);
         toolView.alpha = 1.0;
         
@@ -1635,8 +1635,8 @@ ColorWheelDelegate>
     self.btnToolText.alpha = alpha;
     self.btnToolBubble.alpha = alpha;
     self.btnToolSticker.alpha = alpha;
-    self.btnNext.alpha = alpha;
-    
+//    self.btnNext.alpha = alpha;
+	
     self.buttonToolTextImageView.alpha = alpha;
     self.buttonToolStickerImageView.alpha = alpha;
 //    self.penToolImageView.alpha = alpha;
