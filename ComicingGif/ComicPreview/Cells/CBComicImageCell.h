@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *baseLayerImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *staticImageView;
 @property (weak, nonatomic) IBOutlet UIView *topLayerView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 
 
@@ -38,7 +39,7 @@
 @property (assign, nonatomic) NSInteger index;
 @property (assign, nonatomic) BOOL isSlidePlaying;
 
-- (void)createUIForCell:(CBComicImageCell *)cell withIndex:(NSInteger)index andFrame : (CGRect ) rect;
+- (void)createUIForCellWithIndex:(NSInteger)index;
 - (void)setInitialFrameOfCell;
 - (void)animateOnce;
 - (void)stopAllGifPlays;

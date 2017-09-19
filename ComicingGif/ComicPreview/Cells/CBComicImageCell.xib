@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -30,16 +31,26 @@
                                 <rect key="frame" x="0.0" y="0.0" width="84" height="83"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="GEH-nD-bcn">
+                                <rect key="frame" x="24" y="23" width="37" height="37"/>
+                                <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="ZxH-ET-BRB" secondAttribute="bottom" id="0d8-yT-gCq"/>
+                            <constraint firstItem="ZxH-ET-BRB" firstAttribute="top" secondItem="ASh-KG-C8B" secondAttribute="top" id="2pp-UW-fnh"/>
                             <constraint firstItem="Hrk-6m-CBf" firstAttribute="top" secondItem="ASh-KG-C8B" secondAttribute="top" id="3js-fc-iMC"/>
                             <constraint firstItem="tLt-DO-1yi" firstAttribute="leading" secondItem="ASh-KG-C8B" secondAttribute="leading" id="4zy-ME-eR6"/>
                             <constraint firstAttribute="bottom" secondItem="Hrk-6m-CBf" secondAttribute="bottom" id="B7i-Mn-KSr"/>
+                            <constraint firstAttribute="trailing" secondItem="ZxH-ET-BRB" secondAttribute="trailing" id="KdE-cW-vwv"/>
+                            <constraint firstItem="GEH-nD-bcn" firstAttribute="centerY" secondItem="ASh-KG-C8B" secondAttribute="centerY" id="LDH-8H-TsM"/>
                             <constraint firstItem="ZxH-ET-BRB" firstAttribute="top" secondItem="ASh-KG-C8B" secondAttribute="top" id="LyM-lq-8xP"/>
                             <constraint firstItem="tLt-DO-1yi" firstAttribute="top" secondItem="ASh-KG-C8B" secondAttribute="top" id="NeD-Kb-Tch"/>
                             <constraint firstAttribute="bottom" secondItem="ZxH-ET-BRB" secondAttribute="bottom" id="Ngn-wD-vns"/>
+                            <constraint firstItem="ZxH-ET-BRB" firstAttribute="leading" secondItem="ASh-KG-C8B" secondAttribute="leading" id="Qaz-Pk-XgZ"/>
                             <constraint firstAttribute="trailing" secondItem="Hrk-6m-CBf" secondAttribute="trailing" id="biT-7J-hCV"/>
+                            <constraint firstItem="GEH-nD-bcn" firstAttribute="centerX" secondItem="ASh-KG-C8B" secondAttribute="centerX" id="ebk-v9-hEY"/>
                             <constraint firstItem="ZxH-ET-BRB" firstAttribute="leading" secondItem="ASh-KG-C8B" secondAttribute="leading" id="jg6-rR-L4U"/>
                             <constraint firstAttribute="bottom" secondItem="tLt-DO-1yi" secondAttribute="bottom" id="rzd-5p-PdU"/>
                             <constraint firstItem="Hrk-6m-CBf" firstAttribute="leading" secondItem="ASh-KG-C8B" secondAttribute="leading" id="w8W-if-7PG"/>
@@ -57,6 +68,7 @@
             </constraints>
             <size key="customSize" width="84" height="88"/>
             <connections>
+                <outlet property="activityIndicator" destination="GEH-nD-bcn" id="2uo-6a-SLs"/>
                 <outlet property="baseLayerImageView" destination="Hrk-6m-CBf" id="y5S-DW-moG"/>
                 <outlet property="containerView" destination="ASh-KG-C8B" id="zud-IH-FT3"/>
                 <outlet property="staticImageView" destination="tLt-DO-1yi" id="OO7-WA-w2u"/>
