@@ -900,7 +900,7 @@
         
         CFRelease(srcImage);
         object.frameImages = arrayImages;
-        object.duratoin = totalDuration;
+        object.duration = totalDuration;
     }
 
     
@@ -913,7 +913,7 @@
     [self addSubview:imgView];
     
     imgView.animationImages = object.frameImages;
-    imgView.animationDuration = object.duratoin;
+    imgView.animationDuration = object.duration;
     imgView.animationRepeatCount = 1;
     [imgView startAnimating];
     

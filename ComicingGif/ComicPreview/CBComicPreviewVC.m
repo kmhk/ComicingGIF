@@ -151,7 +151,10 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     
 }
 
-- (void)refreshSlideAtIndex:(NSInteger)indexOfSlide isTall:(BOOL)isTall completionBlock:(void (^)(BOOL))completionBlock {
+- (void)refreshSlideAtIndex:(NSInteger)indexOfSlide
+              bkImageObject:(BkImageObject *)bkImageObject
+                     isTall:(BOOL)isTall
+            completionBlock:(void (^)(BOOL))completionBlock {
     if (indexOfSlide+1 > self.dataArray.count) {
         return;
     }
@@ -161,31 +164,42 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         }];
         return;
     }
+    _comicSlides = [[ComicObjectSerialize loadComicSlide] mutableCopy];
     if (indexOfSlide == -1) {
-        indexOfSlide = self.dataArray.count - 1;
+        indexOfSlide = self.comicSlides.count - 1;
     }
     _indexForSlideToRefresh = indexOfSlide;
-    _comicSlides = [[ComicObjectSerialize loadComicSlide] mutableCopy];
-    
     ComicPage *comicPage = [[ComicPage alloc]init];
-    [comicPage initWithgif:[[[self.comicSlides objectAtIndex:indexOfSlide] objectAtIndex:0]objectForKey:kURLKey] andSubViewArray:[self.comicSlides objectAtIndex:indexOfSlide]];
+    
+    BkImageObject *baseImageObject;
+    if (bkImageObject == nil) {
+        baseImageObject = [[BkImageObject alloc] initFromDict: [[self.comicSlides objectAtIndex:indexOfSlide] firstObject]];
+    } else {
+        baseImageObject = bkImageObject;
+    }
+    [comicPage initWithgif:baseImageObject
+           andSubViewArray:[self.comicSlides objectAtIndex:indexOfSlide]];
     
     CBComicItemModel* model= [[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] comicPage:comicPage];
     
-    [self.dataArray replaceObjectAtIndex:indexOfSlide withObject:model];
-    //    NSLog(@"\n.............ADD FETCHED CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
-    //    NSLog(@"\n............... DATA ARRAY: %@",self.dataArray);
-    
-    [self.comicPageCollectionVC replaceComicItemAtIndex:indexOfSlide withComicItem:model completion:^(BOOL finished, CBComicItemModel *comicItem) {
+    void (^completion)(BOOL, CBComicItemModel *) = ^(BOOL finished, CBComicItemModel *comicItem) {
         if(finished){
             NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 1)];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self prepareView];
                 [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
                 completionBlock(YES);
             });
         }
-    }];
+    };
+    if (self.dataArray.count < self.comicSlides.count) {
+        [self.dataArray addObject:model];
+        [self.comicPageCollectionVC addComicItem:model completion:completion];
+    } else {
+        [self.dataArray replaceObjectAtIndex:indexOfSlide withObject:model];
+        [self.comicPageCollectionVC replaceComicItemAtIndex:indexOfSlide
+                                              withComicItem:model
+                                                 completion:completion];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -220,7 +234,9 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     for (int i=0; i<self.comicSlides.count; i++) {
         ComicPage *comicPage = [[ComicPage alloc]init];
         
-        [comicPage initWithgif:[[[self.comicSlides objectAtIndex:i] objectAtIndex:0]objectForKey:kURLKey] andSubViewArray:[self.comicSlides objectAtIndex:i]];
+        BkImageObject *bkImageObject = [[BkImageObject alloc] initFromDict: [[self.comicSlides objectAtIndex:i] firstObject]];
+        [comicPage initWithgif:bkImageObject
+               andSubViewArray:[self.comicSlides objectAtIndex:i]];
         CBComicItemModel* model= [[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] comicPage:comicPage];
         [self.dataArray addObject:model];
         NSLog(@"\n.............ADD FETCHED CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
@@ -455,7 +471,8 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:isTall], kIsTallKey, nil];
     [subviews addObject:dict];
     
-    [comicPage initWithgif:@"" andSubViewArray:subviews];
+    [comicPage initWithgif:[[BkImageObject alloc] initWithURL:[NSURL URLWithString:@""] isTall:isTall]
+           andSubViewArray:subviews];
     CBComicItemModel* model= [[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] comicPage:comicPage];
     [self.dataArray addObject:model];
     NSLog(@"\n.............ADD FETCHED CELL............ %@ %@ %@", model, model.comicPage, model.comicPage.subviews);
@@ -583,7 +600,7 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     //    }
 }
 
-- (void)didTapOnComicItemWithIndex:(NSInteger)index {
+- (void)didTapOnComicItemWithIndex:(NSInteger)index comicItemModel:(CBComicItemModel *)model {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kComicMakingStoryboard bundle:nil];
     
     ComicMakingViewController *vc = [storyboard instantiateViewControllerWithIdentifier:ComicMakingViewControllerIdentifier];
@@ -595,8 +612,10 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
         [arrTemp removeObject:slideDataDict];
     }
     
-    BkImageObject *baseComicObject  = [[BkImageObject alloc] initFromDict:slideDataDict];
-    
+    BkImageObject *baseComicObject = model.comicPage.baseImageObject;
+    if (baseComicObject == nil) {
+        baseComicObject = [[BkImageObject alloc] initFromDict:slideDataDict];
+    }
     vc.indexSaved = index;
     [vc initWithBaseComicObject:baseComicObject
                 andSubviewArray:arrTemp

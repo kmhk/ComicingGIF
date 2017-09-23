@@ -1333,7 +1333,9 @@ ColorWheelDelegate>
         CBComicPreviewVC *vc = [self.navigationController.viewControllers firstObject];
         //        vc.shouldntRefreshAfterDidLayoutSubviews = _indexSaved == -1? NO:YES;
         vc.indexForSlideToRefresh = _indexSaved;
-        [vc refreshSlideAtIndex:_indexSaved isTall:self.isTall completionBlock:^(BOOL isComplete) {
+        [vc refreshSlideAtIndex:_indexSaved bkImageObject:[viewModel.arrayObjects firstObject]
+                         isTall:self.isTall
+                completionBlock:^(BOOL isComplete) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 vc.transitionView.hidden = NO;
                 [self.navigationController popToRootViewControllerAnimated:YES];

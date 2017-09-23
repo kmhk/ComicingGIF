@@ -32,7 +32,7 @@
 @property (strong, nonatomic) UIView *transitionView;
 
 - (void)prepareView;
-- (void)refreshSlideAtIndex:(NSInteger)indexOfSlide isTall:(BOOL)isTall completionBlock:(void (^)(BOOL isComplete))completionBlock;
+- (void)refreshSlideAtIndex:(NSInteger)indexOfSlide bkImageObject:(BkImageObject *)bkImageObject isTall:(BOOL)isTall completionBlock:(void (^)(BOOL isComplete))completionBlock;
 - (void)deleteLastCell;
 
 @end

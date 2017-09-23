@@ -12,7 +12,7 @@
 @class CBComicPageCollectionVC;
 @protocol CBComicPageCollectionDelegate <NSObject>
 - (void)didDeleteComicItem:(CBComicItemModel*)comicItem inComicPage:(CBComicPageCollectionVC*)comicPage;
-- (void)didTapOnComicItemWithIndex:(NSInteger)index;
+- (void)didTapOnComicItemWithIndex:(NSInteger)index comicItemModel:(CBComicItemModel *)model;
 @end
 
 @interface CBComicPageCollectionVC : CBBaseCollectionViewController

@@ -38,18 +38,7 @@
     self.tapGestureRecognizer.delegate= self;
     self.tapGestureRecognizer.delaysTouchesBegan= YES;
     [self.collectionView addGestureRecognizer:self.tapGestureRecognizer];
-    
-    //    self.dataArray= [NSMutableArray new];
-    
-    //    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"hor_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_LANDSCAPE]];
-    //    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"ver_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_PORTRAIT]];
-    //    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"ver_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_PORTRAIT]];
-    //    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"hor_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_LANDSCAPE]];
-    //    [self.dataArray addObject:[[CBComicItemModel alloc] initWithTimestamp:[self currentTimestmap] image:[UIImage imageNamed:@"hor_image.jpg"] orientation:COMIC_ITEM_ORIENTATION_LANDSCAPE]];
-    //    [self refreshImageOrientation];
-    
-    //    self.collectionView.scrollEnabled= NO;
-    
+        
     if(!self.dataArray){
         self.dataArray= [NSMutableArray new];
     }
@@ -104,8 +93,9 @@
         NSLog(@"couldn't find index path on tap");
     } else {
         if(self.delegate && [self.delegate conformsToProtocol:@protocol(CBComicPageCollectionDelegate)]){
-            if([self.delegate respondsToSelector:@selector(didTapOnComicItemWithIndex:)]){
-                [self.delegate didTapOnComicItemWithIndex:indexPath.item];
+            if([self.delegate respondsToSelector:@selector(didTapOnComicItemWithIndex:comicItemModel:)]){
+                CBComicItemModel *model =  self.dataArray[indexPath.row];
+                [self.delegate didTapOnComicItemWithIndex:indexPath.item comicItemModel:model];
             }
         }
     }

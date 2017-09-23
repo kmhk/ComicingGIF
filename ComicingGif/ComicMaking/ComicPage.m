@@ -9,10 +9,12 @@
 #import "ComicPage.h"
 #import "ComicItem.h"
 
-#import "BkImageObject.h"
-
 NSString* const slideTypeWide = @"wide";
 NSString* const slideTypeTall = @"tall";
+
+@interface ComicPage()
+@property (strong, nonatomic, readwrite) BkImageObject *baseImageObject;
+@end
 
 @implementation ComicPage
 
@@ -52,8 +54,9 @@ NSString* const slideTypeTall = @"tall";
 
 }
 
-- (void)initWithgif:(NSString *)strPath andSubViewArray : (NSMutableArray *) arrSubviews{
-    gifLayerPath = strPath;
+- (void)initWithgif:(BkImageObject *)bgImageObject andSubViewArray : (NSMutableArray *) arrSubviews {
+    self.baseImageObject = bgImageObject;
+    gifLayerPath = bgImageObject.fileURL.path;
     NSMutableArray *arrTemp = [NSMutableArray new];
     arrTemp = [arrSubviews mutableCopy];
     if (arrTemp.count >= 1) {

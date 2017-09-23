@@ -11,8 +11,10 @@
 @interface ImageObject : BaseObject
 // Image frames
 @property (nonatomic) NSArray <UIImage *> *frameImages;
+// Scalled images for preview
+@property (nonatomic) NSArray <UIImage *> *scalledFrameImages;
 // Image animation duration
-@property (nonatomic) CFTimeInterval duratoin;
+@property (nonatomic) CFTimeInterval duration;
 /// URL of image file
 @property (nonatomic) NSURL *fileURL;
 /// Init with image URL

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "BkImageObject.h"
 
 extern NSString* const slideTypeWide;
 extern NSString* const slideTypeTall;
@@ -17,6 +18,7 @@ extern NSString* const slideTypeTall;
 @property (strong, nonatomic) NSString *printScreenPath;
 @property (strong, nonatomic) NSString *containerImagePath;
 @property (strong, nonatomic) NSString *gifLayerPath;
+@property (strong, nonatomic, readonly) BkImageObject *baseImageObject;
 @property (strong, nonatomic) NSMutableArray *subviews;
 @property (strong, nonatomic) NSMutableArray *subviewData;
 @property (strong, nonatomic) NSMutableArray *subviewTranformData;
@@ -27,5 +29,6 @@ extern NSString* const slideTypeTall;
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
-- (void)initWithgif:(NSString *)strPath andSubViewArray : (NSMutableArray *) arrSubviews;
+- (void)initWithgif:(BkImageObject *)bgImageObject
+   andSubViewArray : (NSMutableArray *) arrSubviews;
 @end

@@ -419,7 +419,7 @@ const NSTimeInterval kDelayBeforeTransition = 2.0f;
     baseComicObj.fileURL = url;
     baseComicObj.frame = self.cameraPreview.bounds;//frame;
     baseComicObj.isTall = !wSelf.isVerticalCamera;
-    baseComicObj.duratoin = duration;
+    baseComicObj.duration = duration;
     baseComicObj.frameImages = frameImages;
     
     [self.precreatedComicMakingVC initWithBaseComicObject:baseComicObj
