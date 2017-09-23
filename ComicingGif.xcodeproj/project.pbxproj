@@ -388,6 +388,7 @@
 		3053FC031F5D98CD0010CE7F /* UIImage+SCSaveToCameraRoll.m in Sources */ = {isa = PBXBuildFile; fileRef = 3053FBE61F5D98CD0010CE7F /* UIImage+SCSaveToCameraRoll.m */; };
 		306699731F61939B00F4E1C3 /* UINavigationController+Transition.m in Sources */ = {isa = PBXBuildFile; fileRef = 306699721F61939B00F4E1C3 /* UINavigationController+Transition.m */; };
 		306699751F61B61100F4E1C3 /* theme_sticker0_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 306699741F61B61100F4E1C3 /* theme_sticker0_3.png */; };
+		306A02D91F76B1AE00E9E540 /* ImageObject+ImageLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 306A02D81F76B1AE00E9E540 /* ImageObject+ImageLoad.m */; };
 		308E75B11F6158BD00127FB1 /* theme_GIF0_0.gif in Resources */ = {isa = PBXBuildFile; fileRef = 308E75AB1F6158BD00127FB1 /* theme_GIF0_0.gif */; };
 		308E75B21F6158BD00127FB1 /* theme_GIF0_1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 308E75AC1F6158BD00127FB1 /* theme_GIF0_1.gif */; };
 		308E75B31F6158BD00127FB1 /* theme_GIF0_2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 308E75AD1F6158BD00127FB1 /* theme_GIF0_2.gif */; };
@@ -1220,6 +1221,8 @@
 		306699711F61939B00F4E1C3 /* UINavigationController+Transition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+Transition.h"; path = "Utils/UINavigationController+Transition.h"; sourceTree = "<group>"; };
 		306699721F61939B00F4E1C3 /* UINavigationController+Transition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+Transition.m"; path = "Utils/UINavigationController+Transition.m"; sourceTree = "<group>"; };
 		306699741F61B61100F4E1C3 /* theme_sticker0_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = theme_sticker0_3.png; path = Resources/staticSticker/theme_sticker0_3.png; sourceTree = "<group>"; };
+		306A02D71F76B1AE00E9E540 /* ImageObject+ImageLoad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "ImageObject+ImageLoad.h"; path = "Utils/ImageObject+ImageLoad.h"; sourceTree = "<group>"; };
+		306A02D81F76B1AE00E9E540 /* ImageObject+ImageLoad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "ImageObject+ImageLoad.m"; path = "Utils/ImageObject+ImageLoad.m"; sourceTree = "<group>"; };
 		308E75AB1F6158BD00127FB1 /* theme_GIF0_0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_0.gif; path = Resources/animationGIF/theme_GIF0_0.gif; sourceTree = "<group>"; };
 		308E75AC1F6158BD00127FB1 /* theme_GIF0_1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_1.gif; path = Resources/animationGIF/theme_GIF0_1.gif; sourceTree = "<group>"; };
 		308E75AD1F6158BD00127FB1 /* theme_GIF0_2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = theme_GIF0_2.gif; path = Resources/animationGIF/theme_GIF0_2.gif; sourceTree = "<group>"; };
@@ -3249,6 +3252,8 @@
 				F3FB2CA61E931CC60087BD9C /* GIFGenerator */,
 				306699711F61939B00F4E1C3 /* UINavigationController+Transition.h */,
 				306699721F61939B00F4E1C3 /* UINavigationController+Transition.m */,
+				306A02D71F76B1AE00E9E540 /* ImageObject+ImageLoad.h */,
+				306A02D81F76B1AE00E9E540 /* ImageObject+ImageLoad.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -3836,6 +3841,7 @@
 				0C43F51A1E9F3E0E00AB71F9 /* WhatsAppHelper.m in Sources */,
 				0C43F30C1E9F367E00AB71F9 /* Friend.m in Sources */,
 				0C43F2F11E9F360100AB71F9 /* CBBaseTableViewController.m in Sources */,
+				306A02D91F76B1AE00E9E540 /* ImageObject+ImageLoad.m in Sources */,
 				3053FBEA1F5D98CD0010CE7F /* SCAudioTools.m in Sources */,
 				0C43F53D1E9F3E4000AB71F9 /* ComicMakingAPIManager.m in Sources */,
 				0C43F3D01E9F3A6A00AB71F9 /* DataManager.m in Sources */,

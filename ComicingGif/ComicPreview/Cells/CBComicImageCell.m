@@ -39,6 +39,9 @@
 
 - (void)awakeFromNib{
     [super awakeFromNib];
+    self.contentView.frame = self.bounds;
+    self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    
     self.containerView.clipsToBounds = YES;
     self.containerView.layer.borderColor = [UIColor blackColor].CGColor;
     self.containerView.layer.borderWidth = 5.0f;
@@ -59,8 +62,8 @@
     }
     
     BkImageObject *baseImageObject = _comicItemModel.comicPage.baseImageObject;
-    if (baseImageObject.scalledFrameImages) {
-        UIImageView *baseImageView = [self animatedImageViewWithImages:baseImageObject.scalledFrameImages
+    if (baseImageObject.scaledFrameImages) {
+        UIImageView *baseImageView = [self animatedImageViewWithImages:baseImageObject.scaledFrameImages
                                                                   flag:YES
                                                                   rect:self.baseLayerImageView.frame
                                                          shouldAnimate:NO
@@ -69,11 +72,10 @@
         [self createUIForComicObjects];
     } else {
         [self createImageViewWith:_comicItemModel.comicPage.baseImageObject
-                            frame:self.baseLayerImageView.frame
+                            frame:[Global global].preferedScaleRect
                          bAnimate:YES
                     withAnimation:NO
                        completion:^(UIImageView *baseImageView) {
-                           
                            [self setGifPropertiesOfImageView:baseImageView toNewImageView:self.baseLayerImageView];
                            [self createUIForComicObjects];
                        }];
@@ -410,7 +412,6 @@
     return newImage;
 }
 
-
 - (void)createImageViewWith:(NSData *)data
                       frame:(CGRect)rect
                    bAnimate:(BOOL)flag
@@ -535,8 +536,7 @@
         NSMutableArray *arrayScalledImages = [[NSMutableArray alloc] init];
         NSMutableArray *arrayFullImages = [[NSMutableArray alloc] init];
         // Skip every second frame in the gif
-        const NSInteger kPickedImageFrequence = 3;
-        for (NSInteger i = 0; i < imgCount; i += kPickedImageFrequence) {
+       for (NSInteger i = 0; i < imgCount; i += kPickedImageFrequence) {
             CGImageRef cgImg = CGImageSourceCreateImageAtIndex(srcImage, i, nil);
             if (!cgImg) {
                 NSLog(@"loading %ldth image failed from the source", (long)i);
@@ -559,9 +559,7 @@
              
              */
             
-            // This line should be moved to app constants.
-            // c0mrade: Size Fixes
-            CGSize imagePixelSize =  CGSizeMake(rect.size.width * 5.0, rect.size.height * 5.0); //
+            CGSize imagePixelSize =  rect.size;
             
             UIImage *img = [[Global global] scaledImage:image
                                                    size:imagePixelSize
@@ -586,7 +584,7 @@
         }
         
         bkImageObject.frameImages = arrayFullImages;
-        bkImageObject.scalledFrameImages = arrayScalledImages;
+        bkImageObject.scaledFrameImages = arrayScalledImages;
         bkImageObject.duration = totalDuration;
         
         dispatch_async(dispatch_get_main_queue(), ^{

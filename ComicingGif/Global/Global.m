@@ -9,6 +9,8 @@
 #import "Global.h"
 #import "CBComicItemModel.h"
 
+const NSInteger kPickedImageFrequence = 3;
+
 @implementation Global
 
 @synthesize isTakePhoto,deviceType,isBlackBoardOpen,placeholder_comic;
@@ -113,6 +115,16 @@ static Global *global = nil;
     
     NSString *imageName = [NSString stringWithFormat:@"%@%@",colorName, imageDirection];
     return [UIImage imageNamed:imageName];
+}
+
+- (CGRect)preferedScaleRect {
+    static CGRect preferedScale;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        CGSize windowSize = [UIScreen mainScreen].bounds.size;
+        preferedScale = CGRectMake(0.0, 0.0, windowSize.width/2, windowSize.height/2);
+    });
+    return preferedScale;
 }
 
 - (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size {

@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 #import "AppConstants.h"
 
+extern const NSInteger kPickedImageFrequence;
+
 @class CBComicItemModel;
 
 #define GlobalObject [Global global]
@@ -44,7 +46,8 @@ typedef enum {
     
     @property (strong, nonatomic) UIImage *placeholder_comic;
     @property (nonatomic) BOOL isUserEnterSecondTime;
-    
+
+- (CGRect)preferedScaleRect;
 - (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size;
 - (UIImage *)scaledImage:(UIImage *)image size:(CGSize)size withInterpolationQuality:(CGInterpolationQuality)interpolation;
     

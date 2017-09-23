@@ -26,6 +26,7 @@
 #import "ColorWheelView.h"
 #import "UINavigationController+Transition.h"
 #import "MBProgressHUD.h"
+#import "ImageObject+ImageLoad.h"
 
 #define TOOLCELLID	@"ToolCollectionViewCell"
 #define CATEGORYCELLID	@"CategoryCollectionViewCell"
@@ -1020,6 +1021,12 @@ ColorWheelDelegate>
             BaseObject *obj = [[BaseObject alloc] initFromDict:subObj];
             [viewModel.arrayObjects addObject:obj];
         }
+    }
+    
+    if (baseComicObject.scaledFrameImages.count == 0) {
+        [baseComicObject scaleFrameImages:^(NSArray<UIImage *> *images) {
+            NSLog(@"Prescaled base frames: %d", images.count);
+        }];
     }
     
     [ComicObjectSerialize setSavedIndex:index];

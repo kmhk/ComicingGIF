@@ -16,4 +16,12 @@
 #import "Global.h"
 #import "UIView+CBConstraints.h"
 
+#if __has_feature(objc_arc)
+#define toCF (__bridge CFTypeRef)
+#define fromCF (__bridge id)
+#else
+#define toCF (CFTypeRef)
+#define fromCF (id)
+#endif
+
 #endif /* ComicingGifPrefixHeader_pch */

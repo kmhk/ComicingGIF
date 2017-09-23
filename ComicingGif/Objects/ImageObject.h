@@ -12,11 +12,12 @@
 // Image frames
 @property (nonatomic) NSArray <UIImage *> *frameImages;
 // Scalled images for preview
-@property (nonatomic) NSArray <UIImage *> *scalledFrameImages;
+@property (nonatomic) NSArray <UIImage *> *scaledFrameImages;
 // Image animation duration
 @property (nonatomic) CFTimeInterval duration;
 /// URL of image file
 @property (nonatomic) NSURL *fileURL;
 /// Init with image URL
 - (id)initWithURL:(NSURL *)url;
+
 @end
