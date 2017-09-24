@@ -117,8 +117,9 @@
     return captionObjectView;
 }
     
-+ (ComicObjectView *)createListViewComicBubbleObjectViewWithObject:(BubbleObject *)bubbleObject {
-    BubbleObject *initialBubbleObject = [[BubbleObject alloc] initWithText:@""
++ (ComicObjectView *)createListViewComicBubbleObjectViewWithObject:(BubbleObject *)bubbleObject RatioW:(CGFloat)ratioW RatioH:(CGFloat)ratioH
+{
+    /*BubbleObject *initialBubbleObject = [[BubbleObject alloc] initWithText:@""
                                                                   bubbleID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 1]
                                                              withDirection:BubbleDirectionUpperLeft];
     [initialBubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 0]
@@ -127,28 +128,32 @@
                           forDirection:BubbleDirectionUpperRight];
     [initialBubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 3]
                           forDirection:BubbleDirectionBottomLeft];
-    [initialBubbleObject changeBubbleTypeTo:BubbleTypeStar];
-    
-    ComicObjectView *bubbleObjectView = [[ComicObjectView alloc] initWithComicObject:initialBubbleObject];
-    bubbleObjectView.comicObject = bubbleObject;
-    
-    [bubbleObjectView setFrame:CGRectMake(bubbleObject.frame.origin.x,
-                                          bubbleObject.frame.origin.y,
-                                          bubbleObjectView.frame.size.width,
-                                          bubbleObjectView.frame.size.height)];
-    
-    if (bubbleObject.scale != 1) {
-        bubbleObjectView.transform = CGAffineTransformMakeScale(bubbleObject.scale, bubbleObject.scale);
-    }
-    
-    [bubbleObjectView adjustBubbleDirectionWithBubbleViewCenter:bubbleObjectView.center
-                                      withForceBubbleViewReload:YES];
-    
+    [initialBubbleObject changeBubbleTypeTo:BubbleTypeStar];*/
+	
+	bubbleObject.frame = CGRectMake(bubbleObject.frame.origin.x * ratioW + 5,
+									bubbleObject.frame.origin.y * ratioH + 10,
+									bubbleObject.frame.size.width * ratioW,
+									bubbleObject.frame.size.height * ratioH);
+    ComicObjectView *bubbleObjectView = [[ComicObjectView alloc] initWithComicObject:/*initialBubbleObject*/bubbleObject];
+//    bubbleObjectView.comicObject = bubbleObject;
+	
+//    [bubbleObjectView setFrame:CGRectMake(bubbleObject.frame.origin.x,
+//                                          bubbleObject.frame.origin.y,
+//                                          bubbleObjectView.frame.size.width,
+//                                          bubbleObjectView.frame.size.height)];
+	
+//    if (bubbleObject.scale != 1) {
+//        bubbleObjectView.transform = CGAffineTransformMakeScale(bubbleObject.scale, bubbleObject.scale);
+//    }
+	
+//    [bubbleObjectView adjustBubbleDirectionWithBubbleViewCenter:bubbleObjectView.center
+//                                      withForceBubbleViewReload:YES];
+	
     CMCBubbleView *bubbleView = (CMCBubbleView *) bubbleObjectView.subviews.firstObject;
     [bubbleView hidePlusIcon];
     [bubbleView hideBubbleSubicons];
     [bubbleView stopShowingBubbleTypesIcons];
-    
+	
     return bubbleObjectView;
 }
     
@@ -180,7 +185,7 @@
         }
         
         if (obj.objType == ObjectBubble) {
-            BubbleObject *initialBubbleObject = [[BubbleObject alloc] initWithText:@""
+            /*BubbleObject *initialBubbleObject = [[BubbleObject alloc] initWithText:@""
                                                                           bubbleID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 1]
                                                                      withDirection:BubbleDirectionUpperLeft];
             [initialBubbleObject setResourceID:[NSString stringWithFormat:@"theme_bubble_%d_%d.png", 0, 0]
@@ -191,24 +196,24 @@
                                   forDirection:BubbleDirectionBottomLeft];
             [initialBubbleObject changeBubbleTypeTo:BubbleTypeStar];
             
-            initialBubbleObject.delayTimeInSeconds = obj.delayTimeInSeconds;
+            initialBubbleObject.delayTimeInSeconds = obj.delayTimeInSeconds;*/
             
-            comicView = [[ComicObjectView alloc] initWithComicObject:initialBubbleObject];
-            comicView.parentView = backgroundView;
-            comicView.delegate = userInfo;
-            comicView.comicObject = obj;
-            
-            [comicView setFrame:CGRectMake(obj.frame.origin.x,
+//            comicView = [[ComicObjectView alloc] initWithComicObject:/*initialBubbleObject*/obj];
+//            comicView.parentView = backgroundView;
+//            comicView.delegate = userInfo;
+//            comicView.comicObject = obj;
+			
+            /*[comicView setFrame:CGRectMake(obj.frame.origin.x,
                                            obj.frame.origin.y,
                                            comicView.frame.size.width,
                                            comicView.frame.size.height)];
             
             if (obj.scale != 1) {
                 comicView.transform = CGAffineTransformMakeScale(obj.scale, obj.scale);
-            }
+            }*/
             
-            [comicView adjustBubbleDirectionWithBubbleViewCenter:comicView.center
-                                       withForceBubbleViewReload:YES];
+//            [comicView adjustBubbleDirectionWithBubbleViewCenter:comicView.center
+//                                       withForceBubbleViewReload:YES];
         }
         
         if (obj.objType == ObjectCaption) {
@@ -380,6 +385,7 @@
 - (void)createAnimationGIFView {
     StickerObject *obj = (StickerObject *)self.comicObject;
     self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
+	self.center = obj.frame.origin;
 //    self.backgroundColor = [UIColor redColor]; // c0mrade
     NSData *data = [NSData dataWithContentsOfURL:obj.fileURL];
     /*
@@ -398,6 +404,7 @@
 - (UIImageView *)createStickerView {
     StickerObject *obj = (StickerObject *)self.comicObject;
     self.frame = CGRectMake(obj.frame.origin.x, obj.frame.origin.y, obj.frame.size.width, obj.frame.size.height);
+	self.center = obj.frame.origin;
     
     NSData *data = [NSData dataWithContentsOfURL:obj.fileURL];
     /*
@@ -413,18 +420,20 @@
     BubbleObject *bubbleObject = (BubbleObject *) self.comicObject;
     NSData *bubbleImageData = [NSData dataWithContentsOfURL:bubbleObject.bubbleURL];
     
-    CGFloat bubbleWidth = (bubbleObject.frame.size.width / 2) - W_PADDING;
+    /*CGFloat bubbleWidth = (bubbleObject.frame.size.width / 2) - W_PADDING;
     CGFloat bubbleHeight = (bubbleObject.frame.size.height / 2) - H_PADDING;
     
     NSInteger bubbleInnerRootViewOffset = BUBBLE_ROOT_VIEW_OFFSET;
     self.frame = CGRectMake(bubbleObject.frame.origin.x,
                             bubbleObject.frame.origin.y,
                             bubbleWidth + bubbleInnerRootViewOffset,
-                            bubbleHeight + bubbleInnerRootViewOffset);
+                            bubbleHeight + bubbleInnerRootViewOffset);*/
+	self.frame = bubbleObject.frame;
+	self.center = bubbleObject.frame.origin;
     
     CMCBubbleView *bubbleView = [self createBubbleImageViewWithData:bubbleImageData
                                                          bubbleText:bubbleObject.text
-                                                              frame:CGRectMake(0, 0, bubbleWidth, bubbleHeight)];
+                                                              frame:CGRectMake(0, 0, self.frame.size.width - BUBBLE_ROOT_VIEW_OFFSET, self.frame.size.height - BUBBLE_ROOT_VIEW_OFFSET)];
     return bubbleView;
 }
     
@@ -435,6 +444,7 @@
                             captionObject.frame.origin.y - captionViewOffset,
                             captionObject.frame.size.width,
                             captionObject.frame.size.height + captionViewOffset);
+	self.center = captionObject.frame.origin;
     CMCCaptionView *captionView = [self createCaptionViewWithText:captionObject.text
                                                              type:captionObject.type
                                                          andFrame:CGRectMake(0, captionViewOffset,
@@ -454,6 +464,7 @@
                             penObject.frame.origin.y,
                             penObject.frame.size.width,
                             penObject.frame.size.height);
+//	self.center = penObject.frame.origin;
     UIColor *color = penObject.color;
     CGFloat brushSize = penObject.brushSize;
     NSArray<NSValue *> *coordinates = penObject.coordinates;
@@ -553,6 +564,7 @@
     ComicObjectView *firstComicObjectView = penObjectsViewArray.firstObject;
     
     UIImageView *finalDrawingImageView = [[UIImageView alloc] initWithFrame:firstComicObjectView.frame];
+	finalDrawingImageView.contentMode = UIViewContentModeScaleToFill;
 	
 	@autoreleasepool {
     UIGraphicsBeginImageContext(finalDrawingImageView.frame.size);
@@ -598,6 +610,7 @@
     
 - (void)addImageViewSubview:(UIImageView *)view withTimeDelay:(CGFloat)timeDelay {
     [self addSubview:view];
+	view.autoresizingMask = 1;
     self.delayTimeInSeconds = timeDelay;
     TimerImageViewStruct *timerObject = [[TimerImageViewStruct alloc]initWithImageView:view
                                                                              delayTime:self.delayTimeInSeconds
@@ -929,7 +942,7 @@
     if (self.comicObject.objType != ObjectBubble) {
         return;
     }
-    
+	
     // TODO: Move those calculation to the initialization method.
     // We don't need to do them every time we need to determiine bubble direction
     UIScreen *currentScreen = [UIScreen mainScreen];
@@ -1023,7 +1036,7 @@
         
         
         
-        if (self.comicObject.objType == ObjectBubble) {
+        /*if (self.comicObject.objType == ObjectBubble) {
             self.comicObject.frame = CGRectMake(self.frame.origin.x,
                                                 self.frame.origin.y,
                                                 self.comicObject.frame.size.width,
@@ -1034,8 +1047,13 @@
                                                 self.comicObject.frame.size.width,
                                                 self.comicObject.frame.size.height);
         } else {
-            self.comicObject.frame = self.frame;
-        }
+//            self.comicObject.frame = self.frame;
+			self.comicObject.frame = self.bounds;
+        }*/
+		self.comicObject.frame = CGRectMake(self.frame.origin.x + self.frame.size.width/2,
+											self.frame.origin.y+self.frame.size.height/2,
+											self.comicObject.frame.size.width,
+											self.comicObject.frame.size.height);
         [self.delegate saveObject];
         
     } else {
@@ -1061,13 +1079,29 @@
     [gesture setScale:1.0];
     
     self.comicObject.scale = gesture.view.transform.a;
-    
+	/*if (self.comicObject.objType == ObjectBubble) {
+//		self.comicObject.frame = CGRectMake(self.frame.origin.x,
+//											self.frame.origin.y,
+//											self.comicObject.frame.size.width * gesture.view.transform.a,
+//											self.comicObject.frame.size.height * gesture.view.transform.a);
+//		self.comicObject.frame = self.frame;
+		self.comicObject.frame = self.bounds;
+	} else if (self.comicObject.objType == ObjectCaption) {
+		self.comicObject.frame = CGRectMake(self.frame.origin.x,
+											self.frame.origin.y,
+											self.comicObject.frame.size.width * gesture.view.transform.a,
+											self.comicObject.frame.size.height * gesture.view.transform.a);
+	} else {
+//		self.comicObject.frame = self.frame;
+		self.comicObject.frame = self.bounds;
+	}*/
+	
     [self.delegate saveObject];
 }
-    
+
 - (void)rotateGestureHandler:(UIRotationGestureRecognizer *)gesture {
     //	UIGestureRecognizerState state = [gesture state];
-    
+	
     //	if (state == UIGestureRecognizerStateBegan || state == UIGestureRecognizerStateChanged)
     {
         CGFloat rotation = [gesture rotation];

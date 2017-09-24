@@ -9,6 +9,8 @@
 #import "ImageObject+ImageLoad.h"
 #import "Global.h"
 #import "BkImageObject.h"
+#import <ImageIO/ImageIO.h>
+
 
 @implementation ImageObject (ImageLoad)
 

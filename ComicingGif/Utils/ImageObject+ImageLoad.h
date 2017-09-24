@@ -7,6 +7,7 @@
 //
 
 #import "ImageObject.h"
+#import <UIKit/UIKit.h>
 
 @interface ImageObject (ImageLoad)
 /// Load base frames in background thread and call completion when ready

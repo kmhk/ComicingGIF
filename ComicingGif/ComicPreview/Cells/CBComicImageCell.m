@@ -94,7 +94,7 @@
                                self.bounds.size.height / screenRect.size.height);
     
     
-    if (baseImageView.animationImages.count > 1)//_comicItemModel.isBaseLayerGif)
+    if (/*baseImageView.animationImages.count > 1*/1)//_comicItemModel.isBaseLayerGif)
     {
         // NEED to handle 3 layer
         
@@ -140,12 +140,20 @@
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
                     rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
                 } else {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+//                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 ,
+//										   (frameOfObject.origin.y * ratioHeight) + 5,
+//										   (frameOfObject.size.width * ratioWidth) - W_H,
+//										   (frameOfObject.size.height * ratioHeight) - W_H);
+					rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth,
+										   frameOfObject.origin.y * ratioHeight,
+										   frameOfObject.size.width * ratioWidth,
+										   frameOfObject.size.height * ratioHeight);
                 }
                 i ++;
                 
                 CGFloat timerDelay = [[[subview objectForKey:kBaseInfoKey] objectForKey:kDelayTimeKey] floatValue];
-                CGFloat rotationAngle = [[[subview objectForKey:kBaseInfoKey] objectForKey:kAngleKey] floatValue];
+				CGFloat rotationAngle = [[[subview objectForKey:kBaseInfoKey] objectForKey:kAngleKey] floatValue];
+				CGFloat scale = [[[subview objectForKey:kBaseInfoKey] objectForKey:kScaleKey] floatValue];
                 [self createImageViewWith:gifData
                                     frame:rectOfGif
                                  bAnimate:YES
@@ -154,7 +162,8 @@
                       backgroundSuperview:nil
                              topLayerView:self.topLayerView
                                 withDelay:timerDelay
-                                withAngle:rotationAngle];
+								withAngle:rotationAngle
+								withScale:scale];
             }
             
             //18 is for static stickers
@@ -184,7 +193,11 @@
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
                     rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
                 } else {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+//                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+					rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth,
+										   frameOfObject.origin.y * ratioHeight,
+										   frameOfObject.size.width * ratioWidth,
+										   frameOfObject.size.height * ratioHeight);
                 }
                 i ++;
                 
@@ -202,18 +215,43 @@
             int objectTypeIndex = [[[subview objectForKey:kBaseInfoKey] objectForKey:kTypeKey] intValue];
             
             if (objectTypeIndex == ObjectBubble) {
+				CGFloat ratioWidth; //ratio SlideView To ScreenSize
+				CGFloat ratioHeight; //ratio SlideView To ScreenSize
+				if (IS_IPHONE_5) {
+					ratioWidth = rect.size.width / 305;
+					ratioHeight = rect.size.height / 495.5;
+				} else if (IS_IPHONE_6) {
+					ratioWidth = rect.size.width / 358;
+					ratioHeight = rect.size.height / 585;
+				} else {
+					ratioWidth = rect.size.width / 395.333;
+					ratioHeight = rect.size.height / 648.333;
+				}
+				
                 BubbleObject *bubbleObject = [[BubbleObject alloc] initFromDict:subview];
-                ComicObjectView *bubbleObjectView = [ComicObjectView createListViewComicBubbleObjectViewWithObject:bubbleObject];
-                
-                CGPoint scaledOriginPoint = CGPointMake(bubbleObjectView.frame.origin.x * scales.width,
-                                                        bubbleObjectView.frame.origin.y * scales.height);
-                
-                bubbleObjectView.transform = CGAffineTransformScale(bubbleObjectView.transform, scales.width, scales.height);
-                
-                [bubbleObjectView setFrame:CGRectMake(scaledOriginPoint.x, scaledOriginPoint.y,
-                                                      bubbleObjectView.frame.size.width,
-                                                      bubbleObjectView.frame.size.height)];
-                
+				
+				/*bubbleObject.frame = CGRectMake(bubbleObject.frame.origin.x * ratioWidth + 5,
+												bubbleObject.frame.origin.y * ratioHeight + 5,
+												bubbleObject.frame.size.width * ratioWidth,
+												bubbleObject.frame.size.height * ratioHeight);
+				ComicObjectView *bubbleObjectView = [[ComicObjectView alloc] initWithComicObject:bubbleObject];*/
+                ComicObjectView *bubbleObjectView = [ComicObjectView createListViewComicBubbleObjectViewWithObject:bubbleObject
+													 RatioW:ratioWidth RatioH:ratioHeight];
+				
+//                CGPoint scaledOriginPoint = CGPointMake(bubbleObjectView.frame.origin.x * scales.width,
+//                                                        bubbleObjectView.frame.origin.y * scales.height);
+//                
+//                bubbleObjectView.transform = CGAffineTransformScale(bubbleObjectView.transform, scales.width, scales.height);
+//                
+//                [bubbleObjectView setFrame:CGRectMake(scaledOriginPoint.x, scaledOriginPoint.y,
+//                                                      bubbleObjectView.frame.size.width,
+//                                                      bubbleObjectView.frame.size.height)];
+				
+//				bubbleObjectView.frame = CGRectMake(bubbleObject.frame.origin.x * ratioWidth,
+//										   bubbleObject.frame.origin.y * ratioHeight,
+//										   bubbleObject.frame.size.width * ratioWidth,
+//										   bubbleObject.frame.size.height * ratioHeight);
+//
                 CMCBubbleView *bubbleView = (CMCBubbleView *)bubbleObjectView.subviews.firstObject;
                 [bubbleView deactivateTextField];
                 
@@ -226,7 +264,9 @@
                 [self.timerImageViews addObject:timerViewStruct];
                 
             } else if (objectTypeIndex == ObjectPen) {
-                PenObject *penObject = [[PenObject alloc] initFromDict:subview];
+				
+				PenObject *penObject = [[PenObject alloc] initFromDict:subview];
+				
                 ComicObjectView *drawingObjectView = [[ComicObjectView alloc] initWithComicObject:penObject];
                 [penObjectsViewsArray addObject:drawingObjectView];
                 
@@ -266,7 +306,29 @@
                     NSMutableArray *penViewForTimeDelayArray = [multiplePenObjecsDevidedByTimeDelay objectForKey:timeDelayKey];
                     
                     ComicObjectView *drawingObjectView = [ComicObjectView createSingleImageViewFromDrawingsArrayofPenViews:penViewForTimeDelayArray];
-                    
+					
+					CGFloat ratioWidth; //ratio SlideView To ScreenSize
+					CGFloat ratioHeight; //ratio SlideView To ScreenSize
+					if (IS_IPHONE_5) {
+						ratioWidth = rect.size.width / 305;
+						ratioHeight = rect.size.height / 495.5;
+					} else if (IS_IPHONE_6) {
+						ratioWidth = rect.size.width / 358;
+						ratioHeight = rect.size.height / 585;
+					} else {
+						ratioWidth = rect.size.width / 395.333;
+						ratioHeight = rect.size.height / 648.333;
+					}
+					drawingObjectView.frame = CGRectMake(drawingObjectView.comicObject.frame.origin.x * ratioWidth,
+														 drawingObjectView.comicObject.frame.origin.y * ratioHeight,
+														 drawingObjectView.comicObject.frame.size.width * ratioWidth,
+														 drawingObjectView.comicObject.frame.size.height * ratioHeight);
+//					NSLog(@"size of pen view: %@", NSStringFromCGRect(drawingObjectView.frame));
+					for (UIView *view in drawingObjectView.subviews) {
+						view.frame = drawingObjectView.bounds;
+//						NSLog(@"\tsize of peng view: %@", NSStringFromCGRect(view.frame));
+					}
+					
                     if (self.topLayerView.subviews.count > 0) {
                         [self.topLayerView insertSubview:drawingObjectView atIndex:0];
                     } else {
@@ -339,7 +401,11 @@
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
                     rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
                 } else {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+//                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+					rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth,
+										   frameOfObject.origin.y * ratioHeight,
+										   frameOfObject.size.width * ratioWidth,
+										   frameOfObject.size.height * ratioHeight);
                 }
                 i ++;
                 
@@ -381,7 +447,11 @@
                 if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
                     rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
                 } else {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+//                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
+					rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth,
+										   frameOfObject.origin.y * ratioHeight,
+										   frameOfObject.size.width * ratioWidth,
+										   frameOfObject.size.height * ratioHeight);
                 }
                 i ++;
                 
@@ -420,7 +490,8 @@
         backgroundSuperview:(__weak UIImageView *)backgroundSuperview
                topLayerView:(__weak UIView *)topLayerView
                   withDelay:(CGFloat)delay
-				  withAngle:(CGFloat)angle{
+				  withAngle:(CGFloat)angle
+				  withScale:(CGFloat)scale{
     
     dispatch_queue_t const preloadQueue = dispatch_queue_create("preload-queue", DISPATCH_QUEUE_SERIAL);
     __weak CBComicImageCell *weakSelf = self;
@@ -436,15 +507,18 @@
         NSMutableArray *arrayImages = [NSMutableArray new];
         
         UIImageView *resultImageView = [[UIImageView alloc] initWithFrame:rect];
+		resultImageView.center = rect.origin;
         dispatch_async(dispatch_get_main_queue(), ^{
             resultImageView.autoresizingMask = 0B11111;
             resultImageView.userInteractionEnabled = YES;
             if (isBackground) {
                 [backgroundSuperview insertSubview:resultImageView atIndex:0];
 				resultImageView.transform = CGAffineTransformMakeRotation(angle);
+				resultImageView.transform = CGAffineTransformScale(resultImageView.transform, scale, scale);
             } else {
                 [topLayerView addSubview:resultImageView];
 				resultImageView.transform = CGAffineTransformMakeRotation(angle);
+				resultImageView.transform = CGAffineTransformScale(resultImageView.transform, scale, scale);
             }
         });
         

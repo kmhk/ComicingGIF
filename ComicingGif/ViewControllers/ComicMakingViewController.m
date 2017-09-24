@@ -423,8 +423,8 @@ ColorWheelDelegate>
         self.penToolImageView.alpha = 1;
         self.btnToolPen.alpha = 1;
     } else {
-        self.penToolImageView.alpha = 0;
-        self.btnToolPen.alpha = 0;
+        self.penToolImageView.alpha = 1;
+        self.btnToolPen.alpha = 1;
     }
     
     for (TimerImageViewStruct *timerImageView in self.timerImageViews) {
@@ -448,8 +448,8 @@ ColorWheelDelegate>
         self.penToolImageView.alpha = 1;
         self.btnToolPen.alpha = 1;
     } else {
-        self.penToolImageView.alpha = 0;
-        self.btnToolPen.alpha = 0;
+        self.penToolImageView.alpha = 1;
+        self.btnToolPen.alpha = 1;
     }
     
     //    backgroundView.currentTimerValue = slider.value;
@@ -698,7 +698,7 @@ ColorWheelDelegate>
         return;
     }
     NSMutableArray<NSValue *> *coordinatesArray = [NSMutableArray new];
-    [coordinatesArray addObject:[NSValue valueWithCGPoint:_lastPoint]];
+    [coordinatesArray addObject:[NSValue valueWithCGPoint:/*_lastPoint*/CGPointMake(_lastPoint.x - backgroundView.frame.origin.x, _lastPoint.y - backgroundView.frame.origin.y)]];
     [_drawingCoordinateArray addObject:coordinatesArray];
     
     if (!_drawingColorArray || !_drawingBrushSizeArray) {
@@ -775,7 +775,7 @@ ColorWheelDelegate>
     }
     // Get last coordinates array to add new currentPoint
     NSMutableArray<NSValue *> *currentCoordinatesArray = [_drawingCoordinateArray lastObject];
-    [currentCoordinatesArray addObject:[NSValue valueWithCGPoint:currentPoint]];
+    [currentCoordinatesArray addObject:[NSValue valueWithCGPoint:/*currentPoint*/CGPointMake(currentPoint.x - backgroundView.frame.origin.x, currentPoint.y - backgroundView.frame.origin.y)]];
     [_drawingCoordinateArray removeLastObject];
     [_drawingCoordinateArray addObject:currentCoordinatesArray];
 	
@@ -845,7 +845,7 @@ ColorWheelDelegate>
         }
         // Get last coordinates array to add new currentPoint
         NSMutableArray<NSValue *> *currentCoordinatesArray = [_drawingCoordinateArray lastObject];
-        [currentCoordinatesArray addObject:[NSValue valueWithCGPoint:_lastPoint]];
+        [currentCoordinatesArray addObject:[NSValue valueWithCGPoint:/*_lastPoint*/CGPointMake(_lastPoint.x - backgroundView.frame.origin.x, _lastPoint.y - backgroundView.frame.origin.y)]];
         [_drawingCoordinateArray removeLastObject];
         [_drawingCoordinateArray addObject:currentCoordinatesArray];
         CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha = 0.0;
@@ -1049,13 +1049,13 @@ ColorWheelDelegate>
     toolView.frame = CGRectOffset(toolView.frame, self.baseLayerView.frame.size.width, 0);
     toolView.alpha = 0.0;
     [self.baseLayerView addSubview:toolView];
-    
+	
     //    [backgroundView insertSubview:toolView atIndex:backgroundView.subviews.count >= 1 ? 1 : 0];
     //    toolView.backgroundColor = [UIColor greenColor];
     
     [UIView animateWithDuration:0.5 animations:^{
         [self setToolButtonAlpah:0.0];
-        
+		
         toolView.frame = CGRectOffset(toolView.frame, -self.baseLayerView.frame.size.width, 0);
         toolView.alpha = 1.0;
         
@@ -1524,7 +1524,7 @@ ColorWheelDelegate>
     }
     
     //    // TODO: Remove! This is for debug only
-    [comicView setFrame:CGRectMake(100, 100, comicView.frame.size.width, comicView.frame.size.height)];
+//    [comicView setFrame:CGRectMake(100, 100, comicView.frame.size.width, comicView.frame.size.height)];
     
     [backgroundView addSubview:comicView];
     //    [backgroundView insertSubview:comicView atIndex:backgroundView.subviews.count >= 1 ? 1 : 0];
@@ -1671,8 +1671,8 @@ ColorWheelDelegate>
     self.btnToolText.alpha = alpha;
     self.btnToolBubble.alpha = alpha;
     self.btnToolSticker.alpha = alpha;
-    self.btnNext.alpha = alpha;
-    
+//    self.btnNext.alpha = alpha;
+	
     self.buttonToolTextImageView.alpha = alpha;
     self.buttonToolStickerImageView.alpha = alpha;
 //    self.penToolImageView.alpha = alpha;

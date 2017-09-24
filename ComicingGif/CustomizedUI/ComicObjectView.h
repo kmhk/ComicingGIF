@@ -51,9 +51,11 @@ UIGestureRecognizerDelegate
 
 @property (strong, nonatomic) UIView *parentView;
 
-+ (ComicObjectView *)createListViewComicBubbleObjectViewWithObject:(BubbleObject *)bubbleObject;
++ (ComicObjectView *)createListViewComicBubbleObjectViewWithObject:(BubbleObject *)bubbleObject RatioW:(CGFloat)ratioW RatioH:(CGFloat)ratioH;
 + (ComicObjectView *)createListViewComicCaptionObjectViewWithObject:(CaptionObject *)captionObject;
 + (UIImageView *)createListViewComicPenObjectViewsWithArray:(inout NSArray<ComicObjectView *> *)penObjectViewsArray;
+
+- (void)adjustBubbleDirectionWithBubbleViewCenter:(CGPoint)centerPoint withForceBubbleViewReload:(BOOL)shouldReloadBubble;
 
 @property (weak, nonatomic) id<ComicObjectViewAnimatedStickerStateDelegate> animatedStickerStateDelegate;
 
