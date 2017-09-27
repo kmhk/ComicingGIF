@@ -440,6 +440,13 @@
 		CE91CE271EB9D9B800637AD7 /* category4.png in Resources */ = {isa = PBXBuildFile; fileRef = CE91CE201EB9D9B800637AD7 /* category4.png */; };
 		CE91CE281EB9D9B800637AD7 /* category5.png in Resources */ = {isa = PBXBuildFile; fileRef = CE91CE211EB9D9B800637AD7 /* category5.png */; };
 		CE91CE291EB9D9B800637AD7 /* category6.png in Resources */ = {isa = PBXBuildFile; fileRef = CE91CE221EB9D9B800637AD7 /* category6.png */; };
+		CEE2E7031F7B891600270A48 /* ComicingCAKeyframeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE2E6FE1F7B891600270A48 /* ComicingCAKeyframeAnimation.m */; };
+		CEE2E7041F7B891600270A48 /* SocialVideoHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE2E7001F7B891600270A48 /* SocialVideoHelper.m */; };
+		CEE2E7051F7B891600270A48 /* TwitterVideoUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE2E7021F7B891600270A48 /* TwitterVideoUpload.m */; };
+		CEE2E7101F7B893400270A48 /* UIImage+DHImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE2E7091F7B893400270A48 /* UIImage+DHImageAdditions.m */; };
+		CEE2E7111F7B893400270A48 /* UIScrollView+DHSmartScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE2E70B1F7B893400270A48 /* UIScrollView+DHSmartScreenshot.m */; };
+		CEE2E7121F7B893400270A48 /* UITableView+DHSmartScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE2E70D1F7B893400270A48 /* UITableView+DHSmartScreenshot.m */; };
+		CEE2E7131F7B893500270A48 /* UIView+DHSmartScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE2E70F1F7B893400270A48 /* UIView+DHSmartScreenshot.m */; };
 		E232182A1F228B3D00C02C60 /* image-0-3.png in Resources */ = {isa = PBXBuildFile; fileRef = E23218201F228B3D00C02C60 /* image-0-3.png */; };
 		E232182B1F228B3D00C02C60 /* image-0-4.png in Resources */ = {isa = PBXBuildFile; fileRef = E23218211F228B3D00C02C60 /* image-0-4.png */; };
 		E23218311F228B3D00C02C60 /* image-0-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E23218271F228B3D00C02C60 /* image-0-2.png */; };
@@ -1279,6 +1286,21 @@
 		CE91CE201EB9D9B800637AD7 /* category4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = category4.png; path = Resources/categoryIcon/category4.png; sourceTree = "<group>"; };
 		CE91CE211EB9D9B800637AD7 /* category5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = category5.png; path = Resources/categoryIcon/category5.png; sourceTree = "<group>"; };
 		CE91CE221EB9D9B800637AD7 /* category6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = category6.png; path = Resources/categoryIcon/category6.png; sourceTree = "<group>"; };
+		CEE2E6FD1F7B891600270A48 /* ComicingCAKeyframeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComicingCAKeyframeAnimation.h; sourceTree = "<group>"; };
+		CEE2E6FE1F7B891600270A48 /* ComicingCAKeyframeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComicingCAKeyframeAnimation.m; sourceTree = "<group>"; };
+		CEE2E6FF1F7B891600270A48 /* SocialVideoHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialVideoHelper.h; sourceTree = "<group>"; };
+		CEE2E7001F7B891600270A48 /* SocialVideoHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialVideoHelper.m; sourceTree = "<group>"; };
+		CEE2E7011F7B891600270A48 /* TwitterVideoUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterVideoUpload.h; sourceTree = "<group>"; };
+		CEE2E7021F7B891600270A48 /* TwitterVideoUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterVideoUpload.m; sourceTree = "<group>"; };
+		CEE2E7071F7B893400270A48 /* DHSmartScreenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DHSmartScreenshot.h; sourceTree = "<group>"; };
+		CEE2E7081F7B893400270A48 /* UIImage+DHImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+DHImageAdditions.h"; sourceTree = "<group>"; };
+		CEE2E7091F7B893400270A48 /* UIImage+DHImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+DHImageAdditions.m"; sourceTree = "<group>"; };
+		CEE2E70A1F7B893400270A48 /* UIScrollView+DHSmartScreenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+DHSmartScreenshot.h"; sourceTree = "<group>"; };
+		CEE2E70B1F7B893400270A48 /* UIScrollView+DHSmartScreenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+DHSmartScreenshot.m"; sourceTree = "<group>"; };
+		CEE2E70C1F7B893400270A48 /* UITableView+DHSmartScreenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+DHSmartScreenshot.h"; sourceTree = "<group>"; };
+		CEE2E70D1F7B893400270A48 /* UITableView+DHSmartScreenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+DHSmartScreenshot.m"; sourceTree = "<group>"; };
+		CEE2E70E1F7B893400270A48 /* UIView+DHSmartScreenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+DHSmartScreenshot.h"; sourceTree = "<group>"; };
+		CEE2E70F1F7B893400270A48 /* UIView+DHSmartScreenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+DHSmartScreenshot.m"; sourceTree = "<group>"; };
 		E23218201F228B3D00C02C60 /* image-0-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image-0-3.png"; sourceTree = "<group>"; };
 		E23218211F228B3D00C02C60 /* image-0-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image-0-4.png"; sourceTree = "<group>"; };
 		E23218271F228B3D00C02C60 /* image-0-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image-0-2.png"; sourceTree = "<group>"; };
@@ -3144,6 +3166,23 @@
 			name = ComicSharingViewController;
 			sourceTree = "<group>";
 		};
+		CEE2E7061F7B893400270A48 /* ScreenshotHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				CEE2E7071F7B893400270A48 /* DHSmartScreenshot.h */,
+				CEE2E7081F7B893400270A48 /* UIImage+DHImageAdditions.h */,
+				CEE2E7091F7B893400270A48 /* UIImage+DHImageAdditions.m */,
+				CEE2E70A1F7B893400270A48 /* UIScrollView+DHSmartScreenshot.h */,
+				CEE2E70B1F7B893400270A48 /* UIScrollView+DHSmartScreenshot.m */,
+				CEE2E70C1F7B893400270A48 /* UITableView+DHSmartScreenshot.h */,
+				CEE2E70D1F7B893400270A48 /* UITableView+DHSmartScreenshot.m */,
+				CEE2E70E1F7B893400270A48 /* UIView+DHSmartScreenshot.h */,
+				CEE2E70F1F7B893400270A48 /* UIView+DHSmartScreenshot.m */,
+			);
+			name = ScreenshotHelpers;
+			path = Classes/ScreenshotHelpers;
+			sourceTree = "<group>";
+		};
 		E26C41601EFEF4B000D37798 /* CMCCaptionView */ = {
 			isa = PBXGroup;
 			children = (
@@ -3216,6 +3255,13 @@
 		F317941E1E8689110083BD19 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				CEE2E7061F7B893400270A48 /* ScreenshotHelpers */,
+				CEE2E6FD1F7B891600270A48 /* ComicingCAKeyframeAnimation.h */,
+				CEE2E6FE1F7B891600270A48 /* ComicingCAKeyframeAnimation.m */,
+				CEE2E6FF1F7B891600270A48 /* SocialVideoHelper.h */,
+				CEE2E7001F7B891600270A48 /* SocialVideoHelper.m */,
+				CEE2E7011F7B891600270A48 /* TwitterVideoUpload.h */,
+				CEE2E7021F7B891600270A48 /* TwitterVideoUpload.m */,
 				0C43F7081E9F4BCF00AB71F9 /* UIImage+ImageCompress.h */,
 				0C43F7091E9F4BCF00AB71F9 /* UIImage+ImageCompress.m */,
 				0C43F6D21E9F48C300AB71F9 /* Emoji */,
@@ -3745,9 +3791,11 @@
 			files = (
 				0C43F4401E9F3B4500AB71F9 /* ComicBookColorCBViewController.m in Sources */,
 				0C43F4081E9F3AFD00AB71F9 /* JSONModelClassProperty.m in Sources */,
+				CEE2E7051F7B891600270A48 /* TwitterVideoUpload.m in Sources */,
 				0C43F6FB1E9F499600AB71F9 /* JTAlertView.m in Sources */,
 				0C43F3CC1E9F39B700AB71F9 /* NSLayoutConstraint+Multiplier.m in Sources */,
 				0C43F4CD1E9F3D1900AB71F9 /* FabricAnalytics.m in Sources */,
+				CEE2E7111F7B893400270A48 /* UIScrollView+DHSmartScreenshot.m in Sources */,
 				0C43F5DC1E9F433700AB71F9 /* UIImage+resize.m in Sources */,
 				F323D4881E8E769E00B41659 /* BubbleObject.m in Sources */,
 				0C43F4361E9F3B4500AB71F9 /* CBComicPageViewController.m in Sources */,
@@ -3766,6 +3814,7 @@
 				0C43F59C1E9F417300AB71F9 /* NSString+STTwitter.m in Sources */,
 				0C43F71B1E9F4D1E00AB71F9 /* CMCUser.m in Sources */,
 				3053FBF61F5D98CD0010CE7F /* SCProcessingQueue.m in Sources */,
+				CEE2E7121F7B893400270A48 /* UITableView+DHSmartScreenshot.m in Sources */,
 				0C43F3921E9F384B00AB71F9 /* NSData+ImageContentType.m in Sources */,
 				0C43F4A21E9F3CDB00AB71F9 /* CurrentUser.m in Sources */,
 				0C43F6B71E9F47E900AB71F9 /* UIImage+Alpha.m in Sources */,
@@ -3807,6 +3856,7 @@
 				0C43F40A1E9F3AFD00AB71F9 /* NSArray+JSONModel.m in Sources */,
 				0C43F68B1E9F458900AB71F9 /* GlideViewController.m in Sources */,
 				0C43F6741E9F452F00AB71F9 /* FindFriendsViewController.m in Sources */,
+				CEE2E7041F7B891600270A48 /* SocialVideoHelper.m in Sources */,
 				0C43F6801E9F456500AB71F9 /* FooterView.m in Sources */,
 				0C43F68A1E9F458900AB71F9 /* GlideScrollViewController.m in Sources */,
 				0C43F4B41E9F3CEF00AB71F9 /* GroupCreate.m in Sources */,
@@ -3958,6 +4008,7 @@
 				0C43F5A21E9F417300AB71F9 /* STTwitterOS.m in Sources */,
 				0C43F4801E9F3C6200AB71F9 /* UIColor+colorWithHexString.m in Sources */,
 				0C43F40F1E9F3AFD00AB71F9 /* JSONValueTransformer.m in Sources */,
+				CEE2E7131F7B893500270A48 /* UIView+DHSmartScreenshot.m in Sources */,
 				0C43F4131E9F3B2000AB71F9 /* CustomView.m in Sources */,
 				0C43F6231E9F447700AB71F9 /* GroupsMembersSection.m in Sources */,
 				0C43F3551E9F376B00AB71F9 /* ComicSlidePreview.m in Sources */,
@@ -4028,6 +4079,7 @@
 				0C43F4B81E9F3CEF00AB71F9 /* UserGroup.m in Sources */,
 				0C43F5171E9F3E0E00AB71F9 /* ShareHelper.m in Sources */,
 				0C43F53C1E9F3E4000AB71F9 /* BaseAPIManager.m in Sources */,
+				CEE2E7101F7B893400270A48 /* UIImage+DHImageAdditions.m in Sources */,
 				0C43F6D91E9F48C300AB71F9 /* EmojiHelper.m in Sources */,
 				0C43F40D1E9F3AFD00AB71F9 /* JSONModel+networking.m in Sources */,
 				0C43F53F1E9F3E4000AB71F9 /* CommentsAPIManager.m in Sources */,
@@ -4038,6 +4090,7 @@
 				300840A41F6A56F6002094EF /* ImageObject.m in Sources */,
 				0C43F5701E9F410400AB71F9 /* ComicsModel.m in Sources */,
 				0C43F59F1E9F417300AB71F9 /* STTwitterAppOnly.m in Sources */,
+				CEE2E7031F7B891600270A48 /* ComicingCAKeyframeAnimation.m in Sources */,
 				0C43F6C11E9F484800AB71F9 /* VerifyView.m in Sources */,
 				0C43F3E81E9F3AE400AB71F9 /* ComicEnhancements.m in Sources */,
 				0C43F7291E9F4D5F00AB71F9 /* UIScrollView+SVInfiniteScrolling.m in Sources */,

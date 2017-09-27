@@ -9,16 +9,42 @@
 #import "ComicPreviewModel.h"
 #import "ComicObjectSerialize.h"
 #import "BaseObject.h"
-#import "BkImageObject.h"
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <ImageIO/ImageIO.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-#import <AVKit/AVKit.h>
 #import <Photos/Photos.h>
+#import "TwitterVideoUpload.h"
+#import "RoundCapProgressView.h"
+#import <AVKit/AVKit.h>
 
+@interface LayerAndAnimation : NSObject
 
+@property (strong, nonatomic) CALayer *layer;
+@property (strong, nonatomic) CAKeyframeAnimation *animation;
+@property (assign, nonatomic) NSInteger layerCount;
+- (instancetype)initWithLayer:(CALayer *)layer andAnimationObject:(CAKeyframeAnimation *)animation andLayerCount:(NSInteger)layerCount;
+
+@end
+
+@implementation LayerAndAnimation
+
+- (instancetype)initWithLayer:(CALayer *)layer andAnimationObject:(CAKeyframeAnimation *)animation andLayerCount:(NSInteger)layerCount{
+    self = [super init];
+    if (self) {
+        self.layer = layer;
+        self.animation = animation;
+        self.layerCount = layerCount;
+    }
+    return self;
+}
+
+@end
+
+@interface ComicPreviewModel ()
+
+@end
 
 @implementation ComicPreviewModel
 {
@@ -28,13 +54,15 @@
 - (id)init {
 	self = [super init];
 	if (self) {
+
 	}
 	
 	return self;
 }
 
 - (void)generateVideos:(void (^)(NSURL *))completedHandler {
-	NSMutableArray *arraySlides = [NSMutableArray arrayWithArray:[ComicObjectSerialize loadComicSlide]];
+
+    NSMutableArray *arraySlides = [NSMutableArray arrayWithArray:[ComicObjectSerialize loadComicSlide]];
 	
 	while (arraySlides.count > 0) {
 		NSArray *arrayPresent;
@@ -50,7 +78,6 @@
 		[self createVideoFromSlide:arrayPresent handler:completedHandler];
 	}
 }
-
 
 // MARK: - video generation methods
 - (void)createVideoFromSlide:(NSArray *)arraySlides handler:(void (^)(NSURL *))completedHandler {
@@ -86,31 +113,35 @@
 		// draw background image
 		NSDictionary *dict = arraySlide[0];
 		CGRect rt = CGRectFromString(arrayFrames[i+1]);
-		NSURL *url = [NSURL URLWithString:dict[kURLKey]];
+		NSURL *url = [NSURL URLWithString:dict[@"url"]];
 		NSString *fileName1 = [NSString stringWithFormat:@"%@",[url lastPathComponent]];
 		NSURL *fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:fileName1]];
-		CALayer *bkLayer = [self createGifLayer:parentLayer rect:rt
+		CALayer *bkLayer = [self createGifLayer:parentLayer
+                                           rect:rt
 											url:fileURL
 										  delay:duration
-										   flag:YES];
+                            delayFromSlideStart:0
+										   flag:YES
+                            shouldShowAlways:YES];
 		
 		for (int j = 1; j < arraySlide.count; j ++) {
 			NSDictionary *slide = arraySlide[j];
 			[self createComicObjectLayer:slide
 							   baseLayer:bkLayer
 								   delay:duration
-								  rtRule:CGRectFromString([dict[kBaseInfoKey] objectForKey:kFrameKey])
+                     delayFromSlideStart:[[slide[@"baseInfo"] objectForKey:@"delayTime"] floatValue]
+								  rtRule:CGRectFromString([dict[@"baseInfo"] objectForKey:@"frame"])
 								rtActual:CGRectFromString(arrayFrames[i+1])];
 		}
 		
-		if (objectDuration == AVCoreAnimationBeginTimeAtZero) {
+		if (objectDuration <= 3) {
 			duration += 3;
 		} else {
 			duration += objectDuration;
 		}
 	}
-	
-	// generate video
+
+    // generate video
 	AVMutableComposition *composition = [AVMutableComposition composition];
 	AVMutableCompositionTrack *videoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
 	AVMutableVideoComposition *videoComposition = [AVMutableVideoComposition videoComposition];
@@ -134,7 +165,7 @@
 	 videoCompositionLayerInstructionWithAssetTrack:videoTrack];
 	
 	[layerInstruction setTransform:videoTrack.preferredTransform atTime:kCMTimeZero];
-	
+    NSLog(@"Duration: %f",duration);
 	NSLog(@"asset duration == %f",CMTimeGetSeconds(asset.duration));
 	NSLog(@"composition duration == %f",CMTimeGetSeconds(composition.duration));
 	
@@ -161,15 +192,35 @@
 	
 	NSURL *outputURL = [[NSURL alloc] initFileURLWithPath:outputPath];
 	
-	AVAssetExportSession *exporter1 = [[AVAssetExportSession alloc] initWithAsset:composition
-																	   presetName:AVAssetExportPresetHighestQuality];
-	exporter1.outputURL=outputURL;
-	exporter1.outputFileType = AVFileTypeQuickTimeMovie;
-	exporter1.videoComposition = videoComposition;
-	[exporter1 exportAsynchronouslyWithCompletionHandler:^{
-		switch ([exporter1 status]) {
+	 self.exporter1 = [[AVAssetExportSession alloc] initWithAsset:composition
+																	   presetName:AVAssetExportPresetLowQuality];
+    
+	self.exporter1.outputURL=outputURL;
+	self.exporter1.outputFileType = AVFileTypeQuickTimeMovie;
+	self.exporter1.videoComposition = videoComposition;
+
+//    if ([self.delegate respondsToSelector:@selector(imageThumbnailGenerated:)]) {
+//        AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+//        generator.appliesPreferredTrackTransform=TRUE;
+//        
+//        CMTime thumbTime = CMTimeMakeWithSeconds(0,30);
+//        
+//        AVAssetImageGeneratorCompletionHandler handler = ^(CMTime requestedTime, CGImageRef im, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error){
+//            if (result != AVAssetImageGeneratorSucceeded) {
+//                NSLog(@"couldn't generate thumbnail, error:%@", error);
+//            }
+//                [self.delegate imageThumbnailGenerated:[UIImage imageWithCGImage:im]] ;
+//        };
+//        
+//        CGSize maxSize = CGSizeMake(320, 180);
+//        generator.maximumSize = maxSize;
+//        [generator generateCGImagesAsynchronouslyForTimes:[NSArray arrayWithObject:[NSValue valueWithCMTime:thumbTime]] completionHandler:handler];
+//    }
+
+	[self.exporter1 exportAsynchronouslyWithCompletionHandler:^{
+		switch ([self.exporter1 status]) {
 			case AVAssetExportSessionStatusFailed:
-				NSLog(@"Export failed: %@", [[exporter1 error] description]);
+				NSLog(@"Export failed: %@", [[self.exporter1 error] description]);
 				break;
 			case AVAssetExportSessionStatusCancelled:
 				NSLog(@"Export canceled");
@@ -194,24 +245,26 @@
 //					playerViewController.player = player;
 //					[_parentVC presentViewController:playerViewController animated:YES completion:nil];
 //				}];
-				
+
+//                [((ComicSharingViewController *)self.parentVC) saveVideoWithURL:outputURL];
 				break;
 		}
 	}];
 }
 
 
-- (CFTimeInterval)createComicObjectLayer:(NSDictionary *)dict baseLayer:(CALayer *)baseLayer delay:(CFTimeInterval)delay rtRule:(CGRect)rtRule rtActual:(CGRect)rtActual {
-	CGRect rt = [self getBound:CGRectFromString([dict[kBaseInfoKey] objectForKey:kFrameKey]) ruleRT:rtRule actualRT:rtActual];
+- (CFTimeInterval)createComicObjectLayer:(NSDictionary *)dict baseLayer:(CALayer *)baseLayer delay:(CFTimeInterval)delay delayFromSlideStart:(CFTimeInterval)delayFromSlideStart rtRule:(CGRect)rtRule rtActual:(CGRect)rtActual {
+	CGRect rt = [self getBound:CGRectFromString([dict[@"baseInfo"] objectForKey:@"frame"]) ruleRT:rtRule actualRT:rtActual];
 	
-	if ([[dict[kBaseInfoKey] objectForKey:kTypeKey] integerValue] == ObjectAnimateGIF) {
-		NSURL *url = [NSURL URLWithString:dict[kURLKey]];
+	if ([[dict[@"baseInfo"] objectForKey:@"type"] integerValue] == ObjectAnimateGIF) {
+		NSURL *url = [NSURL URLWithString:dict[@"url"]];
 		NSString *fileName = [NSString stringWithFormat:@"%@",[url lastPathComponent]];
 		NSURL *fileURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:fileName ofType:@""]];
-		[self createGifLayer:baseLayer rect:rt url:fileURL delay:delay flag:NO];
+        CGFloat delayTime = [[dict[@"baseInfo"] objectForKey:@"delayTime"] floatValue];
+		[self createGifLayer:baseLayer rect:rt url:fileURL delay:delay delayFromSlideStart:delayFromSlideStart flag:NO shouldShowAlways:!delayTime];
 		
-	} else if ([[dict[kBaseInfoKey] objectForKey:kTypeKey] integerValue] == ObjectSticker) {
-		NSURL *url = [NSURL URLWithString:dict[kURLKey]];
+	} else if ([[dict[@"baseInfo"] objectForKey:@"type"] integerValue] == ObjectSticker) {
+		NSURL *url = [NSURL URLWithString:dict[@"url"]];
 		NSString *fileName = [NSString stringWithFormat:@"%@",[url lastPathComponent]];
 		[self createImageLayer:baseLayer rect:rt name:fileName];
 	}
@@ -219,8 +272,8 @@
 	return objectDuration;
 }
 
-
 - (CALayer *)createImageLayer:(CALayer *)parent rect:(CGRect)rect name:(NSString *)rcID {
+    
 	CALayer *layer = [CALayer new];
 	layer.frame = rect;
 	
@@ -233,28 +286,28 @@
 }
 
 
-- (CALayer *)createGifLayer:(CALayer *)parent rect:(CGRect)rect url:(NSURL *)url delay:(CFTimeInterval)delay flag:(BOOL)drawBorder {
+- (CALayer *)createGifLayer:(CALayer *)parent rect:(CGRect)rect url:(NSURL *)url delay:(CFTimeInterval)delay delayFromSlideStart:(CFTimeInterval)delayFromSlideStart flag:(BOOL)drawBorder shouldShowAlways:(BOOL)shouldShowAlways {
 	CALayer *layer = [CALayer new];
 	layer.frame = rect;
 	
-	[self startGifAnimationWithURL:url inLayer:layer delay:delay flag:drawBorder];
+	[self startGifAnimationWithURL:url inLayer:layer delay:delay delayFromSlideStart:delayFromSlideStart flag:drawBorder shouldShowAlways:shouldShowAlways];
 	[parent addSublayer:layer];
 	
 	return layer;
 }
 
 
-- (void)startGifAnimationWithURL:(NSURL *)url inLayer:(CALayer *)layer delay:(CFTimeInterval)delay flag:(BOOL)drawBorder
+- (void)startGifAnimationWithURL:(NSURL *)url inLayer:(CALayer *)layer delay:(CFTimeInterval)delay delayFromSlideStart:(CFTimeInterval)delayFromSlideStart flag:(BOOL)drawBorder shouldShowAlways:(BOOL)shouldShowAlways
 {
 	CALayer *subLayer = [CALayer new];
 	subLayer.frame = layer.bounds;
 	
-	// creating animation layer
-	CAKeyframeAnimation * animation = [self animationForGifWithURL:url delay:delay flag:drawBorder];
+    // creating animation layer
+	CAKeyframeAnimation * animation = [self animationForGifWithURL:url delay:delay delayFromSlideStart:delayFromSlideStart flag:drawBorder shouldShowAlways:shouldShowAlways];
 	[subLayer addAnimation:animation forKey:@"contents"];
-	
+
 	// set first frame to main layer to show image before animation
-	layer.contents = (id)animation.values[0];
+//	layer.contents = (id)animation.values[0];
 	[layer addSublayer:subLayer];
 }
 
@@ -293,16 +346,17 @@
 	return imgRef;
 }
 
-- (CAKeyframeAnimation *)animationForGifWithURL:(NSURL *)url delay:(CFTimeInterval)delay flag:(BOOL)drawBorder
+- (CAKeyframeAnimation *)animationForGifWithURL:(NSURL *)url delay:(CFTimeInterval)delay delayFromSlideStart:(CFTimeInterval)delayFromSlideStart flag:(BOOL)drawBorder shouldShowAlways:(BOOL)shouldShowAlways
 {
+    delay += delayFromSlideStart;
 	CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"contents"];
 	
 	NSMutableArray * frames = [NSMutableArray new];
 	NSMutableArray *delayTimes = [NSMutableArray new];
 	
 	CGFloat totalTime = 0.0;
-	CGFloat gifWidth;
-	CGFloat gifHeight;
+//	CGFloat gifWidth;
+//	CGFloat gifHeight;
 	
 	CGImageSourceRef gifSource = CGImageSourceCreateWithURL((CFURLRef)url, NULL);
 	
@@ -320,11 +374,11 @@
 		
 		// get gif info with each frame
 		NSDictionary *dict = (NSDictionary*)CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(gifSource, i, NULL));
-		NSLog(@"kCGImagePropertyGIFDictionary %@", [dict valueForKey:(NSString*)kCGImagePropertyGIFDictionary]);
+//		NSLog(@"kCGImagePropertyGIFDictionary %@", [dict valueForKey:(NSString*)kCGImagePropertyGIFDictionary]);
 		
 		// get gif size
-		gifWidth = [[dict valueForKey:(NSString*)kCGImagePropertyPixelWidth] floatValue];
-		gifHeight = [[dict valueForKey:(NSString*)kCGImagePropertyPixelHeight] floatValue];
+//		gifWidth = [[dict valueForKey:(NSString*)kCGImagePropertyPixelWidth] floatValue];
+//		gifHeight = [[dict valueForKey:(NSString*)kCGImagePropertyPixelHeight] floatValue];
 		
 		// kCGImagePropertyGIFDictionary中kCGImagePropertyGIFDelayTime，kCGImagePropertyGIFUnclampedDelayTime值是一样的
 		NSDictionary *gifDict = [dict valueForKey:(NSString*)kCGImagePropertyGIFDictionary];
@@ -366,11 +420,17 @@
 	animation.values = frames;
 	animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
 	animation.duration = totalTime;
-	animation.removedOnCompletion = NO;
+    if (!shouldShowAlways) {
+        animation.fillMode = kCAFillModeForwards;
+    } else {
+        animation.fillMode = kCAFillModeBoth;
+    }
+    animation.removedOnCompletion = NO;
 	animation.repeatCount = 1;
+
 	
-	if (objectDuration < totalTime) {
-		objectDuration = totalTime;
+	if (objectDuration < (totalTime + delay)) {
+		objectDuration = (totalTime + delay);
 	}
 //	duration += totalTime;
 	
@@ -395,7 +455,7 @@
 	NSInteger tag = 0;
 	for (int i = 0; i < arraySlides.count; i ++) {
 		NSArray *slide = arraySlides[i];
-		if ([[slide[0] objectForKey:kIsTallKey] boolValue] == YES) {
+		if ([[slide[0] objectForKey:@"isTall"] boolValue] == YES) {
 			tag = tag * 10 + 1;
 		} else {
 			tag = tag * 10 + 2;

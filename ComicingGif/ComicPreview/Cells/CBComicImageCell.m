@@ -94,7 +94,7 @@
                                self.bounds.size.height / screenRect.size.height);
     
     
-    if (/*baseImageView.animationImages.count > 1*/1)//_comicItemModel.isBaseLayerGif)
+//    if (/*baseImageView.animationImages.count > 1*/1)//_comicItemModel.isBaseLayerGif)
     {
         // NEED to handle 3 layer
         
@@ -363,107 +363,8 @@
              }
              */
         }
-    } else {
-        // This can be 2 layer or single layer
-        
-        //        cell.baseLayerImageView.image = [AppHelper getImageFile:_comicItemModel.comicPage.printScreenPath];
-        //-> Loop subviews
-        int i = 0;
-        for (id subview in _comicItemModel.comicPage.subviews) {
-            NSLog(@"Subviews - %@",subview);
-            if ([[[subview objectForKey:kBaseInfoKey] objectForKey:kTypeKey]intValue]==17) {
-                //Handle top layer that is sticker gif
-                //                                ComicItemAnimatedSticker *sticker = [ComicItemAnimatedSticker new];
-                CGRect frameOfObject = CGRectFromString([[subview objectForKey:kBaseInfoKey] objectForKey:kFrameKey]);
-                
-                //                sticker.combineAnimationFileName = [subview objectForKey:kURLKey];
-                
-                NSBundle *bundle = [NSBundle mainBundle] ;
-                NSString *strFileName = [[subview objectForKey:kURLKey] lastPathComponent];
-                NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".gif" withString:@""] ofType:@"gif"];
-                CGRect rectOfGif;
-                //                sticker.image =  [UIImage sd_animatedGIFWithData:gifData];
-                
-                CGFloat ratioWidth; //ratio SlideView To ScreenSize
-                CGFloat ratioHeight; //ratio SlideView To ScreenSize
-                if (IS_IPHONE_5) {
-                    ratioWidth = rect.size.width / 305;
-                    ratioHeight = rect.size.height / 495.5;
-                } else if (IS_IPHONE_6) {
-                    ratioWidth = rect.size.width / 358;
-                    ratioHeight = rect.size.height / 585;
-                } else {
-                    ratioWidth = rect.size.width / 395.333;
-                    ratioHeight = rect.size.height / 648.333;
-                }
-                
-                //                CGFloat ratioHeight = rect.size.height / SCREEN_HEIGHT;
-                if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
-                } else {
-//                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
-					rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth,
-										   frameOfObject.origin.y * ratioHeight,
-										   frameOfObject.size.width * ratioWidth,
-										   frameOfObject.size.height * ratioHeight);
-                }
-                i ++;
-                
-                [self createImageViewWith:imagePath
-                                    frame:rectOfGif
-                                 bAnimate:YES
-                            withAnimation:YES
-                               completion:^(UIImageView *stickerImageView) {
-                                   CGFloat rotationAngle = [[[subview objectForKey:kBaseInfoKey] objectForKey:kAngleKey] floatValue];
-                                   stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
-                                   [self.topLayerView addSubview:stickerImageView];
-                               }];
-            }
-            
-            //18 is for static stickers
-            if ([[[subview objectForKey:kBaseInfoKey] objectForKey:kTypeKey]intValue] == 18) {
-                CGRect frameOfObject = CGRectFromString([[subview objectForKey:kBaseInfoKey] objectForKey:kFrameKey]);
-                
-                NSBundle *bundle = [NSBundle mainBundle] ;
-                NSString *strFileName = [[subview objectForKey:kURLKey] lastPathComponent];
-                NSString *imagePath = [bundle pathForResource:[strFileName stringByReplacingOccurrencesOfString:@".png" withString:@""] ofType:@"png"];
-                NSData *gifData = [NSData dataWithContentsOfFile:imagePath];
-                CGRect rectOfGif;
-                
-                CGFloat ratioWidth; //ratio SlideView To ScreenSize
-                CGFloat ratioHeight; //ratio SlideView To ScreenSize
-                if (IS_IPHONE_5) {
-                    ratioWidth = rect.size.width / 305;
-                    ratioHeight = rect.size.height / 495.5;
-                } else if (IS_IPHONE_6) {
-                    ratioWidth = rect.size.width / 358;
-                    ratioHeight = rect.size.height / 585;
-                } else {
-                    ratioWidth = rect.size.width / 395.333;
-                    ratioHeight = rect.size.height / 648.333;
-                }
-                
-                //                CGFloat ratioHeight = rect.size.height / SCREEN_HEIGHT;
-                if (_comicItemModel.imageOrientation == COMIC_IMAGE_ORIENTATION_PORTRAIT_HALF) {
-                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H /2, (frameOfObject.size.height * ratioHeight) - W_H/2);
-                } else {
-//                    rectOfGif = CGRectMake((frameOfObject.origin.x * ratioWidth) +5 , (frameOfObject.origin.y * ratioHeight) + 5, (frameOfObject.size.width * ratioWidth) - W_H, (frameOfObject.size.height * ratioHeight) - W_H);
-					rectOfGif = CGRectMake(frameOfObject.origin.x * ratioWidth,
-										   frameOfObject.origin.y * ratioHeight,
-										   frameOfObject.size.width * ratioWidth,
-										   frameOfObject.size.height * ratioHeight);
-                }
-                i ++;
-                
-                UIImageView *stickerImageView = [[UIImageView alloc]initWithFrame:rectOfGif];
-                stickerImageView.image = [UIImage imageWithData:gifData];
-                
-                CGFloat rotationAngle = [[[subview objectForKey:kBaseInfoKey] objectForKey:kAngleKey] floatValue];
-                stickerImageView.transform = CGAffineTransformMakeRotation(rotationAngle);
-                [self.topLayerView addSubview:stickerImageView];
-            }
-        }
     }
+	
     NSLog(@"\n\n\nCELLLLLLLLLLLLLLLLL A: %lu %@",index, _comicItemModel.comicPage.subviews);
     self.userInteractionEnabled = NO;
     [self hideActivityIndicator];
