@@ -974,15 +974,15 @@ NSString * const BottomBarView = @"BottomBarView";
     
     
     /* Commented for testing*/
-    ShareHelper* sHelper = [ShareHelper shareHelperInit];
-    sHelper.parentviewcontroller = self;
-    [sHelper shareAction:type ShareText:@""
-              ShareImage:image
-              completion:^(BOOL status) {
-              
-
-              }];
-    
+//    ShareHelper* sHelper = [ShareHelper shareHelperInit];
+//    sHelper.parentviewcontroller = self;
+//    [sHelper shareAction:type ShareText:@""
+//              ShareImage:image
+//              completion:^(BOOL status) {
+//              
+//
+//              }];
+//    
 }
 
 

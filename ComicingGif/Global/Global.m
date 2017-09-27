@@ -253,4 +253,11 @@ static Global *global = nil;
     return height/TallSlideWidthToHeightRatio;
 }
 
++ (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:action];
+    [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alertController animated:YES completion:nil];
+}
+
 @end

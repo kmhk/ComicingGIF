@@ -122,7 +122,10 @@
 										  delay:duration
                             delayFromSlideStart:0
 										   flag:YES
-                            shouldShowAlways:YES];
+							   shouldShowAlways:YES
+										  angle:0
+										  scaleX:1.0
+										 scaleY:1.0];
 		
 		for (int j = 1; j < arraySlide.count; j ++) {
 			NSDictionary *slide = arraySlide[j];
@@ -261,7 +264,11 @@
 		NSString *fileName = [NSString stringWithFormat:@"%@",[url lastPathComponent]];
 		NSURL *fileURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:fileName ofType:@""]];
         CGFloat delayTime = [[dict[@"baseInfo"] objectForKey:@"delayTime"] floatValue];
-		[self createGifLayer:baseLayer rect:rt url:fileURL delay:delay delayFromSlideStart:delayFromSlideStart flag:NO shouldShowAlways:!delayTime];
+		
+		CGFloat rotationAngle = [[dict[@"baseInfo"] objectForKey:@"angle"] floatValue];
+		CGFloat scale = [[dict[@"baseInfo"] objectForKey:@"scale"] floatValue];
+		
+		[self createGifLayer:baseLayer rect:rt url:fileURL delay:delay delayFromSlideStart:delayFromSlideStart flag:NO shouldShowAlways:!delayTime angle:rotationAngle scaleX:scale scaleY:scale];
 		
 	} else if ([[dict[@"baseInfo"] objectForKey:@"type"] integerValue] == ObjectSticker) {
 		NSURL *url = [NSURL URLWithString:dict[@"url"]];
@@ -286,12 +293,15 @@
 }
 
 
-- (CALayer *)createGifLayer:(CALayer *)parent rect:(CGRect)rect url:(NSURL *)url delay:(CFTimeInterval)delay delayFromSlideStart:(CFTimeInterval)delayFromSlideStart flag:(BOOL)drawBorder shouldShowAlways:(BOOL)shouldShowAlways {
+- (CALayer *)createGifLayer:(CALayer *)parent rect:(CGRect)rect url:(NSURL *)url delay:(CFTimeInterval)delay delayFromSlideStart:(CFTimeInterval)delayFromSlideStart flag:(BOOL)drawBorder shouldShowAlways:(BOOL)shouldShowAlways angle:(float)angle scaleX:(float)scaleX scaleY:(float)scaleY {
 	CALayer *layer = [CALayer new];
 	layer.frame = rect;
 	
 	[self startGifAnimationWithURL:url inLayer:layer delay:delay delayFromSlideStart:delayFromSlideStart flag:drawBorder shouldShowAlways:shouldShowAlways];
 	[parent addSublayer:layer];
+	
+	layer.affineTransform = CGAffineTransformMakeRotation(2 * M_PI - angle);
+	layer.affineTransform = CGAffineTransformScale(layer.affineTransform, scaleX, scaleY);
 	
 	return layer;
 }

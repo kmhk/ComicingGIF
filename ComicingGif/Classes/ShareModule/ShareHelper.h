@@ -36,15 +36,22 @@ typedef void (^ShareHelperHandlerBlock)(BOOL status);
 
 +(ShareHelper *) shareHelperInit;
 
--(void)shareAction:(ShapeType)shareType ShareText:(NSString*)shareText
+-(void)shareAction:(ShapeType)shareType
+         ShareText:(NSString*)shareText
+          videoUrl:(NSString*)videoUrl
         completion:(ShareHelperHandlerBlock)completeBlock;
 
--(void)shareAction:(ShapeType)shareType ShareText:(NSString*)shareText
+-(void)shareAction:(ShapeType)shareType
+         ShareText:(NSString*)shareText
         ShareImage:(UIImage*)shareImage
+          videoUrl:(NSString*)videoUrl
         completion:(ShareHelperHandlerBlock)completeBlock;
 
--(void)shareAction:(ShapeType)shareType ShareText:(NSString*)shareText
-        ShareImage:(UIImage*)shareImage ShareUrl:(NSString*)shareUrl
+-(void)shareAction:(ShapeType)shareType
+         ShareText:(NSString*)shareText
+        ShareImage:(UIImage*)shareImage
+          ShareUrl:(NSString*)shareUrl
+          videoUrl:(NSString*)videoUrl
         completion:(ShareHelperHandlerBlock)completeBlock;
 
 @end

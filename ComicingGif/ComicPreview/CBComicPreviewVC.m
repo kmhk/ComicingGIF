@@ -32,6 +32,8 @@
 #import "CBComicPageCollectionVC.h"
 #import "CBComicImageCell.h"
 #import "UINavigationController+Transition.h"
+#import <AVFoundation/AVFoundation.h>
+
 
 #define kPreviewViewTag 12001
 
@@ -675,46 +677,55 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     //    comicTagViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     //    comicTagViewController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     //    [self presentViewController:comicTagViewController animated:YES completion:nil];
+	
+	[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [viewModel generateVideos:^(NSURL *url) {
         [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
             PHAssetChangeRequest *changeRequest = [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:url];
             
             NSLog(@"%@", changeRequest.description);
         } completionHandler:^(BOOL success, NSError *error) {
+			[MBProgressHUD hideHUDForView:self.view animated:YES];
+			
             if (success) {
                 NSLog(@"saved down");
+				
+				UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"" message:@"Saved to library successfully" preferredStyle:UIAlertControllerStyleAlert];
+				[controller addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+				[self presentViewController:controller animated:YES completion:nil];
+				
             } else {
                 NSLog(@"something wrong %@", error.localizedDescription);
+				
+				UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"" message:@"Please save again" preferredStyle:UIAlertControllerStyleAlert];
+				[controller addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+				[self presentViewController:controller animated:YES completion:nil];
             }
-            
-            UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"" message:@"Saved to library successfully" preferredStyle:UIAlertControllerStyleAlert];
-            [controller addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
-            [self presentViewController:controller animated:YES completion:nil];
         }];
     }];
 }
 
 - (IBAction)twitterButtonTapped:(UIButton *)sender {
     [viewModel generateVideos:^(NSURL *url) {
-        [self doShareTo:TWITTER ShareImage:[UIImage imageNamed:@"comicBookBackground"] url:url];
+		[self doShareTo:TWITTER ShareImage:[UIImage imageNamed:@"LBlueRight"] url:url];
     }];
 }
 
 - (IBAction)facebookButtonTapped:(UIButton *)sender {
     [viewModel generateVideos:^(NSURL *url) {
-        [self doShareTo:FACEBOOK ShareImage:[UIImage imageNamed:@"comicBookBackground"] url:url];
+		[self doShareTo:FACEBOOK ShareImage:[UIImage imageNamed:@"LBlueRight"] url:url];
     }];
     //    [self doShareTo:FACEBOOK ShareImage:[UIImage imageNamed:@"comicBookBackground"]];
 }
 
 - (IBAction)instagramButtonTapped:(UIButton *)sender {
     [viewModel generateVideos:^(NSURL *url) {
-        [self doShareTo:INSTAGRAM ShareImage:[UIImage imageNamed:@"comicBookBackground"] url:url];
+		[self doShareTo:INSTAGRAM ShareImage:[UIImage imageNamed:@"LBlueRight"] url:url];
     }];
     //    [self doShareTo:INSTAGRAM ShareImage:[UIImage imageNamed:@"comicBookBackground"]];
 }
 
--(void)doShareTo :(ShapeType)type ShareImage:(UIImage*)imgShareto url:(NSURL *)url {
+-(void)doShareTo :(ShapeType)type ShareImage:(UIImage*)imgShareto url:(NSURL *)videoURL {
     
     //    UIImage* imgProcessShareImage = [self createImageWithLogo:imgShareto];
     
@@ -748,15 +759,18 @@ CBComicPageCollectionDelegate,PlayOneByOneLooper
     //        NSLog(@"File Path :%@",filePath);
     
     /* Commented for testing*/
-    ShareHelper* sHelper = [ShareHelper shareHelperInit];
-    sHelper.parentviewcontroller = self;
-    [sHelper shareAction:type
-               ShareText:@""
-              ShareImage:imgShareto
-                ShareUrl:url.absoluteString
-              completion:^(BOOL status) {
-                  
-              }];
+	ShareHelper* sHelper = [ShareHelper shareHelperInit];
+	sHelper.parentviewcontroller = self;
+	if ([videoURL absoluteString].length != 0) {
+		[sHelper shareAction:type
+				   ShareText:@""
+				  ShareImage:imgShareto
+					ShareUrl:videoURL.absoluteString
+					videoUrl:[videoURL absoluteString]
+				  completion:^(BOOL status) {
+					  
+				  }];
+	}
 }
 
 -(UIImage*)createImageWithLogo:(UIImage*)imgActualImage{

@@ -140,15 +140,15 @@
 	//        NSLog(@"File Path :%@",filePath);
 	
 	/* Commented for testing*/
-	ShareHelper* sHelper = [ShareHelper shareHelperInit];
-	sHelper.parentviewcontroller = self;
-	[sHelper shareAction:type
-			   ShareText:@""
-			  ShareImage:imgShareto
-				ShareUrl:url.absoluteString
-			  completion:^(BOOL status) {
-				  
-			  }];
+//	ShareHelper* sHelper = [ShareHelper shareHelperInit];
+//	sHelper.parentviewcontroller = self;
+//	[sHelper shareAction:type
+//			   ShareText:@""
+//			  ShareImage:imgShareto
+//				ShareUrl:url.absoluteString
+//			  completion:^(BOOL status) {
+//				  
+//			  }];
 }
 
 -(UIImage*)createImageWithLogo:(UIImage*)imgActualImage{
