@@ -257,9 +257,10 @@
 
 
 - (CFTimeInterval)createComicObjectLayer:(NSDictionary *)dict baseLayer:(CALayer *)baseLayer delay:(CFTimeInterval)delay delayFromSlideStart:(CFTimeInterval)delayFromSlideStart rtRule:(CGRect)rtRule rtActual:(CGRect)rtActual {
-	CGRect rt = [self getBound:CGRectFromString([dict[@"baseInfo"] objectForKey:@"frame"]) ruleRT:rtRule actualRT:rtActual];
 	
 	if ([[dict[@"baseInfo"] objectForKey:@"type"] integerValue] == ObjectAnimateGIF) {
+		CGRect rt = [self getBound:CGRectFromString([dict[@"baseInfo"] objectForKey:@"frame"]) ruleRT:rtRule actualRT:rtActual];
+		
 		NSURL *url = [NSURL URLWithString:dict[@"url"]];
 		NSString *fileName = [NSString stringWithFormat:@"%@",[url lastPathComponent]];
 		NSURL *fileURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:fileName ofType:@""]];
@@ -270,13 +271,219 @@
 		
 		[self createGifLayer:baseLayer rect:rt url:fileURL delay:delay delayFromSlideStart:delayFromSlideStart flag:NO shouldShowAlways:!delayTime angle:rotationAngle scaleX:scale scaleY:scale];
 		
-	} else if ([[dict[@"baseInfo"] objectForKey:@"type"] integerValue] == ObjectSticker) {
-		NSURL *url = [NSURL URLWithString:dict[@"url"]];
-		NSString *fileName = [NSString stringWithFormat:@"%@",[url lastPathComponent]];
-		[self createImageLayer:baseLayer rect:rt name:fileName];
+//	} else if ([[dict[@"baseInfo"] objectForKey:@"type"] integerValue] == ObjectSticker) {
+//		NSURL *url = [NSURL URLWithString:dict[@"url"]];
+//		NSString *fileName = [NSString stringWithFormat:@"%@",[url lastPathComponent]];
+//		[self createImageLayer:baseLayer rect:rt name:fileName];
+		
+	} else if ([[dict[@"baseInfo"] objectForKey:@"type"] integerValue] == ObjectBubble) {
+		CGRect realRt = CGRectFromString([dict[@"baseInfo"] objectForKey:@"frame"]);
+		realRt.size.height -= 40;
+		realRt.size.width -= 40;
+		CGRect rt = [self getBound:realRt ruleRT:rtRule actualRT:rtActual];
+		
+		CGFloat size = 35 * rtActual.size.width / rtRule.size.width;
+		[self createBubbleLayer:baseLayer rect:rt object:dict fontsize:(CGFloat)size];
+		
+	} else if ([[dict[@"baseInfo"] objectForKey:@"type"] integerValue] == ObjectCaption) {
+		CGRect realRt = CGRectFromString([dict[@"baseInfo"] objectForKey:@"frame"]);
+//		realRt.origin.y += 15;
+//		realRt.size.height -= 15;
+		CGRect rt = [self getBound:realRt ruleRT:rtRule actualRT:rtActual];
+		
+		CGFloat size = 40 * rtActual.size.width / rtRule.size.width;
+		[self createCaptionLayer:baseLayer rect:rt object:dict fontsize:(CGFloat)size];
+		
+	} else if ([[dict[@"baseInfo"] objectForKey:@"type"] integerValue] == ObjectPen) {
+		CGRect realRt = CGRectFromString([dict[@"baseInfo"] objectForKey:@"frame"]);
+		CGRect rt = [self getBound:realRt ruleRT:rtRule actualRT:rtActual];
+		
+		[self createPenLayer:baseLayer rect:rt object:dict xRate:rtActual.size.width / rtRule.size.width yRate:rtActual.size.height / rtRule.size.height];
 	}
 	
 	return objectDuration;
+}
+
+
+// MARK: create objects
+- (CALayer *)createPenLayer:(CALayer *)parent rect:(CGRect)rect object:(NSDictionary *)dict xRate:(CGFloat)xRate yRate:(CGFloat)yRate {
+	CALayer *layer = [CALayer new];
+	layer.frame = rect;
+	
+	CGFloat delayTime = [[dict[@"baseInfo"] objectForKey:@"delayTime"] floatValue];
+	
+	// draw pen objects
+	NSDictionary *colorDict = dict[@"color"];
+	UIColor *color = [UIColor colorWithRed:[colorDict[@"red"] floatValue] green:[colorDict[@"green"] floatValue] blue:[colorDict[@"blue"] floatValue] alpha:[colorDict[@"alpha"] floatValue]];
+	CGFloat brushSize = [dict[@"brush-size"] floatValue];
+	
+	NSArray *arrayDict = dict[@"coordinates"];
+	
+	CAShapeLayer *shapeLayer = [CAShapeLayer new];
+	shapeLayer.frame = layer.bounds;
+	UIBezierPath *path = [UIBezierPath bezierPath];
+	for (int i = 0; i < arrayDict.count; i ++) {
+		NSDictionary *pointDictionary = arrayDict[i];
+		CGFloat x = [pointDictionary[@"x"] floatValue];
+		CGFloat y = [pointDictionary[@"y"] floatValue];
+		x = x * xRate;
+		y = rect.size.height - y * yRate;
+		
+		if (i == 0) {
+			[path moveToPoint:CGPointMake(x, y)];
+		} else {
+			[path addLineToPoint:CGPointMake(x, y)];
+		}
+	}
+	
+	shapeLayer.path = path.CGPath;
+	shapeLayer.fillColor = [UIColor clearColor].CGColor;
+	shapeLayer.strokeColor = color.CGColor;
+	shapeLayer.lineWidth = brushSize * xRate;
+//	shapeLayer.backgroundColor = [UIColor greenColor].CGColor;
+	[layer addSublayer:shapeLayer];
+//	layer.backgroundColor = [UIColor yellowColor].CGColor;
+	
+	
+	// rotation
+	CGFloat rotationAngle = [[dict[@"baseInfo"] objectForKey:@"angle"] floatValue];
+	CGFloat scale = [[dict[@"baseInfo"] objectForKey:@"scale"] floatValue];
+	layer.affineTransform = CGAffineTransformMakeRotation(2 * M_PI - rotationAngle);
+	layer.affineTransform = CGAffineTransformScale(layer.affineTransform, scale, scale);
+	
+	// add animation
+	if (delayTime > 0) {
+		CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"hidden"];
+		animation.beginTime = delayTime;/*AVCoreAnimationBeginTimeAtZero*/
+		animation.keyTimes = @[@(0), @(60)];
+		animation.values = @[@(NO), @(NO)];
+		animation.duration = 60;
+		animation.removedOnCompletion = NO;
+		animation.repeatCount = 1;
+		
+		layer.hidden = YES;
+		[layer addAnimation:animation forKey:@"opacity"];
+	}
+	
+	[parent addSublayer:layer];
+	return layer;
+}
+
+- (CALayer *)createCaptionLayer:(CALayer *)parent rect:(CGRect)rect object:(NSDictionary *)dict fontsize:(CGFloat)size {
+	CALayer *layer = [CALayer new];
+	layer.frame = rect;
+	
+	CGFloat delayTime = [[dict[@"baseInfo"] objectForKey:@"delayTime"] floatValue];
+	
+	UIColor *forColor;
+	// bk layer
+	NSInteger captionType = [dict[@"captionType"] integerValue];
+	CALayer *bkImgLayer = [CALayer new];
+	bkImgLayer.frame = layer.bounds;
+	switch (captionType) {
+		case 0:
+			bkImgLayer.backgroundColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
+			forColor = [UIColor blackColor];
+			break;
+			
+		case 1:
+			bkImgLayer.backgroundColor = [UIColor clearColor].CGColor;
+			forColor = [UIColor whiteColor];
+			break;
+			
+		case 2:
+			bkImgLayer.contents = CFBridgingRelease([UIImage imageNamed:@"yellow-box-background"].CGImage);
+			forColor = [UIColor blackColor];
+			break;
+	}
+	[layer addSublayer:bkImgLayer];
+	
+	// txt layer
+	CATextLayer *txtLayer = [CATextLayer new];
+	UIFont *font = [UIFont fontWithName:@"AvenirNext-Medium" size:40];
+	CGSize sz = [dict[@"text"] sizeWithAttributes:@{NSFontAttributeName: font}];
+	txtLayer.string = dict[@"text"];
+	txtLayer.font = (__bridge CFTypeRef _Nullable)font;
+	txtLayer.fontSize = size;
+	txtLayer.foregroundColor = forColor.CGColor;
+	txtLayer.alignmentMode = kCAAlignmentLeft;
+	txtLayer.frame = CGRectMake((layer.frame.size.width - sz.width)/2, (layer.frame.size.height - sz.height)/2, sz.width, sz.height);
+	[layer addSublayer:txtLayer];
+	
+	// rotation
+	CGFloat rotationAngle = [[dict[@"baseInfo"] objectForKey:@"angle"] floatValue];
+	CGFloat scale = [[dict[@"baseInfo"] objectForKey:@"scale"] floatValue];
+	layer.affineTransform = CGAffineTransformMakeRotation(2 * M_PI - rotationAngle);
+	layer.affineTransform = CGAffineTransformScale(layer.affineTransform, scale, scale);
+	
+	// add animation
+	if (delayTime > 0) {
+		CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"hidden"];
+		animation.beginTime = delayTime;/*AVCoreAnimationBeginTimeAtZero*/
+		animation.keyTimes = @[@(0), @(60)];
+		animation.values = @[@(NO), @(NO)];
+		animation.duration = 60;
+		animation.removedOnCompletion = NO;
+		animation.repeatCount = 1;
+		
+		layer.hidden = YES;
+		[layer addAnimation:animation forKey:@"opacity"];
+	}
+	
+	[parent addSublayer:layer];
+	return layer;
+}
+
+- (CALayer *)createBubbleLayer:(CALayer *)parent rect:(CGRect)rect object:(NSDictionary *)dict fontsize:(CGFloat)size {
+	CALayer *layer = [CALayer new];
+	layer.frame = rect;
+	
+	CGFloat delayTime = [[dict[@"baseInfo"] objectForKey:@"delayTime"] floatValue];
+	
+	// bk image layer
+	CALayer *bkImgLayer = [CALayer new];
+	bkImgLayer.frame = layer.bounds;
+	NSString *bubbleImage = [[dict[@"bubbleURL"] componentsSeparatedByString:@"/"] lastObject];
+	NSURL *bubbleURL = [[NSBundle mainBundle] URLForResource:bubbleImage withExtension:@""];
+	NSData *data = [NSData dataWithContentsOfURL:bubbleURL];
+	bkImgLayer.contents = (__bridge id _Nullable)([[UIImage imageWithData:data] CGImage]);
+	[layer addSublayer:bkImgLayer];
+	
+	// text layer
+	CATextLayer *txtLayer = [CATextLayer new];
+	UIFont *font = [UIFont fontWithName:@"Arial Rounded MT Bold" size:35];
+	CGSize sz = [dict[@"text"] sizeWithAttributes:@{NSFontAttributeName: font}];
+	txtLayer.string = dict[@"text"];
+	txtLayer.font = (__bridge CFTypeRef _Nullable)font;
+	txtLayer.fontSize = size;
+	txtLayer.foregroundColor = [UIColor blackColor].CGColor;
+	txtLayer.alignmentMode = kCAAlignmentCenter;
+	txtLayer.frame = CGRectMake((layer.frame.size.width - sz.width)/2, (layer.frame.size.height - sz.height)/2, sz.width, sz.height);
+	[layer addSublayer:txtLayer];
+	
+	// rotation
+	CGFloat rotationAngle = [[dict[@"baseInfo"] objectForKey:@"angle"] floatValue];
+	CGFloat scale = [[dict[@"baseInfo"] objectForKey:@"scale"] floatValue];
+	layer.affineTransform = CGAffineTransformMakeRotation(2 * M_PI - rotationAngle);
+	layer.affineTransform = CGAffineTransformScale(layer.affineTransform, scale, scale);
+	
+	
+	// add animation
+	if (delayTime > 0) {
+		CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"hidden"];
+		animation.beginTime = delayTime;/*AVCoreAnimationBeginTimeAtZero*/
+		animation.keyTimes = @[@(0), @(60)];
+		animation.values = @[@(NO), @(NO)];
+		animation.duration = 60;
+		animation.removedOnCompletion = NO;
+		animation.repeatCount = 1;
+		
+		layer.hidden = YES;
+		[layer addAnimation:animation forKey:@"opacity"];
+	}
+	
+	[parent addSublayer:layer];
+	return layer;
 }
 
 - (CALayer *)createImageLayer:(CALayer *)parent rect:(CGRect)rect name:(NSString *)rcID {
@@ -442,8 +649,7 @@
 	if (objectDuration < (totalTime + delay)) {
 		objectDuration = (totalTime + delay);
 	}
-//	duration += totalTime;
-	
+
 	return animation;
 }
 
