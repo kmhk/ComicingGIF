@@ -26,8 +26,7 @@ This is video app to generate GIF from camera. Not available on the App store ye
 
 ## Screenshots
 
-![](../../downloads/01.jpg)
-![](../../downloads/02.jpg)
-![](../../downloads/03.jpg)
-![](../../downloads/04.jpg)
-![](../../downloads/05.jpg)
+![](screenshots/01.png)
+![](screenshots/02.png)
+![](screenshots/03.png)
+![](screenshots/04.png)
