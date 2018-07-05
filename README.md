@@ -3,7 +3,7 @@
 [![Language](https://img.shields.io/badge/language-Objective--C-yellow.svg?style=flat)]()
 
 
-# Created by
+## Created by
 
 **_name_**:		_KmHk_
 
@@ -12,12 +12,19 @@
 **_git_**:		[_kmhk_](https://github.com/kmhk)
 
 
-# Overview
+## Overview
 
 This is video app to generate GIF from camera. Not available on the App store yet.
 
 
-# Screenshots
+## Skills
+
+  - Video Recording & Processing
+  - Convert video to gif
+  - Merge videos & photos
+
+
+## Screenshots
 
 ![](../../downloads/01.jpg)
 ![](../../downloads/02.jpg)
